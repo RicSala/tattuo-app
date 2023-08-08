@@ -54,7 +54,9 @@ const components = [
     },
 ]
 
-export function NavMenu() {
+export function NavMenu({
+    currentUser
+}) {
     return (
         <NavigationMenu>
             <NavigationMenuList>
@@ -116,8 +118,10 @@ export function NavMenu() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Avatar className="cursor-pointer">
-                        <AvatarImage src="/images/avatar.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={undefined} />
+                        <AvatarFallback>{
+                            currentUser.name.split(" ").slice(0, 2).map((name) => name[0]).join("")
+                        }</AvatarFallback>
                     </Avatar>
                 </NavigationMenuItem>
             </NavigationMenuList>

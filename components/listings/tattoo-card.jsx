@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { BoardAdder } from "./board-adder";
 
 /** @typedef {import('@/defs.js').TattooType} Tattoo */
 
@@ -23,6 +24,7 @@ export default function TattooCard({
                     aspect-square
                     relative
                     overflow-hidden
+                    group
                     `,
                 className
             )}>
@@ -36,6 +38,9 @@ export default function TattooCard({
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <Image src={tattoo.imageSrc} fill alt={"tattoo"} className="object-cover" />
+                    <div className="absolute bottom-2 hidden group-hover:flex">
+                        <BoardAdder className="bg-background" />
+                    </div>
                 </CardContent>
             </Card>
         </Link>

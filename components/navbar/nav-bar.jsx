@@ -10,6 +10,8 @@ import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import LoginForm from "../forms/login-form";
 import { NavMenu } from "./nav-menu";
+import MobileMenu from "./mobile-menu";
+import { ModeToggle } from "../mode-toggle";
 // import UserMenu from "./UserMenu";
 
 
@@ -29,11 +31,6 @@ function NavBar({
                         <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
                             <div className="flex flex-row justify-between items-center gap-5">
                                 <Logo />
-                                <div className="hidden md:flex md:gap-3">
-                                    <Link href={'/tatuadores'}>Tatuadores</Link>
-                                    <Link href={'/tatuajes'}>Tatuajes</Link>
-                                    <Link href={'/blog'}>Consejos</Link>
-                                </div>
 
                             </div>
                             {/* <Search /> */}
@@ -42,16 +39,20 @@ function NavBar({
 
                             /> */}
                             <div className="flex flex-row justify-center items-center gap-2">
-                                <Dialog >
-                                    <DialogTrigger className="hidden">
-                                        Eres tatuador?
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <LoginForm />
-                                    </DialogContent>
-                                </Dialog>
+                                <div className="hidden sm:flex">
 
-                                <NavMenu />
+                                    <Dialog >
+                                        <DialogTrigger className="hidden sm:block">
+                                            ¿Eres tatuador?
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <LoginForm />
+                                        </DialogContent>
+                                    </Dialog>
+                                    <NavMenu currentUser={currentUser} />
+                                </div>
+                                <ModeToggle />
+                                <MobileMenu className="hidden sm:block" />
 
                             </div>
                         </div>

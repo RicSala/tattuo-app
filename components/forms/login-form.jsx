@@ -14,6 +14,10 @@ import {
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+import { useState } from "react";
+import { signIn } from 'next-auth/react';
+import { useRouter } from "next/navigation";
+
 
 
 const formSchema = z.object({
@@ -30,6 +34,9 @@ export default function LoginForm({
 
 }) {
 
+    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
+
     const form = useForm({
         resolver: zodResolver(formSchema),
 
@@ -40,11 +47,28 @@ export default function LoginForm({
         }
     });
 
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        signIn('credentials', {
+            ...data,
+            redirect: false,
+        }).then(
+            (res) => {
+                setIsLoading(false);
+                if (!res.error) { //why is not using catch? doesn't it return an error?
+                    // toast.success('¡Bienvenido a Tattuo! 🎉');
+                    router.refresh();
+                    // onCloseLoginModal();
+                }
 
-    const onSubmit = () => {
-        console.log("on Submit!")
+                if (res.error) {
+                    // toast.error(res.error);
+                }
+            }
+
+        )
+
     }
-
 
 
     return (

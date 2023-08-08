@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const Logo = () => {
+
+export default function Logo() {
+
+    // TODO: Why this component does not have fastrefresh??
 
     const router = useRouter();
 
@@ -28,4 +31,3 @@ const Logo = () => {
     )
 };
 
-export default Logo;

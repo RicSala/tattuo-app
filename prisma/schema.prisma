@@ -1,0 +1,274 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js" // Specify the Prisma client - 
+}
+
+datasource db {
+  provider = "mongodb" // Specify the MongoDB database adapter
+  url      = env("MONGO_URL")
+}
+
+model User {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  // name type decorator defaultauto map-to-mongo-_id ??
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String?
+  confirmPassword String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  role            UserRole  @default(CLIENT)
+
+  // RELATIONS
+  boards       Board[]
+  accounts     Account[]
+  artist       ArtistProfile?
+  savedTattoos SavedTattoo[]
+  savedArtists SavedArtist[]
+  likedTattoos LikedTattoo[]
+  likedArtists LikedArtist[]
+
+  // messages Message[]
+}
+
+// TODO: change from saves to savedTattoos
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String // REVIEW:  what is the db.String decorator for?
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  // RELATIONS
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId]) // the combination of provider and providerAccountId must be unique
+}
+
+model ArtistProfile {
+  // DB fields
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique @db.ObjectId // relation scalar field (used in the `@relation` attribute above
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Profile fields
+  artisticName    String?       @unique
+  email           String?
+  bio             String?
+  phone           String?
+  website         String?
+  instagram       String?
+  facebook        String?
+  twitter         String?
+  youtube         String?
+  tiktok          String?
+  mainImage       String?
+  images          String[]
+  stylesIds       String[]      @db.ObjectId
+  styles          Style[]       @relation(fields: [stylesIds], references: [id])
+  pricePerHour    Int?
+  pricePerSession Int?
+  minWorkPrice    Int?
+  isComplete      Boolean?      @default(false)
+  tattoos         Tattoo[]
+  saves           SavedArtist[]
+  likes           LikedArtist[]
+  cityId          String?       @db.ObjectId
+  city            City?         @relation(fields: [cityId], references: [id])
+}
+
+model Tattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  description String
+  imageSrc    String
+  content     String?
+  // numLikes      Int      @default(0)
+
+  // RELATIONS
+  artistProfileId String?        @db.ObjectId
+  artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
+
+  saves SavedTattoo[]
+  likes LikedTattoo[]
+  tags  TaggedTattoo[]
+
+  styleId String? @db.ObjectId
+  style   Style?  @relation(fields: [styleId], references: [id])
+
+  bodyPartId String?   @db.ObjectId
+  bodyPart   BodyPart? @relation(fields: [bodyPartId], references: [id])
+
+  boards BoardTattoo[]
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+  ARTIST
+}
+
+model SavedTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tattooId])
+}
+
+// saved Artist
+model SavedArtist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  artistProfileId String        @db.ObjectId
+  artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, artistProfileId])
+}
+
+// liked tattoo
+model LikedTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tattooId])
+}
+
+model TaggedTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  tagId String @db.ObjectId
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tattooId, tagId])
+}
+
+// liked artist
+model LikedArtist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  artistProfileId String        @db.ObjectId
+  artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, artistProfileId])
+}
+
+// model City
+model City {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent_code   String
+  code          String
+  label         String
+  value         String
+  artistProfile ArtistProfile[]
+}
+
+// model BodyPart
+model BodyPart {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label  String
+  value  String
+  tattoo Tattoo[]
+}
+
+model Style {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label String
+  value String
+
+  tattoos          Tattoo[]
+  artistProfileIds String[]        @db.ObjectId
+  artistProfiles   ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
+}
+
+model Tag {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  label     String         @unique
+  value     String         @unique
+  tattoos   TaggedTattoo[]
+}
+
+model Board {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  public    Boolean? @default(false)
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+
+  tattoos BoardTattoo[]
+
+  // userid and title must be unique
+  @@unique([userId, title])
+}
+
+model BoardTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  boardId String @db.ObjectId
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  @@unique([boardId, tattooId])
+}

@@ -56,7 +56,9 @@ export function BoardAdder({
                     }
                 }
             >
-                <ScrollArea className={cn(`h-72 w-full rounded-md p-0`)}>
+                <ScrollArea className={cn(`h-72 w-full p-0 
+                transition-all`, //TODO:  How can I make this trasition?
+                    showCreateForm && `h-36`)}>
 
                     {
                         !showCreateForm ?
@@ -92,7 +94,10 @@ const BoardList = (
     console.log("function", onCreate)
     return (
         <div className="">
-            <h4 className="mb-4 text-sm font-medium leading-none">Tus tableros</h4>
+            <h4>
+                Tus tableros
+            </h4>
+            <Separator className="mt-3 mb-2" />
             {boards.map((board) => (
                 <div key={board.id}
                     onClick={
@@ -101,7 +106,7 @@ const BoardList = (
                     }
                 >
                     <div className="text-sm hover:bg-muted cursor-pointer p-2 rounded">
-                        {board.title}
+                        <p>{board.title}</p>
                     </div>
                     <Separator className="my-2" />
                 </div>
@@ -122,14 +127,15 @@ const BoardCreationForm = ({
     onBoardCreate
 }) => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, setFocus, formState: { errors } } = useForm({
         defaultValues: {
             title: ''
         }
     });
 
-    console.log("function::", onBoardCreate)
-
+    React.useEffect(() => {
+        setFocus('title')
+    }, [setFocus]);
 
     const onSubmit = async (data) => {
         // if (!currentUser) return onOpenLoginModal()
@@ -143,12 +149,7 @@ const BoardCreationForm = ({
             })
             .catch((error) => {
                 console.log("ERROR - TattooBoardAdder", error)
-                // If there is an error, we remove the board from the user
-                // removeBoardFromUser(temporaryBoard.id)
             })
-        // // close the input
-        // setShowInput(false);
-        console.log("added!", data)
     }
 
 
@@ -163,12 +164,14 @@ const BoardCreationForm = ({
                 }
             >
                 <div className="
-flex flex-col
+flex flex-col gap-2
 ">
+                    <h3>Crea un nuevo tablero</h3>
                     <Input
                         id={`title`}
                         // id is like this to avoid the same id for all the boards. We have to separate them in the endpo
                         label="New Board"
+                        placeholder="Nombre"
                         type="text"
                         errors={errors}
                         {
@@ -181,8 +184,10 @@ flex flex-col
 
                         }
                     />
-
-                    <Button type="submit">Create</Button>
+                    <div className="flex flex-row justify-between">
+                        <Button variant="ghost">Cancelar</Button>
+                        <Button size="lg" type="submit">Crear</Button>
+                    </div>
                 </div>
             </form>
         </div>

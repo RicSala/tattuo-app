@@ -110,13 +110,6 @@ export function NavMenu({
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <Link href="/docs" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Documentation
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
                     <Avatar className="cursor-pointer">
                         <AvatarImage src={undefined} />
                         <AvatarFallback>{

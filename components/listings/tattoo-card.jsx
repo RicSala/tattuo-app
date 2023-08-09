@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
+import HeartButton from "../heart-button";
+import path from "path";
 
 /** @typedef {import('@/defs.js').TattooType} Tattoo */
 
@@ -73,10 +75,14 @@ export default function TattooCard({
     }, [])
 
     return (
-        <Link href={"/"}
+        <div
+            className="cursor-pointer"
+
             onClick={(event) => {
-                if (event.target.id !== "tattoo-image") {
+                if ((event.target.id !== "tattoo-image" && event.target !== path)) {
                     event.preventDefault()
+                } else {
+                    router.push(`/tatuajes/detalle/${tattoo.id}`)
                 }
             }}>
 
@@ -105,9 +111,12 @@ export default function TattooCard({
 
                         " />
                     </div>
+                    <div className="hidden group-hover:block absolute right-2 top-2 p-3" >
+                        <HeartButton listingId={tattoo.id} currentUser={currentUser} listingType={"tattoos"} />
+                    </div>
                 </CardContent>
             </Card>
-        </Link>
+        </div>
 
     );
 }

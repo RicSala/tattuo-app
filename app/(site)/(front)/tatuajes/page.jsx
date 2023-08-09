@@ -6,6 +6,7 @@
 // import { getBodyParts } from '@/libs/getBodyParts'
 // import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 // import TattooCard from '@/components/listings/TattooCard'
+import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
@@ -48,6 +49,8 @@ export default async function TattoosPage({ searchParams }) {
         initialDataSize
     )
 
+    const currentUser = await getCurrentUser()
+
     // const currentUser = await getCurrentUser()
 
     if (serverLoadedTattoos.length < 1) {
@@ -79,7 +82,7 @@ export default async function TattoosPage({ searchParams }) {
             <ListingGrid>
                 {
                     serverLoadedTattoos.map((el) => (
-                        <TattooCard key={el.id} tattoo={el} className={"m-auto"} />
+                        <TattooCard key={el.id} tattoo={el} className={"m-auto"} currentUser={currentUser} />
                     ))
                 }
             </ListingGrid>

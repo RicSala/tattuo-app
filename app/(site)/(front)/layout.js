@@ -12,12 +12,7 @@ const SiteLayout = async ({ children }) => {
     return (
 
         <div className="flex flex-col min-h-screen justify-between ">
-            <NavBar
-
-                currentUser={user}
-
-            />
-            <div className="pb-20 pt-24 w-full bg-background text-foreground flex-grow container">
+            <div className="">
                 {/* <Container> */}
                 {children}
                 {/* </Container> */}

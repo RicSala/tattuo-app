@@ -9,8 +9,9 @@ const MenuItem = ({ onClick, label, onMouseEnter }) => {
                 px-4
                 py-3
                 cursor-pointer
-                hover:bg-neutral-100
                 transition
+                hover:bg-accent
+                rounded
                 ">
             {label}
         </div>

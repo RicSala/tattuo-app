@@ -8,10 +8,12 @@
 // import TattooCard from '@/components/listings/TattooCard'
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
+import Heading from '@/components/heading';
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
 import { Button } from '@/components/ui/button';
 import Container from '@/components/ui/container';
+import { Separator } from '@/components/ui/separator';
 export const dynamic = "force-dynamic";
 
 
@@ -79,6 +81,11 @@ export default async function TattoosPage({ searchParams }) {
                 keyProp="tattoo" // the key prop to use to identify each item
                 currentUser={currentUser} // the current user to check if the user is logged in
             /> */}
+
+            <Heading title={"Descubre tatuajes"}
+                subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
+            />
+            <Separator className="my-5" />
             <ListingGrid>
                 {
                     serverLoadedTattoos.map((el) => (

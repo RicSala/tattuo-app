@@ -109,14 +109,6 @@ export function NavMenu({
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Avatar className="cursor-pointer">
-                        <AvatarImage src={undefined} />
-                        <AvatarFallback>{
-                            currentUser.name.split(" ").slice(0, 2).map((name) => name[0]).join("")
-                        }</AvatarFallback>
-                    </Avatar>
-                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     )

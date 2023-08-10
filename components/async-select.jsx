@@ -27,7 +27,7 @@ const AsyncSelect = forwardRef(({
     noOptionsMessage = () => "Teclea para buscar",
 }, ref) => {
 
-    console
+    console.log("value", value)
 
     return (
         <PrimitiveAsyncSelect
@@ -42,6 +42,13 @@ const AsyncSelect = forwardRef(({
             placeholder={placeholder}
             isMulti={isMulti}
             noOptionsMessage={noOptionsMessage}
+            styles={{
+                option: (provided, state) => ({ // this is the style of the options
+                    ...provided,
+                    backgroundColor: state.isFocused ? "white" : "#030711",
+                    color: state.isFocused ? "black" : "white",
+                }),
+            }}
 
 
 

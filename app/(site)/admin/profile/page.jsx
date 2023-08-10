@@ -2,7 +2,7 @@ import EmptyState from "@/components/empty-state";
 // import ProfilePageClient from "./profile-page-client";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
-import ProfilePageClient from "./profile-page-client";
+import ProfilePageClientCopy from "./profile-page-client";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +36,7 @@ const ProfilePage = async ({
 
     return (
         <>
-            <ProfilePageClient artist={artist} styles={styles} />
+            <ProfilePageClientCopy artist={artist} styles={styles} />
         </>
 
     )

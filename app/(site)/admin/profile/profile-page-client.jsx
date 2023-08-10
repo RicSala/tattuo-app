@@ -16,10 +16,10 @@ import { Textarea } from "@/components/ui/textarea";
 import AsyncSelect from "@/components/async-select";
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Button } from "@/components/ui/button";
-import { Save, SkipBack, Undo } from "lucide-react";
+import { Save, Undo } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import Link from "next/link";
+import CustomSelect from "@/components/custom-select";
+import { DevTool } from "@hookform/devtools";
 
 
 const formSchema = z.object({
@@ -70,10 +70,13 @@ const formSchema = z.object({
     phone: z.string().min(2, {
         message: "Debes ingresar un número de teléfono",
     }),
-    city: z.string().min(2, {
-        message: "Debes ingresar una ciudad",
+    city: z.object({
+        id: z.string(),
+        label: z.string(),
+        value: z.string()
+
     }),
-    styles: z.array(z.string()).min(1, {
+    styles: z.array(z.any()).min(1, {
         message: "Debes seleccionar al menos un estilo",
     }),
 
@@ -175,7 +178,7 @@ const ProfilePageClient = ({
             <Separator className="my-6"
             />
 
-            <div className="w-full md:w-1/2 mx-auto">
+            <div className="w-full md:w-1/2 mx-auto md:mt-14">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit, onError)}
                         className="space-y-8">
@@ -265,6 +268,28 @@ const ProfilePageClient = ({
                                     <FormMessage />
                                 </FormItem>
                             )} />
+
+
+
+                        <FormField
+                            control={form.control}
+                            name="styles"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Algunos de tus trabajos</FormLabel>
+                                    <FormControl>
+                                        <CustomSelect options={styles} isMulti={true} {...field}
+
+
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Esta es la foto que aparecerá en tus publicaciones, tu foto de perfil
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )} />
+
 
                         <h2>Precios</h2>
 
@@ -446,44 +471,6 @@ const ProfilePageClient = ({
                                 </FormItem>
                             )} />
 
-                        {/* <FormField
-                            control={form.control}
-                            name="styles"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Estilos</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.label}
-                                        multi
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a verified email to display" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {
-                                                styles.map((style) => {
-
-                                                    console.log("key", style.id)
-                                                    return (
-                                                        <div key={style.id} >
-                                                            <SelectItem value={style}>{style.label}</SelectItem>
-                                                        </div>
-
-                                                    )
-                                                })
-                                            }
-                                        </SelectContent>
-                                    </Select>
-                                    <FormDescription>
-                                        You can manage email addresses in your{" "}
-                                        <Link href="/examples/forms">email settings</Link>.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
-
 
                         <div className="flex flex-row justify-between mt-5">
                             <Button
@@ -508,7 +495,7 @@ const ProfilePageClient = ({
 
 
             {/* Dev tools for React Hook Forms  */}
-            {/* <DevTool control={control} /> */}
+            {/* <DevTool control={form.control} /> */}
 
         </>
     )

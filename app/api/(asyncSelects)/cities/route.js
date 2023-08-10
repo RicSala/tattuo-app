@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { seedDb } from "@/libs/seedDb";
 import queryString from "query-string";
 import prisma from "@/lib/prismadb";
 
-export async function GET(request, something) {
+export async function GET(request) {
+    //TODO: I am pretty sure we dont neeed searchparams with nextjs
+
 
     const parsedUrl = queryString.parseUrl(request.url)
     const { query } = parsedUrl;

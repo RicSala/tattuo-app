@@ -60,7 +60,7 @@ export function NavMenu({
     return (
         <NavigationMenu>
             <NavigationMenuList>
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                     <NavigationMenuTrigger>Tatuajes</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -108,7 +108,21 @@ export function NavMenu({
                             ))}
                         </ul>
                     </NavigationMenuContent>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
+
+                <Link href="/tatuadores" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        Encuentra Tatuador
+                    </NavigationMenuLink>
+                </Link>
+
+                <Link href="/tatuajes" legacyBehavior passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        Descubre Tatuajes
+                    </NavigationMenuLink>
+                </Link>
+
+
                 <Link href="/blog" legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         Consejos

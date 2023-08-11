@@ -22,6 +22,9 @@ export default function TattooCard({
     currentUser,
     tattoo,
     className,
+    hasBoardAdder = true,
+    likeable = true,
+    children,
     ...props
 }) {
 
@@ -97,24 +100,42 @@ export default function TattooCard({
             )}>
                 <CardContent className="grid gap-4">
                     <Image src={tattoo.imageSrc} fill alt={"tattoo"} className="object-cover" id="tattoo-image" />
-                    <div className="absolute bottom-2">
-                        <BoardAdder
-                            tattoo={tattoo}
-                            currentUser={currentUser}
-                            boards={currentUser?.boards || []}
-                            onBoardCreate={onBoardCreate}
-                            onBoardSelect={onBoardSelect}
-                            className="
+
+
+                    {
+
+                        <div className="absolute bottom-2">
+                            {children}
+                        </div>
+                    }
+
+                    {
+                        hasBoardAdder &&
+
+                        <div className="absolute bottom-2">
+                            <BoardAdder
+                                tattoo={tattoo}
+                                currentUser={currentUser}
+                                boards={currentUser?.boards || []}
+                                onBoardCreate={onBoardCreate}
+                                onBoardSelect={onBoardSelect}
+                                className="
                         sm:bg-transparent sm:text-transparent sm:border-none
                         group-hover:bg-background
                         group-hover:text-primary
                         group-hover:border-border
 
                         " />
-                    </div>
-                    <div className="hidden group-hover:block absolute right-2 top-2 p-3" >
-                        <HeartButton listingId={tattoo.id} currentUser={currentUser} listingType={"tattoos"} />
-                    </div>
+                        </div>
+                    }
+
+                    {
+                        likeable &&
+                        <div className="hidden group-hover:block absolute right-2 top-2 p-3" >
+                            <HeartButton listingId={tattoo.id} currentUser={currentUser} listingType={"tattoos"} />
+                        </div>
+
+                    }
                 </CardContent>
             </Card>
         </div>

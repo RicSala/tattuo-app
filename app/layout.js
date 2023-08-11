@@ -2,6 +2,9 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
+import { UiProvider } from '@/providers/ui/ui-provider'
+import { LoginModal } from '@/components/modals/login-form'
+import { ArtistRegisterModal } from '@/components/modals/artist-register'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +18,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <UiProvider>
+            <LoginModal />
+            <ArtistRegisterModal />
+            {children}
+          </UiProvider>
           <Toaster />
         </ThemeProvider>
       </body>

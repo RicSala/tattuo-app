@@ -1,36 +1,35 @@
-import { toast, useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast"
 import { UiContext } from "@/providers/ui/ui-provider"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useCallback, useContext, useMemo } from "react"
-import useProtect from "./useProtect"
 
 
-// given a listingId and a currentUser, returns:
-// hasFavorited: boolean => true if the user has favorited the listing
-// toggleFavorite: function => toggles the favorite status of the listing
-const useFavorite = ({
+// given an artistId and a currentUser, returns:
+// hasSaved: boolean => true if the user has Saved the listing
+// toggleSave: function => toggles the Save status of the listing
+const useSave = ({
     listingId,
     currentUser,
-    listingType,
+    listingType = 'artists',
 }) => {
 
+    const { toast } = useToast()
     const router = useRouter()
     const { setLoginModalOpen } = useContext(UiContext)
-    const { toast } = useToast()
 
     // why do we use useMemo here? => so we don't have to recalculate the value every time the component re-renders
     // could be heavy because of the includes() method
     // everytime the component that use the hook re-renders, the hook will be called again
     // it's like "embedding" the logic inside the component
-    const hasFavorited = useMemo(() => {
-        return currentUser?.favoriteIds?.includes(listingId)
+    const hasSaved = useMemo(() => {
+        return currentUser?.savedIds?.includes(listingId)
     }, [currentUser, listingId])
 
-    const { isLogged, notAllowedToast } = useProtect()
 
-    const toggleFavorite = useCallback(async (event) => {
+    const toggleSave = useCallback(async (event) => {
         event.stopPropagation()
+
 
         if (!currentUser) {
             toast({
@@ -45,27 +44,30 @@ const useFavorite = ({
         try {
             let request
 
-            if (hasFavorited) {
-                request = () => axios.delete(`/api/${listingType}/favorites/${listingId}`)
+            if (hasSaved) {
+                request = () => axios.delete(`/api/${listingType}/saves/${listingId}`)
             } else {
-                request = () => axios.post(`/api/${listingType}/favorites/${listingId}`)
+                request = () => axios.post(`/api/${listingType}/saves/${listingId}`)
             }
 
 
             await request()
             router.refresh()
-            // toast.success('Favorito actualizado!')
+            toast({
+                title: "Guardado!",
+                description: "Has guardado al artista. ¿Por qué no le escribes?"
+            })
 
         } catch (error) {
-            // toast.error("Algo fue mal 😢· Inténtalo de nuevo")
+            toast.error("Algo fue mal 😢· Inténtalo de nuevo")
         }
     }
-        , [currentUser, hasFavorited, listingId, listingType, router, setLoginModalOpen, toast])
+        , [currentUser, hasSaved, listingId, listingType, router, setLoginModalOpen, toast])
 
     return {
-        hasFavorited,
-        toggleFavorite,
+        hasSaved,
+        toggleSave,
     }
 }
 
-export default useFavorite;
+export default useSave;

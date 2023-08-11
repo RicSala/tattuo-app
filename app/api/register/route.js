@@ -8,6 +8,8 @@ export async function POST(req) {
 
         const body = await req.json();
 
+        console.log(body)
+
         const { email, password, name, confirmPassword, role = 'CLIENT' } = body;
 
         if (!email || !password || !name) {

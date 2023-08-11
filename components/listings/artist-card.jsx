@@ -1,10 +1,10 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-// import SaveButton from "../ui/SaveButton";
 import { useRouter } from "next/navigation";
 import HeartButton from "../heart-button";
 import { Avatar } from "../ui/avatar";
+import SaveButton from "../save-button";
 
 const ArtistCard = ({
     data,
@@ -40,8 +40,8 @@ const ArtistCard = ({
                 </div>
 
                 <div className="absolute top-3 left-3 z-[3]">
-                    {/* <SaveButton listingId={data.id} currentUser={currentUser}
-                        listingType="artists" /> */}
+                    <SaveButton listingId={data.id} currentUser={currentUser}
+                        listingType="artists" />
                 </div>
 
                 <div className="aspect-square overflow-hidden">
@@ -58,7 +58,7 @@ const ArtistCard = ({
 
             </div>
             <div className="py-3 px-5 flex flex-row justify-start gap-6 items-center">
-                <Avatar user={data} isArtist />
+                {/* <Avatar user={data} /> */}
                 <p>{data.artisticName}</p>
             </div>
             {/* <div className="py-3 px-5">

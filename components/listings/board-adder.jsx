@@ -10,6 +10,9 @@ import { Button } from "../ui/button"
 import { LayoutDashboard } from "lucide-react"
 import { Input } from "../ui/input"
 import { useForm } from "react-hook-form"
+import useProtect from "@/hooks/useProtect"
+import { useToast } from "../ui/use-toast"
+import { UiContext } from "@/providers/ui/ui-provider"
 
 const tags = Array.from({ length: 50 }).map(
     (_, i, a) => `v1.2.0-beta.${a.length - i}`
@@ -21,11 +24,14 @@ export function BoardAdder({
     className,
     onBoardCreate,
     onBoardSelect,
+    currentUser,
 }) {
 
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [showCreateForm, setShowCreateForm] = React.useState(false);
+    const { toast } = useToast()
+    const { setLoginModalOpen } = React.useContext(UiContext)
 
 
 
@@ -42,7 +48,18 @@ export function BoardAdder({
                             `,
                     className
                 )}
-                    onClick={() => setIsOpen((prev) => !prev)}
+                    onClick={() => {
+                        if (!currentUser) {
+                            toast({
+                                title: "Accede a tu cuenta",
+                                description: "Debes estar conectado para esta acción",
+                                variant: "destructive"
+                            })
+                            setLoginModalOpen(true)
+                            return
+                        }
+                        setIsOpen((prev) => !prev)
+                    }}
 
                 >
                     <LayoutDashboard />
@@ -185,7 +202,10 @@ flex flex-col gap-2
                         }
                     />
                     <div className="flex flex-row justify-between">
-                        <Button variant="ghost">Cancelar</Button>
+                        <Button variant="ghost"
+                            // TODO: make it go back when clicked...
+                            onClick={() => { }}
+                        >Cancelar</Button>
                         <Button size="lg" type="submit">Crear</Button>
                     </div>
                 </div>

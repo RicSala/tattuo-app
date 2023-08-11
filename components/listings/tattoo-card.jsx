@@ -100,7 +100,8 @@ export default function TattooCard({
                     <div className="absolute bottom-2">
                         <BoardAdder
                             tattoo={tattoo}
-                            boards={currentUser.boards}
+                            currentUser={currentUser}
+                            boards={currentUser?.boards || []}
                             onBoardCreate={onBoardCreate}
                             onBoardSelect={onBoardSelect}
                             className="

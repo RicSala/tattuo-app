@@ -53,10 +53,10 @@ const useSave = ({
 
             await request()
             router.refresh()
-            toast({
-                title: "Guardado!",
-                description: "Has guardado al artista. ¿Por qué no le escribes?"
-            })
+            // toast({
+            //     title: "Guardado!",
+            //     description: "Has guardado al artista. ¿Por qué no le escribes?"
+            // })
 
         } catch (error) {
             toast.error("Algo fue mal 😢· Inténtalo de nuevo")

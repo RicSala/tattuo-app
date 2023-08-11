@@ -9,11 +9,7 @@ import { forwardRef } from "react";
 
 const ImageUploader = ({
     maxFiles = 3,
-    name,
-    trigger,
-    rules,
     field,
-    setValue,
     disabled
 }) => {
 
@@ -26,12 +22,12 @@ const ImageUploader = ({
                 (result) => {
                     if (Array.isArray(field.value)) {
                         field.onChange([...field.value, result.info.secure_url])
-                        trigger(name)
+                        // trigger(name)
                     }
                     // if value is a string, replace it
                     else {
                         field.onChange(result.info.secure_url)
-                        trigger(name)
+                        // trigger(name)
                     }
                     console.log("result", result)
                 }}

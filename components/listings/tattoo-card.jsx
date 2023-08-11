@@ -100,15 +100,9 @@ export default function TattooCard({
             )}>
                 <CardContent className="grid gap-4">
                     <Image src={tattoo.imageSrc} fill alt={"tattoo"} className="object-cover" id="tattoo-image" />
-
-
-                    {
-
-                        <div className="absolute bottom-2">
-                            {children}
-                        </div>
-                    }
-
+                    <div className="absolute bottom-0 w-full">
+                        {children}
+                    </div>
                     {
                         hasBoardAdder &&
 

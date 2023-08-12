@@ -141,7 +141,8 @@ const ImageThumbnail = forwardRef(({
                     //     shouldValidate: true,
                     //     shouldDirty: true
                     // })
-                    await axios.delete(`/api/images/${value.split("/").pop().split(".")[0]}`)
+                    // TODO: we delete the images when the form is saved. Review it on the form page, not sure it's completely correct.
+                    // await axios.delete(`/api/images/${value.split("/").pop().split(".")[0]}`)
                 }}
                 className="absolute right-[-0.5em] top-[-0.5em] cursor-pointer">
                 <DeleteIcon size={25} className="

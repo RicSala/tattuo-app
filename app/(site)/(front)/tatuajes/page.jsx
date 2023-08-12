@@ -8,12 +8,16 @@
 // import TattooCard from '@/components/listings/TattooCard'
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
+import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
+import SearchBar from '@/components/search/search-bar';
 import { Button } from '@/components/ui/button';
 import Container from '@/components/ui/container';
 import { Separator } from '@/components/ui/separator';
+import { getBodyParts } from '@/lib/getBodyParts';
+import { getStyleList } from '@/lib/getStyleList';
 export const dynamic = "force-dynamic";
 
 
@@ -21,20 +25,20 @@ export const dynamic = "force-dynamic";
 //TODO:
 // SITEMAP
 // ROBOTS.TXT
-// const styles = getStyleList()
-// const bodyParts = getBodyParts()
+const styles = getStyleList()
+const bodyParts = getBodyParts()
 
-// const filtro1 = {
-//     label: 'Estilos',
-//     value: 'style',
-//     options: styles
-// }
+const filtro1 = {
+    label: 'Estilo',
+    value: 'style',
+    options: styles
+}
 
-// const filtro2 = {
-//     label: 'Parte del cuerpo',
-//     value: 'bodyPart',
-//     options: bodyParts
-// }
+const filtro2 = {
+    label: 'Parte del cuerpo',
+    value: 'bodyPart',
+    options: bodyParts
+}
 
 const endpoint = 'http://localhost:3000/api/tattoos'
 const sizePerPage = 10
@@ -53,17 +57,15 @@ export default async function TattoosPage({ searchParams }) {
 
     const currentUser = await getCurrentUser()
 
-    // const currentUser = await getCurrentUser()
-
     if (serverLoadedTattoos.length < 1) {
         return (
             <Container>
-                {/* <Search filtro1={filtro1} filtro2={filtro2} />
+                <SearchBar filtro1={filtro1} filtro2={filtro2} />
                 <EmptyState title="No se han encontrado tatuajes con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
                     actionUrl={'/tatuajes'}
                     actionLabel={'Quitar filtros'}
-                /> */}
+                />
             </Container>
         )
     }
@@ -86,6 +88,7 @@ export default async function TattoosPage({ searchParams }) {
                 subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />
+            <SearchBar filtro1={filtro1} filtro2={filtro2} />
             <ListingGrid>
                 {
                     serverLoadedTattoos.map((el) => (

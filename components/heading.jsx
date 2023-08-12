@@ -12,7 +12,7 @@ const Heading = ({ title, subtitle, center = false, buttonLabel, url }) => {
         <div className="flex flex-row justify-between">
             <div>
                 <h1>{title}</h1>
-                <p className="max-w-[750px] text-lg text-muted-foreground sm:text-xl">{subtitle}</p>
+                <p className="max-w-[750px] text-muted-foreground sm:text-xl">{subtitle}</p>
             </div>
             {
                 buttonLabel ?

@@ -34,9 +34,9 @@ const EmptyState = ({
                     (actionLabel && actionUrl) && (
                         <Button
                             outline
-                            onClick={() => router.push(actionUrl)}
-                            label={actionLabel}
-                        />
+                            onClick={() => router.push(actionUrl)}>{
+                                actionLabel
+                            }</Button>
                     )
                 }
             </div>

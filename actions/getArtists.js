@@ -12,12 +12,7 @@ export async function getArtists(searchParams, skip = 0, take = undefined) { // 
             freeSearch,
         } = searchParams;
 
-
-        // ### SEARCH FUNCTIONALITY ###
-        // // we are building the query object for prisma
         let query = {};
-
-        // // conditionally add properties to the query object...
 
         const stylesArray = styles?.split(",").map(style => style.trim())
 
@@ -32,12 +27,10 @@ export async function getArtists(searchParams, skip = 0, take = undefined) { // 
             }
         }
 
-        const citiesArray = city?.split(",").map(city => city.trim())
-
         if (city) {
             query.city = {
                 label: {
-                    in: citiesArray,
+                    contains: city,
                     mode: "insensitive"
                 }
             }
@@ -63,7 +56,6 @@ export async function getArtists(searchParams, skip = 0, take = undefined) { // 
                 ]
             }
         }
-        // ### END OF SEARCH FUNCTIONALITY ###
 
         const artists = await prisma.artistProfile.findMany({
             where: query,

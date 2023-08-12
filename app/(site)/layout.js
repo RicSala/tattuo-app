@@ -1,6 +1,7 @@
 // import { getCurrentUser } from "@/actions/getCurrentUser";
 // import Footer from "@/components/footer/Footer";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import Footer from "@/components/fotter";
 import NavBar from "@/components/navbar/nav-bar";
 // import Container from "@/components/ui/Container";
 
@@ -22,7 +23,7 @@ const SiteLayout = async ({ children }) => {
                 {children}
                 {/* </Container> */}
             </div>
-            {/* <Footer /> */}
+            <Footer />
         </div>
 
     )

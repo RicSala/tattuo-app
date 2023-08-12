@@ -37,6 +37,8 @@ export async function PUT(request) {
         return style.id
     })
 
+    console.log("STYLES", styleIds)
+
     // print on the console the styles array
 
 
@@ -63,7 +65,8 @@ export async function PUT(request) {
             ...updatedInfo,
             city: { connect: { id: cityId } },
             styles: {
-                connect: styleIds.map((styleId) => ({ id: styleId })),
+                set: [], // clear existing relations
+                connect: styleIds.map((styleId) => ({ id: styleId })), // establish new relations
             },
         }
     })

@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { seedDb } from "@/libs/seedDb";
 import queryString from "query-string";
 import prisma from "@/lib/prismadb";
 

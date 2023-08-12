@@ -9,6 +9,7 @@ import Heading from '@/components/heading'
 import EmptyState from '@/components/empty-state'
 import ListingGrid from '@/components/listings/listing-grid'
 import { Separator } from '@/components/ui/separator'
+import SearchBar from '@/components/search/search-bar'
 export const dynamic = "force-dynamic";
 
 
@@ -57,7 +58,7 @@ export default async function ArtistPage({ searchParams }) {
     if (artists.length < 1) {
         return (
             <Container>
-                {/* <Search filtro1={filtro1} filtro2={filtro2} /> */}
+                <SearchBar filtro1={filtro1} filtro2={filtro2} />
                 <EmptyState title="No se han encontrado tatuadores con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
                     actionUrl={'/tatuadores'}
@@ -86,6 +87,9 @@ export default async function ArtistPage({ searchParams }) {
                 subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />
+
+            <SearchBar filtro1={filtro1} filtro2={filtro2} />
+
 
             <ListingGrid>
                 {serverLoadedArtists.map((artist) => {

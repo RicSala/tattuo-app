@@ -20,6 +20,7 @@ import { Save, Undo } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
+import { sanitize } from "@/lib/utils";
 
 
 const formSchema = z.object({
@@ -27,23 +28,27 @@ const formSchema = z.object({
         message: "Debes subir una imagen"
     }).min(1, {
         message: "El nombre artístico debe tener al menos 2 caracteres.",
+    }).max(20, {
+        message: "El nombre artístico debe tener menos de 20 caracteres.",
     }),
-    mainImage: z.string().min(2, {
+    mainImage: z.union([z.string().min(2, {
+        message: "Tienes que subir una imagen de perfil",
+    }), z.literal(null).refine(value => typeof value === 'string', {
         message: "Tienes que subir una imagen de perfil",
     }),
-    email: z.string().email({
-        message: "Debes ingresar un email válido",
-    }),
+    ]),
     bio: z.string().min(2, {
-        message: "Debes ingresar una biografía",
+        message: "Tu bio debe tener al menos 50 letras",
+    }).transform(text => {
+        return sanitize(text)
     }),
-    minWorkPrice: z.number().min(0, {
+    minWorkPrice: z.coerce.number().min(0, {
         message: "Debes ingresar un precio mínimo",
     }),
-    pricePerHour: z.number().min(0, {
+    pricePerHour: z.coerce.number().min(0, {
         message: "Debes ingresar un precio por hora",
     }),
-    pricePerSession: z.number().min(0, {
+    pricePerSession: z.coerce.number().min(0, {
         message: "Debes ingresar un precio por sesión",
     }),
     facebook: z.string().url({
@@ -67,8 +72,11 @@ const formSchema = z.object({
     images: z.array(z.string()).min(1, {
         message: "Debes subir al menos una imagen",
     }),
-    phone: z.string().min(2, {
-        message: "Debes ingresar un número de teléfono",
+    phone: z.string().min(8, {
+        message: "Debes ingresar un número de teléfono válido",
+    }).max(12, {
+        message: "Debes ingresar un número de teléfono válido",
+
     }),
     city: z.object({
         id: z.string(),
@@ -78,7 +86,9 @@ const formSchema = z.object({
     }),
     styles: z.array(z.any()).min(1, {
         message: "Debes seleccionar al menos un estilo",
-    }),
+    }).max(3, {
+        message: "Como máximo 3 estilos"
+    })
 
 })
 
@@ -89,6 +99,7 @@ const ProfilePageClient = ({
 }) => {
 
     const [isLoading, setIsLoading] = useState(false)
+
     // create a ref with a list of the images when the component mounts
     // so we delete them only when the form is submitted
     // otherwise we would delete them when they click "x" (and maybe they change their mind)
@@ -125,23 +136,27 @@ const ProfilePageClient = ({
 
     const onSubmit = async (data) => {
 
-        // setIsLoading(true)
+        setIsLoading(true)
 
-        // const imagesToDelete = imagesRef.current.filter(img => !data.images.includes(img))
-        // const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
+        const imagesToDelete = imagesRef.current.filter(img => !data.images.includes(img))
+        const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
 
-        // const arrayToDelete = [...imagesToDelete, mainImageToDelete].filter(img => img)
+        const arrayToDelete = [...imagesToDelete, mainImageToDelete].filter(img => img)
 
         // delete images from cloudinary
-        // if (arrayToDelete.length > 0) {
-        //     for (const image of arrayToDelete) {
-        //         await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
-        //     }
-        // }
-
+        if (arrayToDelete.length > 0) {
+            for (const image of arrayToDelete) {
+                try {
+                    await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`);
+                } catch (error) {
+                    console.error(`Failed to delete image: ${image}`, error);
+                    // You might want to handle this error in your UI as well
+                }
+            }
+        }
         // // set the ref to the new images
-        // imagesRef.current = data.images
-        // mainImageRef.current = data.mainImage
+        imagesRef.current = data.images
+        mainImageRef.current = data.mainImage
 
         console.log("data", data)
 

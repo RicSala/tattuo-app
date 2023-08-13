@@ -19,12 +19,12 @@ export default function FreeSearch({
     const pathname = usePathname()
     const debouncedValue = useDebounce(freeSearch, 500, "search")
 
-    console.log('FreeSearch value changed:', freeSearch)
+    // console.log('FreeSearch value changed:', freeSearch)
 
     const prevOnFreeSearchClickRef = useRef();
     useEffect(() => {
         if (prevOnFreeSearchClickRef.current !== onFreeSearchClick) {
-            console.log('🔴---->onFreeSearchClick changed');
+            // console.log('🔴---->onFreeSearchClick changed');
         }
         prevOnFreeSearchClickRef.current = onFreeSearchClick;
     });
@@ -32,7 +32,7 @@ export default function FreeSearch({
     const prevdebouncedValueRef = useRef();
     useEffect(() => {
         if (prevdebouncedValueRef.current !== debouncedValue) {
-            console.log('✅ debouncedValue changed');
+            // console.log('✅ debouncedValue changed');
         }
         prevdebouncedValueRef.current = debouncedValue;
     });
@@ -40,14 +40,14 @@ export default function FreeSearch({
     const prevfreeSearchRef = useRef();
     useEffect(() => {
         if (prevfreeSearchRef.current !== freeSearch) {
-            console.log('✅###freeSearch changed');
+            // console.log('✅###freeSearch changed');
         }
         prevfreeSearchRef.current = freeSearch;
     });
     const prevpathnameRef = useRef();
     useEffect(() => {
         if (prevpathnameRef.current !== pathname) {
-            console.log('🌕###pathname changed');
+            // console.log('🌕###pathname changed');
         }
         prevpathnameRef.current = pathname;
     });
@@ -55,7 +55,7 @@ export default function FreeSearch({
     const prevrouterRef = useRef();
     useEffect(() => {
         if (prevrouterRef.current !== router) {
-            console.log('🔵###router changed');
+            // console.log('🔵###router changed');
         }
         prevrouterRef.current = router;
     });
@@ -64,7 +64,7 @@ export default function FreeSearch({
     const prevsearchParamsRef = useRef();
     useEffect(() => {
         if (prevsearchParamsRef.current !== searchParams) {
-            console.log('🟠###searchParams changed');
+            // console.log('🟠###searchParams changed');
         }
         prevsearchParamsRef.current = searchParams;
     });
@@ -82,7 +82,7 @@ export default function FreeSearch({
 
     const onFreeSearchClick = useCallback(() => {
 
-        console.log('❗️freesearchclick')
+        // console.log('❗️freesearchclick')
 
         let query = {};
         if (searchParams) {
@@ -111,7 +111,7 @@ export default function FreeSearch({
     useEffect(() => {
 
         if (debouncedValue || debouncedValue === "") {
-            console.log("debouncedValue from useffect", debouncedValue)
+            // console.log("debouncedValue from useffect", debouncedValue)
 
             onFreeSearchClick()
         }

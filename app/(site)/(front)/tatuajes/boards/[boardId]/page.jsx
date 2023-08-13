@@ -28,7 +28,7 @@ const TattooDetailsPage = async ({ params }) => {
                 {
                     tattoos.map(tattoo => (
                         <TattooCard key={tattoo.id}
-                            tattoo={tattoo}
+                            data={tattoo}
                             listingType={'tattoos'}
                             currentUser={currentUser}
                             hasBoardAdder={false}

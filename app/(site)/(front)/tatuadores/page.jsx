@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator'
 import SearchBar from '@/components/search/search-bar'
 import FreeSearch from '@/components/search/free-search'
 import SearchFilterButton from '@/components/search/search-filter-button'
+import InfiniteListingGrid from '@/components/listings/infinite-listing-grid'
 export const dynamic = "force-dynamic";
 
 
@@ -99,13 +100,24 @@ export default async function ArtistPage({ searchParams }) {
                 </div>
             </SearchBar>
 
-            <ListingGrid>
+            {/* <ListingGrid>
                 {serverLoadedArtists.map((artist) => {
                     return (
                         <ArtistCard currentUser={currentUser} data={artist} key={artist.id} />
                     )
                 })}
-            </ListingGrid>
+            </ListingGrid> */}
+
+            <InfiniteListingGrid // to render an infinite scroll we need...
+                initialData={serverLoadedArtists} // the initial data coming from the server
+                sizePerPage={sizePerPage} // the size of each page
+                endpoint={endpoint}  // the endpoint to fetch more data in a client component
+                hasMore={serverHasMoreArtists} // if there are more items to load
+                Component={ArtistCard} // the component to render for each item
+                keyProp="artist" // the key prop to use to identify each item
+                currentUser={currentUser} // the current user to check if the user is logged in
+            >
+            </InfiniteListingGrid>
         </Container>
     )
 }

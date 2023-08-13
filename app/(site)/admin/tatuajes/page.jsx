@@ -52,7 +52,7 @@ const MyTattoosPage = async ({ params }) => {
                     tattoos.map(
                         (tattoo) => (
                             <TattooCard
-                                tattoo={tattoo}
+                                data={tattoo}
                                 currentUser={currentUser}
                                 key={tattoo.id}
                                 actionLabel={"Editar"}

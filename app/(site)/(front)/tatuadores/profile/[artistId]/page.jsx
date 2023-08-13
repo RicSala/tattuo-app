@@ -127,7 +127,7 @@ export default async function ArtistDetailsPage({ params }) {
                     <ListingGrid>
                         {
                             artistTattoos.map((tattoo) => (
-                                <TattooCard tattoo={tattoo} currentUser={currentUser} key={tattoo.id} />
+                                <TattooCard data={tattoo} currentUser={currentUser} key={tattoo.id} />
                             )
                             )}
                     </ListingGrid>

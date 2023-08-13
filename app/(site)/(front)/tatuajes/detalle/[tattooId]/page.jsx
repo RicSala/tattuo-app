@@ -125,7 +125,7 @@ const TattooDetailsPage = async ({ params }) => {
                     {
                         similarTattoos.map(
                             tattoo => (
-                                <TattooCard tattoo={tattoo} currentUser={currentUser} key={tattoo.id} />
+                                <TattooCard data={tattoo} currentUser={currentUser} key={tattoo.id} />
                             )
                         )
                     }

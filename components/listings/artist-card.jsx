@@ -39,13 +39,17 @@ const ArtistCard = ({
                         listingType="artists" />
                 </div>
 
+
                 <div className="absolute top-3 left-3 z-[3]">
                     <SaveButton listingId={data.id} currentUser={currentUser}
                         listingType="artists" />
                 </div>
 
+
+
                 <div className="aspect-square overflow-hidden">
                     <div className="relative overflow-hidden  aspect-square inset-0 transition-transform">
+
                         <Image
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             fill={true}

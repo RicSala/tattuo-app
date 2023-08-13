@@ -206,7 +206,7 @@ export function ArtistRegisterModal({
         >
             <DialogContent>
                 {
-                    variantShown !== "login" ?
+                    variantShown === "login" ?
                         <div className="flex flex-col items-center space-y-2">
                             <LoginForm />
                             <p>¿No tienes cuenta? <Button

@@ -20,7 +20,7 @@ import path from "path";
  */
 export default function TattooCard({
     currentUser,
-    tattoo,
+    data,
     className,
     hasBoardAdder = true,
     likeable = true,
@@ -85,7 +85,7 @@ export default function TattooCard({
                 if ((event.target.id !== "tattoo-image" && event.target !== path)) {
                     event.preventDefault()
                 } else {
-                    router.push(`/tatuajes/detalle/${tattoo.id}`)
+                    router.push(`/tatuajes/detalle/${data.id}`)
                 }
             }}>
 
@@ -99,7 +99,7 @@ export default function TattooCard({
                 className
             )}>
                 <CardContent className="grid gap-4">
-                    <Image src={tattoo.imageSrc} fill alt={"tattoo"} className="object-cover" id="tattoo-image" />
+                    <Image src={data.imageSrc} fill alt={"tattoo"} className="object-cover" id="tattoo-image" />
                     <div className="absolute bottom-0 w-full">
                         {children}
                     </div>
@@ -108,7 +108,7 @@ export default function TattooCard({
 
                         <div className="absolute bottom-2">
                             <BoardAdder
-                                tattoo={tattoo}
+                                tattoo={data}
                                 currentUser={currentUser}
                                 boards={currentUser?.boards || []}
                                 onBoardCreate={onBoardCreate}
@@ -126,7 +126,7 @@ export default function TattooCard({
                     {
                         likeable &&
                         <div className="hidden group-hover:block absolute right-2 top-2 p-3" >
-                            <HeartButton listingId={tattoo.id} currentUser={currentUser} listingType={"tattoos"} />
+                            <HeartButton listingId={data.id} currentUser={currentUser} listingType={"tattoos"} />
                         </div>
 
                     }

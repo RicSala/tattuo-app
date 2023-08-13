@@ -10,6 +10,7 @@ import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
+import InfiniteListingGrid from '@/components/listings/infinite-listing-grid';
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
 import FreeSearch from '@/components/search/free-search';
@@ -43,7 +44,7 @@ const filtro2 = {
 }
 
 const endpoint = 'http://localhost:3000/api/tattoos'
-const sizePerPage = 10
+const sizePerPage = 5
 const numberOfPagesToLoad = 1
 const initialDataSize = numberOfPagesToLoad * sizePerPage
 
@@ -56,6 +57,7 @@ export default async function TattoosPage({ searchParams }) {
         0,
         initialDataSize
     )
+
 
     const currentUser = await getCurrentUser()
 
@@ -99,13 +101,22 @@ export default async function TattoosPage({ searchParams }) {
                 </div>
             </SearchBar>
 
-            <ListingGrid>
+            {/* <ListingGrid>
                 {
                     serverLoadedTattoos.map((el) => (
                         <TattooCard key={el.id} tattoo={el} className={"m-auto"} currentUser={currentUser} />
                     ))
                 }
-            </ListingGrid>
+            </ListingGrid> */}
+
+            <InfiniteListingGrid // to render an infinite scroll we need...
+                initialData={serverLoadedTattoos} // the initial data coming from the server
+                sizePerPage={sizePerPage} // the size of each page
+                endpoint={endpoint}  // the endpoint to fetch more data in a client component
+                Component={TattooCard} // the component to render for each item
+                keyProp="tattoo" // the key prop to use to identify each item
+                currentUser={currentUser} // the current user to check if the user is logged in
+            />
         </Container>
     )
 }

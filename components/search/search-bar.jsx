@@ -1,18 +1,14 @@
+'use client'
+
 import SearchFilterButton from './search-filter-button';
 import FreeSearch from './free-search';
+import AsyncSelect from '../async-select';
 
 const SearchBar = ({
-    filtro1 = {
-        label: 'Estilos',
-        value: 'style',
-        options: []
-    },
-    filtro2 = {
-        label: 'Parte del cuerpo',
-        value: 'bodyPart',
-        options: []
-    }
+    children
 }) => {
+
+    console.log("searchBar called")
 
     return (
         <div
@@ -26,14 +22,7 @@ const SearchBar = ({
             flex-wrap
         "
         >
-
-            <FreeSearch />
-
-            <div className='flex flex-row gap-2'>
-                <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
-                <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
-            </div>
-
+            {children}
         </div>
     )
 };

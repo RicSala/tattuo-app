@@ -96,6 +96,7 @@ const formSchema = z.object({
 const ProfilePageClient = ({
     artist,
     styles,
+    cities
 }) => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -256,11 +257,15 @@ const ProfilePageClient = ({
                         <FormField
                             control={form.control}
                             name="city"
+                            defaultOptions={cities}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Ciudad</FormLabel>
                                     <FormControl>
-                                        <AsyncSelect placeholder="Donde sueles tatuar habitualmente" {...field} resources="cities" />
+                                        <AsyncSelect
+                                            placeholder="Donde sueles tatuar habitualmente"
+
+                                            {...field} resources="cities" />
                                     </FormControl>
                                     <FormDescription>
                                         Si tatúas en varias ciudades, de momento pon en la que más estás. Estamos desarrollando la funcionalidad para poner varias.

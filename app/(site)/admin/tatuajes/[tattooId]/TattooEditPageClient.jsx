@@ -20,7 +20,7 @@ import { Save, Undo } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
-import AsyncCreatable from "@/components/AsyncCreatable";
+import AsyncCreatable from "@/components/async-creatable";
 import { useRouter } from "next/navigation";
 
 

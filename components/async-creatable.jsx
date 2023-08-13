@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import { forwardRef } from 'react';
-import { Controller } from 'react-hook-form';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
 

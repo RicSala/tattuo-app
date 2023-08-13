@@ -36,9 +36,6 @@ const SearchFilterButton = ({
         }
     }, [searchParamName, searchParams])
 
-
-
-
     // close the menu when clicking outside of it
     const handleClickOutside = useCallback((event) => {
         if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -102,7 +99,6 @@ const SearchFilterButton = ({
         )
 
         router.push(url)
-        router.refresh() // so server components are updated
     }, [pathname, router, searchParams, selected, searchParamName])
 
     // apply the filter when debouncedValue changes

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { signOut } from 'next-auth/react';
 import { UiContext } from "@/providers/ui/ui-provider";
+import GradientBorder from "../uiEffects/gradient-border";
 
 
 export default function Sidebar({
@@ -81,12 +82,22 @@ export default function Sidebar({
                                     <Separator className="my-5" />
                                     <div className="flex flex-col space-y-3 items-center">
                                         <p>Para poder guardar tus favoritos y contactar con los artistas</p>
-                                        <Button
-                                            // TODO: as we are using the same modal for register an login...
-                                            // but we cannot pass which one should be open...
-                                            // maybe we need to use two modals instead
-                                            onClick={() => { setLoginModalOpen(true) }}
-                                        >Entra</Button>
+
+                                        <GradientBorder>
+                                            <Button
+                                                onClick={() => { setLoginModalOpen(true) }}
+
+                                                className="z-10 
+                                                            w-[95%]
+                                                            h-[86%]
+                                                            hover:bg-primary
+                                                            focus:!ring-offset-0
+                                                            focus:!ring-0
+          "
+                                            >
+                                                Entra
+                                            </Button>
+                                        </GradientBorder>
                                         {/* <p>
                                             ¿Aún no tienes cuenta?
                                         </p>
@@ -105,6 +116,8 @@ export default function Sidebar({
                                                 setArtistRegisterOpen(true)
                                             }}
                                             className="w-fit">Publica</Button>
+
+
                                     </div>
                                 </div>
                         }

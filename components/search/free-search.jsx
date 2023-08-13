@@ -4,7 +4,7 @@ import { SearchIcon } from "lucide-react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import qs from "query-string";
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -19,6 +19,56 @@ export default function FreeSearch({
     const pathname = usePathname()
     const debouncedValue = useDebounce(freeSearch, 500, "search")
 
+    console.log('FreeSearch value changed:', freeSearch)
+
+    const prevOnFreeSearchClickRef = useRef();
+    useEffect(() => {
+        if (prevOnFreeSearchClickRef.current !== onFreeSearchClick) {
+            console.log('🔴---->onFreeSearchClick changed');
+        }
+        prevOnFreeSearchClickRef.current = onFreeSearchClick;
+    });
+
+    const prevdebouncedValueRef = useRef();
+    useEffect(() => {
+        if (prevdebouncedValueRef.current !== debouncedValue) {
+            console.log('✅ debouncedValue changed');
+        }
+        prevdebouncedValueRef.current = debouncedValue;
+    });
+
+    const prevfreeSearchRef = useRef();
+    useEffect(() => {
+        if (prevfreeSearchRef.current !== freeSearch) {
+            console.log('✅###freeSearch changed');
+        }
+        prevfreeSearchRef.current = freeSearch;
+    });
+    const prevpathnameRef = useRef();
+    useEffect(() => {
+        if (prevpathnameRef.current !== pathname) {
+            console.log('🌕###pathname changed');
+        }
+        prevpathnameRef.current = pathname;
+    });
+
+    const prevrouterRef = useRef();
+    useEffect(() => {
+        if (prevrouterRef.current !== router) {
+            console.log('🔵###router changed');
+        }
+        prevrouterRef.current = router;
+    });
+
+
+    const prevsearchParamsRef = useRef();
+    useEffect(() => {
+        if (prevsearchParamsRef.current !== searchParams) {
+            console.log('🟠###searchParams changed');
+        }
+        prevsearchParamsRef.current = searchParams;
+    });
+
 
     // can't remember why we needed this -> to keep the string in the input when no results are found
     useEffect(() => {
@@ -32,12 +82,14 @@ export default function FreeSearch({
 
     const onFreeSearchClick = useCallback(() => {
 
+        console.log('❗️freesearchclick')
+
         let query = {};
         if (searchParams) {
             query = qs.parse(searchParams.toString());
         }
 
-        if (freeSearch) query = { ...query, freeSearch }
+        query = { ...query, freeSearch: debouncedValue }
 
         const url = qs.stringifyUrl({
             url: pathname,
@@ -47,13 +99,19 @@ export default function FreeSearch({
         )
 
         router.push(url)
-        router.refresh()
-    }, [freeSearch, pathname, router, searchParams])
+
+        //TODO: not sure this is correct, but we obviously need to modify searchParams without causing more rerenders...
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debouncedValue, pathname, router,
+        searchParams
+    ])
 
 
     // debounced search on typping
     useEffect(() => {
-        if (debouncedValue) {
+
+        if (debouncedValue || debouncedValue === "") {
+            console.log("debouncedValue from useffect", debouncedValue)
 
             onFreeSearchClick()
         }
@@ -90,21 +148,23 @@ export default function FreeSearch({
                 }}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                        onFreeSearchClick()
+                        // onFreeSearchClick()
                     }
                 }}
             />
-            <Button className='
+
+            {/* Don't need a button if we use debounce... */}
+            {/* <Button className='
             flex flex-row gap-2
             '
                 variant="secondary"
                 onClick={() => {
-                    onFreeSearchClick()
+                    // onFreeSearchClick()
                 }}
             >
                 <SearchIcon className="inline" size={20} />
                 Buscar
-            </Button>
+            </Button> */}
 
         </div>
     );

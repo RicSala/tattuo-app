@@ -3,6 +3,8 @@ import EmptyState from "@/components/empty-state";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
 import ProfilePageClientCopy from "./profile-page-client";
+import prisma from "@/lib/prismadb";
+import { getCities } from "@/lib/getCities";
 
 export const dynamic = "force-dynamic";
 
@@ -32,11 +34,13 @@ const ProfilePage = async ({
     }
 
     const styles = await prisma.style.findMany()
+    const cities = getCities()
+
 
 
     return (
         <>
-            <ProfilePageClientCopy artist={artist} styles={styles} />
+            <ProfilePageClientCopy artist={artist} styles={styles} cities={cities} />
         </>
 
     )

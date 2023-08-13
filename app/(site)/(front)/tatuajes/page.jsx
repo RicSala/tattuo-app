@@ -12,7 +12,9 @@ import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
+import FreeSearch from '@/components/search/free-search';
 import SearchBar from '@/components/search/search-bar';
+import SearchFilterButton from '@/components/search/search-filter-button';
 import { Button } from '@/components/ui/button';
 import Container from '@/components/ui/container';
 import { Separator } from '@/components/ui/separator';
@@ -88,7 +90,15 @@ export default async function TattoosPage({ searchParams }) {
                 subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />
-            <SearchBar filtro1={filtro1} filtro2={filtro2} />
+
+            <SearchBar filtro1={filtro1} filtro2={filtro2}>
+                <FreeSearch />
+                <div className='flex flex-row gap-2'>
+                    <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
+                    <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
+                </div>
+            </SearchBar>
+
             <ListingGrid>
                 {
                     serverLoadedTattoos.map((el) => (

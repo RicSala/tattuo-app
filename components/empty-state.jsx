@@ -33,7 +33,7 @@ const EmptyState = ({
                 {
                     (actionLabel && actionUrl) && (
                         <Button
-                            outline
+                            variant="secondary"
                             onClick={() => router.push(actionUrl)}>{
                                 actionLabel
                             }</Button>

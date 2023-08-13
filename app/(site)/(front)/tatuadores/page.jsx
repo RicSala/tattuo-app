@@ -10,6 +10,8 @@ import EmptyState from '@/components/empty-state'
 import ListingGrid from '@/components/listings/listing-grid'
 import { Separator } from '@/components/ui/separator'
 import SearchBar from '@/components/search/search-bar'
+import FreeSearch from '@/components/search/free-search'
+import SearchFilterButton from '@/components/search/search-filter-button'
 export const dynamic = "force-dynamic";
 
 
@@ -88,8 +90,14 @@ export default async function ArtistPage({ searchParams }) {
             />
             <Separator className="my-5" />
 
-            <SearchBar filtro1={filtro1} filtro2={filtro2} />
-
+            <SearchBar filtro1={filtro1} filtro2={filtro2}>
+                <FreeSearch />
+                <div className='flex flex-row gap-2'>
+                    <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
+                    <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
+                    {/* Eventually, I will change the city select for an async select */}
+                </div>
+            </SearchBar>
 
             <ListingGrid>
                 {serverLoadedArtists.map((artist) => {

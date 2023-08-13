@@ -1,7 +1,15 @@
+// @ts-check
+import * as MyTypes from '@/types'
+
 import prisma from "@/lib/prismadb";
 
 
 // given an artist id, it returns an array of tattoos that the artist has created
+/**
+ * 
+ * @param {MyTypes.City["label"]} cityName 
+ * @returns {Promise<MyTypes.ArtistProfile[] | null >}
+ */
 export async function getArtistsByCityName(cityName) {
     try {
 

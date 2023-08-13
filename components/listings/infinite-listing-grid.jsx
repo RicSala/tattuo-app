@@ -11,7 +11,7 @@ import { InfiniteScroll } from "./infinite-scroll";
  * InfiniteListingGrid component
  *
  * @param {Object} props - The props for the InfiniteListingGrid component
- * @param {React.ComponentType} props.Component - The component to render
+ * @param {React.ComponentType<any>} props.Component - The component to render
  * @param {string} props.endpoint - The endpoint for data fetching
  * @param {Object[]} props.initialData - The initial data for rendering
  * @param {number} props.sizePerPage - The size of each page

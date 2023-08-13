@@ -5,6 +5,10 @@ import * as SeparatorPrimitive from "@radix-ui/react-separator"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Separator
+ * @type {React.ForwardRefExoticComponent<React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> & { className?: string }>}
+ */
 const Separator = React.forwardRef
     // <
     //   React.ElementRef<typeof SeparatorPrimitive.Root>,

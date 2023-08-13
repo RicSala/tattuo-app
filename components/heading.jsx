@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
 
 
-const Heading = ({ title, subtitle, center = false, buttonLabel, url }) => {
+const Heading = ({ title, subtitle, center = false, buttonLabel = '', url = '' }) => {
 
     const router = useRouter()
 

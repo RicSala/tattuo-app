@@ -1,6 +1,16 @@
+// @ts-check
+import * as MyTypes from '@/types'
+
 import prisma from "@/lib/prismadb";
 
 
+/**
+ * 
+ * @param {{ userId: string, styles: string, city: string, freeSearch: string }} searchParams 
+ * @param {number} skip 
+ * @param {number | undefined} take 
+ * @returns {Promise<MyTypes.ArtistProfile[]>}
+ */
 export async function getArtists(searchParams, skip = 0, take = undefined) { // I would call the args "filters", because actually the function could without "searchParams" specifically
 
     try {
@@ -12,6 +22,10 @@ export async function getArtists(searchParams, skip = 0, take = undefined) { // 
             freeSearch,
         } = searchParams;
 
+        //TODO: check this out!
+        /**
+         * @type {import('.prisma/client').Prisma.ArtistProfileWhereInput}
+         */
         let query = {};
 
         const stylesArray = styles?.split(",").map(style => style.trim())
@@ -70,6 +84,7 @@ export async function getArtists(searchParams, skip = 0, take = undefined) { // 
         return artists;
 
     } catch (error) {
-        throw new Error(error); // TODO: where does this error go?
+        const message = error instanceof Error ? error.message : 'An unexpected error occurred';
+        throw new Error(message); // TODO: where does this error go?
     }
 }

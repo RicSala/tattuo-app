@@ -62,7 +62,7 @@ export async function GET(req) {
 
 export async function POST(request) {
 
-    const { errorResponse, currentUser, artistProfile } = await getArtistProfile(request);
+    const { errorResponse, artistProfile } = await getArtistProfile();
 
     if (errorResponse) { return errorResponse; }
 
@@ -120,7 +120,7 @@ export async function POST(request) {
 export async function PUT(request) {
 
 
-    const { errorResponse, currentUser, artistProfile } = await getArtistProfile(request);
+    const { errorResponse, artistProfile } = await getArtistProfile();
 
     if (errorResponse) { return errorResponse; }
 

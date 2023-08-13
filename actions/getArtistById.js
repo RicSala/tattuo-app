@@ -1,9 +1,18 @@
+// @ts-check
+import * as MyTypes from '@/types'
+
 import prisma from "@/lib/prismadb";
 export const dynamic = "force-dynamic";
 
 
 
 // given an artist id, the profile, including the artist user data
+
+/**
+ * 
+ * @param {string} artistId 
+ * @returns {Promise<MyTypes.ArtistProfile | null > }
+ */
 export async function getArtistById(artistId) {
 
     try {

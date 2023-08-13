@@ -1,5 +1,14 @@
 import prisma from "@/lib/prismadb";
+import * as MyTypes from '@/types'
 
+
+/**
+ * 
+ * @param {string} searchParams 
+ * @param {number} skip 
+ * @param {number} take 
+ * @returns {Promise<MyTypes.Tattoo[]>
+ */
 export async function getTattoos(searchParams, skip = 0, take = undefined) {
     // chatgpt, write the whole function
     try {

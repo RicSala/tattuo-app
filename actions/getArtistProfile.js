@@ -1,9 +1,17 @@
+// @ts-check
+import * as MyTypes from '@/types'
+
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "../lib/prismadb";
 
-async function getArtistProfile(request) {
-    const currentUser = await getCurrentUser(request);
+
+/**
+ * 
+ * @returns {Promise<{artistProfile: MyTypes.ArtistProfile} | { errorResponse: NextResponse<{ error: string }> }>}
+ */
+async function getArtistProfile() {
+    const currentUser = await getCurrentUser();
 
     if (!currentUser) {
         return { errorResponse: NextResponse.json({ error: 'Not logged in' }, { status: 401 }) };
@@ -25,7 +33,7 @@ async function getArtistProfile(request) {
     }
 
     // if everything is good, return the user and artist profile
-    return { currentUser, artistProfile };
+    return { artistProfile };
 }
 
 export default getArtistProfile;

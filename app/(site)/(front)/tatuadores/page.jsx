@@ -13,6 +13,7 @@ import SearchBar from '@/components/search/search-bar'
 import FreeSearch from '@/components/search/free-search'
 import SearchFilterButton from '@/components/search/search-filter-button'
 import InfiniteListingGrid from '@/components/listings/infinite-listing-grid'
+import { getArtistsByCityName } from '@/actions/getArtistsByCityName'
 export const dynamic = "force-dynamic";
 
 

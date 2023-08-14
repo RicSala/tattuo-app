@@ -1,6 +1,29 @@
 module.exports._typesOnly = true;
 
 
+// Another option is doing like this:
+// /** 
+//  * @typedef { import("@prisma/client").Post } Post
+//  * 
+// */
+// But that does not populate the "include". though I am pretty sure it can be done with something similar to...
+
+// /** 
+//  * @typedef { import("@prisma/client").ArtistProfile } ArtistProfile
+// //  * @typedef { import("@prisma/client").Prisma. } // in order to get the suggestions, first write the } 
+//  * @typedef { import("@prisma/client").Prisma.UserInclude<boards> } 
+// */
+
+
+
+/**
+ * @typedef {Object} BlogPost
+ * @property {String} slug
+ * @property {String} title
+ * @property {String} published
+ * @property {String} tags
+ * @property {String} date
+ * /
 
 /**
  * @typedef {Object} User
@@ -222,6 +245,8 @@ module.exports._typesOnly = true;
  * @property {string} value
  * @property {TaggedTattoo[]} tattoos
  */
+
+
 
 /**
  * @enum {string}

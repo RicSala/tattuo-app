@@ -13,11 +13,7 @@ import { useToast } from "../ui/use-toast";
 import HeartButton from "../heart-button";
 import path from "path";
 
-/** @typedef {import('@/defs.js').TattooType} Tattoo */
 
-/**
- * @param {{ tattoo: Tattoo, className: String }} param
- */
 export default function TattooCard({
     currentUser,
     data,

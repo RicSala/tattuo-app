@@ -1,6 +1,11 @@
 import prisma from "@/lib/prismadb";
 
 // get all the boards of the current user
+/**
+ * 
+ * @param {import("@prisma/client").User} user  
+ * @returns {Promise<(import("@prisma/client").User & { tattoos: import("@prisma/client").Tattoo[] })[] | null>}
+ */
 export async function getBoardsOfUser(user) {
 
     try {

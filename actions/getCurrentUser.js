@@ -1,15 +1,39 @@
+// @ts-check
+
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 
 
+/**
+ * @typedef {Object} ExtendedUser
+ * @property {string} artistProfileId
+ * @property {string[]} favoriteIds
+ * @property {string[]} savedIds
+ */
+
+/**
+* @typedef {import('next-auth').Session } Session
+*/
+
+/**
+ * @typedef {Object} ExtendedSession
+ * @property {Session['user'] & ExtendedUser} user
+ */
+
+
+/**
+ * @returns {Promise<ExtendedSession | null>}
+ */
 export async function getSession() {
+    // @ts-ignore
     return await getServerSession(authOptions) // Auth handles the session for us in both the client and server
 }
 
-
-// using the session object, it gets the current user from the database, adding the artistProfileId and favoriteIds
-// REVIEW: not sure if using the session here is the best approach
+/**
+ * 
+ * @returns {Promise<ExtendedSession | null>}
+ */
 export async function getCurrentUser() {
     try {
         const session = await getSession();

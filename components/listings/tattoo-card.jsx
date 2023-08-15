@@ -87,6 +87,7 @@ export default function TattooCard({
 
             <Card className={cn(`
                     w-full
+                    min-w-[150px]
                     aspect-square
                     relative
                     overflow-hidden

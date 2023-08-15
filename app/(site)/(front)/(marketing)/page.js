@@ -4,22 +4,22 @@
 // SITEMAP
 // ROBOTS.TXT
 
-import { getArtists } from "@/actions/getArtists"
-import { getCurrentUser } from "@/actions/getCurrentUser"
-import { getTattoos } from "@/actions/getTattoos"
 import BenefitsSection from "@/components/landing/BenefitsSection"
 import FaqSection from "@/components/landing/Faqs"
 import HeroSection from "@/components/landing/HeroSection"
 import ReviewsSection from "@/components/landing/ReviewsSection"
 import StepsSection from "@/components/landing/StepsSection"
-import NavBar from "@/components/navbar/nav-bar"
+import Banner from "@/components/landing/banner"
 import Container from "@/components/ui/container"
 
-const steps = {
-  "Cuéntanos": "Explícanos tu idea para que podamos ayudarte a encontrar a tu artista",
-  "Nuestras recomendaciones": "Prepararemos para ti una lista de hasta 5 tatuadores que cumplan con tus criterios",
-  "Elige tu artista": "Y habla directamente con él por el medio que tú decidas"
-}
+/**
+ * @type {{title: string, description: string, imageUrl: string}[]}
+ */
+const steps = [
+  { title: "Cuéntanos", description: "Explícanos tu idea para que podamos ayudarte a encontrar a tu artista", imageUrl: "/images/tatuaje-brazo.jpeg" },
+  { title: "Nuestras recomendaciones", description: "Prepararemos para ti una lista de hasta 5 tatuadores que cumplan con tus criterios", imageUrl: "/images/tatuaje2.jpeg" },
+  { title: "Elige tu artista", description: "Y habla directamente con él por el medio que tú decidas", imageUrl: "/images/tatuaje1.jpg" },
+]
 
 const benefits = {
   "Tatuadores de confianza": "Hemos revisado el trabajo de todos los tatuadores antes de dejarles entrar en TATTUO.",
@@ -62,7 +62,6 @@ export default async function Home({ searchParams }) {
 
     <>
 
-      <NavBar />
       <Container>
         <div className='flex flex-col gap-10'>
 
@@ -70,19 +69,18 @@ export default async function Home({ searchParams }) {
             title={'Descubre tatuajes y tatuadores cerca de ti'}
             subtitle={'TATTUO selecciona los mejores tatuadores en tu ciudad y te pone en contacto con ellos'}
             cta={'Empezar'} />
-          <ReviewsSection reviews={reviews} />
-          <FaqSection faqs={faqs} />
+          {/* <ReviewsSection reviews={reviews} /> */}
+          <FaqSection faqs={faqs} title="Preguntas frecuentes" />
 
-          <StepsSection steps={steps} />
+          <StepsSection steps={steps} title="¿Cómo funciona?" />
+
+          <Banner />
 
           <BenefitsSection
             title={"Por qué elegir TATTUO?"}
             benefits={benefits}
 
           />
-          <FaqSection
-            hasTitle={true}
-            faqs={faqs} />
         </div>
 
       </Container>

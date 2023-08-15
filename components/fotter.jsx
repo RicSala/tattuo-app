@@ -1,4 +1,46 @@
+import Link from "next/link";
+import { Fragment } from "react";
+import { Separator } from "./ui/separator";
 
+const footterMenu = [
+    {
+        title: "Descubrir",
+        items: [
+            { label: "Tatuadores", url: "/tatuadores" },
+            { label: "Tatuajes", url: "/tatuajes" },
+            { label: "Nuestro Blog", url: "/blog" },
+        ],
+    },
+    {
+        title: "Sobre Tattuo",
+        items: [
+            // { label: "Colaboraciones", url: "/colaboraciones" },
+            // { label: "Quiénes somos", url: "/quienes-somos" },
+            // { label: "Preguntas frecuentes", url: "/preguntas-frecuentes" },
+            { label: "Contacto", url: "/contacto" },
+        ],
+    },
+    {
+        title: "Tatuadores en tu ciudad",
+        items: [
+            { label: "Tatuadores en Madrid", url: "/tatuadores/madrid" },
+            { label: "Tatuadores en Barcelona", url: "/tatuadores/barcelona" },
+            { label: "Tatuadores en Valencia", url: "/tatuadores/valencia" },
+            { label: "Tatuadores en Zaragoza", url: "/tatuadores/zaragoza" },
+        ],
+    },
+    {
+        title: "Principales temáticas",
+        items: [
+            { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposa" },
+            { label: "Tatuajes de Tribales", url: "/tatuajes/tribal" },
+            { label: "Tatuajes de Estrellas", url: "/tatuajes/estrella" },
+            { label: "Tatuajes de Goku", url: "/tatuajes/goku" },
+            { label: "Tatuajes de Árbol", url: "/tatuajes/arbol" },
+        ],
+
+    },
+]
 
 
 const Footer = (props) => {
@@ -10,67 +52,62 @@ const Footer = (props) => {
                     <ul className="grid gap-8 lg:gap-12
                     sm:grid-cols-2
                     lg:grid-cols-4
-                    
                     ">
-                        <li className="
-                        grid
-                        gap-3
-                        md:gap-2
-                        lg:gap-3
-                        content-start
-                        ">
-                            <h4>Product</h4>
-                            <div><a href="#0"
-                                className="
-                            text-primary
-                            text-sm
-                            lg:text-base
-                            "
-                            >Pricing</a></div>
-                            <div><a href="#0">Teams</a></div>
-                            <div><a href="#0">Updates</a></div>
-                            <div><a href="#0">Features</a></div>
-                            <div><a href="#0">Integrations</a></div>
-                            <div><a href="#0">Support</a></div>
-                        </li>
 
-                        <li className="footer-v2__item">
-                            <h4>Developers</h4>
-                            <div><a href="#0">Documentation</a></div>
-                            <div><a href="#0">API reference</a></div>
-                            <div><a href="#0">API status</a></div>
-                            <div><a href="#0">Open source</a></div>
-                        </li>
 
-                        <li className="footer-v2__item">
-                            <h4>Resources</h4>
-                            <div><a href="#0">Tutorials</a></div>
-                            <div><a href="#0">Docs</a></div>
-                            <div><a href="#0">Community</a></div>
-                            <div><a href="#0">Case studies</a></div>
-                            <div><a href="#0">Help center</a></div>
-                        </li>
+                        {
+                            footterMenu.map((submenu) => {
 
-                        <li className="footer-v2__item">
-                            <h4>About</h4>
-                            <div><a href="#0">Company</a></div>
-                            <div><a href="#0">Customers</a></div>
-                            <div><a href="#0">Careers</a></div>
-                            <div><a href="#0">Education</a></div>
-                            <div><a href="#0">Our story</a></div>
-                            <div><a href="#0">Press kit</a></div>
-                        </li>
+                                return (
+                                    <Fragment
+                                        key={submenu.title}
+                                    >
+
+                                        <li
+                                            className="
+                                            grid
+                                            gap-3
+                                            md:gap-2
+                                            lg:gap-3
+                                            content-start
+                                            ">
+                                            <h4>{submenu.title}</h4>
+                                            {
+                                                submenu.items.map((item) => {
+
+                                                    return (
+                                                        <div key={item.url}>
+                                                            <Link href={item.url}
+                                                                className="
+                                                                text-primary
+                                                                text-sm
+                                                                lg:text-base
+                                                                "
+                                                            >{item.label}</Link>
+                                                        </div>
+
+                                                    )
+                                                })
+                                            }
+                                        </li>
+                                    </Fragment>
+
+                                )
+                            })
+
+
+                        }
+
+
                     </ul>
                 </nav>
-
-                <div className="mt-12 lg:mt-20">
+                <Separator className="my-5" />
+                <div className="mt-12 lg:mt-20 flex flex-col gap-3">
                     <div className="flex justify-center mt-3 lg:mt-5">
                         <a href="#0"
                             className="inline-block my-0 mx-1 lg:mx-1.5 text-primary"
                         >
                             <svg className="
-                            
-                            
                             icon h-[1em] w-[1em] inline-block text-inherit fill-current leading-none shrink-0" viewBox="0 0 16 16"><title>Follow us on Twitter</title><g><path d="M16,3c-0.6,0.3-1.2,0.4-1.9,0.5c0.7-0.4,1.2-1,1.4-1.8c-0.6,0.4-1.3,0.6-2.1,0.8c-0.6-0.6-1.5-1-2.4-1 C9.3,1.5,7.8,3,7.8,4.8c0,0.3,0,0.5,0.1,0.7C5.2,5.4,2.7,4.1,1.1,2.1c-0.3,0.5-0.4,1-0.4,1.7c0,1.1,0.6,2.1,1.5,2.7 c-0.5,0-1-0.2-1.5-0.4c0,0,0,0,0,0c0,1.6,1.1,2.9,2.6,3.2C3,9.4,2.7,9.4,2.4,9.4c-0.2,0-0.4,0-0.6-0.1c0.4,1.3,1.6,2.3,3.1,2.3 c-1.1,0.9-2.5,1.4-4.1,1.4c-0.3,0-0.5,0-0.8,0c1.5,0.9,3.2,1.5,5,1.5c6,0,9.3-5,9.3-9.3c0-0.1,0-0.3,0-0.4C15,4.3,15.6,3.7,16,3z"></path></g></svg>
                         </a>
 
@@ -91,12 +128,15 @@ const Footer = (props) => {
 
                     <div className="
                     text-sm lg:text-xs text-primary text-center
+                    gap-3
+                    flex
+                    flex-col
                     ">
-                        <p>&copy; myWebsite</p>
+                        <p>&copy; by RicSala</p>
 
                         <p className="flex gap-2 lg:gap-3 justify-center">
-                            <a href="#0">Terms</a>
-                            <a href="#0">Privacy</a>
+                            <a href="#0">Legal</a>
+                            <a href="#0">Privacidad</a>
                             <a href="#0">Cookies</a>
                         </p>
                     </div>

@@ -16,7 +16,10 @@ const ArtistSmallCard = ({
     return (
         <div
             onClick={() => router.push(`/tatuadores/profile/${artist.id}`)}
-            className="mx-auto flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg md:flex-row md:items-start md:text-left">
+            className="
+            cursor-pointer
+            hover:bg-muted
+            mx-auto flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg md:flex-row md:items-start md:text-left">
             <div className="rounded-full relative mb-4 md:mr-6 md:mb-0">
 
                 <Avatar className="cursor-pointer">

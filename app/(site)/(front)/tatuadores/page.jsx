@@ -62,7 +62,14 @@ export default async function ArtistPage({ searchParams }) {
     if (artists.length < 1) {
         return (
             <Container>
-                <SearchBar filtro1={filtro1} filtro2={filtro2} />
+                <SearchBar>
+                    <FreeSearch />
+                    <div className='flex flex-row gap-2'>
+                        <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
+                        <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
+                        {/* Eventually, I will change the city select for an async select */}
+                    </div>
+                </SearchBar>
                 <EmptyState title="No se han encontrado tatuadores con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
                     actionUrl={'/tatuadores'}
@@ -92,7 +99,7 @@ export default async function ArtistPage({ searchParams }) {
             />
             <Separator className="my-5" />
 
-            <SearchBar filtro1={filtro1} filtro2={filtro2}>
+            <SearchBar>
                 <FreeSearch />
                 <div className='flex flex-row gap-2'>
                     <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />

@@ -7,6 +7,7 @@ import TattooCard from "@/components/listings/tattoo-card";
 import ShareButtons from "@/components/share-buttons";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 const TattooDetailsPage = async ({ params }) => {
 
@@ -31,13 +32,14 @@ const TattooDetailsPage = async ({ params }) => {
 
     if (!tattoo) {
         return (
-            <div title="No se han encontrado resultados" />
+            notFound()
         )
     }
 
 
-
     const age = Math.floor((new Date() - new Date(tattoo.createdAt)) / (1000 * 60 * 60 * 24));
+
+    console.log((tattoo))
 
     return (
 
@@ -47,7 +49,7 @@ const TattooDetailsPage = async ({ params }) => {
 
                     <div className="relative order-first ml-auto 
                     h-[40vh] w-full 
-                    md:order-none md:h-[60vh] md:w-[60vh]
+                    md:order-none md:h-[80vh] md:w-[60vh]
 
                     
                     
@@ -59,11 +61,7 @@ const TattooDetailsPage = async ({ params }) => {
                         <div className="flex flex-col justify-between">
                             <div>
                                 <div className="px-4 pt-4">
-                                    {/* <Heading title= */}
-
                                     {tattoo.title}
-
-                                    {/* />  */}
                                 </div>
                                 <Separator />
                                 <div className="px-4 pt-4">
@@ -71,6 +69,11 @@ const TattooDetailsPage = async ({ params }) => {
                                         className="font-bold"
                                     >Sobre la pieza: </div>
                                     <p className="">{tattoo.description}</p>
+                                </div>
+
+                                <div className="px-4 pt-4">
+                                    <div>Estilo</div>
+                                    <div>{tattoo.style}</div>
                                 </div>
                                 <div>
                                     {/* tags separated by commas */}
@@ -120,7 +123,7 @@ const TattooDetailsPage = async ({ params }) => {
             <h2 className="mt-20 font-bold text-lg">También te pueden gustar...</h2>
 
             {
-                (similarTattoos.length > 0) &&
+                (similarTattoos?.length > 0) &&
                 <ListingGrid>
                     {
                         similarTattoos.map(

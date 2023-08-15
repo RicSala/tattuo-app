@@ -11,7 +11,7 @@ const Heading = ({ title, subtitle, center = false, buttonLabel = '', url = '' }
     return (
         <div className="flex flex-row justify-between">
             <div>
-                <h1>{title}</h1>
+                <h1 className="mb-2">{title}</h1>
                 <p className="max-w-[750px] text-muted-foreground sm:text-xl">{subtitle}</p>
             </div>
             {

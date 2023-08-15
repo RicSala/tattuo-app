@@ -3,6 +3,7 @@
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import React from "react";
 import { InfiniteScroll } from "./infinite-scroll";
+import ListingGrid from "./listing-grid";
 
 // This is a wrapper component to render an infinite scroll
 // its job is to create the grid, add the query client provider and pass the props to the infinite scroll component
@@ -34,17 +35,8 @@ export default function InfiniteListingGrid({
 
     return (
 
-        <div className="
-            grid
-            grid-cols-1
-            gap-8
-            sm:grid-cols-2
-            md:grid-cols-3
-            lg:grid-cols-4
-            xl:grid-cols-5
-            2xl:grid-cols-6
-            "
-        >
+        <ListingGrid>
+
             <CustomQueryClientProvider>
                 <InfiniteScroll
                     endpoint={endpoint}
@@ -56,9 +48,7 @@ export default function InfiniteListingGrid({
                     filter={filter}
                 />
             </CustomQueryClientProvider>
-
-        </div>
-
+        </ListingGrid>
 
     )
 }

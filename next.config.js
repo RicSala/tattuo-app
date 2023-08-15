@@ -7,6 +7,13 @@ const nextConfig = {
     //     mdxRs: true,
     // },
 
+    typescript: {
+        // !! WARN !!
+        // WE ARE NOT USING TYPESCRIPT, but we are using JSDocs and having ts installed helps.
+        // this prevents ts from failing the builds
+        ignoreBuildErrors: true,
+    },
+
     images: {
         remotePatterns:
             [

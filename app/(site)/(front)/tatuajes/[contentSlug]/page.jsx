@@ -1,9 +1,9 @@
-
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
 import InfiniteListingGrid from '@/components/listings/infinite-listing-grid';
+import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
 import FreeSearch from '@/components/search/free-search';
 import SearchBar from '@/components/search/search-bar';
@@ -12,13 +12,31 @@ import Container from '@/components/ui/container';
 import { Separator } from '@/components/ui/separator';
 import { getBodyParts } from '@/lib/getBodyParts';
 import { getStyleList } from '@/lib/getStyleList';
+import { capitalizeFirst } from '@/lib/utils';
+import { notFound } from 'next/navigation';
 export const dynamic = "force-dynamic";
 
 
 
-//TODO:
-// SITEMAP
-// ROBOTS.TXT
+const generatedContentSlugs = [
+    "mariposa",
+    "tribal",
+    "estrella",
+    "goku",
+    "arbol",
+]
+
+export const generateMetadata = async ({
+    params
+}) => {
+
+    const { contentSlug } = params
+
+    return {
+        title: `Tatuajes de ${capitalizeFirst(contentSlug)}`,
+    }
+};
+
 const styles = getStyleList()
 const bodyParts = getBodyParts()
 
@@ -47,11 +65,23 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage
  *
  * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
  */
-export default async function TattoosPage({ searchParams, }) {
+export default async function TattoosPage({ params, searchParams }) {
+
+    const { contentSlug } = params
+
+    const isGeneratedContentSlug = generatedContentSlugs.includes(params.contentSlug)
+
+    if (!isGeneratedContentSlug) {
+        console.log("NOT FOUD CALLED")
+        notFound()
+    }
 
 
     const serverLoadedTattoos = await getTattoos(
-        searchParams,
+        {
+            ...searchParams,
+            contentSlug
+        },
         0,
         initialDataSize
     )
@@ -94,14 +124,22 @@ export default async function TattoosPage({ searchParams, }) {
                 </div>
             </SearchBar>
 
-            <InfiniteListingGrid // to render an infinite scroll we need...
+            {/* <InfiniteListingGrid // to render an infinite scroll we need...
                 initialData={serverLoadedTattoos} // the initial data coming from the server
                 sizePerPage={sizePerPage} // the size of each page
                 endpoint={endpoint}  // the endpoint to fetch more data in a client component
                 Component={TattooCard} // the component to render for each item
                 keyProp="tattoo" // the key prop to use to identify each item
                 currentUser={currentUser} // the current user to check if the user is logged in
-            />
+            /> */}
+
+            <ListingGrid>
+                {
+                    serverLoadedTattoos.map((tattoo) => (
+                        <TattooCard key={tattoo._id} data={tattoo} currentUser={currentUser} />
+                    ))
+                }
+            </ListingGrid>
         </Container>
     )
 }

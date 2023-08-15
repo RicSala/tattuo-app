@@ -1,10 +1,16 @@
 'use client'
 
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 
 export default function Logo() {
+
+    const { theme } = useTheme()
+
+    const logoUrl = theme === "light" ? "/images/logo.png" : "/images/logo-dark.png"
+
 
     // TODO: Why this component does not have fastrefresh??
 
@@ -16,10 +22,12 @@ export default function Logo() {
             className="
             cursor-pointer
             "
-
         >
             <Image
-                src="/images/logo.png"
+                className="
+                min-w-[100px]
+                "
+                src={logoUrl}
                 alt="Logo image"
                 width={100}
                 height={100}

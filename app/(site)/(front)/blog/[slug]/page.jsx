@@ -50,7 +50,7 @@ export default async function PostPage({
     const { tags } = post;
 
     return (
-        <div>
+        <div className="flex flex-col gap-2">
             {/* TITLE */}
             <h1 className="font-semibold text-3xl text-primary">{post.title}</h1>
 
@@ -58,7 +58,7 @@ export default async function PostPage({
             {/* TAGS */}
             {
                 tags && tags.length > 0 && (
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                         {
                             tags.map((tag) => (
                                 <Badge key={tag}>

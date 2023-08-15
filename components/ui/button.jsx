@@ -33,6 +33,26 @@ const buttonVariants = cva(
   }
 )
 
+
+// COPILOT, ALWAYS DEFINE PROP TYPES!!
+/**
+ * Define the type of the prop object
+ * @typedef {Object} ButtonPropTypes
+ * @property {('default'|'destructive'|'outline'|'secondary'|'ghost'|'link'|'premium')} variant
+ * @property {('default'|'sm'|'lg'|'icon')} size
+ * @property {boolean} asChild
+ * @property {React.ReactNode} children
+ * @property {string} className
+ */
+
+
+/**
+ * @typedef {ButtonPropTypes & React.ComponentPropsWithoutRef<'button'>} MergedButtonProps
+ */
+
+/**
+ * @type {React.ForwardRefRenderFunction<HTMLButtonElement, MergedButtonProps>}
+ */
 const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "button"
   return (

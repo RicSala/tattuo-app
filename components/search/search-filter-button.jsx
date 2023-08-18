@@ -15,9 +15,6 @@ const SearchFilterButton = ({
 }) => {
 
 
-    //TODO: fix the debounce func. It's searching way too many times. Check the network console.
-
-
     const menuRef = useRef(null); // ref of the menu, so we can hide it when clicking outside of it
     const [selected, setSelected] = useState([])
 

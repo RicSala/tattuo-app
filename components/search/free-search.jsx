@@ -75,6 +75,7 @@ const FreeSearch = forwardRef(({
         flex-1
         gap-2
         items-center
+        min-w-[150px]
         
         '>
             <Input

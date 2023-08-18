@@ -43,85 +43,89 @@ const TattooDetailsPage = async ({ params }) => {
 
     return (
 
+
         <div className="container">
             <div className="m-10 mx-auto max-w-screen-lg overflow-hidden rounded-xl border shadow-lg">
-                <div className="flex flex-col overflow-hidden md:flex-row">
+                <div className="flex flex-col overflow-hidden lg:flex-row lg:h-[60vh]">
 
-                    <div className="relative order-first ml-auto 
-                    h-[40vh] w-full 
-                    md:order-none md:h-[80vh] md:w-[60vh]
+                    <div className="
+                    order-first
+                    md:order-none
+                    aspect-auto
 
-                    
-                    
+                    min-h-[60vh]
+                    relative
+                    w-full
                     ">
-                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-cover" />
+                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="
+                        object-contain
+                        "
+                        />
                     </div>
 
-                    <div className="flex w-full flex-col md:w-1/2">
-                        <div className="flex flex-col justify-between">
+                    <div className="sidebar flex flex-col justify-between basis-80 flex-shrink-0 lg:overflow-x-auto">
+                        <div>
+                            <h2 className="px-4 pt-4">
+                                {tattoo.title}
+                            </h2>
+                            <Separator />
+                            <div className="px-4 pt-4">
+                                <h3
+                                    className=""
+                                >Sobre la pieza: </h3>
+                                <p className="">{tattoo.description}</p>
+                            </div>
+
+                            <div className="px-4 pt-4">
+                                <h3>Estilo</h3>
+                                <div>{tattoo.style}</div>
+                            </div>
                             <div>
-                                <div className="px-4 pt-4">
-                                    {tattoo.title}
-                                </div>
-                                <Separator />
+                                {/* tags separated by commas */}
                                 <div className="px-4 pt-4">
                                     <div
                                         className="font-bold"
-                                    >Sobre la pieza: </div>
-                                    <p className="">{tattoo.description}</p>
+                                    >Tags: </div>
+                                    <p className="">{
+                                        (tattoo.tags.map((el) => (
+                                            `#${el.tag.label.toLowerCase()}`
+                                        ))).join(", ")
+                                    }</p>
                                 </div>
-
-                                <div className="px-4 pt-4">
-                                    <div>Estilo</div>
-                                    <div>{tattoo.style}</div>
-                                </div>
-                                <div>
-                                    {/* tags separated by commas */}
-                                    <div className="px-4 pt-4">
-                                        <div
-                                            className="font-bold"
-                                        >Tags: </div>
-                                        <p className="">{
-                                            (tattoo.tags.map((el) => (
-                                                `#${el.tag.label.toLowerCase()}`
-                                            ))).join(", ")
-                                        }</p>
-                                    </div>
-                                </div>
-                                <div className="p-4 flex flex-row justify-between">
-
-                                    {
-                                        <p> {
-                                            age === 0 ? 'Publicado hoy' :
-
-                                                age > 1 ? `Publicado hace ${age} días` :
-                                                    `Publicado ayer`
-                                        } </p>
-                                    }
-                                    {
-                                        tattoo.likes?.length > 0 && (
-                                            <div className="flex flex-row items-center gap-1">
-                                                {tattoo.likes?.length} likes
-                                            </div>)
-
-
-                                    }
-                                </div>
-
                             </div>
-                            <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
-                            <div className="px-4 py-2">
-                                <p>Artista:</p>
-                                <ArtistSmallCard artist={tattoo.artistProfile} />
+                            <div className="p-4 flex flex-row justify-between">
+
+                                {
+                                    <p> {
+                                        age === 0 ? 'Publicado hoy' :
+
+                                            age > 1 ? `Publicado hace ${age} días` :
+                                                `Publicado ayer`
+                                    } </p>
+                                }
+                                {
+                                    tattoo.likes?.length > 0 && (
+                                        <div className="flex flex-row items-center gap-1">
+                                            {tattoo.likes?.length} likes
+                                        </div>)
+
+
+                                }
                             </div>
+
+                        </div>
+                        <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
+                        <div className="px-4 py-2">
+                            <p>Artista:</p>
+                            <ArtistSmallCard artist={tattoo.artistProfile} />
                         </div>
                     </div>
                 </div>
             </div>
 
 
-            <h2 className="mt-20 font-bold text-lg">También te pueden gustar...</h2>
-
+            <h2 className="mt-20">También te pueden gustar...</h2>
+            <Separator className="my-3" />
             {
                 (similarTattoos?.length > 0) &&
                 <ListingGrid>
@@ -133,12 +137,6 @@ const TattooDetailsPage = async ({ params }) => {
                         )
                     }
                 </ListingGrid>}
-
-
-
-
-
-
         </div>
     )
 };

@@ -19,7 +19,8 @@ const ArtistSmallCard = ({
             className="
             cursor-pointer
             hover:bg-muted
-            mx-auto flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg md:flex-row md:items-start md:text-left">
+            sm:mb-4 
+            mx-auto flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg sm:flex-row sm:text-left">
             <div className="rounded-full relative mb-4 md:mr-6 md:mb-0">
 
                 <Avatar className="cursor-pointer">
@@ -31,15 +32,15 @@ const ArtistSmallCard = ({
 
 
             </div>
-            <div className="flex-grow">
+            <div className="flex-grow flex flex-col justify-center">
                 <p className="text-xl font-medium text-primary">{artist.artisticName}</p>
-                <p className="mb-4 text-sm font-medium text-primary">{
+                <p className="text-sm font-medium text-primary">{
                     // Firts 50 charts of artist.bio, then "..."
                     artist.bio.length > 50 ? artist.bio.substring(0, 50) + "..." : artist.bio
                 }</p>
-                <Separator className="mb-2" />
+                {/* <Separator className="mb-2" />
                 <h2 className="font-bold">Redes sociales</h2>
-                <ArtistSocials artist={artist} />
+                <ArtistSocials artist={artist} /> */}
             </div>
         </div>
 

@@ -7,7 +7,7 @@ const ArtistSocials = ({
     title
 }) => {
     return (
-        <div className='flex flex-col w-full gap-2'>
+        <div className='flex flex-col w-full gap-3'>
             {
                 title &&
                 <h2 className="
@@ -18,12 +18,16 @@ const ArtistSocials = ({
             ">{title}</h2>
             }
 
-            <ul className='flex flex-col w-full gap-1'>
+            <ul className='flex flex-col w-full gap-2'>
                 {
                     artist.instagram &&
-                    <li className="flex flex-row justify-between w-full gap-2">
-                        <InstagramIcon size={20} />
-                        <Link href={`https://instagram.com/${artist.instagram}`} target="_blank" rel="noopener noreferrer">
+                    <li className="">
+                        <Link
+                            className='flex flex-row justify-between w-full gap-2
+                            rounded-md hover:bg-muted
+                            '
+                            href={`https://instagram.com/${artist.instagram}`} target="_blank" rel="noopener noreferrer">
+                            <InstagramIcon size={20} />
                             Instagram
                         </Link>
                     </li>
@@ -31,9 +35,14 @@ const ArtistSocials = ({
 
                 {
                     artist.facebook &&
-                    <li className="flex flex-row justify-between w-full gap-2">
-                        <FacebookIcon size={20} />
-                        <Link href={`https://facebook.com/${artist.facebook}`} target="_blank" rel="noopener noreferrer">
+                    <li className="">
+                        <Link
+                            className='flex flex-row justify-between w-full gap-2
+                            rounded-md hover:bg-muted
+'
+
+                            href={`https://facebook.com/${artist.facebook}`} target="_blank" rel="noopener noreferrer">
+                            <FacebookIcon size={20} />
                             Facebook
                         </Link>
                     </li>
@@ -42,9 +51,13 @@ const ArtistSocials = ({
 
                 {
                     artist.whatsapp &&
-                    <li className="flex flex-row justify-between w-full gap-2">
-                        <FacebookIcon size={20} />
-                        <Link href={`https://wa.me/${artist.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                    <li >
+                        <Link
+                            className="flex flex-row justify-between w-full gap-2
+                            rounded-md hover:bg-muted
+"
+                            href={`https://wa.me/${artist.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                            <FacebookIcon size={20} />
                             Whatsapp
                         </Link>
                     </li>
@@ -52,18 +65,26 @@ const ArtistSocials = ({
 
                 {
                     artist.pinterest &&
-                    <li className="flex flex-row justify-between w-full gap-2">
-                        <FacebookIcon size={20} />
-                        <Link href={`https://pinterest.com/${artist.pinterest}`} target="_blank" rel="noopener noreferrer">
+                    <li >
+                        <Link
+                            className="flex flex-row justify-between w-full gap-2
+                            rounded-md hover:bg-muted
+"
+                            href={`https://pinterest.com/${artist.pinterest}`} target="_blank" rel="noopener noreferrer">
+                            <FacebookIcon size={20} />
                             Pinterest
                         </Link>
                     </li>
                 }
 
                 {/* twitter */}
-                <li className="flex flex-row justify-between w-full gap-2">
-                    <TwitterIcon size={20} />
-                    <Link href={`https://twitter.com/${artist.twitter}`} target="_blank" rel="noopener noreferrer">
+                <li >
+                    <Link
+                        className="flex flex-row justify-between w-full gap-2
+                        rounded-md hover:bg-muted
+"
+                        href={`https://twitter.com/${artist.twitter}`} target="_blank" rel="noopener noreferrer">
+                        <TwitterIcon size={20} />
                         Twitter
                     </Link>
                 </li>
@@ -71,9 +92,13 @@ const ArtistSocials = ({
                 {/* Tiktok */}
                 {
                     artist.tiktok &&
-                    <li className="flex flex-row justify-between w-full gap-2">
-                        <FacebookIcon size={20} />
-                        <Link href={`https://tiktok.com/${artist.tiktok}`} target="_blank" rel="noopener noreferrer">
+                    <li>
+                        <Link
+                            className="flex flex-row justify-between w-full gap-2
+                            rounded-md hover:bg-muted
+"
+                            href={`https://tiktok.com/${artist.tiktok}`} target="_blank" rel="noopener noreferrer">
+                            <FacebookIcon size={20} />
                             TikTok
                         </Link>
                     </li>

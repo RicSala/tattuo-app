@@ -14,6 +14,9 @@ const useSave = ({
     listingType = 'artists',
 }) => {
 
+    console.log({ currentUser })
+
+
     const { toast } = useToast()
     const router = useRouter()
     const { setLoginModalOpen } = useContext(UiContext)
@@ -32,6 +35,8 @@ const useSave = ({
 
 
         if (!currentUser) {
+            alert("no current user")
+            console.log(currentUser)
             toast({
                 title: "Accede a tu cuenta",
                 description: "Debes estar conectado para esta acción",
@@ -59,7 +64,11 @@ const useSave = ({
             // })
 
         } catch (error) {
-            toast.error("Algo fue mal 😢· Inténtalo de nuevo")
+            toast({
+                title: "Ha habido un error",
+                description: "Por favo, inténtalo de nuevo",
+                variant: "destructive"
+            })
         }
     }
         , [currentUser, hasSaved, listingId, listingType, router, setLoginModalOpen, toast])

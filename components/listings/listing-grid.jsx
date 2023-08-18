@@ -8,7 +8,6 @@ const ListingGrid = forwardRef(({ children, className }, ref) => {
             grid
             grid-cols-1
             gap-8
-            item-center
             sm:grid-cols-2
             md:grid-cols-2
             lg:grid-cols-3

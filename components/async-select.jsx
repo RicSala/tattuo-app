@@ -5,6 +5,8 @@ import { forwardRef } from 'react';
 import PrimitiveAsyncSelect from 'react-select/async';
 
 
+
+
 const getOptions = async (inputValue, resources) => {
     try {
         const res = await axios.get(`/api/${resources}?s=${inputValue}`)
@@ -16,6 +18,20 @@ const getOptions = async (inputValue, resources) => {
 };
 
 
+// <
+//   React.ElementRef<typeof SheetPrimitive.Overlay>,
+//   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
+// >
+
+/**
+* @typedef {typeof PrimitiveAsyncSelect} AsyncSelectType
+*/
+
+
+/**
+ * and we give it to the forward ref (first is the ref, second is the type we created in the previous step)
+ * @type {AsyncSelectType}
+ */
 const AsyncSelect = forwardRef(({
     placeholder = "Selecciona una opción",
     isMulti = false,
@@ -26,8 +42,6 @@ const AsyncSelect = forwardRef(({
     resources,
     noOptionsMessage = () => "Teclea para buscar",
 }, ref) => {
-
-    console.log("value", value)
 
     return (
         <PrimitiveAsyncSelect

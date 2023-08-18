@@ -14,6 +14,8 @@ import FreeSearch from '@/components/search/free-search'
 import SearchFilterButton from '@/components/search/search-filter-button'
 import InfiniteListingGrid from '@/components/listings/infinite-listing-grid'
 import { getArtistsByCityName } from '@/actions/getArtistsByCityName'
+import AsyncSelect from '@/components/async-select'
+import CitiesAsyncSelect from '@/components/cities-async-select'
 export const dynamic = "force-dynamic";
 
 
@@ -66,7 +68,7 @@ export default async function ArtistPage({ searchParams }) {
                     <FreeSearch />
                     <div className='flex flex-row gap-2'>
                         <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
-                        <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
+                        <CitiesAsyncSelect searchParamName="city" />
                         {/* Eventually, I will change the city select for an async select */}
                     </div>
                 </SearchBar>
@@ -103,7 +105,8 @@ export default async function ArtistPage({ searchParams }) {
                 <FreeSearch />
                 <div className='flex flex-row gap-2'>
                     <SearchFilterButton title={filtro1.label} options={filtro1.options} searchParamName={filtro1.value} />
-                    <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} />
+                    <CitiesAsyncSelect searchParamName="city" />
+                    {/* <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} /> */}
                     {/* Eventually, I will change the city select for an async select */}
                 </div>
             </SearchBar>
@@ -129,3 +132,4 @@ export default async function ArtistPage({ searchParams }) {
         </Container>
     )
 }
+

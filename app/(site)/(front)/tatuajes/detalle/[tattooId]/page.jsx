@@ -45,28 +45,23 @@ const TattooDetailsPage = async ({ params }) => {
 
 
         <div className="">
-            <div className="sm:m-10 mt-3 mx-auto max-w-screen-lg overflow-hidden rounded-xl border shadow-lg">
+            <div className="max-w-screen-lg mx-auto mt-3 overflow-hidden border shadow-lg sm:m-10 rounded-xl">
                 <div className="flex flex-col overflow-hidden lg:flex-row md:h-[70vh]">
 
-                    <div className="
-                    order-first
-                    md:order-none
-                    aspect-auto
-
+                    <div className="order-first md:order-none aspect-auto
                     sm:min-h-[60vh]
+
                     min-h-[50vh]
                     relative
                     w-full
                     ">
-                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="
-                        object-contain
-                        "
+                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-contain "
                         />
                     </div>
 
-                    <div className="sidebar flex flex-col justify-between basis-80 flex-shrink-0 lg:overflow-x-auto">
+                    <div className="flex flex-col justify-between flex-shrink-0 sidebar basis-80 lg:overflow-x-auto">
                         <div>
-                            <h2 className="px-4 sm:pt-4 pt-1 mt-0">
+                            <h2 className="px-4 pt-1 mt-0 sm:pt-4">
                                 {tattoo.title}
                             </h2>
                             <Separator />
@@ -94,7 +89,7 @@ const TattooDetailsPage = async ({ params }) => {
                                     }</p>
                                 </div>
                             </div>
-                            <div className="p-4 flex flex-row justify-between">
+                            <div className="flex flex-row justify-between p-4">
 
                                 {
                                     <p> {

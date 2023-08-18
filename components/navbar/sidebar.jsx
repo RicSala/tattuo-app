@@ -34,7 +34,7 @@ export default function Sidebar({
                 <div className="flex flex-col my-2">
                     <SheetHeader>
                         <SheetTitle asChild><Logo /></SheetTitle>
-                        <SheetDescription>
+                        <SheetDescription className="hidden sm:block">
                             Descubre nuevos tatuadores. Guarda inspiración. Contacta con ellos.
                             Bienvenidx a TATTUO
                         </SheetDescription>
@@ -69,7 +69,7 @@ export default function Sidebar({
 
                         {
                             currentUser ?
-                                <Button variant="ghost" className="flex flex-row gap-2 justify-center"
+                                <Button variant="ghost" className="flex flex-row justify-center gap-2"
                                     onClick={() => {
                                         signOut()
                                         router.refresh()
@@ -79,7 +79,7 @@ export default function Sidebar({
                                 </Button>
                                 :
                                 <div>
-                                    <div className="flex flex-col space-y-3 items-center">
+                                    <div className="flex flex-col items-center space-y-3">
                                         <p>Para poder guardar tus favoritos y contactar con los artistas</p>
 
                                         <GradientBorder>
@@ -104,7 +104,7 @@ export default function Sidebar({
                                             onClick={() => { setLoginModalOpen(true) }}
                                         >Regístrate</Button> */}
                                     </div>
-                                    <div className="flex flex-col space-y-2 items-center">
+                                    <div className="flex flex-col items-center space-y-2">
                                         <p>
                                             ¿Eres tatuador?
                                         </p>

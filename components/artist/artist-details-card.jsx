@@ -27,13 +27,11 @@ export default function ArtistDetailsCard({
     console.log({ hasSaved })
 
     return (
-        <div className="
-        w-96
-        flex flex-col bg-secondary/50 rounded-lg p-5 gap-2">
+        <div className="flex flex-col gap-2 p-5 rounded-lg  w-96 bg-secondary/50">
             <div className="flex flex-row justify-between">
                 <Undo
                     onClick={() => { router.back() }}
-                    className="hover:bg-muted cursor-pointer"
+                    className="cursor-pointer hover:bg-muted"
 
                 />
 
@@ -42,7 +40,7 @@ export default function ArtistDetailsCard({
                         <MoreHorizontal
 
 
-                            className="hover:text-primary/70 cursor-pointer"
+                            className="cursor-pointer hover:text-primary/70"
 
                         />
                     </DropdownMenuTrigger>
@@ -61,7 +59,7 @@ export default function ArtistDetailsCard({
 
             </div>
 
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
                 <Avatar>
                     <AvatarImage src={artist.mainImage} />
                     <AvatarFallback>{
@@ -97,14 +95,7 @@ export default function ArtistDetailsCard({
                 </Button>
             </div>
 
-            <div className="
-            flex flex-col 
-            justify-center 
-            items-center
-            cursor-pointer
-            hover:bg-muted
-            gap-3
-            "
+            <div className="flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-muted"
                 onClick={() => setIsDetailsOpen((prev) => !prev)}
             >
                 <p>Más información</p>
@@ -121,18 +112,18 @@ export default function ArtistDetailsCard({
                 <div>
                     <p className="font-bold">Bio</p>
                     <p
-                        className="max-h-64 overflow-y-auto"
+                        className="overflow-y-auto max-h-64"
                     >{artist.bio}</p>
                 </div>
                 <Separator />
                 <div>
-                    <p className="font-bold mb-2">Redes Sociales</p>
+                    <p className="mb-2 font-bold">Redes Sociales</p>
                     <ArtistSocials artist={artist} />
                 </div>
                 <Separator />
                 <div>
 
-                    <p className="font-bold mb-2">Estilos</p>
+                    <p className="mb-2 font-bold">Estilos</p>
                     <div className="flex flex-row flex-wrap gap-2">
 
                         {

@@ -101,7 +101,12 @@ export function InfiniteScroll({
 
 
 
-    if (error) return <div>Something went wrong</div>
+    if (error) {
+        console.log("ERROR - INFINITE SCROLL", error)
+
+        return (
+            <div>Something went wrong</div>)
+    }
 
 
     const allElements = data?.pages.flatMap(page => page.data) // get all the elements from all the pages

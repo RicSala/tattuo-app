@@ -1,11 +1,24 @@
+'use client'
+
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'lucide-react';
 import Link from 'next/link';
+import { PinterestIcon, WhatsappIcon } from 'react-share';
 
 
 const ArtistSocials = ({
     artist,
     title
 }) => {
+
+    const social_icons = {
+        instagram: InstagramIcon,
+        facebook: FacebookIcon,
+        twitter: TwitterIcon,
+        tiktok: TwitterIcon,
+        pinterest: PinterestIcon,
+        whatsapp: WhatsappIcon
+    }
+
     return (
         <div className='flex flex-col w-full gap-3'>
             {
@@ -20,93 +33,24 @@ const ArtistSocials = ({
 
             <ul className='flex flex-col w-full gap-2'>
                 {
-                    artist.instagram &&
-                    <li className="">
-                        <Link
-                            className='flex flex-row justify-between w-full gap-2
+                    artist.socials.map((item) => {
+                        const IconComponent = social_icons[item.network];
+                        if (IconComponent === undefined || item.profile === "") return;
+                        return (
+
+                            <li className="" key={item.network}>
+                                <Link
+                                    className='flex flex-row justify-between w-full gap-2
                             rounded-md hover:bg-muted
                             '
-                            href={`https://instagram.com/${artist.instagram}`} target="_blank" rel="noopener noreferrer">
-                            <InstagramIcon size={20} />
-                            Instagram
-                        </Link>
-                    </li>
+                                    href={`${item.profile}`} target="_blank" rel="noopener noreferrer">
+                                    <IconComponent />
+                                    {item.network}
+                                </Link>
+                            </li>
+                        )
+                    })
                 }
-
-                {
-                    artist.facebook &&
-                    <li className="">
-                        <Link
-                            className='flex flex-row justify-between w-full gap-2
-                            rounded-md hover:bg-muted
-'
-
-                            href={`https://facebook.com/${artist.facebook}`} target="_blank" rel="noopener noreferrer">
-                            <FacebookIcon size={20} />
-                            Facebook
-                        </Link>
-                    </li>
-                }
-
-
-                {
-                    artist.whatsapp &&
-                    <li >
-                        <Link
-                            className="flex flex-row justify-between w-full gap-2
-                            rounded-md hover:bg-muted
-"
-                            href={`https://wa.me/${artist.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                            <FacebookIcon size={20} />
-                            Whatsapp
-                        </Link>
-                    </li>
-                }
-
-                {
-                    artist.pinterest &&
-                    <li >
-                        <Link
-                            className="flex flex-row justify-between w-full gap-2
-                            rounded-md hover:bg-muted
-"
-                            href={`https://pinterest.com/${artist.pinterest}`} target="_blank" rel="noopener noreferrer">
-                            <FacebookIcon size={20} />
-                            Pinterest
-                        </Link>
-                    </li>
-                }
-
-                {/* twitter */}
-                <li >
-                    <Link
-                        className="flex flex-row justify-between w-full gap-2
-                        rounded-md hover:bg-muted
-"
-                        href={`https://twitter.com/${artist.twitter}`} target="_blank" rel="noopener noreferrer">
-                        <TwitterIcon size={20} />
-                        Twitter
-                    </Link>
-                </li>
-
-                {/* Tiktok */}
-                {
-                    artist.tiktok &&
-                    <li>
-                        <Link
-                            className="flex flex-row justify-between w-full gap-2
-                            rounded-md hover:bg-muted
-"
-                            href={`https://tiktok.com/${artist.tiktok}`} target="_blank" rel="noopener noreferrer">
-                            <FacebookIcon size={20} />
-                            TikTok
-                        </Link>
-                    </li>
-                }
-
-
-
-
             </ul>
 
         </div>

@@ -50,6 +50,15 @@ export async function PUT(request) {
     updatedInfo.minWorkPrice = parseInt(updatedInfo.minWorkPrice)
     updatedInfo.pricePerHour = parseInt(updatedInfo.pricePerHour)
     updatedInfo.pricePerSession = parseInt(updatedInfo.pricePerSession)
+    updatedInfo.socials = {
+        set:
+            [
+                { network: "facebook", profile: updatedInfo.facebook },
+                { network: "instagram", profile: updatedInfo.instagram },
+                { network: "tiktok", profile: updatedInfo.tiktok },
+                { network: "twitter", profile: updatedInfo.twitter }
+            ]
+    }
 
     // TODO: if profile is complete, set isComplete to true
     if (true) {

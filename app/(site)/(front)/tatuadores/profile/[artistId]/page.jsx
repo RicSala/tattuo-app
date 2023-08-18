@@ -17,11 +17,6 @@ import TattooCard from "@/components/listings/tattoo-card";
 // import { BiDownArrow, BiDownArrowAlt } from "react-icons/bi";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/ui/container";
-import { ArrowDownRightFromCircle, MoreHorizontal, Undo } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import ArtistSocials from "@/components/artist/artist-socials";
-import { Badge } from "@/components/ui/badge";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
 export const dynamic = "force-dynamic";
 

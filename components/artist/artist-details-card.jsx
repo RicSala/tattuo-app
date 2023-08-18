@@ -45,7 +45,14 @@ export default function ArtistDetailsCard({
                         />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem className="hover:cursor-pointer">Reportar</DropdownMenuItem>
+                        <DropdownMenuItem className="hover:cursor-pointer"
+                            onClick={() => {
+                                toast({
+                                    title: "Gracias por reportar",
+                                    description: "Revisaremos lo antes posible tu aviso. Por favor, si es urgente, escríbenos a hello@tattuo.com"
+                                })
+                            }}
+                        >Reportar</DropdownMenuItem>
                         {/* <DropdownMenuItem className="hover:cursor-pointer">Billing</DropdownMenuItem> */}
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -70,7 +77,7 @@ export default function ArtistDetailsCard({
                     onClick={() => {
                         toast({
                             title: "Puedes contactarle directamente",
-                            description: "El contacto con lxs artistas is libre y gratuito, ¡Contáctale en cualquiera de sus redes",
+                            description: "El contacto con lxs artistas es libre y gratuito, ¡Contáctale en cualquiera de sus redes",
 
                         })
                     }}
@@ -111,7 +118,9 @@ export default function ArtistDetailsCard({
             )}>
                 <div>
                     <p className="font-bold">Bio</p>
-                    <p>{artist.bio}</p>
+                    <p
+                        className="max-h-64 overflow-y-auto"
+                    >{artist.bio}</p>
                 </div>
                 <Separator />
                 <div>

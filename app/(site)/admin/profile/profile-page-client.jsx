@@ -16,11 +16,12 @@ import { Textarea } from "@/components/ui/textarea";
 import AsyncSelect from "@/components/async-select";
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Button } from "@/components/ui/button";
-import { Save, Undo } from "lucide-react";
+import { FormInputIcon, Save, Undo } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
 import { sanitize } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 
 const formSchema = z.object({
@@ -37,11 +38,15 @@ const formSchema = z.object({
         message: "Tienes que subir una imagen de perfil",
     }),
     ]),
-    bio: z.string().min(2, {
-        message: "Tu bio debe tener al menos 50 letras",
-    }).transform(text => {
-        return sanitize(text)
-    }),
+    bio: z.string().min(50, {
+        message: "Tu bio debe tener al menos 50 caracteres",
+    }).max(100, {
+        message: "Sabemos que nos quieres contar muchas cosas, pero deja algo para cuando nos veamos! La bio no puede tener más de 100 caracteres"
+    })
+
+        .transform(text => {
+            return sanitize(text)
+        }),
     minWorkPrice: z.coerce.number().min(0, {
         message: "Debes ingresar un precio mínimo",
     }),
@@ -51,27 +56,36 @@ const formSchema = z.object({
     pricePerSession: z.coerce.number().min(0, {
         message: "Debes ingresar un precio por sesión",
     }),
-    facebook: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
-    instagram: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
-    tiktok: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
-    twitter: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
-    youtube: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
-    website: z.string().url({
-        message: "Debes ingresar una URL válida",
-    }),
+
+    facebook: z.string()
+        .refine(value => value.includes('facebook.com'), {
+            message: "Debe ser un perfil válido de Facebook"
+        })
+    ,
+    instagram: z.union([z.string().refine(value => value.includes('facebook.com'), {
+        message: "Debe ser un perfil válido de Facebook"
+    }), z.literal("")]),
+
+    tiktok: z.union([z.string().refine(value => value.includes('facebook.com'), {
+        message: "Debe ser un perfil válido de Facebook"
+    }), z.literal("")]),
+
+    twitter: z.union([z.string().refine(value => (value.includes('twitter.com') || value.includes('x.com')), {
+        message: "Debe ser un perfil válido de Facebook"
+    }), z.literal("")]),
+
+    youtube: z.union([z.string().refine(value => value.includes('youtube.com'), {
+        message: "Debe ser un perfil válido de Facebook"
+    }), z.literal("")]),
+
+    website: z.union([z.string().url({
+        message: "Tu web debe ser una url válida"
+    }), z.literal("")]),
+
     images: z.array(z.string()).min(1, {
         message: "Debes subir al menos una imagen",
     }),
+
     phone: z.string().min(8, {
         message: "Debes ingresar un número de teléfono válido",
     }).max(12, {
@@ -84,6 +98,7 @@ const formSchema = z.object({
         value: z.string()
 
     }),
+
     styles: z.array(z.any()).min(1, {
         message: "Debes seleccionar al menos un estilo",
     }).max(3, {
@@ -124,10 +139,10 @@ const ProfilePageClient = ({
             phone: artist.phone || "",
             pricePerHour: artist.pricePerHour || null,
             pricePerSession: artist.pricePerSession || null,
-            facebook: artist.facebook || "",
-            instagram: artist.instagram || "",
-            tiktok: artist.tiktok || "",
-            twitter: artist.twitter || "",
+            facebook: artist.socials[0].profile || "",
+            instagram: artist.socials[1].profile || "",
+            tiktok: artist.socials[2].profile || "",
+            twitter: artist.socials[3].profile || "",
             website: artist.website || "",
             youtube: artist.youtube || "",
 
@@ -193,8 +208,20 @@ const ProfilePageClient = ({
             <Heading title="Tu perfil" subtitle={"Cuéntanos sobre ti y sobre tus piezas"} />
             <Separator className="my-6"
             />
+            <Alert>
+                <FormInputIcon className="h-4 w-4" />
+                <AlertTitle>Respecto a este formulario</AlertTitle>
+                <Separator className="my-2" />
+                <AlertDescription>
+                    Tus datos NO serán compartidos. Cuánta más información facilites, más fácil será que consigas clientes (lxs clientxs quiere saber quién eres!)<br />
+                    Tu perfil solo se publicará cuando hayas rellenado todos los campos requeridos (marcados con *)
+                </AlertDescription>
 
+
+            </Alert>
             <div className="w-full md:w-1/2 mx-auto md:mt-14">
+
+
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit, onError)}
                         className="space-y-8">
@@ -218,7 +245,7 @@ const ProfilePageClient = ({
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Esta es la foto que aparecerá en tus publicaciones, tu foto de perfil
+                                        Esta es la foto que aparecerá en tus publicaciones, como tu foto de perfil en otras redes sociales
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -229,7 +256,7 @@ const ProfilePageClient = ({
                             name="artisticName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Nombre Artístico</FormLabel>
+                                    <FormLabel className="after:content-['*']">Nombre Artístico</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Aquí va tu nombre artístico" {...field} />
                                     </FormControl>
@@ -260,7 +287,7 @@ const ProfilePageClient = ({
                             defaultOptions={cities}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Ciudad</FormLabel>
+                                    <FormLabel className="after:content-['*']">Ciudad</FormLabel>
                                     <FormControl>
                                         <AsyncSelect
                                             placeholder="Donde sueles tatuar habitualmente"
@@ -278,9 +305,9 @@ const ProfilePageClient = ({
                             name="bio"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Bio</FormLabel>
+                                    <FormLabel className="after:content-['*']">Bio</FormLabel>
                                     <FormControl>
-                                        <Textarea placeholder="Donde sueles tatuar habitualmente" {...field} />
+                                        <Textarea placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los usuarios quieren conocerte mejor antes de decidirse a hacerse un tatuaje contigo
@@ -296,7 +323,7 @@ const ProfilePageClient = ({
                             name="styles"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Algunos de tus trabajos</FormLabel>
+                                    <FormLabel className="after:content-['*']">Estilos</FormLabel>
                                     <FormControl>
                                         <CustomSelect options={styles} isMulti={true} {...field}
 
@@ -304,7 +331,7 @@ const ProfilePageClient = ({
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Esta es la foto que aparecerá en tus publicaciones, tu foto de perfil
+                                        Puedes elegir hasta tres estilos. Seguro que controlas muchos más, pero los clientes quieren saber lo que mejor se te da!
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -312,6 +339,9 @@ const ProfilePageClient = ({
 
 
                         <h2>Precios</h2>
+                        <p className="text-primary/50 text-sm">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
+                            en qué rango de precio estará la pieza. No es un compromiso, simplemente les sirve para hacerse a la idea antes de contactar!
+                        </p>
 
                         <FormField
                             control={form.control}
@@ -320,7 +350,7 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Precio mínimo</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="number" placeholder="100€" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
@@ -335,7 +365,7 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Precio por hora</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="number" placeholder="50€" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
@@ -350,7 +380,7 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Precio por sesión</FormLabel>
                                     <FormControl>
-                                        <Input type="number" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="number" placeholder="300€" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
@@ -367,10 +397,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Facebook</FormLabel>
                                     <FormControl>
-                                        <Input type="" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="" placeholder="facebook.com/blackvic" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu perfil de Facebook
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -382,10 +412,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Instagram</FormLabel>
                                     <FormControl>
-                                        <Input type="" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="" placeholder="instagram.com/blackvic" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu perfil de Instagram
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -397,10 +427,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>TikTok</FormLabel>
                                     <FormControl>
-                                        <Input type="url" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="url" placeholder="tiktok.com/blackvic" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu perfil de TitTok
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -412,10 +442,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Twitter</FormLabel>
                                     <FormControl>
-                                        <Input type="" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="" placeholder="twitter.com/blackvic" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu perfil de Twitter (o X..)
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -427,10 +457,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Website</FormLabel>
                                     <FormControl>
-                                        <Input type="" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="" placeholder="www.blackvic.com" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu web
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -442,10 +472,10 @@ const ProfilePageClient = ({
                                 <FormItem>
                                     <FormLabel>Youtube</FormLabel>
                                     <FormControl>
-                                        <Input type="" placeholder="Aquí va tu nombre" {...field} />
+                                        <Input type="" placeholder="youtube.com/blackvic" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                                        Link a tu canal de Youtube
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -459,7 +489,7 @@ const ProfilePageClient = ({
                             name="images"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Algunos de tus trabajos</FormLabel>
+                                    <FormLabel className="after:content-['*']">Algunos de tus trabajos</FormLabel>
                                     <div className="flex flex-row gap-5">
                                         {
                                             field.value.map((image, index) => {
@@ -485,7 +515,8 @@ const ProfilePageClient = ({
                                         <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger} />
                                     </FormControl>
                                     <FormDescription>
-                                        Esta es la foto que aparecerá en tus publicaciones, tu foto de perfil
+                                        Sube las tres piezas que más te representen!<br />
+                                        Mejor aún si son una de cada estilo que nos has contado arriba!
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

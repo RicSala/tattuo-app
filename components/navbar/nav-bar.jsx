@@ -28,7 +28,7 @@ function NavBar({
         <div>
 
             <div className="fixed w-full bg-background shadow-sm text-foreground z-40">
-                <div className="py-4 border-b-[1px] border-border">
+                <div className="py-1 sm:py-4 border-b-[1px] border-border">
                     <Container>
                         <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
                             <div className="flex flex-row justify-between items-center gap-5">

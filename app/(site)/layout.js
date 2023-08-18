@@ -3,6 +3,7 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import Footer from "@/components/fotter";
 import NavBar from "@/components/navbar/nav-bar";
+import Container from "@/components/ui/container";
 // import Container from "@/components/ui/Container";
 
 const SiteLayout = async ({ children }) => {
@@ -18,10 +19,13 @@ const SiteLayout = async ({ children }) => {
                 currentUser={user}
 
             />
-            <div className="pb-20 pt-32 w-full bg-background text-foreground flex-grow container">
-                {/* <Container> */}
-                {children}
-                {/* </Container> */}
+            <div className="pb-20 sm:pt-32 pt-20 w-full bg-background text-foreground flex-grow p-2 sm:p-8">
+                <Container>
+
+                    {/* <Container> */}
+                    {children}
+                    {/* </Container> */}
+                </Container>
             </div>
             <Footer />
         </div>

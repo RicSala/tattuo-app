@@ -24,6 +24,8 @@ export default function ArtistDetailsCard({
     const router = useRouter()
     const { hasSaved, toggleSave } = useSave({ listingId: artist.id, currentUser: currentUser, listingType: 'artists' })
 
+    console.log({ hasSaved })
+
     return (
         <div className="
         w-96

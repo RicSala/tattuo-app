@@ -11,13 +11,13 @@ export default function BenefitsSection({
             <div
 
                 className="w-[calc(100%_-_3rem)] mx-auto max-w-lg lg:max-w-5xl xl:max-w-7xl">
-                <ul className="feature-v20__list grid grid-cols-12 gap-8">
+                <ul className="grid grid-cols-12 sm:gap-8 gap-y-5">
 
                     {
                         Object.keys(benefits).map((benefit, index) => {
                             return (
 
-                                <li key={index} className="feature-v20__item min-w-0 col-span-12 md:col-span-6 lg:col-span-3">
+                                <li key={index} className="min-w-0 col-span-12 md:col-span-6 lg:col-span-3">
                                     {/* <figure className="relative h-[52px] w-[52px] rounded-full flex items-center justify-center mx-auto mt-0 mb-6 text-primary shadow-[0_0_0_1px_hsla(230,13%,9%,0.05)]">
                                         <svg className="h-6 w-6 inline-block text-inherit fill-current leading-none z-[2]" viewBox="0 0 24 24" aria-hidden="true">
                                             <g fill="currentColor">

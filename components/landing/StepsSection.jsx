@@ -18,8 +18,8 @@ export default function StepsSection({
             {
               steps.map((step, index) => {
                 return (
-                  <li key={index} className="relative">
-                    <div className="hiw-v2__figure mb-5 lg:mb-8">
+                  <li key={index} className="relative mb-8 sm:mb-0">
+                    <div className="lg:mb-8">
                       <div className="relative min-h-[200px]">
                         <Image fill className="block w-full rounded-lg shadow-md object-cover" src={step.imageUrl} alt="Image description" />
                       </div>
@@ -33,7 +33,7 @@ export default function StepsSection({
                     </div>
 
                     <div>
-                      <h2 className="text-xl mb-1">{step.title}</h2>
+                      <h2 className="text-xl mb-1 mt-0">{step.title}</h2>
                       <p className="text-lg text-primary">{step.description}</p>
                     </div>
                   </li>

@@ -30,7 +30,7 @@ export default function Sidebar({
                 <Menu className="cursor-pointer"
                     onClick={() => { setSidebarOpen(true) }} />
             </SheetTrigger>
-            <SheetContent className={"flex flex-col justify-between"}>
+            <SheetContent className={"flex flex-col justify-start"}>
                 <div className="flex flex-col my-2">
                     <SheetHeader>
                         <SheetTitle asChild><Logo /></SheetTitle>
@@ -39,7 +39,7 @@ export default function Sidebar({
                             Bienvenidx a TATTUO
                         </SheetDescription>
                     </SheetHeader>
-                    <Separator className="my-5" />
+                    <Separator className="my-2 sm:my-5" />
                     {
                         artistMenuItems.map((el) => (
                             <MenuItem label={el.label} onClick={() => {
@@ -50,7 +50,7 @@ export default function Sidebar({
                             }} key={el.label} />
                         ))
                     }
-                    <Separator className="my-5" />
+                    <Separator className="my-1" />
                     {
                         clientMenuItems.map((el) => (
                             <MenuItem label={el.label} onClick={() => {
@@ -62,7 +62,7 @@ export default function Sidebar({
                         ))
                     }
 
-                    <Separator className="my-5" />
+                    <Separator className="my-1" />
                 </div>
                 <SheetFooter>
                     <div className="w-full text-center">
@@ -79,7 +79,6 @@ export default function Sidebar({
                                 </Button>
                                 :
                                 <div>
-                                    <Separator className="my-5" />
                                     <div className="flex flex-col space-y-3 items-center">
                                         <p>Para poder guardar tus favoritos y contactar con los artistas</p>
 
@@ -105,7 +104,6 @@ export default function Sidebar({
                                             onClick={() => { setLoginModalOpen(true) }}
                                         >Regístrate</Button> */}
                                     </div>
-                                    <Separator className="my-5" />
                                     <div className="flex flex-col space-y-2 items-center">
                                         <p>
                                             ¿Eres tatuador?
@@ -119,9 +117,11 @@ export default function Sidebar({
 
 
                                     </div>
+
                                 </div>
                         }
                     </div>
+
                 </SheetFooter>
             </SheetContent>
 

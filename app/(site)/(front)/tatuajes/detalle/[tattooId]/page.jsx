@@ -44,16 +44,17 @@ const TattooDetailsPage = async ({ params }) => {
     return (
 
 
-        <div className="container">
-            <div className="m-10 mx-auto max-w-screen-lg overflow-hidden rounded-xl border shadow-lg">
-                <div className="flex flex-col overflow-hidden lg:flex-row lg:h-[60vh]">
+        <div className="">
+            <div className="sm:m-10 mt-3 mx-auto max-w-screen-lg overflow-hidden rounded-xl border shadow-lg">
+                <div className="flex flex-col overflow-hidden lg:flex-row md:h-[70vh]">
 
                     <div className="
                     order-first
                     md:order-none
                     aspect-auto
 
-                    min-h-[60vh]
+                    sm:min-h-[60vh]
+                    min-h-[50vh]
                     relative
                     w-full
                     ">
@@ -65,7 +66,7 @@ const TattooDetailsPage = async ({ params }) => {
 
                     <div className="sidebar flex flex-col justify-between basis-80 flex-shrink-0 lg:overflow-x-auto">
                         <div>
-                            <h2 className="px-4 pt-4">
+                            <h2 className="px-4 sm:pt-4 pt-1 mt-0">
                                 {tattoo.title}
                             </h2>
                             <Separator />

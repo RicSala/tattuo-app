@@ -7,7 +7,8 @@ const MenuItem = ({ onClick, label, onMouseEnter }) => {
             onClick={onClick}
             className="
                 px-4
-                py-3
+                py-2
+                sm:py-3
                 cursor-pointer
                 transition
                 hover:bg-accent

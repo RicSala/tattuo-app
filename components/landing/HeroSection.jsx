@@ -15,15 +15,15 @@ export default function HeroSection({
     const { loginModalOpen, setLoginModalOpen } = useContext(UiContext)
 
     return (
-        <div className="relative mx-auto w-full rounded-lg px-4 sm:px-6 lg:px-8 overflow-hidden
+        <div className="relative mx-auto w-full rounded-lg px-4 sm:px-6 lg:px-8 overflow-hidden bg-primary
         ">
             <Image src={"/images/hero-bg.jpeg"} fill alt="hero image" className="
             absolute inset-0 h-full w-full object-cover
+            opacity-70
             
             " />
 
             <div className="
-            bg-primary/30
             bg-blend-saturation
             relative mx-auto overflow-hidden px-4 py-16
             sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl 
@@ -39,7 +39,7 @@ export default function HeroSection({
                             >{title}</h1>
                         }
                         {subtitle && <h2
-                            className="mb-4 max-w-xl text-base text-gray-200 md:text-lg"
+                            className="mb-4 max-w-xl text-base text-primary-foreground md:text-lg"
                         >{subtitle}</h2>}
 
                         {cta &&

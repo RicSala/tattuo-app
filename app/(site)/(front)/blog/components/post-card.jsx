@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
+import Image from "next/image";
 import Link from "next/link";
 
 const PostCard = ({
@@ -14,6 +15,8 @@ const PostCard = ({
         <Link href={`/blog/${slug}`}>
             <div className="
             border border-gray-200 dark:border-gray-800
+            relative
+            max-w-[18rem]
             p-4 rounded-md
             hover:shadow-md
             cursor-pointer
@@ -23,11 +26,17 @@ const PostCard = ({
             flex
             flex-col
             gap-3
+            overflow-hidden
+            isolate
             ">
 
-                <h2>{title}</h2>
+
+
+                <h3>{title}</h3>
                 {
-                    format(new Date(date), 'dd/MM/yyyy')
+                    <p>
+                        {format(new Date(date), 'dd/MM/yyyy')}
+                    </p>
                 }
                 {
                     tags && tags.length > 0 && (
@@ -42,7 +51,16 @@ const PostCard = ({
                         </div>
                     )
                 }
+                <Image src={`/images/slug.jpg`}
+                    fill
+                    alt=""
+                    className="object-cover -z-10
+                        opacity-70
+                    "
+                />
             </div>
+
+
         </Link>
     )
 };

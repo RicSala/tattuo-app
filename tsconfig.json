@@ -117,7 +117,8 @@
     "app/**/*",
     "actions/**/*",
     "components/**/*",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "lib/seedDb.mjs"
   ],
   "exclude": [
     "node_modules"

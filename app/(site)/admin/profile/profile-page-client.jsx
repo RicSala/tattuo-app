@@ -209,7 +209,7 @@ const ProfilePageClient = ({
             <Separator className="my-6"
             />
             <Alert>
-                <FormInputIcon className="h-4 w-4" />
+                <FormInputIcon className="w-4 h-4" />
                 <AlertTitle>Respecto a este formulario</AlertTitle>
                 <Separator className="my-2" />
                 <AlertDescription>
@@ -219,7 +219,7 @@ const ProfilePageClient = ({
 
 
             </Alert>
-            <div className="w-full md:w-1/2 mx-auto md:mt-14">
+            <div className="w-full mx-auto md:w-1/2 md:mt-14">
 
 
                 <Form {...form}>
@@ -339,7 +339,7 @@ const ProfilePageClient = ({
 
 
                         <h2>Precios</h2>
-                        <p className="text-primary/50 text-sm">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
+                        <p className="text-sm text-primary/50">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
                             en qué rango de precio estará la pieza. No es un compromiso, simplemente les sirve para hacerse a la idea antes de contactar!
                         </p>
 
@@ -490,7 +490,7 @@ const ProfilePageClient = ({
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="after:content-['*']">Algunos de tus trabajos</FormLabel>
-                                    <div className="flex flex-row gap-5">
+                                    <div className="flex flex-row flex-wrap gap-5">
                                         {
                                             field.value.map((image, index) => {
                                                 const onChange = async () => {
@@ -525,13 +525,13 @@ const ProfilePageClient = ({
 
                         <div className="flex flex-row justify-between mt-5">
                             <Button
-                                variant="outline" className="flex flex-row gap-2 items-center" >
+                                variant="outline" className="flex flex-row items-center gap-2" >
                                 <Undo />
                                 Cancelar
                             </Button>
                             <Button
                                 type="submit"
-                                className="flex flex-row gap-2 items-center" >
+                                className="flex flex-row items-center gap-2" >
                                 <Save />
                                 Guardar
                             </Button>

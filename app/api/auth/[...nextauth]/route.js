@@ -107,16 +107,21 @@ export const authOptions = {
         async jwt({ token }) {
 
             const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
+            console.log("CUSTOM LOG", dbUser)
 
             // Do we have to do this?
             if (!dbUser) { return token }
 
             if (dbUser.role === 'ARTIST') {
+                console.log("CUSTOM LOG IS ARTIST", dbUser)
+
                 const artistProfile = await prisma.artistProfile.findUnique({
                     where: {
                         userId: dbUser.id
                     }
                 })
+
+                console.log("CUSTOM LOG - ARTIST PROFILE", artistProfile)
 
                 token.artistProfileId = artistProfile.id
             }

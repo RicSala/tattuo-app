@@ -30,6 +30,10 @@ const TattooDetailsPage = async ({ params }) => {
 
     const similarTattoos = await getSimilarTattoos(tattoo);
 
+
+    const hostname = process.env.NODE_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/artists` : `${process.env.HOST_NAME_DEV}/api/artists`
+
+
     if (!tattoo) {
         return (
             notFound()
@@ -110,7 +114,7 @@ const TattooDetailsPage = async ({ params }) => {
                             </div>
 
                         </div>
-                        <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
+                        <ShareButtons url={`${hostname}/tatuajes/${tattoo.id}`} />
                         <div className="px-4 py-2">
                             <p>Artista:</p>
                             <ArtistSmallCard artist={tattoo.artistProfile} />

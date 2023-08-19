@@ -4,6 +4,7 @@
 // SITEMAP
 // ROBOTS.TXT
 
+import { getCurrentUser } from "@/actions/getCurrentUser"
 import BenefitsSection from "@/components/landing/BenefitsSection"
 import FaqSection from "@/components/landing/Faqs"
 import HeroSection from "@/components/landing/HeroSection"
@@ -58,6 +59,8 @@ const reviews = [
 
 export default async function Home({ searchParams }) {
 
+  const currentUser = await getCurrentUser()
+
   return (
 
     <>
@@ -68,7 +71,10 @@ export default async function Home({ searchParams }) {
           <HeroSection
             title={'Descubre tatuajes y tatuadores cerca de ti'}
             subtitle={'TATTUO selecciona los mejores tatuadores en tu ciudad y te pone en contacto con ellos'}
-            cta={'Empezar'} />
+            cta={'Empezar'}
+            currentUser={currentUser}
+
+          />
           {/* <ReviewsSection reviews={reviews} /> */}
           <FaqSection faqs={faqs} title="Preguntas frecuentes" />
 

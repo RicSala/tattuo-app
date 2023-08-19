@@ -37,7 +37,7 @@ const filtro2 = {
     value: 'city',
     options: cities
 }
-const endpoint = 'http://localhost:3000/api/artists'
+const endpoint = process.env.NODE_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/artists` : `${process.env.HOST_NAME_DEV}/api/artists`
 
 const numberOfPagesToLoad = 1
 const sizePerPage = 5

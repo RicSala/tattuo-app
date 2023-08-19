@@ -52,7 +52,7 @@ const filtro2 = {
     options: bodyParts
 }
 
-const endpoint = 'http://localhost:3000/api/tattoos'
+const endpoint = process.env.NODE_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/tattoos` : `${process.env.HOST_NAME_DEV}/api/tattoos`
 const sizePerPage = 5
 const numberOfPagesToLoad = 1
 const initialDataSize = numberOfPagesToLoad * sizePerPage

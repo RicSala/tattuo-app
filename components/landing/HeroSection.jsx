@@ -5,31 +5,25 @@ import { Button } from "../ui/button";
 import { useContext } from "react";
 import { UiContext } from "@/providers/ui/ui-provider";
 import GradientBorder from "../uiEffects/gradient-border";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection({
     title = "",
     subtitle = "",
-    cta = ""
+    cta = "",
+    currentUser,
 }) {
 
     const { loginModalOpen, setLoginModalOpen } = useContext(UiContext)
+    const router = useRouter()
 
     return (
-        <div className="relative mx-auto w-full rounded-lg px-4 sm:px-6 lg:px-8 overflow-hidden bg-primary
-        ">
-            <Image src={"/images/hero-bg.jpeg"} fill alt="hero image" className="
-            absolute inset-0 h-full w-full object-cover
-            opacity-70
-            
-            " />
+        <div className="relative w-full px-4 mx-auto overflow-hidden rounded-lg sm:px-6 lg:px-8 bg-primary ">
+            <Image src={"/images/hero-bg.jpeg"} fill alt="hero image" className="absolute inset-0 object-cover w-full h-full opacity-70" />
 
-            <div className="
-            bg-blend-saturation
-            relative mx-auto overflow-hidden px-4 py-16
-            sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl 
-            lg:px-8 lg:py-20">
+            <div className="relative px-4 py-16 mx-auto overflow-hidden bg-blend-saturation sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 lg:py-20">
                 <div className="flex flex-col items-center justify-between xl:flex-row">
-                    <div className="mb-12 w-full max-w-xl xl:mb-0 xl:w-7/12 xl:pr-16">
+                    <div className="w-full max-w-xl mb-12 xl:mb-0 xl:w-7/12 xl:pr-16">
 
 
                         {title &&
@@ -39,13 +33,18 @@ export default function HeroSection({
                             >{title}</h1>
                         }
                         {subtitle && <h2
-                            className="mb-4 max-w-xl text-base text-primary-foreground md:text-lg"
+                            className="max-w-xl mb-4 text-base text-primary-foreground md:text-lg"
                         >{subtitle}</h2>}
 
                         {cta &&
                             <GradientBorder>
                                 <Button size="lg"
-                                    onClick={() => { setLoginModalOpen(true) }}
+                                    onClick={() => {
+                                        currentUser ?
+                                            router.push("/tatuadores")
+                                            :
+                                            setLoginModalOpen(true)
+                                    }}
                                     className="z-10 
                                                             w-[95%]
                                                             h-[86%]

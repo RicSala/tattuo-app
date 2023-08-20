@@ -22,6 +22,7 @@ import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
 import { sanitize } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
 const formSchema = z.object({
@@ -205,6 +206,9 @@ const ProfilePageClient = ({
 
     return (
         <>
+
+
+
             <Heading title="Tu perfil" subtitle={"Cuéntanos sobre ti y sobre tus piezas"} />
             <Separator className="my-6"
             />
@@ -216,8 +220,6 @@ const ProfilePageClient = ({
                     Tus datos NO serán compartidos. Cuánta más información facilites, más fácil será que consigas clientes (lxs clientxs quiere saber quién eres!)<br />
                     Tu perfil solo se publicará cuando hayas rellenado todos los campos requeridos (marcados con *)
                 </AlertDescription>
-
-
             </Alert>
             <div className="w-full mx-auto md:w-1/2 md:mt-14">
 
@@ -226,302 +228,27 @@ const ProfilePageClient = ({
                     <form onSubmit={form.handleSubmit(onSubmit, onError)}
                         className="space-y-8">
 
-                        <h2>Información básica</h2>
+                        <Tabs defaultValue="general" className="w-full">
+                            <TabsList className="flex flex-row justify-between mb-5 overflow-x-auto">
+                                <TabsTrigger value="general">Información General</TabsTrigger>
+                                <TabsTrigger value="prices">Precios</TabsTrigger>
+                                <TabsTrigger value="socials">Redes y Contacto</TabsTrigger>
+                                <TabsTrigger value="images">Imágenes</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="general">
+                                <General form={form} cities={cities} styles={styles} />
+                            </TabsContent>
+                            <TabsContent value="prices">
+                                <Prices form={form} />
+                            </TabsContent>
+                            <TabsContent value="socials">
+                                <RedesYContacto form={form} />
+                            </TabsContent>
+                            <TabsContent value="images">
+                                <ProfileImages form={form} />
 
-                        {/* TODO: The imageUploader is a bit of a mess: not very reusable. Could be improved using form context? */}
-
-                        <FormField
-                            control={form.control}
-                            name="mainImage"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Foto principal</FormLabel>
-                                    <FormControl>
-                                        <ImageThumbnail placeholderUrl="/images/placeholder.svg" {...field} />
-                                    </FormControl>
-                                    <FormControl>
-                                        <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger}
-                                            disabled={form.formState.isLoading}
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Esta es la foto que aparecerá en tus publicaciones, como tu foto de perfil en otras redes sociales
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
-                        <FormField
-                            control={form.control}
-                            name="artisticName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="after:content-['*']">Nombre Artístico</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Aquí va tu nombre artístico" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        El nombre por el que se te conoce (Que a veces no es el que aparece en tu DNI!)
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Teléfono</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="666 123 456" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Teléfono al que te puedan escribir tus clientes.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="city"
-                            defaultOptions={cities}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="after:content-['*']">Ciudad</FormLabel>
-                                    <FormControl>
-                                        <AsyncSelect
-                                            placeholder="Donde sueles tatuar habitualmente"
-
-                                            {...field} resources="cities" />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Si tatúas en varias ciudades, de momento pon en la que más estás. Estamos desarrollando la funcionalidad para poner varias.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="bio"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="after:content-['*']">Bio</FormLabel>
-                                    <FormControl>
-                                        <Textarea placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los usuarios quieren conocerte mejor antes de decidirse a hacerse un tatuaje contigo
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
-
-
-                        <FormField
-                            control={form.control}
-                            name="styles"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="after:content-['*']">Estilos</FormLabel>
-                                    <FormControl>
-                                        <CustomSelect options={styles} isMulti={true} {...field}
-
-
-                                        />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Puedes elegir hasta tres estilos. Seguro que controlas muchos más, pero los clientes quieren saber lo que mejor se te da!
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
-
-                        <h2>Precios</h2>
-                        <p className="text-sm text-primary/50">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
-                            en qué rango de precio estará la pieza. No es un compromiso, simplemente les sirve para hacerse a la idea antes de contactar!
-                        </p>
-
-                        <FormField
-                            control={form.control}
-                            name="minWorkPrice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Precio mínimo</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" placeholder="100€" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="pricePerHour"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Precio por hora</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" placeholder="50€" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="pricePerSession"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Precio por sesión</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" placeholder="300€" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
-                        <h2>Contacto y redes</h2>
-                        <FormField
-                            control={form.control}
-                            name="facebook"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Facebook</FormLabel>
-                                    <FormControl>
-                                        <Input type="" placeholder="facebook.com/blackvic" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu perfil de Facebook
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="instagram"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Instagram</FormLabel>
-                                    <FormControl>
-                                        <Input type="" placeholder="instagram.com/blackvic" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu perfil de Instagram
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="tiktok"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>TikTok</FormLabel>
-                                    <FormControl>
-                                        <Input type="url" placeholder="tiktok.com/blackvic" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu perfil de TitTok
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="twitter"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Twitter</FormLabel>
-                                    <FormControl>
-                                        <Input type="" placeholder="twitter.com/blackvic" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu perfil de Twitter (o X..)
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="website"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Website</FormLabel>
-                                    <FormControl>
-                                        <Input type="" placeholder="www.blackvic.com" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu web
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="youtube"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Youtube</FormLabel>
-                                    <FormControl>
-                                        <Input type="" placeholder="youtube.com/blackvic" {...field} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Link a tu canal de Youtube
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
-
-                        <h2>Fotos de trabajos</h2>
-
-                        <FormField
-                            control={form.control}
-                            name="images"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="after:content-['*']">Algunos de tus trabajos</FormLabel>
-                                    <div className="flex flex-row flex-wrap gap-5">
-                                        {
-                                            field.value.map((image, index) => {
-                                                const onChange = async () => {
-                                                    const newImageArray = form.getValues("images").filter((img, i) => i !== index)
-                                                    field.onChange(newImageArray)
-                                                    // await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
-                                                }
-
-                                                return (
-                                                    <FormControl key={image}>
-                                                        <ImageThumbnail
-                                                            placeholderUrl="/images/placeholder.svg" value={image}
-                                                            onChange={onChange}
-
-                                                        />
-                                                    </FormControl>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <FormControl>
-                                        <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger} />
-                                    </FormControl>
-                                    <FormDescription>
-                                        Sube las tres piezas que más te representen!<br />
-                                        Mejor aún si son una de cada estilo que nos has contado arriba!
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-
+                            </TabsContent>
+                        </Tabs>
 
                         <div className="flex flex-row justify-between mt-5">
                             <Button
@@ -555,3 +282,344 @@ const ProfilePageClient = ({
 
 export default ProfilePageClient;
 
+
+const General = ({ form, cities, styles }) => {
+
+    return (
+        <>
+
+            <h2>Información básica</h2>
+
+            {/* TODO: The imageUploader is a bit of a mess: not very reusable. Could be improved using form context? */}
+
+            <FormField
+                control={form.control}
+                name="mainImage"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Foto principal</FormLabel>
+                        <FormControl>
+                            <ImageThumbnail placeholderUrl="/images/placeholder.svg" {...field} />
+                        </FormControl>
+                        <FormControl>
+                            <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger}
+                                disabled={form.formState.isLoading}
+                            />
+                        </FormControl>
+                        <FormDescription>
+                            Esta es la foto que aparecerá en tus publicaciones, como tu foto de perfil en otras redes sociales
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+            <FormField
+                control={form.control}
+                name="artisticName"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="after:content-['*']">Nombre Artístico</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Aquí va tu nombre artístico" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            El nombre por el que se te conoce (Que a veces no es el que aparece en tu DNI!)
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Teléfono</FormLabel>
+                        <FormControl>
+                            <Input placeholder="666 123 456" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Teléfono al que te puedan escribir tus clientes.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="city"
+                defaultOptions={cities}
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="after:content-['*']">Ciudad</FormLabel>
+                        <FormControl>
+                            <AsyncSelect
+                                placeholder="Donde sueles tatuar habitualmente"
+
+                                {...field} resources="cities" />
+                        </FormControl>
+                        <FormDescription>
+                            Si tatúas en varias ciudades, de momento pon en la que más estás. Estamos desarrollando la funcionalidad para poner varias.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="bio"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="after:content-['*']">Bio</FormLabel>
+                        <FormControl>
+                            <Textarea placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los usuarios quieren conocerte mejor antes de decidirse a hacerse un tatuaje contigo
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+
+
+            <FormField
+                control={form.control}
+                name="styles"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="after:content-['*']">Estilos</FormLabel>
+                        <FormControl>
+                            <CustomSelect options={styles} isMulti={true} {...field}
+
+
+                            />
+                        </FormControl>
+                        <FormDescription>
+                            Puedes elegir hasta tres estilos. Seguro que controlas muchos más, pero los clientes quieren saber lo que mejor se te da!
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+            <Button onClick={
+                () => {
+                    form.trigger(['artisticName', 'bio'])
+                    .then((shg) => {
+                        console.log({ shg })
+                    })
+                }
+            }>
+                Siguiente
+            </Button>
+        </>
+    )
+}
+
+
+const Prices = ({ form }) => {
+
+    return (
+        <>
+            <h2>Precios</h2>
+            <p className="text-sm text-primary/50">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
+                en qué rango de precio estará la pieza. No es un compromiso, simplemente les sirve para hacerse a la idea antes de contactar!
+            </p>
+
+            <FormField
+                control={form.control}
+                name="minWorkPrice"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Precio mínimo</FormLabel>
+                        <FormControl>
+                            <Input type="number" placeholder="100€" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="pricePerHour"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Precio por hora</FormLabel>
+                        <FormControl>
+                            <Input type="number" placeholder="50€" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="pricePerSession"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Precio por sesión</FormLabel>
+                        <FormControl>
+                            <Input type="number" placeholder="300€" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+        </>
+    )
+}
+
+
+const RedesYContacto = ({ form }) => {
+
+    return (
+        <>
+            <h2>Contacto y redes</h2>
+            <FormField
+                control={form.control}
+                name="facebook"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Facebook</FormLabel>
+                        <FormControl>
+                            <Input type="" placeholder="facebook.com/blackvic" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu perfil de Facebook
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="instagram"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Instagram</FormLabel>
+                        <FormControl>
+                            <Input type="" placeholder="instagram.com/blackvic" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu perfil de Instagram
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="tiktok"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>TikTok</FormLabel>
+                        <FormControl>
+                            <Input type="url" placeholder="tiktok.com/blackvic" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu perfil de TitTok
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="twitter"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Twitter</FormLabel>
+                        <FormControl>
+                            <Input type="" placeholder="twitter.com/blackvic" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu perfil de Twitter (o X..)
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Website</FormLabel>
+                        <FormControl>
+                            <Input type="" placeholder="www.blackvic.com" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu web
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            <FormField
+                control={form.control}
+                name="youtube"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Youtube</FormLabel>
+                        <FormControl>
+                            <Input type="" placeholder="youtube.com/blackvic" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link a tu canal de Youtube
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+        </>
+    )
+}
+
+
+const ProfileImages = ({ form }) => {
+
+    return (
+        <>
+
+
+            <h2>Fotos de trabajos</h2>
+
+            <FormField
+                control={form.control}
+                name="images"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="after:content-['*']">Algunos de tus trabajos</FormLabel>
+                        <div className="flex flex-row flex-wrap gap-5">
+                            {
+                                field.value.map((image, index) => {
+                                    const onChange = async () => {
+                                        const newImageArray = form.getValues("images").filter((img, i) => i !== index)
+                                        field.onChange(newImageArray)
+                                        // await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
+                                    }
+
+                                    return (
+                                        <FormControl key={image}>
+                                            <ImageThumbnail
+                                                placeholderUrl="/images/placeholder.svg" value={image}
+                                                onChange={onChange}
+
+                                            />
+                                        </FormControl>
+                                    )
+                                })
+                            }
+                        </div>
+                        <FormControl>
+                            <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger} />
+                        </FormControl>
+                        <FormDescription>
+                            Sube las tres piezas que más te representen!<br />
+                            Mejor aún si son una de cada estilo que nos has contado arriba!
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+        </>
+    )
+}

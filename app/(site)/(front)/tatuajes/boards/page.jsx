@@ -5,6 +5,8 @@ import EmptyState from '@/components/empty-state';
 import ListingGrid from '@/components/listings/listing-grid';
 import { getTattoosByBoardId } from '@/actions/getTattoosByBoardId';
 import BoardCard from '@/components/listings/board-card';
+export const dynamic = 'force-dynamic'
+
 
 
 

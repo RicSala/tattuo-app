@@ -7,6 +7,8 @@ import Heading from "@/components/heading";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { Separator } from "@/components/ui/separator";
+export const dynamic = 'force-dynamic'
+
 
 const MyTattoosPage = async ({ params }) => {
 

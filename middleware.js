@@ -15,8 +15,8 @@ import { NextResponse } from "next/server"
 // withAuth auments the rquest and puts the user token in the request object
 export default withAuth(
     function middleware(request) {
-        // console.log(request.nextUrl.pathname)
-        // console.log("TOKEN!!!", request.nextauth.token) // we have now the token available in the request!
+        console.log(request.nextUrl.pathname)
+        console.log("TOKEN!!!", request.nextauth.token) // we have now the token available in the request!
 
         // protect the paths of the users
         if ((request.nextUrl.pathname.includes("/tatuadores/saved")

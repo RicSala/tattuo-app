@@ -1,13 +1,12 @@
 // import { getCurrentUser } from "@/actions/getCurrentUser";
 // import Footer from "@/components/footer/Footer";
-import { getCurrentUser } from "@/actions/getCurrentUser";
 
-const SiteLayout = async ({ children }) => {
+const FrontLayout = async ({ children }) => {
 
     // REVIEW: why not passing current user to children through the layout?
     return (
 
-        <div className="flex flex-col min-h-screen justify-between ">
+        <div className="flex flex-col justify-between min-h-screen ">
             <div className="">
                 {/* <Container> */}
                 {children}
@@ -18,4 +17,4 @@ const SiteLayout = async ({ children }) => {
 
     )
 };
-export default SiteLayout;
+export default FrontLayout;

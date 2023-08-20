@@ -89,6 +89,15 @@ export function LoginForm({
                 }
             }
 
+        ).catch((error) => {
+            toast({
+                title: `Error al entrar`,
+                description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
+                variant: "destructive"
+            })
+
+            console.log("LOGIN ERROR - ", error)
+        }
         )
 
     }
@@ -103,7 +112,7 @@ export function LoginForm({
 
             <div className='text-center'>
                 <div className="text-2xl font-bold">Bienvenidx de nuevo</div>
-                <div className="font-light text-neutral-500 mt-2">Accede a tu cuenta</div>
+                <div className="mt-2 font-light text-neutral-500">Accede a tu cuenta</div>
             </div>
 
             <Form {...form}>
@@ -278,7 +287,7 @@ export function RegisterForm({
 
             <div className='text-center'>
                 <div className="text-2xl font-bold">Bienvenido a TATTUO</div>
-                <div className="font-light text-neutral-500 mt-2">Crea tu cuenta</div>
+                <div className="mt-2 font-light text-neutral-500">Crea tu cuenta</div>
             </div>
 
             <Form {...form}>

@@ -20,6 +20,7 @@ function NavBar({
 }) {
 
     const router = useRouter()
+    const userTheme = currentUser?.settings.darkMode
 
 
     // Create a navBar component that will be used in the layout.js file
@@ -27,11 +28,11 @@ function NavBar({
         // <Container>
         <div>
 
-            <div className="fixed w-full bg-background shadow-sm text-foreground z-40">
+            <div className="fixed z-40 w-full shadow-sm bg-background text-foreground">
                 <div className="py-1 sm:py-4 border-b-[1px] border-border">
                     <Container>
                         <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
-                            <div className="flex flex-row justify-between items-center gap-5">
+                            <div className="flex flex-row items-center justify-between gap-5">
                                 <Logo />
 
                                 <div className="hidden sm:flex">
@@ -43,7 +44,7 @@ function NavBar({
                                 currentUser={currentUser}
 
                             /> */}
-                            <div className="flex flex-row justify-center items-center gap-2">
+                            <div className="flex flex-row items-center justify-center gap-2">
                                 <Avatar className="cursor-pointer"
                                     onClick={() => {
                                         router.push('/admin/profile')
@@ -54,7 +55,7 @@ function NavBar({
                                         currentUser?.name.split(" ").slice(0, 2).map((name) => name[0]).join("")
                                     }</AvatarFallback>
                                 </Avatar>
-                                <ModeToggle />
+                                <ModeToggle userTheme={userTheme} />
                                 <Sidebar className="" currentUser={currentUser} />
 
                             </div>

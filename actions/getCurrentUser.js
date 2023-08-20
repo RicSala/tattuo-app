@@ -48,6 +48,7 @@ export async function getCurrentUser() {
             },
             include: {
                 boards: true,
+                settings: true,
             },
         });
 
@@ -66,6 +67,7 @@ export async function getCurrentUser() {
             savedIds: session.user.savedIds,
         };
     } catch (error) {
+        console.error(error)
         return null;
     }
 }

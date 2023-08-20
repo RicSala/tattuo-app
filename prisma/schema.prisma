@@ -33,6 +33,20 @@ model User {
   likedArtists LikedArtist[]
 
   // messages Message[]
+  settings Settings?
+}
+
+model Settings {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // RELATIONS
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @db.ObjectId
+
+  // Settings fields
+  darkMode Boolean @default(false)
 }
 
 // TODO: change from saves to savedTattoos

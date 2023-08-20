@@ -12,8 +12,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function ModeToggle() {
+export function ModeToggle({
+    userTheme
+}) {
     const { setTheme } = useTheme()
+
+    React.useEffect((props) => {
+        userTheme === true ? setTheme('dark') : setTheme('light')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userTheme]);
 
     return (
         <DropdownMenu>

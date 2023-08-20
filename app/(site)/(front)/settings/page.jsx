@@ -3,13 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountSettings from "./components/account-settings";
 import NotificationsSettings from "./components/notifications-settings";
 import AppearanceSettings from "./components/appearance-settings";
+import EmptyState from "@/components/empty-state";
 
 export default async function SettingsPage({
 
 }) {
 
     const currentUser = await getCurrentUser()
-
 
     return (
 

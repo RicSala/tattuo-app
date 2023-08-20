@@ -12,14 +12,6 @@ export default async function BoardsPage({ searchParams }) {
 
     const currentUser = await getCurrentUser()
 
-    if (!currentUser) {
-        return (
-            <EmptyState title="No estás autorizado. Por favor, loguéate"
-                subtitle='Desde tu cuenta podrás guardar tus artistas favoritos y contactar con ellos'
-            />
-        )
-    }
-
     const boards = currentUser?.boards
 
 

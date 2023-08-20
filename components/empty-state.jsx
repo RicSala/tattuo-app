@@ -15,14 +15,7 @@ const EmptyState = ({
     const router = useRouter();
     return (
         <div
-            className="
-        h-[60vh]
-        flex
-        flex-col
-        gap-2
-        justify-center
-        items-center
-        ">
+            className="flex flex-col items-center justify-center h-full gap-2 ">
             <Heading
                 center
                 title={title}

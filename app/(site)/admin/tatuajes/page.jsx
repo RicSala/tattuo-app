@@ -12,18 +12,6 @@ const MyTattoosPage = async ({ params }) => {
 
     const currentUser = await getCurrentUser()
 
-    if (!currentUser) {
-        return (
-            <EmptyState title="No estás autorizado. Por favor, loguéate" />
-        )
-    }
-
-    if (!currentUser.artistProfileId) {
-        return (
-            <EmptyState title="No estás autorizado. Por favor, loguéate como tatuador" />
-        )
-    }
-
     const tattoos = await getTattoosByArtistId(currentUser.artistProfileId);
 
     if (tattoos.length < 1) {
@@ -67,7 +55,7 @@ const MyTattoosPage = async ({ params }) => {
                                 likeable={false}
                             >
                                 {/* TODO: improve style */}
-                                <div className="flex flex-row w-full justify-start gap-2 mb-2">
+                                <div className="flex flex-row justify-start w-full gap-2 mb-2">
                                     <DeleteTattooButton
                                         tattooId={tattoo.id}
                                     >

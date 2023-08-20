@@ -12,12 +12,6 @@ const SavedTattoosPage = async ({ params }) => {
 
     const currentUser = await getCurrentUser()
 
-    if (!currentUser) {
-        return (
-            <EmptyState title="No estás autorizado. Por favor, loguéate" />
-        )
-    }
-
     const artists = await getSavedArtistsByUserId(currentUser.id)
 
     if (artists.length < 1) {

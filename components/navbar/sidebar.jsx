@@ -39,16 +39,24 @@ export default function Sidebar({
                             Bienvenidx a TATTUO
                         </SheetDescription>
                     </SheetHeader>
-                    <Separator className="my-2 sm:my-5" />
                     {
-                        artistMenuItems.map((el) => (
-                            <MenuItem label={el.label} onClick={() => {
-                                router.push(el.url)
-                                setSidebarOpen(false)
+                        currentUser?.role === 'ARTIST' ?
+                            <>
+
+                                <Separator className="my-2 sm:my-5" />
+                                {
+                                    artistMenuItems.map((el) => (
+                                        <MenuItem label={el.label} onClick={() => {
+                                            router.push(el.url)
+                                            setSidebarOpen(false)
 
 
-                            }} key={el.label} />
-                        ))
+                                        }} key={el.label} />
+                                    ))
+                                }
+                            </>
+                            :
+                            null
                     }
                     <Separator className="my-1" />
                     {

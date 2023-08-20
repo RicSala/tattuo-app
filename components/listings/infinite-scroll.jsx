@@ -38,8 +38,6 @@ export function InfiniteScroll({
         pageParams: [Math.ceil(initialData.length / sizePerPage)],
     }
 
-    console.log({ initialData })
-
     const realFetch = async (page = 1) => {
         const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${filter ? `&contentSlug=${filter.contentSlug}` : ""}
         `)
@@ -120,8 +118,6 @@ export function InfiniteScroll({
                     const childProps = { data: element };
                     // add the currrnt user to the props
                     childProps.currentUser = currentUser;
-
-                    console.log({ childProps })
 
                     return (
                         // if it's the last post of the last page, we set the ref

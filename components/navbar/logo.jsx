@@ -9,7 +9,8 @@ export default function Logo() {
 
     const { theme } = useTheme()
 
-    const logoUrl = theme === "light" ? "/images/logo.png" : "/images/logo-dark.png"
+    //TODO: what about when is theme === "system"?
+    const logoUrl = theme !== "dark" ? "/images/logo.png" : "/images/logo-dark.png"
 
 
     // TODO: Why this component does not have fastrefresh??
@@ -19,9 +20,7 @@ export default function Logo() {
     return (
         <div
             onClick={() => router.push("/")}
-            className="
-            cursor-pointer
-            "
+            className="cursor-pointer "
         >
             <Image
                 className="

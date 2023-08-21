@@ -1,16 +1,15 @@
 import Image from "next/image";
 
 export default function MdxImage({
-    src, alt, priority = false
+    src,
+    alt,
+    priority = false,
+    className
 }) {
     return (
         // <div className="w-full h-full">
         <Image
-            className="
-            h-20
-            w-20
-            "
-
+            className={className}
             alt={alt}
             width={650}
             height={650}

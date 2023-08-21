@@ -1,7 +1,8 @@
-import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import PostBody from "../components/post-body";
 import { getPost, getPosts } from "@/lib/posts";
+import PostHeader from "./components/post-header";
+import Toc from "./components/toc";
 
 
 // the posts for which we want to generate static pages
@@ -47,28 +48,12 @@ export default async function PostPage({
 
     if (!post) return notFound()
 
-    const { tags } = post;
 
     return (
         <div className="flex flex-col gap-2">
-            {/* TITLE */}
-            <h1 className="font-semibold text-3xl text-primary">{post.title}</h1>
 
-
-            {/* TAGS */}
-            {
-                tags && tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                        {
-                            tags.map((tag) => (
-                                <Badge key={tag}>
-                                    {tag}
-                                </Badge>
-                            ))
-                        }
-                    </div>
-                )
-            }
+            <PostHeader post={post} />
+            <Toc headings={post.headings} />
 
             {/* BODY */}
             <PostBody>

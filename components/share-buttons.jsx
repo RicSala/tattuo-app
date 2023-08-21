@@ -4,31 +4,34 @@ import { FacebookIcon } from 'lucide-react';
 import { FacebookShareButton, PinterestShareButton, WhatsappShareButton } from 'react-share';
 
 const ShareButtons = ({
+    title,
     url,
     facebookQuote,
     facebookHashtag,
     whatsappTitle,
     pinterestImage,
     pinterestDescription,
+    iconsSize = 20
 }) => {
     return (
         <div>
-
-            <div className='flex justify-center items-center mb-2'>
-                <p>
-                    Compártelo!
-                </p>
-            </div>
-            <div className='
-        flex flex-row justify-center items-center gap-3
-        '>
+            {title ?
+                <div className='flex items-center justify-center mb-2'>
+                    <p>
+                        Compártelo!
+                    </p>
+                </div> : null
+            }
+            <div className='flex flex-row items-center justify-center gap-3 '>
                 <FacebookShareButton
                     url={url}
                     quote={"Check out this awesome article!"}
                     hashtag={"#tattoo"}
                 >
-                    <div className="rounded-full bg-primary text-primary-foreground p-2 hover:bg-primary/80">
+                    <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
                         <FacebookIcon
+                            width={iconsSize}
+                            height={iconsSize}
                         />
                     </div>
 
@@ -39,8 +42,10 @@ const ShareButtons = ({
                     title={whatsappTitle}
                     separator=':: '
                 >
-                    <div className="rounded-full bg-primary text-primary-foreground p-2 hover:bg-primary/80">
+                    <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
                         <FacebookIcon
+                            width={iconsSize}
+                            height={iconsSize}
                         />
                     </div>
                 </WhatsappShareButton>
@@ -49,8 +54,10 @@ const ShareButtons = ({
                     media={pinterestImage}
                     description={pinterestDescription}
                 >
-                    <div className="rounded-full bg-primary text-primary-foreground p-2 hover:bg-primary/80">
+                    <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
                         <FacebookIcon
+                            width={iconsSize}
+                            height={iconsSize}
                         />
                     </div>
                 </PinterestShareButton>

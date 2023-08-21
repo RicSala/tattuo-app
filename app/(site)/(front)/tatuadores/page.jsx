@@ -7,14 +7,11 @@ import { getCities } from '@/lib/getCities'
 // import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 import Heading from '@/components/heading'
 import EmptyState from '@/components/empty-state'
-import ListingGrid from '@/components/listings/listing-grid'
 import { Separator } from '@/components/ui/separator'
 import SearchBar from '@/components/search/search-bar'
 import FreeSearch from '@/components/search/free-search'
 import SearchFilterButton from '@/components/search/search-filter-button'
 import InfiniteListingGrid from '@/components/listings/infinite-listing-grid'
-import { getArtistsByCityName } from '@/actions/getArtistsByCityName'
-import AsyncSelect from '@/components/async-select'
 import CitiesAsyncSelect from '@/components/cities-async-select'
 export const dynamic = "force-dynamic";
 
@@ -44,6 +41,7 @@ const sizePerPage = 5
 const initialDataSize = (numberOfPagesToLoad * sizePerPage)
 
 export default async function ArtistPage({ searchParams }) {
+
 
     const artists = await getArtists(
         searchParams,

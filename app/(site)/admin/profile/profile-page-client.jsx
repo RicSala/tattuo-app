@@ -1,113 +1,50 @@
 'use client'
 
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
+import { Form, } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "@/components/ui/textarea";
-import AsyncSelect from "@/components/async-select";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Button } from "@/components/ui/button";
-import { FormInputIcon, Save, Undo } from "lucide-react";
+import { Check, FormInputIcon, Redo, Save, Undo, X } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
-import { sanitize } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRouter } from "next/navigation";
+import { formSchema } from "./components/zod-resolver";
+import General from "./components/general";
+import Prices from "./components/prices";
+import Socials from "./components/socials";
+import Images from "./components/images";
 
 
-const formSchema = z.object({
-    artisticName: z.string({
-        message: "Debes subir una imagen"
-    }).min(1, {
-        message: "El nombre artístico debe tener al menos 2 caracteres.",
-    }).max(20, {
-        message: "El nombre artístico debe tener menos de 20 caracteres.",
-    }),
-    mainImage: z.union([z.string().min(2, {
-        message: "Tienes que subir una imagen de perfil",
-    }), z.literal(null).refine(value => typeof value === 'string', {
-        message: "Tienes que subir una imagen de perfil",
-    }),
-    ]),
-    bio: z.string().min(50, {
-        message: "Tu bio debe tener al menos 50 caracteres",
-    }).max(100, {
-        message: "Sabemos que nos quieres contar muchas cosas, pero deja algo para cuando nos veamos! La bio no puede tener más de 100 caracteres"
-    })
+const STEPS = [
+    {
+        key: 'general', label: 'General',
+        validations: ['artisticName', 'bio', 'styles', 'city']
+    },
+    {
+        key: 'prices', label: 'Precios',
+        validations: []
 
-        .transform(text => {
-            return sanitize(text)
-        }),
-    minWorkPrice: z.coerce.number().min(0, {
-        message: "Debes ingresar un precio mínimo",
-    }),
-    pricePerHour: z.coerce.number().min(0, {
-        message: "Debes ingresar un precio por hora",
-    }),
-    pricePerSession: z.coerce.number().min(0, {
-        message: "Debes ingresar un precio por sesión",
-    }),
+    },
+    {
+        key: 'socials', label: 'Redes',
+        validations: ['facebook', 'instagram', 'tiktok', 'twitter', 'website', 'youtube']
 
-    facebook: z.string()
-        .refine(value => value.includes('facebook.com'), {
-            message: "Debe ser un perfil válido de Facebook"
-        })
-    ,
-    instagram: z.union([z.string().refine(value => value.includes('facebook.com'), {
-        message: "Debe ser un perfil válido de Facebook"
-    }), z.literal("")]),
+    },
+    {
+        key: 'images', label: 'Imágenes',
+        validations: ['images']
 
-    tiktok: z.union([z.string().refine(value => value.includes('facebook.com'), {
-        message: "Debe ser un perfil válido de Facebook"
-    }), z.literal("")]),
-
-    twitter: z.union([z.string().refine(value => (value.includes('twitter.com') || value.includes('x.com')), {
-        message: "Debe ser un perfil válido de Facebook"
-    }), z.literal("")]),
-
-    youtube: z.union([z.string().refine(value => value.includes('youtube.com'), {
-        message: "Debe ser un perfil válido de Facebook"
-    }), z.literal("")]),
-
-    website: z.union([z.string().url({
-        message: "Tu web debe ser una url válida"
-    }), z.literal("")]),
-
-    images: z.array(z.string()).min(1, {
-        message: "Debes subir al menos una imagen",
-    }),
-
-    phone: z.string().min(8, {
-        message: "Debes ingresar un número de teléfono válido",
-    }).max(12, {
-        message: "Debes ingresar un número de teléfono válido",
-
-    }),
-    city: z.object({
-        id: z.string(),
-        label: z.string(),
-        value: z.string()
-
-    }),
-
-    styles: z.array(z.any()).min(1, {
-        message: "Debes seleccionar al menos un estilo",
-    }).max(3, {
-        message: "Como máximo 3 estilos"
-    })
-
-})
-
+    },
+];
 
 const ProfilePageClient = ({
     artist,
@@ -116,6 +53,14 @@ const ProfilePageClient = ({
 }) => {
 
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedTab, setSelectedTab] = useState(0)
+    const [stepsStatus, setStepsStatus] = useState({})
+
+    const router = useRouter()
+
+
+    const tabsRef = useRef()
+    const tabRefs = useRef([]);
 
     // create a ref with a list of the images when the component mounts
     // so we delete them only when the form is submitted
@@ -124,7 +69,10 @@ const ProfilePageClient = ({
     const imagesRef = useRef(artist.images)
     const mainImageRef = useRef(artist.mainImage)
 
+
     const form = useForm({
+
+        mode: "onBlur",
 
         resolver: zodResolver(formSchema),
 
@@ -149,11 +97,40 @@ const ProfilePageClient = ({
 
         }
     })
+    // TODO: Read about the fact that React Hook Form uses a "proxy" and we need to do this to "subscribe" to changes...??
+    const { isDirty, isSubmitted } = form.formState;
+
+
+    // Update the validity of each step / tab
+    useEffect(() => {
+        async function validateSteps() {
+            const isValidArray = await Promise.all(STEPS.map(step => form.trigger(step.validations)));
+            setStepsStatus(() => isValidArray);
+        }
+
+        validateSteps();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedTab, form.formState.errors]);
+
+    // scroll the the beginning of each step/tab when clicked "Siguiente"
+    useEffect(() => {
+        if (tabRefs.current[selectedTab]) {
+            tabRefs.current[selectedTab].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'center' });
+        }
+    }, [selectedTab]);
+
+
+    const scrollToTabList = () => {
+        const yOffset = -100; // Adjust this value as needed
+        const y = tabsRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+    }
 
 
     const onSubmit = async (data) => {
 
-        setIsLoading(true)
+        // Not used for now
+        // setIsLoading(true)
 
         const imagesToDelete = imagesRef.current.filter(img => !data.images.includes(img))
         const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
@@ -175,8 +152,6 @@ const ProfilePageClient = ({
         imagesRef.current = data.images
         mainImageRef.current = data.mainImage
 
-        console.log("data", data)
-
         axios.put(`/api/artists/${artist.id}`, data)
             .then(res => {
 
@@ -193,23 +168,31 @@ const ProfilePageClient = ({
                 })
             })
             .finally(() => {
-                // setIsLoading(false)
+                form.reset(data,
+                    {
+                        keepIsSubmitted: true
+                    }
+                )
             })
     }
 
     const onError = (errors, e) => {
         toast({
+            variant: "destructive",
             title: `Error al guardar`,
             description: "Por favor, revisa el formulario"
         })
+
+        console.log("ARTIST PROFILE PAGE ERROR - ", errors)
     };
+
+
+
 
     return (
         <>
-
-
-
             <Heading title="Tu perfil" subtitle={"Cuéntanos sobre ti y sobre tus piezas"} />
+
             <Separator className="my-6"
             />
             <Alert>
@@ -221,56 +204,140 @@ const ProfilePageClient = ({
                     Tu perfil solo se publicará cuando hayas rellenado todos los campos requeridos (marcados con *)
                 </AlertDescription>
             </Alert>
+
             <div className="w-full mx-auto md:w-1/2 md:mt-14">
-
-
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit, onError)}
                         className="space-y-8">
+                        <Tabs
+                            ref={tabsRef}
+                            value={STEPS[selectedTab].key}
+                            onValueChange={(value) =>
+                                // index whose key is value
+                                setSelectedTab(STEPS.findIndex(step => step.key === value))
+                            }
+                            className="w-full">
+                            <TabsList className="flex flex-row justify-between h-auto mb-5 overflow-x-auto">
+                                {
 
-                        <Tabs defaultValue="general" className="w-full">
-                            <TabsList className="flex flex-row justify-between mb-5 overflow-x-auto">
-                                <TabsTrigger value="general">Información General</TabsTrigger>
-                                <TabsTrigger value="prices">Precios</TabsTrigger>
-                                <TabsTrigger value="socials">Redes y Contacto</TabsTrigger>
-                                <TabsTrigger value="images">Imágenes</TabsTrigger>
+
+                                    STEPS.map((step, i) => {
+                                        return (
+                                            <TabsTrigger
+                                                ref={el => tabRefs.current[i] = el}
+                                                value={step.key} key={step.key} className="flex flex-row gap-1">
+                                                <p>
+                                                    {i + 1}. {step.label}
+                                                </p>
+                                                {
+                                                    (stepsStatus[i] === true && i <= selectedTab) ?
+                                                        <Check color="green" /> : null
+                                                }
+                                                {/* {
+                                                    //Not using this for now.
+                                                    (stepsStatus[i] === false && i <= selectedTab) ?
+                                                        <X color="red" /> : null
+                                                } */}
+                                            </TabsTrigger>
+                                        )
+                                    })
+                                }
                             </TabsList>
                             <TabsContent value="general">
-                                <General form={form} cities={cities} styles={styles} />
+                                <General form={form} cities={cities} styles={styles} setSelectedTab={setSelectedTab} />
                             </TabsContent>
                             <TabsContent value="prices">
                                 <Prices form={form} />
                             </TabsContent>
                             <TabsContent value="socials">
-                                <RedesYContacto form={form} />
+                                <Socials form={form} />
                             </TabsContent>
                             <TabsContent value="images">
-                                <ProfileImages form={form} />
-
+                                <Images form={form} />
                             </TabsContent>
                         </Tabs>
 
-                        <div className="flex flex-row justify-between mt-5">
-                            <Button
-                                variant="outline" className="flex flex-row items-center gap-2" >
-                                <Undo />
-                                Cancelar
-                            </Button>
-                            <Button
-                                type="submit"
-                                className="flex flex-row items-center gap-2" >
-                                <Save />
-                                Guardar
-                            </Button>
 
-                        </div>
+                        {
+
+                            <div className="flex flex-row justify-between mt-5">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="flex flex-row items-center gap-2"
+                                    onClick={
+                                        () => {
+                                            if (selectedTab > 0) {
+                                                setSelectedTab(prev => prev - 1)
+                                                scrollToTabList()
+
+                                            }
+
+                                            if (selectedTab === 0) router.back()
+                                        }
+                                    }>
+                                    <Undo />
+                                    {
+                                        selectedTab === 0 ? 'Cancelar' : 'Anterior'
+
+                                    }
+                                </Button>
+                                {/*TODO: Using just one ternary instead of two was creating a bug.
+                                            (I mean, putting the both buttons in the same ternary condition) 
+                                            Understand why this was happening and how to solve it
+                                            */}
+                                {
+                                    (selectedTab !== STEPS.length - 1) ?
+
+                                        <Button
+                                            type="button"
+                                            className="flex flex-row items-center gap-2"
+                                            onClick={
+                                                () => {
+                                                    form.trigger(STEPS[selectedTab].validations)
+                                                        .then((isValid) => {
+                                                            if (isValid && selectedTab < STEPS.length - 1) {
+                                                                setSelectedTab(prev => prev + 1)
+                                                                scrollToTabList()
+                                                                //TODO: is there a more declarative way to do this? 
+                                                                // tabsRef.current.scrollIntoView()
+                                                            }
+                                                        })
+                                                }
+                                            }>
+                                            Siguiente
+                                            <Redo />
+                                        </Button>
+                                        : null
+                                }
+                                {
+                                    (selectedTab === STEPS.length - 1) ?
+
+                                        <Button
+                                            type="submit"
+                                            className="flex flex-row items-center gap-2"
+                                        >
+                                            {
+                                                (isSubmitted &&
+                                                    !isDirty
+                                                ) ?
+                                                    <>
+                                                        Guardado
+                                                        <Check color="green" />
+                                                    </>
+                                                    : `Guardar`}
+                                            <Save />
+                                        </Button>
+
+                                        : null
+                                }
+
+                            </div>
+
+                        }
                     </form>
                 </Form>
             </div>
-
-
-
-
 
             {/* Dev tools for React Hook Forms  */}
             {/* <DevTool control={form.control} /> */}
@@ -281,345 +348,3 @@ const ProfilePageClient = ({
 }
 
 export default ProfilePageClient;
-
-
-const General = ({ form, cities, styles }) => {
-
-    return (
-        <>
-
-            <h2>Información básica</h2>
-
-            {/* TODO: The imageUploader is a bit of a mess: not very reusable. Could be improved using form context? */}
-
-            <FormField
-                control={form.control}
-                name="mainImage"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Foto principal</FormLabel>
-                        <FormControl>
-                            <ImageThumbnail placeholderUrl="/images/placeholder.svg" {...field} />
-                        </FormControl>
-                        <FormControl>
-                            <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger}
-                                disabled={form.formState.isLoading}
-                            />
-                        </FormControl>
-                        <FormDescription>
-                            Esta es la foto que aparecerá en tus publicaciones, como tu foto de perfil en otras redes sociales
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-
-            <FormField
-                control={form.control}
-                name="artisticName"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="after:content-['*']">Nombre Artístico</FormLabel>
-                        <FormControl>
-                            <Input placeholder="Aquí va tu nombre artístico" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            El nombre por el que se te conoce (Que a veces no es el que aparece en tu DNI!)
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Teléfono</FormLabel>
-                        <FormControl>
-                            <Input placeholder="666 123 456" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Teléfono al que te puedan escribir tus clientes.
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="city"
-                defaultOptions={cities}
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="after:content-['*']">Ciudad</FormLabel>
-                        <FormControl>
-                            <AsyncSelect
-                                placeholder="Donde sueles tatuar habitualmente"
-
-                                {...field} resources="cities" />
-                        </FormControl>
-                        <FormDescription>
-                            Si tatúas en varias ciudades, de momento pon en la que más estás. Estamos desarrollando la funcionalidad para poner varias.
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="bio"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="after:content-['*']">Bio</FormLabel>
-                        <FormControl>
-                            <Textarea placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los usuarios quieren conocerte mejor antes de decidirse a hacerse un tatuaje contigo
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-
-
-
-            <FormField
-                control={form.control}
-                name="styles"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="after:content-['*']">Estilos</FormLabel>
-                        <FormControl>
-                            <CustomSelect options={styles} isMulti={true} {...field}
-
-
-                            />
-                        </FormControl>
-                        <FormDescription>
-                            Puedes elegir hasta tres estilos. Seguro que controlas muchos más, pero los clientes quieren saber lo que mejor se te da!
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-
-            <Button onClick={
-                () => {
-                    form.trigger(['artisticName', 'bio'])
-                    .then((shg) => {
-                        console.log({ shg })
-                    })
-                }
-            }>
-                Siguiente
-            </Button>
-        </>
-    )
-}
-
-
-const Prices = ({ form }) => {
-
-    return (
-        <>
-            <h2>Precios</h2>
-            <p className="text-sm text-primary/50">Entramos en un tema complicado.<br /> Sabemos que es difícil estimar el precio de un tatuaje, pero los clientes que te vean querrán saber (más o menos)
-                en qué rango de precio estará la pieza. No es un compromiso, simplemente les sirve para hacerse a la idea antes de contactar!
-            </p>
-
-            <FormField
-                control={form.control}
-                name="minWorkPrice"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Precio mínimo</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="100€" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="pricePerHour"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Precio por hora</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="50€" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="pricePerSession"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Precio por sesión</FormLabel>
-                        <FormControl>
-                            <Input type="number" placeholder="300€" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Precio del trabajo que aceptas como mínimo (Es decir, el trabajo más pequeño que quieres aceptar)
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-
-        </>
-    )
-}
-
-
-const RedesYContacto = ({ form }) => {
-
-    return (
-        <>
-            <h2>Contacto y redes</h2>
-            <FormField
-                control={form.control}
-                name="facebook"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Facebook</FormLabel>
-                        <FormControl>
-                            <Input type="" placeholder="facebook.com/blackvic" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu perfil de Facebook
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="instagram"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Instagram</FormLabel>
-                        <FormControl>
-                            <Input type="" placeholder="instagram.com/blackvic" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu perfil de Instagram
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="tiktok"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>TikTok</FormLabel>
-                        <FormControl>
-                            <Input type="url" placeholder="tiktok.com/blackvic" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu perfil de TitTok
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="twitter"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Twitter</FormLabel>
-                        <FormControl>
-                            <Input type="" placeholder="twitter.com/blackvic" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu perfil de Twitter (o X..)
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="website"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Website</FormLabel>
-                        <FormControl>
-                            <Input type="" placeholder="www.blackvic.com" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu web
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-            <FormField
-                control={form.control}
-                name="youtube"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Youtube</FormLabel>
-                        <FormControl>
-                            <Input type="" placeholder="youtube.com/blackvic" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                            Link a tu canal de Youtube
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-
-        </>
-    )
-}
-
-
-const ProfileImages = ({ form }) => {
-
-    return (
-        <>
-
-
-            <h2>Fotos de trabajos</h2>
-
-            <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="after:content-['*']">Algunos de tus trabajos</FormLabel>
-                        <div className="flex flex-row flex-wrap gap-5">
-                            {
-                                field.value.map((image, index) => {
-                                    const onChange = async () => {
-                                        const newImageArray = form.getValues("images").filter((img, i) => i !== index)
-                                        field.onChange(newImageArray)
-                                        // await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
-                                    }
-
-                                    return (
-                                        <FormControl key={image}>
-                                            <ImageThumbnail
-                                                placeholderUrl="/images/placeholder.svg" value={image}
-                                                onChange={onChange}
-
-                                            />
-                                        </FormControl>
-                                    )
-                                })
-                            }
-                        </div>
-                        <FormControl>
-                            <ImageUploader field={field} setValue={form.setValue} trigger={form.trigger} />
-                        </FormControl>
-                        <FormDescription>
-                            Sube las tres piezas que más te representen!<br />
-                            Mejor aún si son una de cada estilo que nos has contado arriba!
-                        </FormDescription>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-        </>
-    )
-}

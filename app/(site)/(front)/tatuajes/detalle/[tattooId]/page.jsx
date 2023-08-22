@@ -49,7 +49,7 @@ const TattooDetailsPage = async ({ params }) => {
 
 
         <div className="">
-            <div className="max-w-screen-lg mx-auto mt-3 overflow-hidden border shadow-lg sm:m-10 rounded-xl">
+            <div className="max-w-screen-lg mx-auto mt-3 overflow-hidden border shadow-lg sm:my-10 rounded-xl">
                 <div className="flex flex-col overflow-hidden lg:flex-row md:h-[70vh]">
 
                     <div className="order-first md:order-none aspect-auto

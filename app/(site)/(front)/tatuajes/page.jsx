@@ -59,6 +59,8 @@ export default async function TattoosPage({ searchParams, }) {
 
     const currentUser = await getCurrentUser()
 
+    console.log({ serverLoadedTattoos })
+
     if (serverLoadedTattoos.length < 1) {
         return (
             <Container>

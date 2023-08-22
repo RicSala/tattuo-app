@@ -36,6 +36,7 @@ export default function TattooCard({
                     description: "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
                 })
                 router.refresh()
+                console.log("response", res)
                 return res.data
             })
             .catch(err => {
@@ -49,8 +50,6 @@ export default function TattooCard({
 
     const onBoardSelect = useCallback((tattoo, board) => {
         // add the tattoo to the board
-
-
         axios.post(`/api/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
             .then(res => {
                 console.log("response data:", res.data)
@@ -110,19 +109,13 @@ export default function TattooCard({
                                 boards={currentUser?.boards || []}
                                 onBoardCreate={onBoardCreate}
                                 onBoardSelect={onBoardSelect}
-                                className="
-                        sm:bg-transparent sm:text-transparent sm:border-none
-                        group-hover:bg-background
-                        group-hover:text-primary
-                        group-hover:border-border
-
-                        " />
+                                className=" sm:bg-transparent sm:text-transparent sm:border-none group-hover:bg-background group-hover:text-primary group-hover:border-border" />
                         </div>
                     }
 
                     {
                         likeable &&
-                        <div className="hidden group-hover:block absolute right-2 top-2 p-3" >
+                        <div className="absolute hidden p-3 group-hover:block right-2 top-2" >
                             <HeartButton listingId={data.id} currentUser={currentUser} listingType={"tattoos"} />
                         </div>
 

@@ -10,13 +10,8 @@ import { Button } from "../ui/button"
 import { LayoutDashboard } from "lucide-react"
 import { Input } from "../ui/input"
 import { useForm } from "react-hook-form"
-import useProtect from "@/hooks/useProtect"
 import { useToast } from "../ui/use-toast"
 import { UiContext } from "@/providers/ui/ui-provider"
-
-const tags = Array.from({ length: 50 }).map(
-    (_, i, a) => `v1.2.0-beta.${a.length - i}`
-)
 
 export function BoardAdder({
     tattoo,
@@ -28,6 +23,7 @@ export function BoardAdder({
 }) {
 
 
+    //TODO: The open state of the adder is controlled by radix primitive or shadcn. Understand why and how to control it myself.
     const [isOpen, setIsOpen] = React.useState(false);
     const [showCreateForm, setShowCreateForm] = React.useState(false);
     const { toast } = useToast()
@@ -58,7 +54,7 @@ export function BoardAdder({
                             setLoginModalOpen(true)
                             return
                         }
-                        setIsOpen((prev) => !prev)
+                        // setIsOpen((prev) => !prev)
                     }}
 
                 >
@@ -67,11 +63,11 @@ export function BoardAdder({
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80"
-                onMouseLeave={
-                    () => {
-                        setIsOpen(() => false)
-                    }
-                }
+            // onMouseLeave={
+            //     () => {
+            //         setIsOpen(() => false)
+            //     }
+            // }
             >
                 <ScrollArea className={cn(`h-72 w-full p-0 
                 transition-all`, //TODO:  How can I make this trasition?
@@ -87,10 +83,14 @@ export function BoardAdder({
                             /> :
                             <BoardCreationForm onBoardCreate={
                                 async (title) => {
-                                    await onBoardCreate(title)
                                     setShowCreateForm(false)
+                                    // setIsOpen(false)
+                                    return await onBoardCreate(title)
                                 }
-                            } />
+                            }
+                                onBoardSelect={onBoardSelect}
+                                tattoo={tattoo}
+                            />
                     }
                 </ScrollArea>
             </PopoverContent>
@@ -108,7 +108,6 @@ const BoardList = (
     }
 ) => {
 
-    console.log("function", onCreate)
     return (
         <div className="">
             <h4>
@@ -122,7 +121,7 @@ const BoardList = (
                         () => { onBoardSelect(tattoo, board) }
                     }
                 >
-                    <div className="text-sm hover:bg-muted cursor-pointer p-2 rounded">
+                    <div className="p-2 text-sm rounded cursor-pointer hover:bg-muted">
                         <p>{board.title}</p>
                     </div>
                     <Separator className="my-2" />
@@ -141,7 +140,9 @@ const BoardList = (
 }
 
 const BoardCreationForm = ({
-    onBoardCreate
+    onBoardCreate,
+    onBoardSelect,
+    tattoo
 }) => {
 
     const { register, handleSubmit, setFocus, formState: { errors } } = useForm({
@@ -162,10 +163,12 @@ const BoardCreationForm = ({
         // We send the request to the server to create the board in the database after we have added it to the user
         onBoardCreate(data.title)
             .then((newBoard) => {
-                // onBoardSelect(tattoo, newBoard)
+                console.log({ newBoard })
+                console.log({ tattoo })
+                onBoardSelect(tattoo, newBoard)
             })
             .catch((error) => {
-                console.log("ERROR - TattooBoardAdder", error)
+                console.error("ERROR - TattooBoardAdder", error)
             })
     }
 
@@ -173,16 +176,14 @@ const BoardCreationForm = ({
     return (
 
 
-        <div className="board-adder-input my-auto">
+        <div className="my-auto board-adder-input">
             <form onSubmit={handleSubmit(onSubmit)}
                 onClick={(event) => {
                     event.stopPropagation()
                 }
                 }
             >
-                <div className="
-flex flex-col gap-2
-">
+                <div className="flex flex-col gap-2 ">
                     <h3>Crea un nuevo tablero</h3>
                     <Input
                         id={`title`}

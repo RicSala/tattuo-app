@@ -3,17 +3,10 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 export default function Logo() {
-
-    const { theme } = useTheme()
-
-    //TODO: what about when is theme === "system"?
-    const logoUrl = theme !== "dark" ? "/images/logo.png" : "/images/logo-dark.png"
-
-
-    // TODO: Why this component does not have fastrefresh??
 
     const router = useRouter();
 
@@ -22,18 +15,16 @@ export default function Logo() {
             onClick={() => router.push("/")}
             className="cursor-pointer "
         >
-            <Image
-                className="
-                min-w-[100px]
-                "
-                src={logoUrl}
-                alt="Logo image"
-                width={100}
-                height={100}
+
+            <Image src="/images/logo.png" alt="Logo Light" width={100} height={100} className="block dark:hidden"
                 // REVIEW: Why do I need this???
                 style={{ width: 'auto', height: '100%' }}
-                priority={true}
             />
+            <Image src="/images/logo-dark.png" alt="Logo Dark" width={100} height={100} className="hidden dark:block"
+                // REVIEW: Why do I need this???
+                style={{ width: 'auto', height: '100%' }}
+            />
+
         </div>
     )
 };

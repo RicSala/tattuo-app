@@ -1,14 +1,16 @@
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 export default function GradientBorder({
-    children
+    children, className
 }) {
     return (
 
 
 
-        <div className="
-            w-32
+        <div
+            className={cn(`
+        w-32
             h-10
         cursor-pointer
         
@@ -29,7 +31,10 @@ export default function GradientBorder({
         before:h-[350%]
         before:bg-[conic-gradient(#FF2E2E,#FF831E,#FCFF51,#58FF57,#575FFF,#D257FF,#FF57E5,#FF1556)]
         before:animate-spin
-        ">
+                    `,
+                className
+            )}
+        >
 
             {children}
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function MdxImage({
+export default function CustomImage({
     src,
     alt,
     priority = false,

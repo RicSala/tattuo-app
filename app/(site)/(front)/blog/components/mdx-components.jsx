@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import MdxImage from './mdx-image'
+import CustomImage from '../[slug]/components/mdx-image'
 import { Heading2 } from '../[slug]/components/blog-headings'
 
 // defines custom components to use in the blog
@@ -19,7 +19,7 @@ export const MdxComponents = {
         // See the details below for my solution.
 
         // eslint-disable-next-line jsx-a11y/alt-text
-        return <MdxImage {...props} src={src} className={className} />
+        return <CustomImage {...props} src={src} className={className} />
     },
     // add a component call 'square' that renders a div with a 1:1 aspect ratio
     Heading: ({ children, props }) => {

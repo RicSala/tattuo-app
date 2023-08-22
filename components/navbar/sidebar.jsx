@@ -4,7 +4,7 @@ import { LogOut, Menu } from "lucide-react";
 import { Button } from "../ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import MenuItem from "../ui/menu-item";
-import { artistMenuItems, clientMenuItems } from "@/lib/const";
+import { artistMenuItems, clientMenuItems, visitorMenuItems } from "@/lib/const";
 import { Separator } from "../ui/separator";
 import Logo from "./logo";
 import { useRouter } from "next/navigation";
@@ -58,9 +58,44 @@ export default function Sidebar({
                             :
                             null
                     }
+                    {
+                        <>
+
+                            <Separator className="my-1" />
+                            <div className="relative">
+
+                                {
+                                    clientMenuItems.map((el) => (
+                                        <MenuItem label={el.label} onClick={() => {
+                                            router.push(el.url)
+                                            setSidebarOpen(false)
+
+
+                                        }} key={el.label} />
+                                    ))
+                                }
+
+                                {
+                                    !currentUser ?
+                                        <div className="absolute top-0 left-0 w-full h-full border rounded-md border-accent bg-muted/50 "
+                                            onClick={() => {
+                                                setLoginModalOpen(() => true)
+                                            }}
+                                        >
+
+                                        </div>
+
+                                        :
+                                        null
+                                }
+                            </div>
+                        </>
+
+                    }
+
                     <Separator className="my-1" />
                     {
-                        clientMenuItems.map((el) => (
+                        visitorMenuItems.map((el) => (
                             <MenuItem label={el.label} onClick={() => {
                                 router.push(el.url)
                                 setSidebarOpen(false)
@@ -69,11 +104,11 @@ export default function Sidebar({
                             }} key={el.label} />
                         ))
                     }
-
                     <Separator className="my-1" />
+
                 </div>
                 <SheetFooter>
-                    <div className="w-full text-center">
+                    <div className="w-full h-full text-center">
 
                         {
                             currentUser ?
@@ -86,7 +121,7 @@ export default function Sidebar({
                                     <p>Salir de mi cuenta</p>
                                 </Button>
                                 :
-                                <div>
+                                <div className="flex flex-col justify-between">
                                     <div className="flex flex-col items-center space-y-3">
                                         <p>Para poder guardar tus favoritos y contactar con los artistas</p>
 

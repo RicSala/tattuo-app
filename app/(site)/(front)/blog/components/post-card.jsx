@@ -24,7 +24,7 @@ const PostCard = ({
                     className="object-cover w-full h-56"
                 />
                 <div className="p-4 bg-white sm:p-6">
-                    <time datetime="2022-10-10" className="block text-xs text-gray-500">
+                    <time dateTime="2022-10-10" className="block text-xs text-gray-500">
                         {date}
                     </time>
 

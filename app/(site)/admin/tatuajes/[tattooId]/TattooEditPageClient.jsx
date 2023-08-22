@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import AsyncSelect from "@/components/async-select";
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Save, Undo } from "lucide-react";
@@ -98,7 +97,7 @@ const TattooEditPageClient = ({
 
         // if tatto is new, we need to create it
         if (data.tattooId === "new") {
-            axios.post(`/api/tattoos/`, data) //TODO: change to fetch (from Next)
+            axios.post(`/api/tattoos`, data) //TODO: change to fetch (from Next)
                 .then(res => {
                     // toast.success(successMessage)
                     toast({
@@ -167,7 +166,7 @@ const TattooEditPageClient = ({
             <Separator className="my-6"
             />
 
-            <div className="w-full md:w-1/2 mx-auto md:mt-14">
+            <div className="w-full mx-auto md:w-1/2 md:mt-14">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit, onError)}
                         className="space-y-8">
@@ -297,13 +296,13 @@ const TattooEditPageClient = ({
 
                         <div className="flex flex-row justify-between mt-5">
                             <Button
-                                variant="outline" className="flex flex-row gap-2 items-center" >
+                                variant="outline" className="flex flex-row items-center gap-2" >
                                 <Undo />
                                 Cancelar
                             </Button>
                             <Button
                                 type="submit"
-                                className="flex flex-row gap-2 items-center" >
+                                className="flex flex-row items-center gap-2" >
                                 <Save />
                                 Guardar
                             </Button>

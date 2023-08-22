@@ -27,7 +27,7 @@ export default function ArtistDetailsCard({
     console.log({ hasSaved })
 
     return (
-        <div className="flex flex-col gap-2 p-5 rounded-lg  w-96 bg-secondary/50">
+        <div className="flex flex-col gap-2 p-5 rounded-lg w-96 bg-secondary/50">
             <div className="flex flex-row justify-between">
                 <Undo
                     onClick={() => { router.back() }}
@@ -95,7 +95,7 @@ export default function ArtistDetailsCard({
                 </Button>
             </div>
 
-            <div className="flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-muted"
+            <div className="flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-muted sm:hidden"
                 onClick={() => setIsDetailsOpen((prev) => !prev)}
             >
                 <p>Más información</p>

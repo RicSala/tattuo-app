@@ -1,6 +1,5 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import AsyncSelect from "./async-select";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 

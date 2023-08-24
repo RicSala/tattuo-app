@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "node prisma/seedDb.js"
+  },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "@hookform/resolvers": "^3.2.0",

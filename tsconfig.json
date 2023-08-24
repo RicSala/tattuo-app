@@ -118,7 +118,8 @@
     "actions/**/*",
     "components/**/*",
     ".next/types/**/*.ts",
-    "lib/seedDb.mjs"
+    "lib/seedDb.mjs",
+    "prisma/seedDb.js"
   ],
   "exclude": [
     "node_modules"

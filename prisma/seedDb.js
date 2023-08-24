@@ -1,8 +1,9 @@
 // Seeds the database with fake data
 
-import prisma from './prismadb.js';
-import { fakerES as faker } from '@faker-js/faker';
-import bcrypt from 'bcryptjs';
+const { PrismaClient } = require('@prisma/client')
+const { fakerES } = require('@faker-js/faker')
+var bcrypt = require('bcryptjs');
+
 
 const numClients = 50;
 const numArtists = 20;
@@ -36,23 +37,26 @@ const randomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+const prisma = new PrismaClient()
 
-const styleIds = await prisma.style.findMany().then(styles => styles.map(style => style.id));
-// const cityIds = await prisma.city.findMany().then(cities => cities.map(city => city.id));
-// array of ids of cities whose label is Madrid, Barcelona or Zaragoza
-const cityIds = await prisma.city.findMany({
-    where: {
-        OR: [
-            { label: 'Madrid' },
-            { label: 'Barcelona' },
-            { label: 'Zaragoza' },
-        ],
-    },
-}).then(cities => cities.map(city => city.id));
-const tagIds = await prisma.tag.findMany().then(tags => tags.map(tag => tag.id));
-const bodyPartIds = await prisma.bodyPart.findMany().then(bodyParts => bodyParts.map(bodyPart => bodyPart.id));
 
-export const seedDb = async () => {
+const seedDb = async () => {
+
+    const styleIds = await prisma.style.findMany().then(styles => styles.map(style => style.id));
+    // const cityIds = await prisma.city.findMany().then(cities => cities.map(city => city.id));
+    // array of ids of cities whose label is Madrid, Barcelona or Zaragoza
+    const cityIds = await prisma.city.findMany({
+        where: {
+            OR: [
+                { label: 'Madrid' },
+                { label: 'Barcelona' },
+                { label: 'Zaragoza' },
+            ],
+        },
+    }).then(cities => cities.map(city => city.id));
+    const tagIds = await prisma.tag.findMany().then(tags => tags.map(tag => tag.id));
+    const bodyPartIds = await prisma.bodyPart.findMany().then(bodyParts => bodyParts.map(bodyPart => bodyPart.id));
+
 
     if (building) { return; }
 
@@ -142,7 +146,7 @@ export const seedDb = async () => {
         data: {
             name: 'Ricardo',
             email: 'ricardo@google.com',
-            image: faker.image.avatar(),
+            image: fakerES.image.avatar(),
             hashedPassword: hashedPassword,
             confirmPassword: hashedPassword,
             role: 'ARTIST',
@@ -163,14 +167,14 @@ export const seedDb = async () => {
     const clientPromises = [];
     for (let i = 0; i < numClients; i++) {
         const sex = randomElement(['male', 'female']);
-        const firstName = faker.person.firstName(sex);
+        const firstName = fakerES.person.firstName(sex);
         const hashedPassword = await bcrypt.hash('88888888', 2); // Note: This still needs to be done in a loop since it's an async operation
 
         const client = prisma.user.create({
             data: {
                 name: firstName,
-                email: faker.internet.email({ firstName: `${firstName}-${randomNumber(1, 200)}` }),
-                image: faker.image.avatar(),
+                email: fakerES.internet.email({ firstName: `${firstName}-${randomNumber(1, 200)}` }),
+                image: fakerES.image.avatar(),
                 hashedPassword: hashedPassword,
                 confirmPassword: hashedPassword,
                 role: 'CLIENT',
@@ -201,24 +205,24 @@ export const seedDb = async () => {
             user: { connect: { id: user.id } },
             artisticName: 'Ricardo',
             email: 'ricardo@google.com',
-            bio: faker.person.bio(),
-            phone: faker.phone.number(),
-            website: faker.internet.url(),
+            bio: fakerES.person.bio(),
+            phone: fakerES.phone.number(),
+            website: fakerES.internet.url(),
             socials: [
-                { network: "facebook", profile: faker.internet.url() },
-                { network: "twitter", profile: faker.internet.url() },
-                { network: "youtube", profile: faker.internet.url() },
-                { network: "tiktok", profile: faker.internet.url() },
+                { network: "facebook", profile: fakerES.internet.url() },
+                { network: "twitter", profile: fakerES.internet.url() },
+                { network: "youtube", profile: fakerES.internet.url() },
+                { network: "tiktok", profile: fakerES.internet.url() },
             ],
-            mainImage: faker.image.avatar(),
-            images: [faker.image.url({ width: 512, height: 512 }),
-            faker.image.url({ width: 512, height: 512 }),
-            faker.image.url({ width: 512, height: 512 }),
+            mainImage: fakerES.image.avatar(),
+            images: [fakerES.image.url({ width: 512, height: 512 }),
+            fakerES.image.url({ width: 512, height: 512 }),
+            fakerES.image.url({ width: 512, height: 512 }),
             ],
             styles: { connect: [{ id: randomElement(styleIds) }] },
-            pricePerHour: faker.number.int({ min: 10, max: 100 }),
-            pricePerSession: faker.number.int({ min: 80, max: 800 }),
-            minWorkPrice: faker.number.int({ min: 50, max: 200 }),
+            pricePerHour: fakerES.number.int({ min: 10, max: 100 }),
+            pricePerSession: fakerES.number.int({ min: 80, max: 800 }),
+            minWorkPrice: fakerES.number.int({ min: 50, max: 200 }),
             isComplete: true,
             city: { connect: { id: randomElement(cityIds) } },
         }
@@ -230,14 +234,14 @@ export const seedDb = async () => {
     const artistProfilePromises = [];
     for (let i = 0; i < numArtists; i++) {
         const sex = randomElement(['male', 'female']);
-        const firstName = faker.person.firstName(sex);
+        const firstName = fakerES.person.firstName(sex);
         const hashedPassword = await bcrypt.hash('88888888', 2); // Note: This still needs to be done in a loop since it's an async operation
 
         const user = prisma.user.create({
             data: {
                 name: firstName,
-                email: faker.internet.email({ firstName: `${firstName}-${randomNumber(1, 200)}` }),
-                image: faker.image.avatar(),
+                email: fakerES.internet.email({ firstName: `${firstName}-${randomNumber(1, 200)}` }),
+                image: fakerES.image.avatar(),
                 hashedPassword: hashedPassword,
                 confirmPassword: hashedPassword,
                 role: 'ARTIST',
@@ -261,25 +265,25 @@ export const seedDb = async () => {
             data: {
                 user: { connect: { id: user.id } },
                 artisticName: `${user.name}-${i}`,
-                email: faker.internet.email({ firstName: `${user.name}-${randomNumber(1, 200)}`, provider: 'tatuador.com' }),
-                bio: faker.person.bio(),
-                phone: faker.phone.number(),
-                website: faker.internet.url(),
+                email: fakerES.internet.email({ firstName: `${user.name}-${randomNumber(1, 200)}`, provider: 'tatuador.com' }),
+                bio: fakerES.person.bio(),
+                phone: fakerES.phone.number(),
+                website: fakerES.internet.url(),
                 socials: [
-                    { network: "facebook", profile: faker.internet.url() },
-                    { network: "twitter", profile: faker.internet.url() },
-                    { network: "youtube", profile: faker.internet.url() },
-                    { network: "tiktok", profile: faker.internet.url() },
+                    { network: "facebook", profile: fakerES.internet.url() },
+                    { network: "twitter", profile: fakerES.internet.url() },
+                    { network: "youtube", profile: fakerES.internet.url() },
+                    { network: "tiktok", profile: fakerES.internet.url() },
                 ],
-                mainImage: faker.image.avatar(),
-                images: [faker.image.url({ width: 512, height: 512 }),
-                faker.image.url({ width: 512, height: 512 }),
-                faker.image.url({ width: 512, height: 512 }),
+                mainImage: fakerES.image.avatar(),
+                images: [fakerES.image.url({ width: 512, height: 512 }),
+                fakerES.image.url({ width: 512, height: 512 }),
+                fakerES.image.url({ width: 512, height: 512 }),
                 ],
                 styles: { connect: [{ id: randomElement(styleIds) }] },
-                pricePerHour: faker.number.int({ min: 10, max: 100 }),
-                pricePerSession: faker.number.int({ min: 80, max: 800 }),
-                minWorkPrice: faker.number.int({ min: 50, max: 200 }),
+                pricePerHour: fakerES.number.int({ min: 10, max: 100 }),
+                pricePerSession: fakerES.number.int({ min: 80, max: 800 }),
+                minWorkPrice: fakerES.number.int({ min: 50, max: 200 }),
                 isComplete: true,
                 city: { connect: { id: randomElement(cityIds) } },
             }
@@ -318,9 +322,9 @@ export const seedDb = async () => {
 
         const tattoo = prisma.tattoo.create({
             data: {
-                title: faker.lorem.sentence({ min: 3, max: 5 }),
-                description: faker.lorem.sentence({ min: 10, max: 20 }),
-                imageSrc: faker.image.url({ width: 512, height: 512 }),
+                title: fakerES.lorem.sentence({ min: 3, max: 5 }),
+                description: fakerES.lorem.sentence({ min: 10, max: 20 }),
+                imageSrc: fakerES.image.url({ width: 512, height: 512 }),
                 // location: randomElement(cityIds),
 
                 style: {
@@ -541,7 +545,7 @@ export const seedDb = async () => {
 
         return prisma.board.create({
             data: {
-                title: faker.lorem.sentence({ min: 3, max: 5 }),
+                title: fakerES.lorem.sentence({ min: 3, max: 5 }),
                 user: {
                     connect: {
                         id: randomElement(userIds)
@@ -608,6 +612,8 @@ export const seedDb = async () => {
     console.log("BOARD TATTOOS created");
 
 }
+
+seedDb()
 
 
 

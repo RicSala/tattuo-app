@@ -16,12 +16,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useContext, useState } from "react";
 import { signIn } from 'next-auth/react';
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { UiContext } from "@/providers/ui/ui-provider";
 import { useToast } from "../ui/use-toast";
 import { Separator } from "../ui/separator";
 import axios from "axios";
+import queryString from "query-string";
 
 
 
@@ -60,36 +61,8 @@ export function LoginForm({
         setIsLoading(true);
         signIn('credentials', {
             ...data,
-            redirect: false,
-        }).then(
-            (res) => {
-                setIsLoading(false);
-                if (!res.error) { //why is not using catch? doesn't it return an error?
-                    // toast.success('¡Bienvenido a Tattuo! 🎉');
-                    setLoginModalOpen(false)
-                    setSidebarOpen(false)
-                    console.log("RES", res) //TODO: why it does not return the user??
-                    router.refresh()
-                    //TODO: why this does not work? is it because it's a portal and thus the provider is not 
-                    // providing the portal?
-                    toast({
-                        title: `Bienvenido ${data.email}`,
-                        description: "Navega y encuentra tus tatuajes y artistas favoritos",
-                    })
-                    // onCloseLoginModal();
-                }
-
-                if (res.error) {
-                    toast({
-                        title: `Error al entrar`,
-                        description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
-                        variant: "destructive"
-                    })
-                    // toast.error(res.error);
-                }
-            }
-
-        ).catch((error) => {
+            callbackUrl: `${window.location.origin}/tatuajes`,
+        }).catch((error) => {
             toast({
                 title: `Error al entrar`,
                 description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
@@ -240,43 +213,6 @@ export function RegisterForm({
                 setIsLoading(false);
             })
     };
-    // const onSubmit = async (data) => {
-    //     setIsLoading(true);
-    //     signIn('credentials', {
-    //         ...data,
-    //         redirect: false,
-    //     }).then(
-    //         (res) => {
-    //             setIsLoading(false);
-    //             if (!res.error) { //why is not using catch? doesn't it return an error?
-    //                 // toast.success('¡Bienvenido a Tattuo! 🎉');
-    //                 setLoginModalOpen(false)
-    //                 setSidebarOpen(false)
-    //                 console.log("RES", res) //TODO: why it does not return the user??
-    //                 router.refresh()
-    //                 //TODO: why this does not work? is it because it's a portal and thus the provider is not 
-    //                 // providing the portal?
-    //                 toast({
-    //                     title: `Bienvenido ${data.email}`,
-    //                     description: "Navega y encuentra tus tatuajes y artistas favoritos",
-    //                 })
-    //                 // onCloseLoginModal();
-    //             }
-
-    //             if (res.error) {
-    //                 toast({
-    //                     title: `Error al entrar`,
-    //                     description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
-    //                     variant: "destructive"
-    //                 })
-    //                 // toast.error(res.error);
-    //             }
-    //         }
-
-    //     )
-
-    // }
-
 
     return (
         <div className='flex flex-col gap-4'>
@@ -374,18 +310,29 @@ export function RegisterForm({
     );
 }
 
+
+
 export function LoginModal({
     variant = "login"
 }) {
 
     const { loginModalOpen, setLoginModalOpen } = useContext(UiContext)
     const [variantShown, setVariantShown] = useState(variant);
+    const pathName = usePathname()
+    const router = useRouter()
+
 
     return (
         <Dialog open={loginModalOpen}
 
             //TODO: This "use" of open and onOpenChange is what should be done. Review other parts.
-            onOpenChange={setLoginModalOpen}
+
+            // This is not working as expected...is not deleting the searchParams from the url
+            onOpenChange={(isOpen) => {
+                router.push("/")
+                setLoginModalOpen(isOpen)
+
+            }}
 
         >
             <DialogContent>

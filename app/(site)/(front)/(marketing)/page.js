@@ -8,9 +8,9 @@ import { getCurrentUser } from "@/actions/getCurrentUser"
 import BenefitsSection from "@/components/landing/BenefitsSection"
 import FaqSection from "@/components/landing/Faqs"
 import HeroSection from "@/components/landing/HeroSection"
-import ReviewsSection from "@/components/landing/ReviewsSection"
 import StepsSection from "@/components/landing/StepsSection"
 import Banner from "@/components/landing/banner"
+import ModalClient from "@/components/modals/modal-client"
 import Container from "@/components/ui/container"
 
 /**
@@ -66,8 +66,12 @@ export default async function Home({ searchParams }) {
     <>
 
       <Container>
-        <div className='flex flex-col gap-10'>
 
+        {/* There are probably better ways to do this, but I don't know how. Basically I need access to the context to be able to open the modal, and the only way I see to do it is "embedding" a client component somewhere in the page */}
+
+        <ModalClient />
+
+        <div className='flex flex-col gap-10'>
           <HeroSection
             title={'Descubre tatuajes y tatuadores cerca de ti'}
             subtitle={'TATTUO selecciona los mejores tatuadores en tu ciudad y te pone en contacto con ellos'}

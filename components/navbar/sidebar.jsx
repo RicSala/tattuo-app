@@ -23,12 +23,23 @@ export default function Sidebar({
 
     const router = useRouter()
 
+    // TODO: check if the artist has completed the registration
+    const registrationComplete = false;
+    const notifications = true //!registrationComplete || true
+
 
     return (
-        <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} className="">
             <SheetTrigger asChild className="">
-                <Menu className="cursor-pointer"
-                    onClick={() => { setSidebarOpen(true) }} />
+                <div className="relative">
+                    <Menu className="cursor-pointer"
+                        onClick={() => { setSidebarOpen(true) }} />
+                    {
+                        notifications ?
+                            <div className="absolute flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full -top-1 -right-1"><p>1</p></div>
+                            : null
+                    }
+                </div>
             </SheetTrigger>
             <SheetContent className={"flex flex-col justify-start"}>
                 <div className="flex flex-col my-2">
@@ -46,12 +57,14 @@ export default function Sidebar({
                                 <Separator className="my-2 sm:my-5" />
                                 {
                                     artistMenuItems.map((el) => (
-                                        <MenuItem label={el.label} onClick={() => {
-                                            router.push(el.url)
-                                            setSidebarOpen(false)
+                                        <MenuItem
+                                            warningIcon={!registrationComplete ? el.warningIcon : null}
+                                            label={el.label} onClick={() => {
+                                                router.push(el.url)
+                                                setSidebarOpen(false)
 
 
-                                        }} key={el.label} />
+                                            }} key={el.label} />
                                     ))
                                 }
                             </>
@@ -107,7 +120,7 @@ export default function Sidebar({
                     <Separator className="my-1" />
 
                 </div>
-                <SheetFooter>
+                <SheetFooter className={"mt-auto"}>
                     <div className="w-full h-full text-center">
 
                         {
@@ -147,16 +160,16 @@ export default function Sidebar({
                                             onClick={() => { setLoginModalOpen(true) }}
                                         >Regístrate</Button> */}
                                     </div>
-                                    <div className="flex flex-col items-center space-y-2">
+                                    <div className="flex flex-col items-center mt-5 text-primary/70">
                                         <p>
-                                            ¿Eres tatuador?
+                                            ¿Y si eres tatuador?
                                         </p>
                                         <Button variant="outline"
                                             onClick={() => {
                                                 console.log("clicked")
                                                 setArtistRegisterOpen(true)
                                             }}
-                                            className="w-fit">Publica</Button>
+                                            className="w-fit">Regístrate</Button>
 
 
                                     </div>

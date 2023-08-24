@@ -1,7 +1,7 @@
 // import { getCurrentUser } from "@/actions/getCurrentUser";
 // import Footer from "@/components/footer/Footer";
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import Footer from "@/components/fotter";
+import Footer from "@/components/footer";
 import NavBar from "@/components/navbar/nav-bar";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Container from "@/components/ui/container";

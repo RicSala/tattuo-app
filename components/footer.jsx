@@ -18,6 +18,7 @@ const footterMenu = [
             // { label: "Quiénes somos", url: "/quienes-somos" },
             // { label: "Preguntas frecuentes", url: "/preguntas-frecuentes" },
             { label: "Contacto", url: "/contacto" },
+            { label: "Soy Tatuador", url: "/?loginmodal=true" },
         ],
     },
     {
@@ -49,10 +50,7 @@ const Footer = (props) => {
         <footer className="relative z-[1] py-8 lg:py-12  border-t-[1px] border-border shadow-sm">
             <div className="w-[calc(100%_-_2.5rem)] lg:w-[calc(100%_-_4rem)] mx-auto max-w-5xl">
                 <nav>
-                    <ul className="grid gap-8 lg:gap-12
-                    sm:grid-cols-2
-                    lg:grid-cols-4
-                    ">
+                    <ul className="grid gap-8 lg:gap-12 sm:grid-cols-2 lg:grid-cols-4 ">
 
 
                         {
@@ -64,13 +62,7 @@ const Footer = (props) => {
                                     >
 
                                         <li
-                                            className="
-                                            grid
-                                            gap-3
-                                            md:gap-2
-                                            lg:gap-3
-                                            content-start
-                                            ">
+                                            className="grid content-start gap-3 md:gap-2 lg:gap-3">
                                             <h4>{submenu.title}</h4>
                                             {
                                                 submenu.items.map((item) => {
@@ -78,11 +70,7 @@ const Footer = (props) => {
                                                     return (
                                                         <div key={item.url}>
                                                             <Link href={item.url}
-                                                                className="
-                                                                text-primary
-                                                                text-sm
-                                                                lg:text-base
-                                                                "
+                                                                className="text-sm text-primary lg:text-base"
                                                             >{item.label}</Link>
                                                         </div>
 
@@ -102,7 +90,7 @@ const Footer = (props) => {
                     </ul>
                 </nav>
                 <Separator className="my-5" />
-                <div className="mt-12 lg:mt-20 flex flex-col gap-3">
+                <div className="flex flex-col gap-3 mt-12 lg:mt-20">
                     <div className="flex justify-center mt-3 lg:mt-5">
                         <a href="#0"
                             className="inline-block my-0 mx-1 lg:mx-1.5 text-primary"
@@ -126,15 +114,10 @@ const Footer = (props) => {
                         </a>
                     </div>
 
-                    <div className="
-                    text-sm lg:text-xs text-primary text-center
-                    gap-3
-                    flex
-                    flex-col
-                    ">
+                    <div className="flex flex-col gap-3 text-sm text-center lg:text-xs text-primary">
                         <p>&copy; by RicSala</p>
 
-                        <p className="flex gap-2 lg:gap-3 justify-center">
+                        <p className="flex justify-center gap-2 lg:gap-3">
                             <a href="#0">Legal</a>
                             <a href="#0">Privacidad</a>
                             <a href="#0">Cookies</a>

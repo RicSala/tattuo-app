@@ -17,7 +17,7 @@ import * as z from "zod"
 import { useContext, useState } from "react";
 import { signIn } from 'next-auth/react';
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import { UiContext } from "@/providers/ui/ui-provider";
 import { useToast } from "../ui/use-toast";
 import { Separator } from "../ui/separator";
@@ -81,7 +81,7 @@ export function ArtistRegisterForm({
                 signIn('credentials', {
                     email: data.email,
                     password: data.password,
-                    // callbackUrl: `${window.location.origin}/dashboard`,
+                    callbackUrl: `${window.location.origin}/tatuajes`,
                 });
             })
             .catch((err) => {
@@ -103,7 +103,7 @@ export function ArtistRegisterForm({
 
             <div className='text-center'>
                 <div className="text-2xl font-bold">Consigue clientes en TATTUO</div>
-                <div className="font-light text-neutral-500 mt-2">Crea tu cuenta</div>
+                <div className="mt-2 font-light text-neutral-500">Crea tu cuenta</div>
             </div>
 
             <Form {...form}>
@@ -191,7 +191,7 @@ export function ArtistRegisterForm({
 }
 
 export function ArtistRegisterModal({
-    variant = "login"
+    variant = "register"
 }) {
 
     const { artistRegisterOpen, setArtistRegisterOpen } = useContext(UiContext)

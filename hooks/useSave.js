@@ -35,8 +35,6 @@ const useSave = ({
 
 
         if (!currentUser) {
-            alert("no current user")
-            console.log(currentUser)
             toast({
                 title: "Accede a tu cuenta",
                 description: "Debes estar conectado para esta acción",

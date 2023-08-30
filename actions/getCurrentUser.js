@@ -49,6 +49,7 @@ export async function getCurrentUser() {
             include: {
                 boards: true,
                 settings: true,
+                artist: true,
             },
         });
 

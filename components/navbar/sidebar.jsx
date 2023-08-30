@@ -8,7 +8,7 @@ import { artistMenuItems, clientMenuItems, visitorMenuItems } from "@/lib/const"
 import { Separator } from "../ui/separator";
 import Logo from "./logo";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { signOut } from 'next-auth/react';
 import { UiContext } from "@/providers/ui/ui-provider";
 import GradientBorder from "../uiEffects/gradient-border";
@@ -18,14 +18,12 @@ export default function Sidebar({
     currentUser
 }) {
 
-
     const { setLoginModalOpen, sidebarOpen, setSidebarOpen, setArtistRegisterOpen } = useContext(UiContext)
 
     const router = useRouter()
 
-    // TODO: check if the artist has completed the registration
-    const registrationComplete = false;
-    const notifications = true //!registrationComplete || true
+    const notifications = !currentUser?.artist?.isComplete
+    // && other conditions
 
 
     return (
@@ -58,12 +56,10 @@ export default function Sidebar({
                                 {
                                     artistMenuItems.map((el) => (
                                         <MenuItem
-                                            warningIcon={!registrationComplete ? el.warningIcon : null}
+                                            warningIcon={!currentUser?.artist?.isComplete ? el.warningIcon : null}
                                             label={el.label} onClick={() => {
                                                 router.push(el.url)
                                                 setSidebarOpen(false)
-
-
                                             }} key={el.label} />
                                     ))
                                 }

@@ -75,7 +75,6 @@ const General = ({ form, cities, styles, setSelectedTab }) => {
                         <FormControl>
                             <AsyncSelect
                                 placeholder="Donde sueles tatuar habitualmente"
-
                                 {...field} resources="cities" />
                         </FormControl>
                         <FormDescription>

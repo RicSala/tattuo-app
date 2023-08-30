@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Check, Redo, Save, Undo } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 
@@ -12,6 +13,8 @@ export default function MultiStepButtons({
 }) {
 
     const { isDirty, isSubmitted } = form.formState;
+
+    const router = useRouter()
 
 
     return (

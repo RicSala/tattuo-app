@@ -44,6 +44,7 @@ const AsyncSelect = forwardRef(({
 }, ref) => {
 
 
+    console.log("artst city", value)
 
     return (
         <PrimitiveAsyncSelect

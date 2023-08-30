@@ -50,6 +50,7 @@ const ProfilePageClient = ({
     cities
 }) => {
 
+    console.log({ artist })
 
     const [isLoading, setIsLoading] = useState(false)
     // const [selectedTab, setSelectedTab] = useState(0)

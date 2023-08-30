@@ -1,5 +1,8 @@
+import { useForm } from "react-hook-form";
 import { sanitize } from "@/lib/utils"
 import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+
 
 export const formSchema = z.object({
     artisticName: z.string({
@@ -81,3 +84,37 @@ export const formSchema = z.object({
     })
 
 })
+
+export function useArtistForm(artist) {
+
+    const form = useForm({
+
+        mode: "onBlur",
+
+        resolver: zodResolver(formSchema),
+
+        defaultValues: {
+            artisticName: artist?.artisticName || "",
+            email: artist.email || "",
+            bio: artist.bio || "",
+            city: artist.city || "",
+            images: artist.images || [],
+            mainImage: artist.mainImage || "",
+            styles: artist.styles || "",
+            minWorkPrice: artist.minWorkPrice || null,
+            phone: artist.phone || "",
+            pricePerHour: artist.pricePerHour || null,
+            pricePerSession: artist.pricePerSession || null,
+            facebook: artist.socials[0].profile || "",
+            instagram: artist.socials[1].profile || "",
+            tiktok: artist.socials[2].profile || "",
+            twitter: artist.socials[3].profile || "",
+            website: artist.website || "",
+            youtube: artist.youtube || "",
+
+        }
+    })
+
+
+    return { form }
+}

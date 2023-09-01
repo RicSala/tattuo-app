@@ -47,7 +47,7 @@ const footterMenu = [
 const Footer = (props) => {
 
     return (
-        <footer className="relative z-[1] py-8 lg:py-12  border-t-[1px] border-border shadow-sm">
+        <footer className="relative py-8 lg:py-12  border-t-[1px] border-border shadow-sm isolate -z-10">
             <div className="w-[calc(100%_-_2.5rem)] lg:w-[calc(100%_-_4rem)] mx-auto max-w-5xl">
                 <nav>
                     <ul className="grid gap-8 lg:gap-12 sm:grid-cols-2 lg:grid-cols-4 ">

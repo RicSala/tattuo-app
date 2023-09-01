@@ -1,8 +1,6 @@
 'use client'
 
 import axios from "axios";
-import { useRef, useState } from "react";
-
 
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
@@ -15,12 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Button } from "@/components/ui/button";
-import { Save, Undo } from "lucide-react";
+import { Check, Save, Undo } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import CustomSelect from "@/components/custom-select";
 import { DevTool } from "@hookform/devtools";
 import AsyncCreatable from "@/components/async-creatable";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/icons/spinner";
 
 
 const formSchema = z.object({
@@ -66,7 +65,6 @@ const TattooEditPageClient = ({
 
     const { toast } = useToast()
     const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
     // create a ref with a list of the images when the component mounts
     // so we delete them only when the form is submitted
     // otherwise we would delete them when they click "x" (and maybe they change their mind)
@@ -87,20 +85,21 @@ const TattooEditPageClient = ({
         }
     })
 
+    const { isSubmitting, isSubmitted, isDirty } = form.formState
 
     const onSubmit = async (data) => {
 
         // TODO: delete images too
 
-        setIsLoading(true)
         console.log("data", data)
 
         // if tatto is new, we need to create it
         if (data.tattooId === "new") {
-            axios.post(`/api/tattoos`, data) //TODO: change to fetch (from Next)
+            return axios.post(`/api/tattoos`, data) //TODO: change to fetch (from Next)
                 .then(res => {
                     // toast.success(successMessage)
                     toast({
+                        variant: "success",
                         title: "Tatuaje creado!",
                         description: "Tu pieza ya está publicada y lista para que la vean futuros clientes"
                     })
@@ -118,16 +117,20 @@ const TattooEditPageClient = ({
                     })
                 })
                 .finally(() => {
-                    setIsLoading(false)
+                    form.reset(data,
+                        {
+                            keepIsSubmitted: true
+                        }
+                    )
                 })
-            return
         }
 
 
         // else we update it
-        axios.put(`/api/tattoos/`, data)
+        return axios.put(`/api/tattoos/`, data)
             .then(res => {
                 toast({
+                    variant: "success",
                     title: "Tatuaje actualizado!",
                     description: "Tu pieza ya está publicada y lista para que la vean futuros clientes"
                 })
@@ -144,11 +147,12 @@ const TattooEditPageClient = ({
             }
             )
             .finally(() => {
-                setIsLoading(false)
-            }
-            )
-
-        return
+                form.reset(data,
+                    {
+                        keepIsSubmitted: true
+                    }
+                )
+            })
     }
 
     const onError = (errors, e) => {
@@ -183,7 +187,7 @@ const TattooEditPageClient = ({
                                 <FormItem>
                                     <FormLabel>Título</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Aquí va tu nombre artístico" {...field} />
+                                        <Input placeholder="Retrato hiperrealista" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Dale un nombre a tu pieza
@@ -197,7 +201,7 @@ const TattooEditPageClient = ({
                             name="imageSrc"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Foto principal</FormLabel>
+                                    <FormLabel>Foto</FormLabel>
                                     <FormControl>
                                         <ImageThumbnail placeholderUrl="/images/placeholder.svg" {...field} />
                                     </FormControl>
@@ -208,7 +212,7 @@ const TattooEditPageClient = ({
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Esta es la foto que aparecerá en tus publicaciones, tu foto de perfil
+                                        Foto de la pieza
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -220,7 +224,9 @@ const TattooEditPageClient = ({
                                 <FormItem>
                                     <FormLabel>Descripción</FormLabel>
                                     <FormControl>
-                                        <Textarea placeholder="Donde sueles tatuar habitualmente" {...field} />
+                                        <Textarea
+                                            className="resize-none "
+                                            placeholder="Donde sueles tatuar habitualmente" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Cuéntanos más sobre la pieza: descripción, qué aparece, estilo, colores, parte del cuerpo, etc.
@@ -289,22 +295,36 @@ const TattooEditPageClient = ({
                                     <FormMessage />
                                 </FormItem>
                             )} />
-
-
-
-
-
                         <div className="flex flex-row justify-between mt-5">
                             <Button
-                                variant="outline" className="flex flex-row items-center gap-2" >
+                                variant="outline" className="flex flex-row items-center gap-2"
+                                onClick={router.back()}
+                            >
                                 <Undo />
                                 Cancelar
                             </Button>
                             <Button
+                                disabled={isSubmitting}
                                 type="submit"
-                                className="flex flex-row items-center gap-2" >
-                                <Save />
-                                Guardar
+                                className={`flex flex-row items-center gap-2`}>
+                                {
+                                    (isSubmitting) ?
+                                        <>
+                                            Guardando
+                                            <Spinner />
+                                        </>
+                                        :
+                                        (isSubmitted && !isDirty) ?
+                                            <>
+                                                Guardado
+                                                <Check color="green" />
+                                            </>
+                                            :
+                                            <>
+                                                Guardar
+                                                <Save />
+                                            </>
+                                }
                             </Button>
 
                         </div>

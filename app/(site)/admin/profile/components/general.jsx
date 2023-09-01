@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea"
 
 const General = ({ form, cities, styles, setSelectedTab }) => {
 
+    console.log(form.getValues('city'))
+
     return (
         <>
 
@@ -90,7 +92,9 @@ const General = ({ form, cities, styles, setSelectedTab }) => {
                     <FormItem>
                         <FormLabel className="after:content-['*']">Bio</FormLabel>
                         <FormControl>
-                            <Textarea placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
+                            <Textarea
+                                className="resize-none "
+                                placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..." {...field} />
                         </FormControl>
                         <FormDescription>
                             Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los usuarios quieren conocerte mejor antes de decidirse a hacerse un tatuaje contigo

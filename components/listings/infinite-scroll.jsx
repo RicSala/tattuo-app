@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useSearchParams } from 'next/navigation'
+import { Skeleton } from "../ui/skeleton"
 
 
 export function InfiniteScroll({
@@ -130,7 +131,13 @@ export function InfiniteScroll({
                 })
             }
 
-            {isFetchingNextPage && <div>Loading more...</div>}
+            {isFetchingNextPage &&
+                Array.from({ length: sizePerPage }, (_, index) => (
+                    <Skeleton key={index} className={`h-full`}>
+                    </Skeleton>
+                ))
+            }
+
         </>
     );
 }

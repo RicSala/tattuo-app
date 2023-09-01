@@ -1,3 +1,4 @@
+import Spinner from "@/components/icons/spinner";
 import { Button } from "@/components/ui/button";
 import { Check, Redo, Save, Undo } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -12,7 +13,7 @@ export default function MultiStepButtons({
     STEPS
 }) {
 
-    const { isDirty, isSubmitted } = form.formState;
+    const { isDirty, isSubmitted, isSubmitting } = form.formState;
 
     const router = useRouter()
 
@@ -54,17 +55,28 @@ export default function MultiStepButtons({
                     <Redo />
                 </Button>
                 <Button
+                    disabled={isSubmitting}
                     type="submit"
                     className={`flex flex-row items-center gap-2
                         ${selectedTab !== STEPS.length - 1 ? `hidden` : null}`}>
                     {
-                        (isSubmitted && !isDirty) ?
-                            <>
-                                Guardado
-                                <Check color="green" />
-                            </>
-                            : `Guardar`}
-                    <Save />
+                        (isSubmitting) ?
+                            <div className="flex flex-row gap-2">
+                                Guardando
+                                <Spinner />
+                            </div>
+                            :
+                            (isSubmitted && !isDirty) ?
+                                <>
+                                    Guardado
+                                    <Check color="green" />
+                                </>
+                                :
+                                <>
+                                    Guardar
+                                    <Save />
+                                </>
+                    }
                 </Button>
             </>
             }

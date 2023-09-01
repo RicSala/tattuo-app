@@ -105,10 +105,11 @@ const ProfilePageClient = ({
         imagesRef.current = data.images
         mainImageRef.current = data.mainImage
 
-        axios.put(`/api/artists/${artist.id}`, data)
+        return axios.put(`/api/artists/${artist.id}`, data)
             .then(res => {
 
                 toast({
+                    variant: "success",
                     title: `Cambios guardados`,
                     description: "Tus cambios ya están visibles en TATTUO"
                 })
@@ -178,16 +179,24 @@ const ProfilePageClient = ({
                                 }
                             </TabsList>
                             <TabsContent value="general">
-                                <General form={form} cities={cities} styles={styles} setSelectedTab={setSelectedTab} />
+                                <div className="space-y-8">
+                                    <General form={form} cities={cities} styles={styles} setSelectedTab={setSelectedTab} />
+                                </div>
                             </TabsContent>
                             <TabsContent value="prices">
-                                <Prices form={form} />
+                                <div className="space-y-8">
+                                    <Prices form={form} />
+                                </div>
                             </TabsContent>
                             <TabsContent value="socials">
-                                <Socials form={form} />
+                                <div className="space-y-8">
+                                    <Socials form={form} />
+                                </div>
                             </TabsContent>
                             <TabsContent value="images">
-                                <Images form={form} />
+                                <div className="space-y-8">
+                                    <Images form={form} />
+                                </div>
                             </TabsContent>
                         </Tabs>
 

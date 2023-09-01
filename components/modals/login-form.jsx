@@ -22,7 +22,7 @@ import { UiContext } from "@/providers/ui/ui-provider";
 import { useToast } from "../ui/use-toast";
 import { Separator } from "../ui/separator";
 import axios from "axios";
-import queryString from "query-string";
+import Spinner from "../icons/spinner";
 
 
 
@@ -44,9 +44,6 @@ export function LoginForm({
     const router = useRouter()
     const { toast } = useToast()
 
-    const { setSidebarOpen,
-        setLoginModalOpen } = useContext(UiContext)
-
     const form = useForm({
         resolver: zodResolver(signInFormSchema),
 
@@ -59,7 +56,7 @@ export function LoginForm({
 
     const onSubmit = async (data) => {
         setIsLoading(true);
-        signIn('credentials', {
+        return signIn('credentials', {
             ...data,
             callbackUrl: `${window.location.origin}/tatuajes`,
         }).catch((error) => {
@@ -120,7 +117,17 @@ export function LoginForm({
                                 <FormMessage />
                             </FormItem>
                         )} />
-                    <Button type="submit">Entrar</Button>
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                        {
+                            form.formState.isSubmitting ?
+                                <div className="flex flex-row gap-2">
+                                    Entrando
+                                    <Spinner />
+                                </div>
+                                :
+                                `Entrar`
+                        }
+                    </Button>
 
                 </form>
             </Form>

@@ -8,7 +8,7 @@ import { artistMenuItems, clientMenuItems, visitorMenuItems } from "@/lib/const"
 import { Separator } from "../ui/separator";
 import Logo from "./logo";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { signOut } from 'next-auth/react';
 import { UiContext } from "@/providers/ui/ui-provider";
 import GradientBorder from "../uiEffects/gradient-border";
@@ -21,6 +21,8 @@ export default function Sidebar({
     const { setLoginModalOpen, sidebarOpen, setSidebarOpen, setArtistRegisterOpen } = useContext(UiContext)
 
     const router = useRouter()
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const notifications = !currentUser?.artist?.isComplete
     // && other conditions
@@ -149,12 +151,6 @@ export default function Sidebar({
                                                 Entra
                                             </Button>
                                         </GradientBorder>
-                                        {/* <p>
-                                            ¿Aún no tienes cuenta?
-                                        </p>
-                                        <Button variant="" className="w-fit"
-                                            onClick={() => { setLoginModalOpen(true) }}
-                                        >Regístrate</Button> */}
                                     </div>
                                     <div className="flex flex-col items-center mt-5 text-primary/70">
                                         <p>
@@ -166,10 +162,7 @@ export default function Sidebar({
                                                 setArtistRegisterOpen(true)
                                             }}
                                             className="w-fit">Regístrate</Button>
-
-
                                     </div>
-
                                 </div>
                         }
                     </div>

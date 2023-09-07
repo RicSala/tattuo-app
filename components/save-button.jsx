@@ -19,18 +19,13 @@ const SaveButton = ({
     return (
         <div
             onClick={toggleSave}
-            className="
-    relative
-    hover:opacity-80
-    transition
-    cursor-pointer
-    "
+            className="relative transition cursor-pointer hover:opacity-80"
         >
 
             <BookMarked
                 size={24}
                 className={
-                    hasSaved ? 'fill-black' : 'fill-neutral-500/30'
+                    hasSaved ? 'fill-black stroke-white' : 'fill-neutral-500/30'
                 } />
 
         </div>

@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 
 
-const generatedContentSlugs = [
+export const generatedContentSlugs = [
     "mariposa",
     "tribal",
     "estrella",
@@ -34,6 +34,7 @@ export const generateMetadata = async ({
 
     return {
         title: `Tatuajes de ${capitalizeFirst(contentSlug)}`,
+        description: `Descubre tatuajes de ${capitalizeFirst(contentSlug)} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
     }
 };
 
@@ -111,7 +112,7 @@ export default async function TattoosPage({ params, searchParams }) {
     return (
         <Container>
 
-            <Heading title={"Descubre tatuajes"}
+            <Heading title={`Descubre tatuajes de ${capitalizeFirst(contentSlug)}`}
                 subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />

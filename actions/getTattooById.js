@@ -13,6 +13,7 @@ export async function getTattoosById(tattooId) {
             include: {
                 artistProfile: true,
                 likes: true,
+                style: true,
                 tags: {
                     select: {
                         tag: {

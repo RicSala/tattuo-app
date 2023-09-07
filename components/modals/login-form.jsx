@@ -336,7 +336,7 @@ export function LoginModal({
 
             // This is not working as expected...is not deleting the searchParams from the url
             onOpenChange={(isOpen) => {
-                router.push("/")
+                // router.push("/")
                 setLoginModalOpen(isOpen)
 
             }}

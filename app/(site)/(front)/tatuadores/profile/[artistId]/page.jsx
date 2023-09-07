@@ -1,20 +1,10 @@
 import EmptyState from "@/components/empty-state";
-import Image from "next/image";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
-// import SaveButton from "@/components/ui/SaveButton";
-import HeartButton from "@/components/heart-button";
-// import LikesCount from "@/components/ui/LikesCount";
-// import ArtistSocials from "@/components/artist/ArtistSocials";
-// import ArtistPrices from "@/components/artist/ArtistPrices";
 import Heading from "@/components/heading";
-// import Badge from "@/components/ui/Badge";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-// import { BsArrowDownRightCircle, BsBack, BsMenuDown } from "react-icons/bs";
-// import { IoMdMore } from "react-icons/io";
-// import { BiDownArrow, BiDownArrowAlt } from "react-icons/bi";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/ui/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
@@ -47,7 +37,7 @@ export default async function ArtistDetailsPage({ params }) {
 
     return (
 
-        <main className="flex flex-row justify-center flex-wrap gap-4">
+        <main className="flex flex-row flex-wrap justify-center gap-4">
 
             <section className="">
                 <ArtistDetailsCard artist={artist} currentUser={currentUser} />

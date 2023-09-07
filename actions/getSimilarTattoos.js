@@ -1,28 +1,48 @@
 import prisma from "@/lib/prismadb";
 
 
-export default async function getSimilarTattoos(tattoo) { // I would call the args "filters", because actually the function could without "searchParams" specifically
+export default async function getSimilarTattoos(tattoo) {
 
-    try {
-
-        // get tattoos that have same style OR are from the same artist
-        const similarTattoos = await prisma.tattoo.findMany({
-            where: {
-                OR: [
-                    {
-                        style: tattoo.style
+    const similarTattoos = await prisma.tattoo.findMany({
+        where: {
+            OR: [
+                {
+                    artistProfileId: {
+                        equals: tattoo.artistProfileId
                     },
-                    {
-                        artistProfileId: tattoo.artistProfileId
+                    id: {
+                        not: tattoo.id
                     }
-                ]
+                },
+            ]
+
+        }
+
+        ,
+        include: {
+            artistProfile: {
+                select: {
+                    id: true,
+                    artisticName: true,
+                    // avatar: true
+                }
+            },
+            tags: {
+                select: {
+                    tag: {
+                        select: {
+                            label: true
+                        }
+                    }
+                }
+            },
+            likes: {
+                select: {
+                    userId: true
+                }
             }
-        });
+        }
+    });
 
-        return similarTattoos;
-
-    } catch (error) {
-        console.log("ERROR - getSimilarTattoos", error)
-        return null;
-    }
+    return similarTattoos;
 }

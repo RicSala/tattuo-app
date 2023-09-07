@@ -1,6 +1,6 @@
 export default function Whatsapp({
-    width,
-    height,
+    width = 20,
+    height = 20,
 }) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={width} height={height} fill="white" viewBox="0 0 50 50">

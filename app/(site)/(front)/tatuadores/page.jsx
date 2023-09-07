@@ -95,7 +95,7 @@ export default async function ArtistPage({ searchParams }) {
             </ListingGridWithInfinite> */}
 
             <Heading title={"Descubre tatuadores"}
-                subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
+                subtitle={"Explora por estilo, ciudad, o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />
 

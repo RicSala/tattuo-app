@@ -32,6 +32,7 @@ export default function TattooCard({
         return axios.post('/api/boards', { title: title })
             .then(res => {
                 toast({
+                    variant: 'success',
                     title: `Tablero ${title} creado`,
                     description: "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
                 })
@@ -54,6 +55,7 @@ export default function TattooCard({
             .then(res => {
                 console.log("response data:", res.data)
                 toast({
+                    variant: 'success',
                     title: `Tablero añadido el tatuaje a ${board.title}`,
                     description: "Puedes seguir añadiendo más tatuajes",
 
@@ -62,10 +64,9 @@ export default function TattooCard({
             .catch(err => {
                 console.log("ERROR - TattooCard", err)
                 toast({
+                    variant: "destructive",
                     title: `No ha sido posible añadir el tatuaje a ${board.title}`,
                     description: `${err.response.data.error}`,
-                    variant: "destructive"
-
                 })
             }
             )

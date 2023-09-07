@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 // ii) those server rendered, iii) those 
 // that should not exist (for seo is better not too many pages)
 
-const generatedCities = [
+export const generatedCities = [
     "madrid",
     "barcelona",
     "valencia",
@@ -50,15 +50,6 @@ const filtro1 = {
     value: 'styles',
     options: styles
 }
-
-
-// const cities = getCities()
-// const filtro2 = {
-//     label: 'Ciudad',
-//     value: 'city',
-//     options: cities
-// }
-// const endpoint = 'http://localhost:3000/api/artists'
 
 const numberOfPagesToLoad = 1
 const sizePerPage = 5
@@ -115,8 +106,8 @@ export default async function CityPage({ params, searchParams }) {
     return (
         <Container>
 
-            <Heading title={"Descubre tatuadores"}
-                subtitle={"Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"}
+            <Heading title={`Tatuadores en ${capitalizeFirst(cityName)}`}
+                subtitle={"Explora por estilo o simplemente escribe lo que buscas"}
             />
             <Separator className="my-5" />
 

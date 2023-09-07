@@ -299,6 +299,7 @@ const TattooEditPageClient = ({
                             <Button
                                 variant="outline" className="flex flex-row items-center gap-2"
                                 onClick={() => { router.back() }}
+                                type="button"
                             >
                                 <Undo />
                                 Cancelar

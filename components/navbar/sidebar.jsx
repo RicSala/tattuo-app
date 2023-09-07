@@ -145,8 +145,7 @@ export default function Sidebar({
                                                             h-[86%]
                                                             hover:bg-primary
                                                             focus:!ring-offset-0
-                                                            focus:!ring-0
-          "
+                                                            focus:!ring-0"
                                             >
                                                 Entra
                                             </Button>

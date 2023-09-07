@@ -5,6 +5,7 @@ import ArtistSmallCard from "@/components/artist/artist-bio";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import ShareButtons from "@/components/share-buttons";
+import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -29,6 +30,8 @@ const TattooDetailsPage = async ({ params }) => {
     const [tattoo, currentUser] = await Promise.all([tattooPromise, currentUserPromise])
 
     const similarTattoos = await getSimilarTattoos(tattoo);
+
+    console.log({ similarTattoos })
 
 
     const hostname = process.env.NODE_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/artists` : `${process.env.HOST_NAME_DEV}/api/artists`
@@ -74,14 +77,16 @@ const TattooDetailsPage = async ({ params }) => {
 
                             <div className="px-4 pt-4">
                                 <h3>Estilo</h3>
-                                <div>{tattoo.style}</div>
+                                <div>
+                                    <Badge variant={'secondary'}>
+                                        {tattoo.style.label}
+                                    </Badge>
+                                </div>
                             </div>
                             <div>
                                 {/* tags separated by commas */}
                                 <div className="px-4 pt-4">
-                                    <div
-                                        className="font-bold"
-                                    >Tags: </div>
+                                    <h3>Tags </h3>
                                     <p className="">{
                                         (tattoo.tags.map((el) => (
                                             `#${el.tag.label.toLowerCase()}`

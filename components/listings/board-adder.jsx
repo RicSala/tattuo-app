@@ -88,6 +88,7 @@ export function BoardAdder({
                                     return await onBoardCreate(title)
                                 }
                             }
+                                onCancel={() => setShowCreateForm(false)}
                                 onBoardSelect={onBoardSelect}
                                 tattoo={tattoo}
                             />
@@ -142,7 +143,8 @@ const BoardList = (
 const BoardCreationForm = ({
     onBoardCreate,
     onBoardSelect,
-    tattoo
+    tattoo,
+    onCancel,
 }) => {
 
     const { register, handleSubmit, setFocus, formState: { errors } } = useForm({
@@ -203,7 +205,7 @@ const BoardCreationForm = ({
                     <div className="flex flex-row justify-between">
                         <Button variant="ghost"
                             // TODO: make it go back when clicked...
-                            onClick={() => { }}
+                            onClick={onCancel}
                         >Cancelar</Button>
                         <Button size="lg" type="submit">Crear</Button>
                     </div>

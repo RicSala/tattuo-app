@@ -50,14 +50,10 @@ const TattooDetailsPage = async ({ params }) => {
 
         <div className="">
             <div className="max-w-screen-lg mx-auto mt-3 overflow-hidden border shadow-lg sm:my-10 rounded-xl">
-                <div className="flex flex-col overflow-hidden lg:flex-row md:h-[70vh]">
+                <div className="flex flex-col overflow-hidden lg:flex-row ">
 
-                    <div className="order-first md:order-none aspect-auto
-                    sm:min-h-[60vh]
-
-                    min-h-[50vh]
-                    relative
-                    w-full
+                    <div className="
+                    order-first md:order-none aspect-auto sm:min-h-[60vh] min-h-[50vh] relative w-full
                     ">
                         <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-contain "
                         />
@@ -114,7 +110,11 @@ const TattooDetailsPage = async ({ params }) => {
                             </div>
 
                         </div>
-                        <ShareButtons url={`${hostname}/tatuajes/${tattoo.id}`} />
+                        <div className="px-4 py-2">
+
+                            <h3>Compártelo</h3>
+                            <ShareButtons url={`${hostname}/tatuajes/${tattoo.id}`} />
+                        </div>
                         <div className="px-4 py-2">
                             <p>Artista:</p>
                             <ArtistSmallCard artist={tattoo.artistProfile} />

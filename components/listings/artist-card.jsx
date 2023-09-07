@@ -13,6 +13,7 @@ const ArtistCard = ({
 
     const router = useRouter();
 
+
     return (
 
         <div onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
@@ -34,7 +35,7 @@ const ArtistCard = ({
                         <Image
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             fill={true}
-                            src={data.mainImage}
+                            src={data.mainImage || '/images/placeholder.png'}
                             alt="profile picture"
                             className="object-cover"
                         />

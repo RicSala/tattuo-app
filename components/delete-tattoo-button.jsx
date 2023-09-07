@@ -29,7 +29,10 @@ export default function DeleteTattooButton({
 
     return (
         <Button
-            onClick={() => { onDelete(tattooId) }}
+            onClick={() => {
+                const userConfirmation = confirm('¿Seguro que quieres borrar este tatuaje? Dejará de estar publicado inmediatamente');
+                if (userConfirmation) onDelete(tattooId)
+            }}
         >
             {children}
         </Button>

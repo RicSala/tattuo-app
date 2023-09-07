@@ -93,6 +93,7 @@ const ImageUploader = ({
                 return (
                     <div className="flex flex-col gap-2">
                         <Button
+                            type="button"
                             onClick={() => open?.()}
                             size={"lg"}
                             className="flex flex-row gap-2 max-w-fit"
@@ -127,8 +128,8 @@ const ImageThumbnail = forwardRef(({
 }, ref) => {
 
     return (
-        <div className="relative h-40 w-40">
-            <div className="relative h-40 w-40 rounded-md overflow-hidden">
+        <div className="relative w-40 h-40">
+            <div className="relative w-40 h-40 overflow-hidden rounded-md">
                 <Image src={value || placeholderUrl} alt="image" fill
                     className="object-cover" />
             </div>
@@ -145,10 +146,7 @@ const ImageThumbnail = forwardRef(({
                     // await axios.delete(`/api/images/${value.split("/").pop().split(".")[0]}`)
                 }}
                 className="absolute right-[-0.5em] top-[-0.5em] cursor-pointer">
-                <DeleteIcon size={25} className="
-                z-50
-                text-primary
-                "/>
+                <DeleteIcon size={25} className="z-50  text-primary" />
             </div>
         </div>
     )

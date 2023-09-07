@@ -32,8 +32,6 @@ export const AuthProvider = ({ children }) => {
 
         if (status === 'authenticated') {
 
-            console.log({ data })
-
             try {
                 const getBoardsFromDb = async () => {
                     const res = await axios.get('/api/boards')

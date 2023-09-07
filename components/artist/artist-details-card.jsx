@@ -24,8 +24,6 @@ export default function ArtistDetailsCard({
     const router = useRouter()
     const { hasSaved, toggleSave } = useSave({ listingId: artist.id, currentUser: currentUser, listingType: 'artists' })
 
-    console.log({ hasSaved })
-
     return (
         <div className="flex flex-col gap-2 p-5 rounded-lg w-96 bg-secondary/50">
             <div className="flex flex-row justify-between">
@@ -76,6 +74,7 @@ export default function ArtistDetailsCard({
                 <Button className="w-[50%]"
                     onClick={() => {
                         toast({
+                            variant: 'success',
                             title: "Puedes contactarle directamente",
                             description: "El contacto con lxs artistas es libre y gratuito, ¡Contáctale en cualquiera de sus redes",
 
@@ -85,8 +84,19 @@ export default function ArtistDetailsCard({
                 >Contactar</Button>
                 <Button
                     onClick={(e) => {
-                        console.log({ currentUser })
                         toggleSave(e)
+
+                        !hasSaved ?
+                            toast({
+                                variant: "success",
+                                title: "Artista guardadx!",
+                                description: "¿Por qué no le escribes un mensaje para hablar de ese tatuaje?"
+                            }) :
+                            toast({
+                                variant: "success",
+                                title: "Artista Borrado!",
+                                description: "¿Seguro que no quieres mantenerlo en tu lista de artistas favoritos?"
+                            })
                     }}
                     className="w-[50%]" variant="outline">
                     {hasSaved ? "Guardado" :

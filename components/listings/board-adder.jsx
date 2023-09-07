@@ -163,8 +163,6 @@ const BoardCreationForm = ({
         // We send the request to the server to create the board in the database after we have added it to the user
         onBoardCreate(data.title)
             .then((newBoard) => {
-                console.log({ newBoard })
-                console.log({ tattoo })
                 onBoardSelect(tattoo, newBoard)
             })
             .catch((error) => {

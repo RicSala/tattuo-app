@@ -1,7 +1,8 @@
 'use client'
 
-import { FacebookIcon } from 'lucide-react';
-import { FacebookShareButton, PinterestShareButton, WhatsappShareButton } from 'react-share';
+import { FacebookIcon, InstagramIcon } from 'lucide-react';
+import { FacebookShareButton, PinterestShareButton, WhatsappShareButton, InstagramShareButton } from 'react-share';
+import Whatsapp from './icons/whatsapp';
 
 const ShareButtons = ({
     title,
@@ -43,29 +44,29 @@ const ShareButtons = ({
                     separator=':: '
                 >
                     <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
-                        <FacebookIcon
+                        <Whatsapp
                             width={iconsSize}
                             height={iconsSize}
                         />
                     </div>
                 </WhatsappShareButton>
 
-                <PinterestShareButton
+                <WhatsappShareButton
                     media={pinterestImage}
                     description={pinterestDescription}
                 >
                     <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
-                        <FacebookIcon
+                        <InstagramIcon
                             width={iconsSize}
                             height={iconsSize}
                         />
                     </div>
-                </PinterestShareButton>
+                </WhatsappShareButton>
 
 
 
             </div>
-        </div>
+        </div >
     )
 };
 export default ShareButtons;

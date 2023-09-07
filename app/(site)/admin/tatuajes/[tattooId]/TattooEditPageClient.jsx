@@ -30,8 +30,11 @@ const formSchema = z.object({
     description: z.string().min(2, {
         message: "La descripción debe tener al menos 2 caracteres.",
     }),
-    imageSrc: z.string().url({
-        message: "Debes ingresar una URL válida",
+    imageSrc: z.union([
+        z.string().url(),
+        z.null()
+    ]).refine(value => value !== null, {
+        message: "Sube una imagen de la pieza",
     }),
     style: z.object({
         id: z.string(),
@@ -91,9 +94,6 @@ const TattooEditPageClient = ({
 
         // TODO: delete images too
 
-        console.log("data", data)
-
-        // if tatto is new, we need to create it
         if (data.tattooId === "new") {
             return axios.post(`/api/tattoos`, data) //TODO: change to fetch (from Next)
                 .then(res => {
@@ -105,7 +105,7 @@ const TattooEditPageClient = ({
                     })
                     // after creating the tattoo, we redirect to the edit page,
                     // so the user does not add more tattoos by mistake
-                    router.push(`/admin/tatuajes/${res.data.id}`)
+                    router.push(`/admin/tatuajes`)
                     router.refresh()
                 })
                 .catch(err => {
@@ -298,7 +298,7 @@ const TattooEditPageClient = ({
                         <div className="flex flex-row justify-between mt-5">
                             <Button
                                 variant="outline" className="flex flex-row items-center gap-2"
-                                onClick={router.back()}
+                                onClick={() => { router.back() }}
                             >
                                 <Undo />
                                 Cancelar

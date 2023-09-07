@@ -16,12 +16,8 @@ const ArtistSmallCard = ({
     return (
         <div
             onClick={() => router.push(`/tatuadores/profile/${artist.id}`)}
-            className="
-            cursor-pointer
-            hover:bg-muted
-            sm:mb-4 
-            mx-auto flex w-full flex-col items-center rounded-xl border px-4 py-4 text-center md:max-w-lg sm:flex-row sm:text-left">
-            <div className="rounded-full relative mb-4 md:mr-6 md:mb-0">
+            className="flex flex-col items-center w-full px-4 py-4 mx-auto text-center border cursor-pointer  hover:bg-muted sm:mb-4 rounded-xl md:max-w-lg sm:flex-row sm:text-left">
+            <div className="relative mb-4 rounded-full md:mr-6 md:mb-0">
 
                 <Avatar className="cursor-pointer">
                     <AvatarImage src={artist.mainImage || undefined} />
@@ -32,15 +28,12 @@ const ArtistSmallCard = ({
 
 
             </div>
-            <div className="flex-grow flex flex-col justify-center">
+            <div className="flex flex-col justify-center flex-grow">
                 <p className="text-xl font-medium text-primary">{artist.artisticName}</p>
                 <p className="text-sm font-medium text-primary">{
                     // Firts 50 charts of artist.bio, then "..."
                     artist.bio.length > 50 ? artist.bio.substring(0, 50) + "..." : artist.bio
                 }</p>
-                {/* <Separator className="mb-2" />
-                <h2 className="font-bold">Redes sociales</h2>
-                <ArtistSocials artist={artist} /> */}
             </div>
         </div>
 

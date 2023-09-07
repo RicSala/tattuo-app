@@ -75,7 +75,6 @@ export default function TattooCard({
     return (
         <div
             className="cursor-pointer"
-
             onClick={(event) => {
                 if ((event.target.id !== "tattoo-image" && event.target !== path)) {
                     event.preventDefault()
@@ -83,7 +82,6 @@ export default function TattooCard({
                     router.push(`/tatuajes/detalle/${data.id}`)
                 }
             }}>
-
             <Card className={cn(`
                     w-full
                     min-w-[150px]
@@ -118,7 +116,6 @@ export default function TattooCard({
                         <div className="absolute hidden p-3 group-hover:block right-2 top-2" >
                             <HeartButton listingId={data.id} currentUser={currentUser} listingType={"tattoos"} />
                         </div>
-
                     }
                 </CardContent>
             </Card>

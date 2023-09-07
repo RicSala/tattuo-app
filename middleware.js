@@ -15,8 +15,7 @@ import { NextResponse } from "next/server"
 // withAuth auments the rquest and puts the user token in the request object
 export default withAuth(
     function middleware(request) {
-        console.log(request.nextUrl.pathname)
-        console.log("TOKEN!!!", request.nextauth.token) // we have now the token available in the request!
+        console.log("MIDDLEWARE") // we have now the token available in the request!
 
         // protect the paths of the users
         if ((request.nextUrl.pathname.includes("/tatuadores/saved")
@@ -24,6 +23,7 @@ export default withAuth(
             || request.nextUrl.pathname.includes("/settings"))
             && !request.nextauth.token
         ) {
+            console.log("BLOCKED in 1st filter")
             return NextResponse.rewrite(
                 new URL("/denied", request.url)
             )
@@ -32,8 +32,9 @@ export default withAuth(
 
         // protect the paths of the artists
         if (request.nextUrl.pathname.includes("/admin")
-            && request.nextauth.token.role !== 'ARTIST'
+            && request.nextauth.token?.role !== 'ARTIST'
         ) {
+            console.log("BLOCKED in 2nd filter")
             return NextResponse.rewrite(
                 new URL("/denied", request.url)
             )
@@ -48,7 +49,7 @@ export default withAuth(
         authorized: ({ token }) => {
             // console.log({ token })
             // return !!token // we are gonna let them in, and separate cases in the middleware function
-            return true
+            return !!true
         }
     }
 })

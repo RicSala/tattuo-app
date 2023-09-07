@@ -14,9 +14,6 @@ const useSave = ({
     listingType = 'artists',
 }) => {
 
-    console.log({ currentUser })
-
-
     const { toast } = useToast()
     const router = useRouter()
     const { setLoginModalOpen } = useContext(UiContext)

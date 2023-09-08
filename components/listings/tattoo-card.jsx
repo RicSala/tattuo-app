@@ -53,7 +53,6 @@ export default function TattooCard({
         // add the tattoo to the board
         axios.post(`/api/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
             .then(res => {
-                console.log("response data:", res.data)
                 toast({
                     variant: 'success',
                     title: `Tutuaje añadido a ${board.title}`,
@@ -77,9 +76,7 @@ export default function TattooCard({
         <div
             className="cursor-pointer"
             onMouseEnter={() => {
-                console.log("enter")
                 router.prefetch(`/tatuajes/detalle/${data.id}`)
-                console.log("prefetch??")
             }}
             onClick={(event) => {
 

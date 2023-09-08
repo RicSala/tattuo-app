@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/toaster'
 import { UiProvider } from '@/providers/ui/ui-provider'
 import { LoginModal } from '@/components/modals/login-form'
 import { ArtistRegisterModal } from '@/components/modals/artist-register'
+import TagManager from '@/scripts/gtm'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,6 +19,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Suspense>
+          <TagManager />
+        </Suspense>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <UiProvider>
             <LoginModal />

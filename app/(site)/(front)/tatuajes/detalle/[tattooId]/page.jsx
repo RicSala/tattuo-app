@@ -3,20 +3,15 @@ import getSimilarTattoos from "@/actions/getSimilarTattoos";
 import { getTattoosById } from "@/actions/getTattooById";
 import ArtistSmallCard from "@/components/artist/artist-small-card";
 import HeartButton from "@/components/heart-button";
-import { BoardAdder } from "@/components/listings/board-adder";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import ShareButtons from "@/components/share-buttons";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
 const TattooDetailsPage = async ({ params }) => {
 
-
-
-    // TODO: Intercepting routes to show in a modal
     // TODO: Head for SEO (title, description, etc)
     // TODO: rss feed (https://nextjs.org/docs/app/building-your-application/routing/router-handlers#non-ui-responses)
     // REVIEW: what is turbopack?
@@ -121,17 +116,21 @@ const TattooDetailsPage = async ({ params }) => {
                             <h3>Compártelo</h3>
                             <ShareButtons url={`${hostname}/tatuajes/${tattoo.id}`} />
                         </div>
-                        <div className="px-4 py-2">
-                            <p>Artista:</p>
-                            <ArtistSmallCard artist={tattoo.artistProfile} />
-                        </div>
+                        {
+                            (tattoo.artistProfileId && tattoo.artistProfileId !== "") ?
+                                <div className="px-4 py-2">
+                                    <p>Artista:</p>
+                                    <ArtistSmallCard artist={tattoo.artistProfile} />
+                                </div>
+                                :
+                                null
+                        }
                     </div>
                 </div>
             </div>
 
 
             <h2 className="mt-20">También te pueden gustar...</h2>
-            <Separator className="my-3" />
             {
                 (similarTattoos?.length > 0) &&
                 <ListingGrid>

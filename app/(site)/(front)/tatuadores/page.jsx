@@ -40,6 +40,11 @@ const numberOfPagesToLoad = 1
 const sizePerPage = 5
 const initialDataSize = (numberOfPagesToLoad * sizePerPage)
 
+export const metadata = {
+    title: 'Los mejores tatuadores de tu ciudad',
+    description: 'Encuentra tatuadores cerca de ti buscando por tatuajes, por estilo, por ciudad... Y contáctales cuando quieras totalmente GRATIS',
+}
+
 export default async function ArtistPage({ searchParams }) {
 
 

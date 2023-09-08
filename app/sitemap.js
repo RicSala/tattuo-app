@@ -11,7 +11,7 @@ import * as MyTypes from '@/types'
 //TODO: for now, the updated and priority are not shown. Update to latest nextjs to display them (and review rest of the app for breaking changes)
 
 import { getPosts } from "@/lib/posts";
-import { formattedUrls, projectUrls } from '@/lib/sitemapUrls';
+import { projectUrls } from '@/lib/sitemapUrls';
 import { generatedCities } from './(site)/(front)/tatuadores/[cityName]/page';
 import { generatedContentSlugs } from './(site)/(front)/tatuajes/[contentSlug]/page';
 // import { getFoldersRecursive } from '@/lib/getFoldersRecursive';
@@ -36,14 +36,7 @@ export default async function Sitemap() {
 
     }))
 
-
-    // const nonDynamicRoutes = getFoldersRecursive('/app/(site)/(front)')
-    // const FormattedNonDynamicRoutes = nonDynamicRoutes.map((item) => ({
-    //     url: `https://tattuo/${item}`,
-    //     lastModified: new Date(),
-    // }))
-
-    const formattedUrls = projectUrls.map((item) => ({
+    const formattedProjectUrls = projectUrls.map((item) => ({
         url: `https://tattuo.com/${item}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
@@ -51,17 +44,17 @@ export default async function Sitemap() {
     }))
 
     const formattedCityUrls = generatedCities.map((item) => ({
-        url: `https://tattuo.com/tatuadores/${item}`,
+        url: `https://tattuo.com/tatuadores/${item.city}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
-        priority: 0.9,
+        priority: 1,
     }))
 
     const formattedContentUrls = generatedContentSlugs.map((item) => ({
         url: `https://tattuo.com/tatuajes/${item}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
-        priority: 0.9,
+        priority: 1,
     }))
 
     return [
@@ -72,19 +65,8 @@ export default async function Sitemap() {
             priority: 1,
         },
         ...formattedPosts,
-        ...formattedUrls,
+        ...formattedProjectUrls,
         ...formattedCityUrls,
         ...formattedContentUrls
     ];
 }
-
-
-
-// export default function sitemap() {
-//     return [
-//         {
-//             url: "https://tattuo.com",
-//             lastModified: new Date(),
-//         },
-//     ]
-// }

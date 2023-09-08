@@ -18,7 +18,13 @@ export const dynamic = "force-dynamic";
 
 //TODO:
 // SITEMAP
-// ROBOTS.TXT
+// ROBOTS.TXT [x]
+
+export const metadata = {
+    title: 'TATTUO · Descubre Tatuajes de todos los estilos',
+    description: 'Seleccionamos los mejores tatuadores de tu ciudad para que hagas realidad ese tatuaje qué tanto tiempo llevas buscando',
+}
+
 const styles = getStyleList()
 const bodyParts = getBodyParts()
 

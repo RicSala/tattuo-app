@@ -3,6 +3,10 @@ import { Separator } from "@/components/ui/separator";
 import PostGrid from "./components/post-grid";
 import { getPosts } from "@/lib/posts";
 
+export const metadata = {
+    title: 'Blog de tatuajes',
+    description: 'Consejos sobre el mundo del tatuaje',
+}
 
 export default async function BlogPage({
 }) {

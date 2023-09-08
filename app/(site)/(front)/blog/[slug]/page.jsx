@@ -34,6 +34,7 @@ export const generateMetadata = async ({
 
     return {
         title: post.title,
+        description: post.body.substring(0, 100),
     }
 };
 

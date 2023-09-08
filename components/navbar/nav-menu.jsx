@@ -6,53 +6,11 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import {
     NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Menu } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
-const components = [
-    {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
-        description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
-        description:
-            "For sighted users to preview content available behind a link.",
-    },
-    {
-        title: "Progress",
-        href: "/docs/primitives/progress",
-        description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-        title: "Scroll-area",
-        href: "/docs/primitives/scroll-area",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/docs/primitives/tabs",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/docs/primitives/tooltip",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-]
 
 export function NavMenu({
     currentUser
@@ -67,11 +25,11 @@ export function NavMenu({
                             <li className="row-span-3">
                                 <NavigationMenuLink asChild>
                                     <a
-                                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                        className="flex flex-col justify-end w-full h-full p-6 no-underline rounded-md outline-none select-none bg-gradient-to-b from-muted/50 to-muted focus:shadow-md"
                                         href="/"
                                     >
-                                        <Menu className="h-6 w-6" />
-                                        <div className="mb-2 mt-4 text-lg font-medium">
+                                        <Menu className="w-6 h-6" />
+                                        <div className="mt-4 mb-2 text-lg font-medium">
                                             shadcn/ui
                                         </div>
                                         <p className="text-sm leading-tight text-muted-foreground">
@@ -146,7 +104,7 @@ const ListItem = React.forwardRef(({ className, title, children, ...props }, ref
                     {...props}
                 >
                     <div className="text-sm font-medium leading-none">{title}</div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    <p className="text-sm leading-snug line-clamp-2 text-muted-foreground">
                         {children}
                     </p>
                 </a>

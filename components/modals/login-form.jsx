@@ -44,6 +44,8 @@ export function LoginForm({
     const router = useRouter()
     const { toast } = useToast()
 
+    const { setLoginModalOpen, setSidebarOpen } = useContext(UiContext)
+
     const form = useForm({
         resolver: zodResolver(signInFormSchema),
 
@@ -59,14 +61,36 @@ export function LoginForm({
         return signIn('credentials', {
             ...data,
             callbackUrl: `${window.location.origin}/tatuajes`,
-        }).catch((error) => {
+            redirect: false
+        }).then(
+            (response) => {
+                console.log({ response })
+                if (response.error) {
+                    toast({
+                        title: `Error al entrar`,
+                        description: "Tus credenciales parecen no ser correctas",
+                        variant: 'customDestructive'
+                    })
+                } else {
+                    router.refresh()
+                    setLoginModalOpen(false);
+                    setSidebarOpen(false)
+                    router.push("/tatuajes")
+                    toast({
+                        title: "Bienvenido de nuevo",
+                        description: "Ya puedes guardar tus obras y artistas favoritos",
+                        variant: "success"
+                    })
+
+                }
+            }
+        ).catch((error) => {
+            console.log({ error })
             toast({
                 title: `Error al entrar`,
                 description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
                 variant: "destructive"
             })
-
-            console.log("LOGIN ERROR - ", error)
         }
         )
 
@@ -175,7 +199,8 @@ export function RegisterForm({
     const { toast } = useToast()
 
     const { setSidebarOpen,
-        setLoginModalOpen } = useContext(UiContext)
+        setLoginModalOpen,
+        setArtistRegisterOpen } = useContext(UiContext)
 
     const form = useForm({
         resolver: zodResolver(registerFormSchema),
@@ -323,7 +348,7 @@ export function LoginModal({
     variant = "login"
 }) {
 
-    const { loginModalOpen, setLoginModalOpen } = useContext(UiContext)
+    const { loginModalOpen, setLoginModalOpen, setArtistRegisterOpen } = useContext(UiContext)
     const [variantShown, setVariantShown] = useState(variant);
     const pathName = usePathname()
     const router = useRouter()
@@ -345,14 +370,25 @@ export function LoginModal({
             <DialogContent>
                 {
                     variantShown === "login" ?
-                        <div className="flex flex-col items-center space-y-2">
-                            <LoginForm />
-                            <p>¿No tienes cuenta? <Button
-                                variant="ghost"
-                                className="inline-block"
-                                onClick={() => { setVariantShown('register') }}
-                            >¡Créala!</Button></p>
-                        </div>
+                        <>
+                            <div className="flex flex-col items-center space-y-2">
+                                <LoginForm />
+                                <p>¿No tienes cuenta? <Button
+                                    variant="ghost"
+                                    className="inline-block"
+                                    onClick={() => { setVariantShown('register') }}
+                                >¡Créala!</Button></p>
+                                <p className="text-sm text-primary/50">¿Eres Tatuador(a)? <Button
+                                    variant="ghost"
+                                    className="inline-block"
+                                    onClick={() => {
+                                        setLoginModalOpen(false)
+                                        setArtistRegisterOpen(true)
+
+                                    }}
+                                >¡Publica tu trabajo!</Button></p>
+                            </div>
+                        </>
                         :
                         <div className="flex flex-col items-center space-y-2">
                             <RegisterForm />

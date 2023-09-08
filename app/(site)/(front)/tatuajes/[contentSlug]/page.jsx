@@ -2,7 +2,6 @@ import { getCurrentUser } from '@/actions/getCurrentUser';
 import { getTattoos } from '@/actions/getTattoos'
 import EmptyState from '@/components/empty-state';
 import Heading from '@/components/heading';
-import InfiniteListingGrid from '@/components/listings/infinite-listing-grid';
 import ListingGrid from '@/components/listings/listing-grid';
 import TattooCard from '@/components/listings/tattoo-card';
 import FreeSearch from '@/components/search/free-search';
@@ -137,7 +136,7 @@ export default async function TattoosPage({ params, searchParams }) {
             <ListingGrid>
                 {
                     serverLoadedTattoos.map((tattoo) => (
-                        <TattooCard key={tattoo._id} data={tattoo} currentUser={currentUser} />
+                        <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
                     ))
                 }
             </ListingGrid>

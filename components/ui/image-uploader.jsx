@@ -39,7 +39,7 @@ const ImageUploader = ({
             options={
                 {
                     maxFiles: maxFiles,
-
+                    cropping: true,
                     sources: ["local", "url", "camera", "instagram", "facebook", "google_drive", "url"],
                     language: "es",
                     text: {
@@ -50,13 +50,16 @@ const ImageUploader = ({
                             },
                             "crop": {
                                 "title": "Recorta tu imagen",
-
+                                "crop_btn": "Recortar",
+                                "skip_btn": "Saltar",
+                                "close_prompt": "Cerrar cancelará la subida, ¿Estás segur@?",
+                                "corner_tooltip": "Arrastra la esquina para cambiar el recorte",
+                                "handle_tooltip": "Arrastra el handle para cambiar el recorte"
                             },
                             "local": {
                                 "browse": "...archivos",
                                 "dd_title_single": "Arrastra una imagen aquí",
                                 "dd_title_multi": `Arrastra hasta ${maxFiles} imágenes aquí`,
-
                             },
                             "or": "o navega por tus...",
                             "back": "Anterior",
@@ -83,7 +86,7 @@ const ImageUploader = ({
                                 "upload": "Subir",
                                 "next": "Siguiente",
                                 "clear_all": "Limpiar todo",
-                                "log_out": "Log out"
+                                "log_out": "Log out",
                             },
                         }
                     }
@@ -146,7 +149,7 @@ const ImageThumbnail = forwardRef(({
                     // await axios.delete(`/api/images/${value.split("/").pop().split(".")[0]}`)
                 }}
                 className="absolute right-[-0.5em] top-[-0.5em] cursor-pointer">
-                <DeleteIcon size={25} className="z-50  text-primary" />
+                <DeleteIcon size={25} className="z-50 text-primary" />
             </div>
         </div>
     )

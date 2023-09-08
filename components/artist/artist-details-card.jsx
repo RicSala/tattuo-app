@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDownRightFromCircle, ChevronDown, MoreHorizontal, Phone, Undo } from "lucide-react";
+import { ChevronDown, MoreHorizontal, Undo } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import ArtistSocials from "./artist-socials";
@@ -11,8 +11,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import useSave from "@/hooks/useSave";
 import { toast } from "../ui/use-toast";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import Link from "next/link";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 export default function ArtistDetailsCard({
     artist,

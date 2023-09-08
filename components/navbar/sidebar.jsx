@@ -2,7 +2,7 @@
 
 import { LogOut, Menu } from "lucide-react";
 import { Button } from "../ui/button";
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import MenuItem from "../ui/menu-item";
 import { artistMenuItems, clientMenuItems, visitorMenuItems } from "@/lib/const";
 import { Separator } from "../ui/separator";
@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { signOut } from 'next-auth/react';
 import { UiContext } from "@/providers/ui/ui-provider";
-import GradientBorder from "../uiEffects/gradient-border";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import CoolLoginButton from "../cool-login-button";
 
 
 export default function Sidebar({
@@ -59,10 +60,17 @@ export default function Sidebar({
                                     artistMenuItems.map((el) => (
                                         <MenuItem
                                             warningIcon={!currentUser?.artist?.isComplete ? el.warningIcon : null}
-                                            label={el.label} onClick={() => {
+                                            label={el.label}
+                                            onClick={() => {
                                                 router.push(el.url)
                                                 setSidebarOpen(false)
-                                            }} key={el.label} />
+                                            }} key={el.label}
+                                            onMouseEnter={() => {
+                                                router.prefetch(el.url)
+                                            }
+                                            }
+
+                                        />
                                     ))
                                 }
                             </>
@@ -80,22 +88,37 @@ export default function Sidebar({
                                         <MenuItem label={el.label} onClick={() => {
                                             router.push(el.url)
                                             setSidebarOpen(false)
-
-
-                                        }} key={el.label} />
+                                        }}
+                                            onMouseEnter={() => { router.prefetch(el.url) }}
+                                            key={el.label} />
                                     ))
                                 }
 
                                 {
                                     !currentUser ?
-                                        <div className="absolute top-0 left-0 w-full h-full border rounded-md border-accent bg-muted/50 "
-                                            onClick={() => {
-                                                setLoginModalOpen(() => true)
-                                            }}
-                                        >
+                                        <TooltipProvider delayDuration={100}>
 
-                                        </div>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div className="absolute top-0 left-0 w-full h-full border rounded-md cursor-pointer border-accent bg-muted/50"
+                                                        onClick={() => {
+                                                            setLoginModalOpen(() => true)
+                                                        }}
+                                                    >
+                                                    </div>
 
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <div className="flex flex-col items-center justify-center">
+
+                                                        <p>Entra a tu cuenta para acceder</p>
+                                                        <CoolLoginButton />
+                                                    </div>
+
+                                                </TooltipContent>
+
+                                            </Tooltip>
+                                        </TooltipProvider>
                                         :
                                         null
                                 }
@@ -110,9 +133,9 @@ export default function Sidebar({
                             <MenuItem label={el.label} onClick={() => {
                                 router.push(el.url)
                                 setSidebarOpen(false)
-
-
-                            }} key={el.label} />
+                            }}
+                                onMouseEnter={() => { router.prefetch(el.url) }}
+                                key={el.label} />
                         ))
                     }
                     <Separator className="my-1" />
@@ -135,21 +158,8 @@ export default function Sidebar({
                                 <div className="flex flex-col justify-between">
                                     <div className="flex flex-col items-center space-y-3">
                                         <p>Para poder guardar tus favoritos y contactar con los artistas</p>
+                                        <CoolLoginButton />
 
-                                        <GradientBorder>
-                                            <Button
-                                                onClick={() => { setLoginModalOpen(true) }}
-
-                                                className="z-10 
-                                                            w-[95%]
-                                                            h-[86%]
-                                                            hover:bg-primary
-                                                            focus:!ring-offset-0
-                                                            focus:!ring-0"
-                                            >
-                                                Entra
-                                            </Button>
-                                        </GradientBorder>
                                     </div>
                                     <div className="flex flex-col items-center mt-5 text-primary/70">
                                         <p>

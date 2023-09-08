@@ -17,6 +17,9 @@ const ArtistCard = ({
     return (
 
         <div onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
+            onMouseEnter={() => {
+                router.prefetch(`/tatuajes/detalle/${data.id}`)
+            }}
             className="flex flex-col justify-between overflow-hidden border shadow-sm cursor-pointer rounded-2xl group">
             <div
                 className="relative">

@@ -2,7 +2,7 @@ import { getTattoosById } from '@/actions/getTattooById'
 import { ImageResponse } from 'next/server'
 
 // Route segment config
-export const runtime = 'edge'
+// export const runtime = 'edge'
 
 // Image metadata
 export const alt = 'About Acme'

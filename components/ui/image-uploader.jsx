@@ -1,10 +1,9 @@
 'use client'
 
 import { CldUploadWidget } from "next-cloudinary";
-import { Delete, DeleteIcon, LucideDelete, PictureInPictureIcon, UploadIcon } from "lucide-react";
+import { DeleteIcon, UploadIcon } from "lucide-react";
 import { Button } from "./button";
 import Image from "next/image";
-import axios from "axios";
 import { forwardRef } from "react";
 
 const ImageUploader = ({
@@ -14,6 +13,8 @@ const ImageUploader = ({
 }) => {
 
     // TODO: improve cloudinary widget: https://cloudinary.com/documentation/upload_widget
+    //  translations: https://upload-widget.cloudinary.com/2.8.20/global/text.json
+
     return (
 
 
@@ -34,14 +35,21 @@ const ImageUploader = ({
             uploadPreset="lbgb29le"
             onBlur={field.onBlur}
             value={field.value}
-            // doesnt work
-
             options={
                 {
+                    showAdvancedOptions: true,
+                    showPoweredBy: false,
+                    maxImageFileSize: 1000000,
+                    clientAllowedFormats: ["png", "jpeg"],
+                    croppingShowDimensions: true,
+                    croppingValidateDimensions: true,
+                    minImageWidth: 600, //TODO: change this to a bigger size
+                    minImageHeight: 600,
                     maxFiles: maxFiles,
                     cropping: true,
                     sources: ["local", "url", "camera", "instagram", "facebook", "google_drive", "url"],
                     language: "es",
+                    croppingAspectRatio: 1,
                     text: {
                         "es": {
                             "queue": {
@@ -55,6 +63,16 @@ const ImageUploader = ({
                                 "close_prompt": "Cerrar cancelará la subida, ¿Estás segur@?",
                                 "corner_tooltip": "Arrastra la esquina para cambiar el recorte",
                                 "handle_tooltip": "Arrastra el handle para cambiar el recorte"
+                            },
+                            "errors": {
+                                "file_too_large": "El tamaño del archio ({{size}}) exceede el máximo permitido ({{allowed}})",
+                                "max_dimensions_validation": "Image dimensions ({{width}}X{{height}}) are bigger than the maximum allowed: ({{maxWidth}}X{{maxHeight}})",
+                                "min_dimensions_validation": "Images dimensions ({{width}}X{{height}}) are smaller than the minimum required: ({{minWidth}}X{{minHeight}})",
+                                "unavailable": "NA",
+                                "max_number_of_files": "Número máximo de archivos excedido",
+                                "allowed_formats": "Formato no permitido",
+                                "max_file_size": "El archivo es muy grande",
+                                "min_file_size": "El archivo es muy pequeño"
                             },
                             "local": {
                                 "browse": "...archivos",

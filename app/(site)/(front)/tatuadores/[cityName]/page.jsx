@@ -147,7 +147,7 @@ export default async function CityPage({ params, searchParams }) {
                 })}
             </ListingGrid>
 
-            <div className='mt-10 '>
+            <div className='flex flex-col gap-3 mt-10'>
                 <h2>Encuentra tatuador en {cityName}</h2>
                 {
                     // find the city with name cityName and get its text

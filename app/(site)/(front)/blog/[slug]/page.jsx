@@ -51,7 +51,7 @@ export default async function PostPage({
 
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col max-w-3xl gap-2 mx-auto">
 
             <PostHeader post={post} />
             <Toc headings={post.headings} />

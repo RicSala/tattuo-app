@@ -8,6 +8,7 @@ import TattooCard from "@/components/listings/tattoo-card";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/ui/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
+import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({
@@ -67,14 +68,25 @@ export default async function ArtistDetailsPage({ params }) {
                 <Container>
                     <Heading title={`Sus trabajos`} />
                     <Separator className="my-2" />
-                    <ListingGrid>
-                        {
+                    <div className={cn(`
+                        grid
+                        grid-cols-1
+                        gap-8
+                        sm:grid-cols-2
+                        md:grid-cols-2
+                        lg:grid-cols-2
+                        xl:grid-cols-2
+                        2xl:grid-cols-3
+                        m-auto
+                        `
+                    )}
+                    >                        {
                             artistTattoos.map((tattoo) => (
                                 <TattooCard
                                     data={tattoo} currentUser={currentUser} key={tattoo.id} />
                             )
                             )}
-                    </ListingGrid>
+                    </div>
                 </Container>
             </section>
 

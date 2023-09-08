@@ -30,12 +30,12 @@ const benefits = {
 }
 
 const faqs = [
-  { question: "¿Cuánto cuesta?", answer: "Nada. TATTUO es gratis para los usuarios." },
-  { question: "¿Qué precio tiene un tatujae?", answer: "El precio de un tatuaje depende de muchos factores, como el tamaño, el estilo, el color, etc. Por eso, no podemos darte un precio exacto" },
-  { question: "¿Cómo funciona?", answer: "Cuéntanos qué tatuaje quieres hacerte y te recomendaremos hasta 5 tatuadores que cumplan con tus criterios." },
-  { question: "¿Cómo puedo contactar con los tatuadores?", answer: "Puedes contactar con ellos por el medio que tú decidas: teléfono, email, Instagram, etc." },
+  { question: "¿Cuánto cuesta?", answer: "Nada. Nothing. Nein. Niente. TATTUO es gratis para todos los usuarios. Busca tus tatuadorxs por estilo, ciudad o descúbrelos por sus tatuajes y escríbeles directamente a sus redes sociales" },
+  { question: "¿Qué precio tiene un tatujae?", answer: "El precio de un tatuaje depende de muchos factores, como el tamaño, el estilo, el color, etc. Escríbele al tatuador que te interesa y cuéntale tu idea, él te dirá el precio" },
+  // { question: "¿Cómo funciona?", answer: "Tan fácil como navegar por TATTUO y cuando encuentres unx artista que te guste, escribirle por la vía que prefieras. No hace falta que sea por TATTUO, escríbele por dónde te sea más cómodo" },
+  // { question: "¿Cómo puedo contactar con los tatuadores?", answer: "Puedes contactar con ellos por el medio que tú decidas: teléfono, email, Instagram, etc." },
   { question: "¿Sois un estudio de tatuajes?", answer: "No, somos una plataforma que conecta a usuarios con tatuadores." },
-  { question: "¿Cómo puedo dejar una reseña?", answer: "Una vez hayas contactado con el tatuador, te enviaremos un email para que puedas dejar tu reseña." },
+  { question: "¿Cómo puedo dejar una reseña?", answer: "Una vez hayas contactado con el tatuador y realizado tu tatuaje, te enviaremos un email para que puedas dejar tu reseña." },
 ]
 // Write an array with 3 fake reviews in Spanish. Each array has: name (of the person), date, role (tattoo artist or client) and reviewText.
 const reviews = [

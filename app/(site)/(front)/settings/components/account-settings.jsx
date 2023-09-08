@@ -44,6 +44,7 @@ export default function AccountSettings({
         }
     });
     const onSubmit = (data) => {
+        // TODO: edit user profile
         console.log(data)
     }
 
@@ -115,7 +116,7 @@ export default function AccountSettings({
                                 <FormMessage />
                             </FormItem>
                         )} />
-                    <Button type="submit">Registrar</Button>
+                    <Button type="submit">Guardar</Button>
 
                 </form>
             </Form>

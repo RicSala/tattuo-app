@@ -13,7 +13,7 @@ export default function MultiStepButtons({
     STEPS
 }) {
 
-    const { isDirty, isSubmitted, isSubmitting } = form.formState;
+    const { isDirty, isSubmitted, isSubmitting, isValidating } = form.formState;
 
     const router = useRouter()
 
@@ -28,7 +28,7 @@ export default function MultiStepButtons({
                     () => {
                         if (selectedTab === 0) return router.back()
                         setSelectedTab(prev => prev - 1)
-                        scrollToTabList()
+                        scrollToTabList ? scrollToTabList() : null;
                     }
                 }>
                 <Undo />
@@ -46,7 +46,7 @@ export default function MultiStepButtons({
                                 .then((isValid) => {
                                     if (isValid) {
                                         setSelectedTab(prev => prev + 1)
-                                        scrollToTabList();
+                                        scrollToTabList ? scrollToTabList() : null;
                                     }
                                 })
                         }

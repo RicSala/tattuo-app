@@ -23,7 +23,7 @@ export default function NotificationsSettings({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                     <div>
-                        <h3 className="mb-4 text-lg font-medium">Email Notifications</h3>
+                        <h3 className="mb-4 text-lg font-medium">Notificaciones por Email</h3>
                         <div className="space-y-4">
                             <FormField
                                 control={form.control}
@@ -47,7 +47,7 @@ export default function NotificationsSettings({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="security_emails"
                                 render={({ field }) => (
@@ -68,7 +68,7 @@ export default function NotificationsSettings({
                                         </FormControl>
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
                         </div>
                     </div>
                     <Button type="submit">Guardar</Button>

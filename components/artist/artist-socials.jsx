@@ -4,6 +4,7 @@ import { FacebookIcon, InstagramIcon, TwitterIcon } from 'lucide-react';
 import Link from 'next/link';
 import { PinterestIcon, WhatsappIcon } from 'react-share';
 import TiktokIcon from '../icons/tiktok-icon';
+import { capitalizeFirst } from '@/lib/utils';
 
 
 const ArtistSocials = ({
@@ -24,7 +25,7 @@ const ArtistSocials = ({
         <div className='flex flex-col w-full gap-3'>
             {
                 title &&
-                <h2 className="mb-4 text-2xl font-semibold  text-primary">{title}</h2>
+                <h2 className="mb-4 text-2xl font-semibold text-primary">{title}</h2>
             }
 
             <ul className='flex flex-col w-full gap-2'>
@@ -39,7 +40,7 @@ const ArtistSocials = ({
                                     className='flex flex-row justify-between w-full gap-2 rounded-md hover:bg-muted '
                                     href={`${item.profile}`} target="_blank" rel="noopener noreferrer">
                                     <IconComponent />
-                                    {item.network}
+                                    {capitalizeFirst(item.network)}
                                 </Link>
                             </li>
                         )

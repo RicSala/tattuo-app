@@ -22,11 +22,13 @@ const getMatches = async (currentUser, body) => {
 
     const { styles, address } = body;
 
+    console.log({ address })
+
     try {
         const city = await prisma.city.findFirst({
             where: {
                 label: {
-                    equals: address,
+                    equals: address.label,
                     mode: "insensitive", // this will make the search case-insensitive
                 },
             },
@@ -44,7 +46,8 @@ const getMatches = async (currentUser, body) => {
             include: {
                 styles: true,
                 city: true,
-            }
+            },
+            take: 5,
         });
 
         console.log('Matched Artists:', matchedArtists);

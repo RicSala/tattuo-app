@@ -43,9 +43,6 @@ const AsyncSelect = forwardRef(({
     noOptionsMessage = () => "Teclea para buscar",
 }, ref) => {
 
-
-    console.log("artst city", value)
-
     return (
         <PrimitiveAsyncSelect
             ref={ref}

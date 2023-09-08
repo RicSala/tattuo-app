@@ -17,7 +17,7 @@ export default async function SettingsPage({
             <Tabs defaultValue="account" className="w-[350px] mx-auto ">
                 <TabsList className="flex flex-row justify-between mb-5">
                     <TabsTrigger value="account">Tu cuenta</TabsTrigger>
-                    <TabsTrigger value="notifications">Notificaciones</TabsTrigger>
+                    {/* <TabsTrigger value="notifications">Notificaciones</TabsTrigger> */}
                     <TabsTrigger value="appearance">Apariencia</TabsTrigger>
                 </TabsList>
                 <TabsContent value="account"><AccountSettings currentUser={currentUser} /></TabsContent>

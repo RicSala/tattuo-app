@@ -1,14 +1,18 @@
 'use client'
 
 import Heading from "@/components/heading";
+import Spinner from "@/components/icons/spinner";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
+import { Check, Save } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { nullable } from "zod";
 
 export default function AppearanceSettings({
     currentUser
@@ -23,6 +27,15 @@ export default function AppearanceSettings({
             theme: currentUser.settings.darkMode
         }
     })
+
+    const { isDirty, isSubmitted, isSubmitting } = form.formState;
+
+    useEffect(() => {
+        isSubmitting ?
+            console.log("submitting")
+            : null
+    }, [isSubmitting])
+
     const { setTheme } = useTheme()
 
     const onSubmit = (data) => {
@@ -31,6 +44,7 @@ export default function AppearanceSettings({
                 console.log(res)
                 router.refresh()
                 toast({
+                    variant: "success",
                     title: "Hemos actualizado tu configuración",
                     description: "Puedes seguir navegando por TATTUO con tu nueva configuración"
                 })
@@ -85,7 +99,32 @@ export default function AppearanceSettings({
                             />
                         </div>
                     </div>
-                    <Button type="submit">Guardar</Button>
+                    <Button type="submit"
+                        className="flex flex-row items-center gap-2"
+                        disabled={isSubmitting}
+
+                    >
+                        {
+                            //TODO: why is not showing the spinner?
+                            (isSubmitting) ?
+                                <div className="flex flex-row gap-2">
+                                    Guardando
+                                    <Spinner />
+                                </div>
+                                :
+                                (isSubmitted && !isDirty) ?
+                                    <>
+                                        Guardado
+                                        <Check color="green" />
+                                    </>
+                                    :
+                                    <>
+                                        Guardar
+                                        <Save />
+                                    </>
+                        }
+
+                    </Button>
                 </form>
             </Form>
         </div>

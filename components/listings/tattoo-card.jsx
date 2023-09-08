@@ -76,7 +76,13 @@ export default function TattooCard({
     return (
         <div
             className="cursor-pointer"
+            onMouseEnter={() => {
+                console.log("enter")
+                router.prefetch(`/tatuajes/detalle/${data.id}`)
+                console.log("prefetch??")
+            }}
             onClick={(event) => {
+
                 if ((event.target.id !== "tattoo-image" && event.target !== path)) {
                     event.preventDefault()
                 } else {

@@ -12,7 +12,6 @@ import Container from '@/components/ui/container';
 import { Separator } from '@/components/ui/separator';
 import { getBodyParts } from '@/lib/getBodyParts';
 import { getStyleList } from '@/lib/getStyleList';
-import { Suspense } from 'react';
 export const dynamic = "force-dynamic";
 
 

@@ -56,7 +56,7 @@ export default function TattooCard({
                 console.log("response data:", res.data)
                 toast({
                     variant: 'success',
-                    title: `Tablero añadido el tatuaje a ${board.title}`,
+                    title: `Tutuaje añadido a ${board.title}`,
                     description: "Puedes seguir añadiendo más tatuajes",
 
                 })

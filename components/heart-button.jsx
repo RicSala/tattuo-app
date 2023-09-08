@@ -1,6 +1,7 @@
 'use client'
 
 import useFavorite from "@/hooks/useFavorite";
+import { cn } from "@/lib/utils";
 import { Heart, HeartOff } from "lucide-react";
 
 
@@ -8,6 +9,8 @@ const HeartButton = ({
     listingId,
     currentUser,
     listingType,
+    className,
+    size = 30,
 
 }) => {
 
@@ -21,15 +24,17 @@ const HeartButton = ({
     return (
         <div
             onClick={toggleFavorite}
-            className="
-    relative
-    hover:opacity-80
-    transition
-    cursor-pointer
-    "
+            className={cn(`
+            relative
+            hover:opacity-80
+            transition
+            cursor-pointer
+                        `,
+                className
+            )}
         >
 
-            <Heart size={30}
+            <Heart size={size}
                 className={
                     hasFavorited ? 'fill-primary' : 'fill-muted/30'
                 } />

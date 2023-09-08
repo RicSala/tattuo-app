@@ -5,10 +5,14 @@ import { Button } from "../ui/button";
 import GradientBorder from "../uiEffects/gradient-border";
 import { useContext } from "react";
 import { UiContext } from "@/providers/ui/ui-provider";
+import { useRouter } from "next/navigation";
 
 export default function Banner({
+    currentUser,
 
 }) {
+
+    const router = useRouter()
 
     const { setLoginModalOpen } = useContext(UiContext)
 
@@ -26,8 +30,12 @@ export default function Banner({
 
                         <GradientBorder>
                             <Button
-                                onClick={() => { setLoginModalOpen(true) }}
-
+                                onClick={() => {
+                                    currentUser ?
+                                        router.push("/tatuadores")
+                                        :
+                                        setLoginModalOpen(true)
+                                }}
                                 className="z-10 
                                                             w-[95%]
                                                             h-[86%]

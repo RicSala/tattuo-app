@@ -2,7 +2,7 @@
 
 import { FacebookIcon, InstagramIcon } from 'lucide-react';
 import { FacebookShareButton, PinterestShareButton, WhatsappShareButton, InstagramShareButton } from 'react-share';
-import Whatsapp from './icons/whatsapp';
+import WhatsappIcon from './icons/whatsapp';
 
 const ShareButtons = ({
     title,
@@ -44,7 +44,7 @@ const ShareButtons = ({
                     separator=':: '
                 >
                     <div className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/80">
-                        <Whatsapp
+                        <WhatsappIcon
                             width={iconsSize}
                             height={iconsSize}
                         />

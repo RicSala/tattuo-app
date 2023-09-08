@@ -70,7 +70,7 @@ const AsyncSelect = forwardRef(({
 
                 singleValue: (provided, state) => ({ // this is the style of the selected option
                     ...provided,
-                    color: "black",
+                    color: "grey",
                 }),
 
                 dropdownIndicator: (provided, state) => ({ // this is the style of the arrow
@@ -84,7 +84,7 @@ const AsyncSelect = forwardRef(({
                     boxShadow: "none",
                     backgroundColor: "bg-background",
                     borderColor: "border-border",
-                    color: "black"
+                    color: "grey",
                 }),
 
                 indicatorSeparator: (provided, state) => ({ // this is the style of the line that separates the arrow from the container
@@ -99,7 +99,7 @@ const AsyncSelect = forwardRef(({
 
                 input: (provided, state) => ({ // this is the style of the input
                     ...provided,
-                    color: "black",
+                    color: "grey",
                 }),
             }}
         />

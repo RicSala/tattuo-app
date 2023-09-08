@@ -35,7 +35,8 @@ const ArtistCard = ({
                         <Image
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             fill={true}
-                            src={data.mainImage || '/images/placeholder.png'}
+                            //TODO:  What about when there is not image??
+                            src={data.mainImage}
                             alt="profile picture"
                             className="object-cover"
                         />

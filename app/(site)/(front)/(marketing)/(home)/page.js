@@ -61,6 +61,8 @@ export default async function Home({ searchParams }) {
 
   const currentUser = await getCurrentUser()
 
+  console.log({ currentUser })
+
   return (
 
     <>
@@ -84,7 +86,7 @@ export default async function Home({ searchParams }) {
 
           <StepsSection steps={steps} title="¿Cómo funciona?" />
 
-          <Banner />
+          <Banner currentUser={currentUser} />
 
           <BenefitsSection
             title={"Por qué elegir TATTUO?"}

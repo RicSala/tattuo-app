@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowDownRightFromCircle, ChevronDown, MoreHorizontal, Undo } from "lucide-react";
+import { ArrowDownRightFromCircle, ChevronDown, MoreHorizontal, Phone, Undo } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import ArtistSocials from "./artist-socials";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import useSave from "@/hooks/useSave";
 import { toast } from "../ui/use-toast";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import Link from "next/link";
 
 export default function ArtistDetailsCard({
     artist,
@@ -115,7 +116,7 @@ export default function ArtistDetailsCard({
 
 
             <div className={cn(`
-                        sm:flex sm:flex-col sm:gap-5
+                        sm:flex sm:flex-col flex flex-col  gap-3 sm:gap-5
                         `,
                 !isDetailsOpen ? 'hidden' : ''
             )}>
@@ -124,6 +125,43 @@ export default function ArtistDetailsCard({
                     <p
                         className="overflow-y-auto max-h-64"
                     >{artist.bio}</p>
+                </div>
+                <Separator />
+                <div>
+                    <p className="font-bold">Contacto</p>
+                    <p
+                        className="overflow-y-auto max-h-64"
+                    >{`Teléfono:
+                        
+                    `}
+                        <a href={`Tel: ${artist.phone}`}>
+                            <Button variant="outline" className="h-2 py-3">
+                                {artist.phone}
+                            </Button>
+                        </a>
+                    </p>
+                    <p
+                        className="overflow-y-auto max-h-64"
+                    >{`WhatsApp:
+                        
+                    `}
+                        <a href={`https://wa.me/${artist.phone}/?text=Hola! Me gustaría informarme sobre un tatuaje`}>
+                            <Button variant="outline" className="h-2 py-3">
+                                {artist.phone}
+                            </Button>
+                        </a>
+                    </p>
+                    <p
+                        className="overflow-y-auto max-h-64"
+                    >{`Email:
+                        
+                    `}
+                        <a href={`Mailto: ${artist.email}`}>
+                            <Button variant="outline" className="h-2 py-3">
+                                {artist.email}
+                            </Button>
+                        </a>
+                    </p>
                 </div>
                 <Separator />
                 <div>

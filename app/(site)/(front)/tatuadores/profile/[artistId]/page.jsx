@@ -10,6 +10,26 @@ import Container from "@/components/ui/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
 export const dynamic = "force-dynamic";
 
+export const generateMetadata = async ({
+    params
+}) => {
+
+    const { artistId } = params
+    const artist = await getArtistById(artistId)
+
+    console.log({ params })
+
+    return {
+        title: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
+        description: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
+    }
+};
+
+
+// export const metadata = {
+//     title: 'hello',
+//     description: 'hello',
+// }
 
 export default async function ArtistDetailsPage({ params }) {
 

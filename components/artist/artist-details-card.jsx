@@ -47,7 +47,8 @@ export default function ArtistDetailsCard({
                             onClick={() => {
                                 toast({
                                     title: "Gracias por reportar",
-                                    description: "Revisaremos lo antes posible tu aviso. Por favor, si es urgente, escríbenos a hello@tattuo.com"
+                                    description: "Revisaremos lo antes posible tu aviso. Por favor, si es urgente, escríbenos a hello@tattuo.com",
+                                    variant: "success"
                                 })
                             }}
                         >Reportar</DropdownMenuItem>
@@ -105,13 +106,14 @@ export default function ArtistDetailsCard({
                 </Button>
             </div>
 
-            <div className="flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-muted sm:hidden"
+            <Button className="flex items-center justify-center gap-3 cursor-pointer hover:bg-muted sm:hidden"
                 onClick={() => setIsDetailsOpen((prev) => !prev)}
+                variant="outline"
             >
                 <p>Más información</p>
-                <ChevronDown />
+                <ChevronDown color="black" />
 
-            </div>
+            </Button>
 
 
             <div className={cn(`

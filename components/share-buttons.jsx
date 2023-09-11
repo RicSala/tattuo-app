@@ -30,7 +30,8 @@ const ShareButtons = ({
             }
             <div className='flex flex-row items-center justify-center gap-3 '>
                 <FacebookShareButton
-                    url={url}
+                    // TODO: change to domain
+                    url={"ttps://tattuo-app.vercel.app$" + pathName}
                     quote={"Check out this awesome article!"}
                     hashtag={"#tattoo"}
                 >

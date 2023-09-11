@@ -8,6 +8,7 @@ export default async function page({
 }) {
 
 
+    // TODO: how do we receive the email? 
 
     return (
         <div>

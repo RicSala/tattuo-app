@@ -39,9 +39,10 @@ export default function PostHeader({ post }) {
                         {format(new Date(post.date), 'PP', { locale: es })}
                     </p>
                 </div>
-                <div>
+                {/* TODO */}
+                {/* <div>
                     <ShareButtons />
-                </div>
+                </div> */}
 
             </div>
         </div>

@@ -82,7 +82,7 @@ const ProfilePageClient = ({
 
     const onSubmit = async (data) => {
         // Not used for now
-        // setIsLoading(true)
+        setIsLoading(true)
         const imagesToDelete = imagesRef.current.filter(img => !data.images.includes(img))
         const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
 
@@ -125,6 +125,7 @@ const ProfilePageClient = ({
                         keepIsSubmitted: true
                     }
                 )
+                setIsLoading(false)
             })
     }
 
@@ -200,6 +201,7 @@ const ProfilePageClient = ({
 
                         <MultiStepButtons form={form} selectedTab={selectedTab} setSelectedTab={setSelectedTab} STEPS={STEPS}
                             scrollToTabList={scrollToTabList}
+                            isLoading={isLoading}
                         />
                     </form>
                 </Form>

@@ -18,9 +18,9 @@ export default withAuth(
         console.log("MIDDLEWARE") // we have now the token available in the request!
 
         // protect the paths of the users
-        if ((request.nextUrl.pathname.includes("/tatuadores/saved")
-            || request.nextUrl.pathname.includes("/tatuajes/boards")
-            || request.nextUrl.pathname.includes("/settings"))
+        if ((request.nextUrl.pathname.includes("/user/saved")
+            || request.nextUrl.pathname.includes("/user/boards")
+            || request.nextUrl.pathname.includes("user/settings"))
             && !request.nextauth.token
         ) {
             console.log("BLOCKED in 1st filter")
@@ -31,7 +31,7 @@ export default withAuth(
 
 
         // protect the paths of the artists
-        if (request.nextUrl.pathname.includes("/admin")
+        if (request.nextUrl.pathname.includes("/artist")
             && request.nextauth.token?.role !== 'ARTIST'
         ) {
             console.log("BLOCKED in 2nd filter")
@@ -55,7 +55,7 @@ export default withAuth(
 })
 
 export const config = {
-    matcher: ['/tatuadores/saved', '/tatuajes/boards', '/settings', '/admin/:path*']
+    matcher: ['/user/saved', '/user/boards', '/user/settings', '/admin/:path*']
 }
 
 // export const confing = { matcher: ["tatuadores/profile/*"] }

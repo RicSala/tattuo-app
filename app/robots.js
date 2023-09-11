@@ -1,4 +1,4 @@
-const disallowedUrls = ['/admin', '/profile', '/settings', '/tatuadores/saved', '/tatuajes/boards', '/api', '/auth'
+const disallowedUrls = ['/artist', '/user', '/profile', 'user/settings', '/user/saved', '/user/boards', '/api', '/auth'
     , '/legal'
 ]
 

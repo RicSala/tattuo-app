@@ -13,7 +13,7 @@ export default function FinderClient({
 
     return (
         <>
-            {/* {
+            {
                 profileMatches ?
                     <ListingGrid>
                         {profileMatches.map((profile) => (
@@ -25,9 +25,9 @@ export default function FinderClient({
                         ))}
 
                     </ListingGrid>
-                    : */}
-            <Finder setResults={setProfileMatches} />
-            {/* } */}
+                    :
+                    <Finder setResults={setProfileMatches} />
+            }
         </>
     );
 }

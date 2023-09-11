@@ -36,7 +36,6 @@ export default function InfiniteListingGrid({
     return (
 
         <ListingGrid>
-
             <CustomQueryClientProvider>
                 <InfiniteScroll
                     endpoint={endpoint}

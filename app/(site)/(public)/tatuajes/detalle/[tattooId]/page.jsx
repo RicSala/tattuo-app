@@ -25,10 +25,7 @@ const TattooDetailsPage = async ({ params }) => {
     const tattooPromise = getTattoosById(params.tattooId);
     const currentUserPromise = getCurrentUser();
     const [tattoo, currentUser] = await Promise.all([tattooPromise, currentUserPromise])
-
     const similarTattoos = await getSimilarTattoos(tattoo);
-
-    console.log({ similarTattoos })
 
     const hostname = process.env.NODE_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/artists` : `${process.env.HOST_NAME_DEV}/api/artists`
 
@@ -39,10 +36,7 @@ const TattooDetailsPage = async ({ params }) => {
         )
     }
 
-
     const age = Math.floor((new Date() - new Date(tattoo.createdAt)) / (1000 * 60 * 60 * 24));
-
-    console.log((tattoo))
 
     return (
 

@@ -21,7 +21,7 @@ const MyTattoosPage = async ({ params }) => {
             <EmptyState title="No has publicado ningún tatuaje"
                 subtitle="Publica tatuajes para que tus clientes puedan verlos"
                 actionLabel="Publicar tatuaje"
-                actionUrl="/admin/tatuajes/new"
+                actionUrl="/artist/tatuajes/new"
             />
         )
     }
@@ -32,7 +32,7 @@ const MyTattoosPage = async ({ params }) => {
 
             <Heading title={'Tus tatuajes publicados'}
                 subtitle={'Añade más tatuajes para que te vean más y conseguir nuevos clientes'}
-                url={"/admin/tatuajes/new"}
+                url={"/artist/tatuajes/new"}
                 buttonLabel={'Nuevo Tatuaje'}
             />
             <Separator className="my-5" />

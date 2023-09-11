@@ -12,8 +12,8 @@ import * as MyTypes from '@/types'
 
 import { getPosts } from "@/lib/posts";
 import { projectUrls } from '@/lib/sitemapUrls';
-import { generatedCities } from './(site)/(front)/tatuadores/[cityName]/page';
-import { generatedContentSlugs } from './(site)/(front)/tatuajes/[contentSlug]/page';
+import { generatedCities } from './(site)/(public)/tatuadores/[cityName]/page';
+import { generatedContentSlugs } from './(site)/(public)/tatuajes/[contentSlug]/page';
 // import { getFoldersRecursive } from '@/lib/getFoldersRecursive';
 
 /**

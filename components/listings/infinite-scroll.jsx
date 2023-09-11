@@ -20,26 +20,45 @@ export function InfiniteScroll({
 }) {
 
     const searchParams = useSearchParams()
+
     const [search, setSearch] = useState(searchParams.toString());
 
-
+    // initialize the search params
     useEffect(() => {
         setSearch(searchParams.toString());
     }, [searchParams]);
 
+    // intersection hook entry is true when the user 
+    const { ref, entry } = useIntersection({
+        margin: '100px',
+        threshold: 0,
+    })
+
+
+    // We need to format the initial data as the infinite scroll expects it
     const formattedInitialData = { // the initial data
         pages:
-            Array.from({ length: Math.ceil(initialData.length / sizePerPage) }, (_, index) => ({
-                data: initialData.slice(sizePerPage * index, sizePerPage * index + sizePerPage),
-                pageParam: index + 1,
-                pagination: {
-                    nextPage: hasMore ? index + 2 : false,
-                }
-            })),
-        pageParams: [Math.ceil(initialData.length / sizePerPage)],
+            Array.from(
+                // 'pages' is an array created by dividing the 'initialData' into chunks (pages) of data 
+                // based on the specified 'sizePerPage'.
+                { length: Math.ceil(initialData.length / sizePerPage) }, // total number of pages needed (elements in the array)
+
+                (_, index) => ({ // map function, creating each page
+                    data: initialData.slice(sizePerPage * index, sizePerPage * (index + 1)),
+                    pageParam: index + 1,
+                    pagination: {
+                        nextPage: hasMore ? index + 2 : false,
+                    }
+                })),
+
+
+        pageParams: Array.from({ length: Math.ceil(initialData.length / sizePerPage) }, (_, index) => index + 1),
+
     }
 
-    const realFetch = async (page = 1) => {
+    console.log("here:", { formattedInitialData })
+
+    const fetchData = async (page = 1) => {
         const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${filter ? `&contentSlug=${filter.contentSlug}` : ""}
         `)
             .then(res => res.data)
@@ -51,10 +70,6 @@ export function InfiniteScroll({
         return response
     }
 
-    const { ref, entry } = useIntersection({
-        margin: '100px',
-        threshold: 0,
-    })
 
     const {
         error,
@@ -72,9 +87,10 @@ export function InfiniteScroll({
         queryKey: ['posts',
             search
         ], // the query key, which is used to determine if the query is fresh or if it should use cached data
+
         queryFn: async ({ pageParam = 1 }) => //mockFetch(pageParam), // query function. receives a queryFunctionContext object: https://tanstack.com/query/v4/docs/react/guides/query-functions#queryfunctioncontext
         {
-            const response = await realFetch(pageParam)
+            const response = await fetchData(pageParam)
             const { pagination } = response
             return { data: response.data, pageParam, pagination } // this will be lastpage in getNextPageParam
         },
@@ -82,6 +98,7 @@ export function InfiniteScroll({
         // stablish the next page param (in our case, the next page number)
         // if it returns false, hasNextPage will be false and we can stop fetching
         getNextPageParam: (lastPage, allPages) => {
+            console.log({ allPages })
             if (lastPage?.pagination.hasMorePages === false) return false
             return lastPage?.pagination.nextPage // this will be the next page number in the previous function (the queryFn)
         },

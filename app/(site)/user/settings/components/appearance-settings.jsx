@@ -12,23 +12,26 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { nullable } from "zod";
 
 export default function AppearanceSettings({
     currentUser
 }) {
 
-
-
-    console.log(currentUser.settings)
     const router = useRouter()
     const form = useForm({
         defaultValues: {
             theme: currentUser.settings.darkMode
         }
     })
-
     const { isDirty, isSubmitted, isSubmitting } = form.formState;
+
+
+
+
+    useEffect(() => {
+        console.log({ isSubmitted })
+        console.log({ isDirty })
+    }, [isSubmitted, isDirty])
 
     useEffect(() => {
         isSubmitting ?
@@ -52,6 +55,13 @@ export default function AppearanceSettings({
             }
             )
             .catch(err => console.log(err))
+            .finally(
+                form.reset(data,
+                    {
+                        keepIsSubmitted: true
+                    }
+                )
+            )
     }
 
     // useEffect((props) => {
@@ -105,23 +115,16 @@ export default function AppearanceSettings({
 
                     >
                         {
-                            //TODO: why is not showing the spinner?
-                            (isSubmitting) ?
-                                <div className="flex flex-row gap-2">
-                                    Guardando
-                                    <Spinner />
-                                </div>
+                            (isSubmitted && !isDirty) ?
+                                <>
+                                    Guardado
+                                    <Check color="green" />
+                                </>
                                 :
-                                (isSubmitted && !isDirty) ?
-                                    <>
-                                        Guardado
-                                        <Check color="green" />
-                                    </>
-                                    :
-                                    <>
-                                        Guardar
-                                        <Save />
-                                    </>
+                                <>
+                                    Guardar
+                                    <Save />
+                                </>
                         }
 
                     </Button>

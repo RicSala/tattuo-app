@@ -13,8 +13,7 @@ export default function EditTattooButton({
     const router = useRouter()
 
     const goToEditPage = (tattooId) => {
-        console.log(`URL: /admin/tatuajes/${tattooId}`)
-        router.push(`/admin/tatuajes/${tattooId}`)
+        router.push(`/artist/tatuajes/${tattooId}`)
     }
 
 

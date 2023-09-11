@@ -105,7 +105,7 @@ const TattooEditPageClient = ({
                     })
                     // after creating the tattoo, we redirect to the edit page,
                     // so the user does not add more tattoos by mistake
-                    router.push(`/admin/tatuajes`)
+                    router.push(`/artist/tatuajes`)
                     router.refresh()
                 })
                 .catch(err => {
@@ -134,7 +134,7 @@ const TattooEditPageClient = ({
                     title: "Tatuaje actualizado!",
                     description: "Tu pieza ya está publicada y lista para que la vean futuros clientes"
                 })
-                router.push(`/admin/tatuajes/${res.data.id}`)
+                router.push(`/artist/tatuajes/${res.data.id}`)
                 router.refresh()
             })
             .catch(err => {
@@ -226,7 +226,7 @@ const TattooEditPageClient = ({
                                     <FormControl>
                                         <Textarea
                                             className="resize-none "
-                                            placeholder="Donde sueles tatuar habitualmente" {...field} />
+                                            placeholder="Cuéntanos todo lo que te parezca importante de este trabajo" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         Cuéntanos más sobre la pieza: descripción, qué aparece, estilo, colores, parte del cuerpo, etc.

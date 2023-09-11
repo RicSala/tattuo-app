@@ -45,7 +45,7 @@ const endpoint = process.env.APP_ENV === "production" ? `${process.env.HOST_NAME
 
 // For the infinite scroll we need to set the size of each page and the number of pages to load
 const sizePerPage = 5
-const numberOfPagesToLoad = 1
+const numberOfPagesToLoad = 2
 const initialDataSize = numberOfPagesToLoad * sizePerPage
 
 /**
@@ -58,13 +58,14 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage
  */
 export default async function TattoosPage({ searchParams, }) {
 
-
     const serverLoadedTattoos = await getTattoos(
         searchParams,
         0,
         initialDataSize
     )
 
+    const serverLoadedTattooIds = serverLoadedTattoos.map(tattoo => tattoo.id)
+    console.log({ serverLoadedTattooIds })
 
     const currentUser = await getCurrentUser()
 

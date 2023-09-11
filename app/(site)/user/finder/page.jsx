@@ -9,11 +9,11 @@ export default function FinderPage({
     const currentUser = getCurrentUser()
 
     return (
-        <>
+        <div className="flex flex-col gap-5 md:gap-8">
             <Heading title="Encuentra tu tatuador@"
                 subtitle="Encuentra y guarda lxs artistas que más te gustan"
             />
             <FinderClient currentUser={currentUser} />
-        </>
+        </div>
     )
 }

@@ -47,7 +47,7 @@ function NavBar({
                             <div className="flex flex-row items-center justify-center gap-2">
                                 <Avatar className="cursor-pointer"
                                     onClick={() => {
-                                        router.push('/admin/profile')
+                                        router.push('/artist/profile')
                                     }}
                                 >
                                     <AvatarImage src={currentUser?.image || undefined} />

@@ -51,11 +51,23 @@ export default function Sidebar({
                             Bienvenidx a TATTUO
                         </SheetDescription>
                     </SheetHeader>
+
+                    <Separator className="my-1" />
+                    {
+                        visitorMenuItems.map((el) => (
+                            <MenuItem label={el.label} onClick={() => {
+                                router.push(el.url)
+                                setSidebarOpen(false)
+                            }}
+                                onMouseEnter={() => { router.prefetch(el.url) }}
+                                key={el.label} />
+                        ))
+                    }
+                    <Separator className="my-1" />
                     {
                         currentUser?.role === 'ARTIST' ?
                             <>
 
-                                <Separator className="my-2 sm:my-5" />
                                 {
                                     artistMenuItems.map((el) => (
                                         <MenuItem
@@ -128,17 +140,7 @@ export default function Sidebar({
                     }
 
                     <Separator className="my-1" />
-                    {
-                        visitorMenuItems.map((el) => (
-                            <MenuItem label={el.label} onClick={() => {
-                                router.push(el.url)
-                                setSidebarOpen(false)
-                            }}
-                                onMouseEnter={() => { router.prefetch(el.url) }}
-                                key={el.label} />
-                        ))
-                    }
-                    <Separator className="my-1" />
+
 
                 </div>
                 <SheetFooter className={"mt-auto"}>

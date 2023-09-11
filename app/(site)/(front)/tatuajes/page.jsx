@@ -40,7 +40,10 @@ const filtro2 = {
     options: bodyParts
 }
 
+// SearchFilterButton is a reusable component, so I need to provide the filter and the endpoint to get the results
 const endpoint = process.env.APP_ENV === "production" ? `${process.env.HOST_NAME_PROD}/api/tattoos` : `${process.env.HOST_NAME_DEV}/api/tattoos`
+
+// For the infinite scroll we need to set the size of each page and the number of pages to load
 const sizePerPage = 5
 const numberOfPagesToLoad = 1
 const initialDataSize = numberOfPagesToLoad * sizePerPage

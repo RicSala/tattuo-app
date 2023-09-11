@@ -2,6 +2,7 @@ import Spinner from "@/components/icons/spinner";
 import { Button } from "@/components/ui/button";
 import { Check, Redo, Save, Undo } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 
@@ -10,12 +11,20 @@ export default function MultiStepButtons({
     selectedTab,
     setSelectedTab,
     scrollToTabList,
+    isLoading,
     STEPS
 }) {
 
     const { isDirty, isSubmitted, isSubmitting, isValidating } = form.formState;
 
     const router = useRouter()
+
+    useEffect(() => {
+        console.log({ isSubmitted })
+        console.log({ isDirty })
+        console.log({ isSubmitting })
+        console.log({ isValidating })
+    }, [isSubmitted, isDirty, isSubmitting, isValidating])
 
 
     return (
@@ -55,12 +64,13 @@ export default function MultiStepButtons({
                     <Redo />
                 </Button>
                 <Button
-                    disabled={isSubmitting}
+                    // TODO: this should work with isSubmitting...somehow it doesn't!
+                    disabled={isLoading}
                     type="submit"
                     className={`flex flex-row items-center gap-2
                         ${selectedTab !== STEPS.length - 1 ? `hidden` : null}`}>
                     {
-                        (isSubmitting) ?
+                        (isLoading) ?
                             <div className="flex flex-row gap-2">
                                 Guardando
                                 <Spinner />

@@ -13,12 +13,7 @@ export default function FinderPage({
             <Heading title="Encuentra tu tatuador@"
                 subtitle="Encuentra y guarda lxs artistas que más te gustan"
             />
-
             <FinderClient currentUser={currentUser} />
-
-
-
-
         </>
     )
 }

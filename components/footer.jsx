@@ -20,6 +20,7 @@ const footterMenu = [
             // { label: "Preguntas frecuentes", url: "/preguntas-frecuentes" },
             { label: "Contacto", url: "/contacto" },
             { label: "Soy Tatuador", url: "/?artistregister=true" },
+            { label: "Estamos contratando 🤙", url: "/careers" }
         ],
     },
     {

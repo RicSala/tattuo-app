@@ -50,11 +50,10 @@ const TattooDetailsPage = async ({ params }) => {
         <div className="">
             <div className="max-w-screen-lg mx-auto mt-3 overflow-hidden border shadow-lg sm:my-10 rounded-xl">
                 <div className="flex flex-col overflow-hidden lg:flex-row ">
-
-                    <div className="
-                    order-first md:order-none aspect-auto sm:min-h-[60vh] min-h-[50vh] relative w-full
-                    ">
-                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-contain "
+                    {/* order-first 
+                    md:order-none */}
+                    <div className="relative aspect-square basis-1/2 grow">
+                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-cover "
                         />
 
                         <HeartButton currentUser={currentUser} listingId={tattoo.id} listingType={"tattoos"}
@@ -64,7 +63,7 @@ const TattooDetailsPage = async ({ params }) => {
                     </div>
 
                     <div className="flex flex-col justify-between flex-shrink-0 gap-2 sidebar basis-80 lg:overflow-x-auto">
-                        <h2 className="px-4 pt-1 mt-0 sm:pt-4">
+                        <h2 className="px-4 pt-1 mt-2 sm:pt-4">
                             {tattoo.title}
                         </h2>
                         <div className="px-4 pt-4">

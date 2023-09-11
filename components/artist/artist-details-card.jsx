@@ -144,7 +144,7 @@ export default function ArtistDetailsCard({
                     >{`WhatsApp:
                         
                     `}
-                        <a href={`https://wa.me/${artist.phone}/?text=Hola! Me gustaría informarme sobre un tatuaje`}>
+                        <a href={`https://wa.me/600243843/?text=Hola! Me gustaría informarme sobre un tatuaje`}>
                             <Button variant="outline" className="h-2 py-3">
                                 {artist.phone}
                             </Button>

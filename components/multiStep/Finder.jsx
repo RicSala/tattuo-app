@@ -143,7 +143,7 @@ export default function Finder({
         defaultValues: {
             address: null,
             when: '',
-            size: '', //TODO: Until I fix the validation issue, I'm setting a default value 
+            size: '',
             description: '',
             color: '',
             style: '',
@@ -166,30 +166,39 @@ export default function Finder({
         })
         axios.post('/api/artists/finder', data)
             .then(res => {
-                console.log(res);
-                setIsLoading(false);
                 toast({
                     title: 'Éxito',
                     description: 'Hemos encontrado los artistas que mejor se adaptan a tu estilo',
                     variant: 'success',
                 })
                 setResults(res.data);
-                console.log(res.data)
+                setIsLoading(false);
             })
             .catch(err => {
                 console.log(err);
-                setIsLoading(false);
                 toast({
                     title: 'Error',
                     description: 'Ha habido un error al buscar los artistas',
                     variant: 'destructive',
                 });
+                setIsLoading(false);
             }
-            )
+            ).finally(() => {
+
+                console.log("reseteando formulario")
+
+                form.reset(data,
+                    {
+                        keepIsSubmitted: true
+                    }
+                )
+            });
 
     };
 
-    const onError = (errors, e) => console.log(errors, e);
+    const onError = (errors, e) => {
+        // console.log(errors, e)
+    };
 
     return (
         <div className="mx-auto sm:w-full md:w-full lg:w-2/3 xl:w-1/2">
@@ -421,6 +430,7 @@ export default function Finder({
                         form={form}
                         setSelectedTab={setStep}
                         selectedTab={step}
+                        isLoading={isLoading}
                     />
                 </form>
             </Form>

@@ -1,6 +1,7 @@
 import { getTattoosById } from '@/actions/getTattooById'
 import { ImageResponse } from 'next/server'
 
+// TODO: Open graph for tattoos
 // Route segment config
 // export const runtime = 'edge'
 

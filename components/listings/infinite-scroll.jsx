@@ -58,6 +58,8 @@ export function InfiniteScroll({
 
     console.log("here:", { formattedInitialData })
 
+    console.log({ endpoint })
+
     const fetchData = async (page = 1) => {
         const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${filter ? `&contentSlug=${filter.contentSlug}` : ""}
         `)

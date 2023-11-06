@@ -7,6 +7,8 @@ import { LoginModal } from '@/components/modals/login-form'
 import { ArtistRegisterModal } from '@/components/modals/artist-register'
 import TagManager from '@/scripts/gtm'
 import { Suspense } from 'react'
+import Feedback from '@/components/feedback'
+import SupportButton from '@/components/support-button'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +25,9 @@ export default function RootLayout({ children }) {
           <TagManager />
         </Suspense>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <SupportButton />
+
+        <Feedback />
           <UiProvider>
             <LoginModal />
             <ArtistRegisterModal />

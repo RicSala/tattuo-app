@@ -1,3 +1,5 @@
+const { generateBreakpoints } = require("./lib/dev-utils/twbreaks-plugin");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 
@@ -104,5 +106,7 @@ module.exports = {
   safelist: [],
 
   // Adds utiliy classes for animation such as delay-, direction-, duration-, fade-in, spin-in...
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    ({ addBase, theme }) => generateBreakpoints({ addBase, theme }),
+  ],}

@@ -54,12 +54,12 @@ export default function TattooCard({
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [router],
+    [router, toast],
   );
 
   const onBoardSelect = useCallback((tattoo, board) => {
     // add the tattoo to the board
-    axios
+    apiClient
       .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
       .then((res) => {
         toast({

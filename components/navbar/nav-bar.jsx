@@ -64,10 +64,10 @@ function NavBar({ currentUser }) {
       <div
         className={`${
           scrolled ? "shadow-sm" : null
-        } bg-base-100 transition-shadow`}
+        } bg-background transition-shadow`}
       >
         <Container>
-          <header className="mx-auto flex max-w-7xl flex-row items-center  justify-between gap-3 md:gap-0">
+          <header className="mx-auto flex flex-row items-center  justify-between gap-3 md:gap-0">
             <div className="flex flex-row items-center justify-between gap-5">
               <Logo />
 

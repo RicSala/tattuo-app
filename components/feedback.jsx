@@ -59,7 +59,7 @@ export default function Feedback({}) {
         }
       }}
       className={cn(
-        `animate fixed right-0 top-[300px] isolate  z-50 translate-x-full rounded-bl-lg rounded-tl-lg bg-base-300 drop-shadow-xl transition-transform duration-1000
+        `animate fixed right-0 top-[300px] isolate  z-50 translate-x-full rounded-bl-lg rounded-tl-lg bg-secondary drop-shadow-xl transition-transform duration-1000
                 `,
         isVisible ? "translate-x-0" : "",
       )}
@@ -115,7 +115,7 @@ export default function Feedback({}) {
       </form>
 
       <div
-        className="absolute left-0 top-0 -translate-x-full translate-y-1/4 cursor-pointer rounded-l-lg bg-base-300 p-4 px-1 text-sm text-base-content transition [writing-mode:vertical-rl;] hover:bg-base-100"
+        className="text-base-content absolute left-0 top-0 -translate-x-full translate-y-1/4 cursor-pointer rounded-l-lg bg-secondary/90 p-4 px-1 text-sm transition [writing-mode:vertical-rl;] hover:bg-secondary"
         onClick={() => setIsVisible(!isVisible)}
       >
         Tu Opinión

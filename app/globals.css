@@ -83,35 +83,40 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 
   h1 {
-    @apply scroll-m-20 text-4xl font-extrabold tracking-tight
+    @apply scroll-m-20 text-4xl font-extrabold tracking-tight;
   }
 
   h2 {
-    @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors mt-4
+    @apply mt-4 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors;
   }
 
   h2:first {
-    @apply mt-0
+    @apply mt-0;
   }
 
   h3 {
-    @apply scroll-m-20 text-2xl font-semibold tracking-tight
+    @apply scroll-m-20 text-2xl font-semibold tracking-tight;
   }
 
   h4 {
-    @apply scroll-m-20 text-xl font-semibold tracking-tight
+    @apply scroll-m-20 text-xl font-semibold tracking-tight;
   }
 
   p {
-    @apply leading-7
+    @apply leading-7;
   }
 
   p:not:first-child {
-    @apply mt-6
+    @apply mt-6;
+  }
+
+  .gap {
+    @apply gap-16 sm:gap-20 md:gap-28;
   }
 }

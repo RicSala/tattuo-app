@@ -17,7 +17,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import CustomError from "@/errors/CustomError";
 import { useHandleError } from "@/errors/useHandleError";
 
 export default function ArtistDetailsCard({ artist, currentUser }) {
@@ -28,8 +27,6 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
     currentUser: currentUser,
     listingType: "artists",
   });
-  const handle = useHandleError();
-
   return (
     <div className="flex w-96 flex-col gap-2 rounded-lg bg-secondary/50 p-5">
       <div className="flex flex-row justify-between">
@@ -48,7 +45,6 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             <DropdownMenuItem
               className="hover:cursor-pointer"
               onClick={() => {
-                handle(new CustomError("Reportar artista", "No implementado"));
                 toast({
                   title: "Gracias por reportar",
                   description:

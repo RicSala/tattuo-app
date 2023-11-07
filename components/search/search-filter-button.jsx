@@ -1,107 +1,21 @@
 'use client'
 
 import clsx from "clsx";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import qs from "query-string";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { FilterIcon } from "lucide-react";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useClickOutside } from "@/hooks/use-click-outside";
+import { useSearchParamsFilter } from "@/hooks/useSearchParamsFilter";
 
 const SearchFilterButton = ({
     title = 'Filtros',
-    options = [],
-    searchParamName     // name of the searchParam that the button should stablish in the url
+    options = [],     // name of the searchParam that the button should stablish in the url
+    searchParamName,
 }) => {
 
-
-    const menuRef = useRef(null); // ref of the menu, so we can hide it when clicking outside of it
-    const [selected, setSelected] = useState([])
-
-
     const [show, setShow] = useState(false); // should we show the menu?
-    const pathname = usePathname() // current path
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const debouncedValue = useDebounce(selected, 500)
-
-
-    useEffect(() => {
-        const currentFilter = qs.parse(searchParams.toString())[searchParamName]?.split(",")
-        if (currentFilter) {
-            setSelected(currentFilter)
-        }
-    }, [searchParamName, searchParams])
-
-    // close the menu when clicking outside of it
-    const handleClickOutside = useCallback((event) => {
-        if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setShow(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, [handleClickOutside]);
-    // End of snippet (ref added to the div below)
-
-    // Apply the selection in the filter UI immediately
-    const toggleSelectedFilter = (toggledselected) => {
-        if (selected.includes(toggledselected)) {
-            setSelected(selected.filter(selectedItem => selectedItem !== toggledselected));
-        } else {
-            setSelected([...selected, toggledselected]);
-        }
-    };
-
-    // Apply the filter in in the results debounced (with the useEffect below)
-    const applyFilters = useCallback(() => {
-        // setShow(false); // as we are using debounce, no need to close it anymore so the user can keep clicking and adding filters
-
-        // if this filter has not selections...
-        if (selected.length === 0) {
-            // ...remove the search param of THIS filter from the url
-            const currentQuery = qs.parse(searchParams.toString());
-            delete currentQuery[searchParamName];
-            // create a new url without it
-            const url = qs.stringifyUrl({
-                url: pathname,
-                query: currentQuery
-            },
-                { skipNull: true })
-            // and push it
-            return router.push(url)
-        }
-
-        // otherwise we update the searchParam
-
-        let currentQuery = {};
-        if (searchParams) {
-            currentQuery = qs.parse(searchParams.toString()); // why do we need this? sanitization?
-        }
-
-        const url = qs.stringifyUrl({
-            url: pathname,
-            query: {
-                ...currentQuery,
-                [searchParamName]: selected.join(','),
-            }
-        },
-            {
-                skipNull: true,
-            }
-        )
-
-        router.push(url)
-    }, [pathname, router, searchParams, selected, searchParamName])
-
-    // apply the filter when debouncedValue changes
-    useEffect(() => {
-        if (debouncedValue) { applyFilters() }
-    }, [applyFilters, debouncedValue]);
+    const {selected, toggleSelectedFilter } = useSearchParamsFilter(searchParamName);
+    const menuRef = useClickOutside(()=>setShow(false), ["click"])
 
     return (
         <div className="relative z-10"
@@ -154,13 +68,6 @@ const SearchFilterButton = ({
                             {option.label}
                         </div>
                     ))}
-                    {/* <Button
-                        className="w-full"
-                        variant="secondary"
-                        onClick={() => applyFilters()}
-                    >
-                        Aplicar filtros
-                    </Button> */}
                 </div>}
 
 

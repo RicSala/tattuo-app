@@ -23,7 +23,7 @@ const SiteLayout = async ({ children }) => {
 
         <div className="flex flex-col justify-between min-h-screen ">
             <NavBar currentUser={user} />
-            <div className="flex-grow w-full p-0 pt-20 pb-20 sm:pt-32 bg-background text-foreground sm:p-8">
+            <div className="flex-grow w-full p-0 pt-16 pb-20 sm:pt-16 bg-background text-foreground sm:p-8">
                 <Container>
                     {/* <Container> */}
                     {children}

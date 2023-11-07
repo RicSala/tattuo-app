@@ -20,7 +20,7 @@ const ArtistCard = ({
             onMouseEnter={() => {
                 router.prefetch(`/tatuajes/detalle/${data.id}`)
             }}
-            className="flex flex-col justify-between overflow-hidden border shadow-sm cursor-pointer rounded-2xl group">
+            className="isolate flex flex-col justify-between overflow-hidden border shadow-sm cursor-pointer rounded-2xl group">
             <div
                 className="relative">
                 <div className="absolute top-3 right-3 z-[3]">

@@ -11,7 +11,7 @@ const Heading2 = ({ children }) => {
     return (
         <div className="flex flex-row items-baseline gap-2">
             <Link href={`${process.env.NODE_ENV === 'production' ? process.env.HOST_NAME_PROD : 'http://localhost:3000'}${pathName}#${idText}`}>
-                <LinkIcon color="blue" />
+                <LinkIcon className="text-muted-foreground hover:text-primary" />
             </Link>
             <h2 id={idText}>
 

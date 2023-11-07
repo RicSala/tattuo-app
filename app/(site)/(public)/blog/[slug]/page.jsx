@@ -10,7 +10,7 @@ import Toc from "./components/toc";
 export const generateStaticParams = async () => {
     const posts = await getPosts();
     return posts.map((post) => ({
-        slug: post.slug,
+        slug: post.slug, // We are generating the params, in this case the slug
     }))
 }
 
@@ -28,13 +28,13 @@ export const generateMetadata = async ({
 
     if (!post) {
         return {
-            title: 'Post not found',
+            title: 'Post not found', //doesn't seem to be working as it redirects to not-found page
         }
     }
 
     return {
         title: post.title,
-        description: post.body.substring(0, 100),
+        description: post.body.substring(0, 100), // TODO: Add for seo
     }
 };
 
@@ -52,7 +52,6 @@ export default async function PostPage({
 
     return (
         <div className="flex flex-col max-w-3xl gap-2 mx-auto">
-
             <PostHeader post={post} />
             <Toc headings={post.headings} />
 

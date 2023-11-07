@@ -1,5 +1,6 @@
 'use client'
 
+import { useClickOutside } from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
 import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
@@ -9,24 +10,9 @@ export default function Toc({
     headings
 }) {
 
+    
     const [isTocOpen, setIsTocOpen] = useState(false)
-    const tocRef = useRef(null)
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (tocRef.current && !tocRef.current.contains(e.target)) {
-                setIsTocOpen(false)
-            }
-        };
-
-        // Attach the event listener
-        document.addEventListener("click", handleClickOutside);
-
-        // Cleanup function to be run when the component is unmounted
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, []);
+    const tocRef = useClickOutside(()=>{setIsTocOpen(false)}, ["click"])
 
     return (
         //TODO: is there a way to keep this component server side while taking the "onClick behavior" client side? otherwise is not that good for seo

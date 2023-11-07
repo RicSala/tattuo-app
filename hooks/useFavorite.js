@@ -1,71 +1,76 @@
-import { toast, useToast } from "@/components/ui/use-toast"
-import { UiContext } from "@/providers/ui/ui-provider"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import { useCallback, useContext, useMemo } from "react"
-import useProtect from "./useProtect"
-
+import { toast, useToast } from "@/components/ui/use-toast";
+import { UiContext } from "@/providers/ui/ui-provider";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useContext, useMemo } from "react";
+import useProtect from "./useProtect";
+import { apiClient } from "@/lib/apiClient";
 
 // given a listingId and a currentUser, returns:
 // hasFavorited: boolean => true if the user has favorited the listing
 // toggleFavorite: function => toggles the favorite status of the listing
-const useFavorite = ({
-    listingId,
-    currentUser,
-    listingType,
-}) => {
+const useFavorite = ({ listingId, currentUser, listingType }) => {
+  const router = useRouter();
+  const { setLoginModalOpen } = useContext(UiContext);
+  const { toast } = useToast();
 
-    const router = useRouter()
-    const { setLoginModalOpen } = useContext(UiContext)
-    const { toast } = useToast()
+  // why do we use useMemo here? => so we don't have to recalculate the value every time the component re-renders
+  // could be heavy because of the includes() method
+  // everytime the component that use the hook re-renders, the hook will be called again
+  // it's like "embedding" the logic inside the component
+  const hasFavorited = useMemo(() => {
+    return currentUser?.favoriteIds?.includes(listingId);
+  }, [currentUser, listingId]);
 
-    // why do we use useMemo here? => so we don't have to recalculate the value every time the component re-renders
-    // could be heavy because of the includes() method
-    // everytime the component that use the hook re-renders, the hook will be called again
-    // it's like "embedding" the logic inside the component
-    const hasFavorited = useMemo(() => {
-        return currentUser?.favoriteIds?.includes(listingId)
-    }, [currentUser, listingId])
+  const { isLogged, notAllowedToast } = useProtect();
 
-    const { isLogged, notAllowedToast } = useProtect()
+  const toggleFavorite = useCallback(
+    async (event) => {
+      event.stopPropagation();
 
-    const toggleFavorite = useCallback(async (event) => {
-        event.stopPropagation()
+      if (!currentUser) {
+        toast({
+          title: "Accede a tu cuenta",
+          description: "Debes estar conectado para esta acción",
+          variant: "destructive",
+        });
+        setLoginModalOpen(true);
+        return;
+      }
 
-        if (!currentUser) {
-            toast({
-                title: "Accede a tu cuenta",
-                description: "Debes estar conectado para esta acción",
-                variant: "destructive"
-            })
-            setLoginModalOpen(true)
-            return
+      try {
+        let request;
+
+        if (hasFavorited) {
+          request = () =>
+            apiClient.delete(`/${listingType}/favorites/${listingId}`);
+        } else {
+          request = () =>
+            apiClient.post(`/${listingType}/favorites/${listingId}`);
         }
 
-        try {
-            let request
+        await request();
+        router.refresh();
+        // toast.success('Favorito actualizado!')
+      } catch (error) {
+        // toast.error("Algo fue mal 😢· Inténtalo de nuevo")
+      }
+    },
+    [
+      currentUser,
+      hasFavorited,
+      listingId,
+      listingType,
+      router,
+      setLoginModalOpen,
+      toast,
+    ],
+  );
 
-            if (hasFavorited) {
-                request = () => axios.delete(`/api/${listingType}/favorites/${listingId}`)
-            } else {
-                request = () => axios.post(`/api/${listingType}/favorites/${listingId}`)
-            }
-
-
-            await request()
-            router.refresh()
-            // toast.success('Favorito actualizado!')
-
-        } catch (error) {
-            // toast.error("Algo fue mal 😢· Inténtalo de nuevo")
-        }
-    }
-        , [currentUser, hasFavorited, listingId, listingType, router, setLoginModalOpen, toast])
-
-    return {
-        hasFavorited,
-        toggleFavorite,
-    }
-}
+  return {
+    hasFavorited,
+    toggleFavorite,
+  };
+};
 
 export default useFavorite;

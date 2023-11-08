@@ -97,7 +97,13 @@ function NavBar({ currentUser }) {
                     router.push("/artist/profile");
                   }}
                 >
-                  <AvatarImage src={currentUser?.image || undefined} />
+                  <AvatarImage
+                    src={
+                      currentUser?.image ||
+                      currentUser?.artist?.mainImage ||
+                      undefined
+                    }
+                  />
                   <AvatarFallback>
                     {getAvatarFallbackText(currentUser)}
                   </AvatarFallback>

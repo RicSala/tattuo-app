@@ -13,8 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const General = ({ form, cities, styles }) => {
-  console.log(form.getValues("city"));
-
   return (
     <>
       <h2>Información básica</h2>

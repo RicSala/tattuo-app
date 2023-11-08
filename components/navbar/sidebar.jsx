@@ -43,8 +43,9 @@ export default function Sidebar({ currentUser }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const notifications = !currentUser?.artist?.isComplete;
-  // && other conditions
+  const incompleteProfile = !currentUser?.artist?.isComplete;
+  const notEnoughTattoos = currentUser?.artist.tattoos.length < 3;
+  const notifications = incompleteProfile || notEnoughTattoos;
 
   return (
     <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} className="">
@@ -95,7 +96,10 @@ export default function Sidebar({ currentUser }) {
               {artistMenuItems.map((el) => (
                 <MenuItem
                   warningIcon={
-                    !currentUser?.artist?.isComplete ? el.warningIcon : null
+                    (incompleteProfile && el.id === "profile") ||
+                    (notEnoughTattoos && el.id === "tattoos")
+                      ? el.warningIcon
+                      : null
                   }
                   label={el.label}
                   onClick={() => {
@@ -106,6 +110,7 @@ export default function Sidebar({ currentUser }) {
                   onMouseEnter={() => {
                     router.prefetch(el.url);
                   }}
+                  warningMessage={el.warningMessage}
                 />
               ))}
             </>

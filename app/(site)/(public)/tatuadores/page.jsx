@@ -9,10 +9,6 @@ import { EmptyArtist } from "@/components/empty-states/empty-artists";
 import { ArtistGridHeader } from "./components/artist-grid-header";
 export const dynamic = "force-dynamic";
 
-//TODO:
-// SITEMAP
-// ROBOTS.TXT
-
 const styles = getStyleList();
 const cities = getCities();
 
@@ -22,11 +18,6 @@ const filtro1 = {
   options: styles,
 };
 
-const filtro2 = {
-  label: "Ciudad",
-  value: "city",
-  options: cities,
-};
 const endpoint =
   process.env.APP_ENV === "production"
     ? `${process.env.HOST_NAME_PROD}/api/artists`
@@ -42,16 +33,15 @@ export const metadata = {
     "Encuentra tatuadores cerca de ti buscando por tatuajes, por estilo, por ciudad... Y contáctales cuando quieras totalmente GRATIS",
 };
 
-export default async function ArtistPage({ searchParams }) {
+export default async function ArtistsPage({ searchParams }) {
   const artists = await getArtists(searchParams, 0, initialDataSize);
   const currentUser = await getCurrentUser();
-
-  const serverLoadedArtists = artists.slice(0, initialDataSize);
-  const serverHasMoreArtists = artists.length > initialDataSize;
 
   if (artists.length < 1) {
     return <EmptyArtist filtro1={filtro1} />;
   }
+  const serverLoadedArtists = artists.slice(0, initialDataSize);
+  const serverHasMoreArtists = artists.length > initialDataSize;
 
   return (
     <Container>

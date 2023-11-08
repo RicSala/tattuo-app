@@ -1,11 +1,7 @@
 "use client";
-
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-
 import { Form } from "@/components/ui/form";
 import { AlertCircle, Check } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
@@ -16,42 +12,13 @@ import Prices from "./components/prices";
 import Socials from "./components/socials";
 import Images from "./components/images";
 import { useTabs } from "@/hooks/useTabs";
-import { useArtistForm } from "@/hooks/useArtistForm";
+import { useArtistForm } from "@/app/(site)/artist/profile/components/useArtistForm";
 import MultiStepButtons from "./components/multi-step-buttons";
 import { apiClient } from "@/lib/apiClient";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alerts } from "./components/alerts";
+import { STEPS } from "./steps";
 
 // selectedTab, setSelectedTab, scrollToTabList
-
-const STEPS = [
-  {
-    key: "general",
-    label: "General",
-    validations: ["artisticName", "bio", "styles", "city", "mainImage"],
-  },
-  {
-    key: "prices",
-    label: "Precios",
-    validations: [],
-  },
-  {
-    key: "socials",
-    label: "Redes",
-    validations: [
-      "facebook",
-      "instagram",
-      "tiktok",
-      "twitter",
-      "website",
-      "youtube",
-    ],
-  },
-  {
-    key: "images",
-    label: "Imágenes",
-    validations: ["images"],
-  },
-];
 
 const ProfilePageClient = ({ artist, styles, cities }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -78,10 +45,9 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
   useEffect(() => {
     async function validateSteps() {
       const isValidArray = await Promise.all(
-        // trigger all the validations of that step
-        STEPS.map((step, index) =>
-          index < selectedTab ? form.trigger(step.validations) : null,
-        ),
+        STEPS.map((step, i) =>
+          i < selectedTab ? form.trigger(step.validations) : null,
+        ), // trigger all the validations up to that step
       );
       //   and update the step status accordingly
       setStepsStatus(() => isValidArray);
@@ -216,11 +182,11 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
                   <Socials form={form} />
                 </div>
               </TabsContent>
-              <TabsContent value="images">
+              {/* <TabsContent value="images">
                 <div className="space-y-8">
                   <Images form={form} />
                 </div>
-              </TabsContent>
+              </TabsContent> */}
             </Tabs>
 
             <MultiStepButtons
@@ -241,18 +207,3 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
 };
 
 export default ProfilePageClient;
-
-const Alerts = ({ artist }) => {
-  const alerts = !artist.isComplete ? (
-    <Alert variant="destructive">
-      <AlertCircle className="h-4 w-4" />
-      <AlertTitle>¡Perfil incompleto!</AlertTitle>
-      <AlertDescription>
-        Recuerda que para que tu perfil se vea el TATTUO, debes completar tu
-        perfil
-      </AlertDescription>
-    </Alert>
-  ) : null;
-
-  return alerts;
-};

@@ -50,10 +50,12 @@ export const formSchema = z.object({
   pricePerSession: z.coerce.number().min(0, {
     message: "Debes ingresar un precio por sesión",
   }),
-
-  facebook: z.string().refine((value) => value.includes("facebook.com"), {
-    message: "Debe ser un perfil válido de Facebook",
-  }),
+  facebook: z.union([
+    z.string().refine((value) => value.includes("facebook.com"), {
+      message: "Debe ser un perfil válido de Facebook",
+    }),
+    z.literal(""),
+  ]),
   instagram: z.union([
     z.string().refine((value) => value.includes("instagram.com"), {
       message: "Debe ser un perfil válido de Instagram",
@@ -94,9 +96,9 @@ export const formSchema = z.object({
     z.literal(""),
   ]),
 
-  images: z.array(z.string()).min(1, {
-    message: "Debes subir al menos una imagen",
-  }),
+  // images: z.array(z.string()).min(1, {
+  //   message: "Debes subir al menos una imagen",
+  // }),
 
   phone: z
     .string()
@@ -131,7 +133,7 @@ export function useArtistForm(artist) {
       email: artist.email || "",
       bio: artist.bio || "",
       city: artist.city || "",
-      images: artist.images || [],
+      // images: artist.images || [],
       mainImage: artist.mainImage || "",
       styles: artist.styles || "",
       minWorkPrice: artist.minWorkPrice || "",

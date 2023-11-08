@@ -1,17 +1,12 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoos } from "@/actions/getTattoos";
-import EmptyState from "@/components/empty-state";
 import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
-import Heading from "@/components/heading";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import FreeSearch from "@/components/search/free-search";
-import SearchBar from "@/components/search/search-bar";
-import SearchFilterButton from "@/components/search/search-filter-button";
 import Container from "@/components/ui/container";
-import { Separator } from "@/components/ui/separator";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
+import { TattoosGridHeader } from "./components/tattoos-grid-header";
 export const dynamic = "force-dynamic";
 
 //TODO:
@@ -65,9 +60,6 @@ export default async function TattoosPage({ searchParams }) {
     initialDataSize,
   );
 
-  const serverLoadedTattooIds = serverLoadedTattoos.map((tattoo) => tattoo.id);
-  console.log({ serverLoadedTattooIds });
-
   const currentUser = await getCurrentUser();
 
   if (serverLoadedTattoos.length < 1) {
@@ -76,30 +68,7 @@ export default async function TattoosPage({ searchParams }) {
 
   return (
     <Container>
-      <Heading
-        title={"Descubre tatuajes"}
-        subtitle={
-          "Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"
-        }
-      />
-      <Separator className="my-5" />
-
-      <SearchBar>
-        <FreeSearch />
-        <div className="flex flex-row gap-2">
-          <SearchFilterButton
-            title={filtro1.label}
-            options={filtro1.options}
-            searchParamName={filtro1.value}
-          />
-          <SearchFilterButton
-            title={filtro2.label}
-            options={filtro2.options}
-            searchParamName={filtro2.value}
-          />
-        </div>
-      </SearchBar>
-
+      <TattoosGridHeader filtro1={filtro1} filtro2={filtro2} contentSlug={""} />
       <InfiniteListingGrid // to render an infinite scroll we need...
         initialData={serverLoadedTattoos} // the initial data coming from the server
         sizePerPage={sizePerPage} // the size of each page

@@ -1,4 +1,4 @@
-import EmptyState from "@/components/empty-state";
+import EmptyState from "@/components/empty-states/empty-state";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
 import ProfilePageClient from "./profile-page-client";

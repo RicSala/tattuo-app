@@ -1,4 +1,4 @@
-import EmptyState from "@/components/empty-state";
+import EmptyState from "@/components/empty-states/empty-state";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
@@ -11,21 +11,17 @@ import ArtistDetailsCard from "@/components/artist/artist-details-card";
 import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
-export const generateMetadata = async ({
-    params
-}) => {
+export const generateMetadata = async ({ params }) => {
+  const { artistId } = params;
+  const artist = await getArtistById(artistId);
 
-    const { artistId } = params
-    const artist = await getArtistById(artistId)
+  console.log({ params });
 
-    console.log({ params })
-
-    return {
-        title: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
-        description: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
-    }
+  return {
+    title: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
+    description: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
+  };
 };
-
 
 // export const metadata = {
 //     title: 'hello',
@@ -33,42 +29,39 @@ export const generateMetadata = async ({
 // }
 
 export default async function ArtistDetailsPage({ params }) {
+  // const artist = await getArtistById(params.artistId);
+  // const artistTattoos = await getTattoosByArtistId(params.artistId);
+  // const currentUser = await getCurrentUser();
+  // instead of awaiting in series, we can await in parallel by using Promise.all
+  const artistPromise = getArtistById(params.artistId);
+  const artistTattoosPromise = getTattoosByArtistId(params.artistId);
+  const currentUserPromise = getCurrentUser();
 
+  const [artist, artistTattoos, currentUser] = await Promise.all([
+    artistPromise,
+    artistTattoosPromise,
+    currentUserPromise,
+  ]);
 
-    // const artist = await getArtistById(params.artistId);
-    // const artistTattoos = await getTattoosByArtistId(params.artistId);
-    // const currentUser = await getCurrentUser();
-    // instead of awaiting in series, we can await in parallel by using Promise.all
-    const artistPromise = getArtistById(params.artistId);
-    const artistTattoosPromise = getTattoosByArtistId(params.artistId);
-    const currentUserPromise = getCurrentUser();
+  if (!artist) {
+    return <EmptyState title="No se han encontrado resultados" />;
+  }
 
+  const numberOfTattoos = artistTattoos.length;
 
-    const [artist, artistTattoos, currentUser] = await Promise.all([
-        artistPromise, artistTattoosPromise, currentUserPromise]);
+  return (
+    <main className="flex flex-row flex-wrap justify-center gap-4">
+      <section className="">
+        <ArtistDetailsCard artist={artist} currentUser={currentUser} />
+      </section>
 
-    if (!artist) {
-        return (
-            <EmptyState title="No se han encontrado resultados" />
-        )
-    }
-
-    const numberOfTattoos = artistTattoos.length;
-
-
-    return (
-
-        <main className="flex flex-row flex-wrap justify-center gap-4">
-
-            <section className="">
-                <ArtistDetailsCard artist={artist} currentUser={currentUser} />
-            </section>
-
-            <section className="flex-grow">
-                <Container>
-                    <Heading title={`Sus trabajos`} />
-                    <Separator className="my-2" />
-                    <div className={cn(`
+      <section className="flex-grow">
+        <Container>
+          <Heading title={`Sus trabajos`} />
+          <Separator className="my-2" />
+          <div
+            className={cn(`
+                        m-auto
                         grid
                         grid-cols-1
                         gap-8
@@ -77,19 +70,19 @@ export default async function ArtistDetailsPage({ params }) {
                         lg:grid-cols-2
                         xl:grid-cols-2
                         2xl:grid-cols-3
-                        m-auto
-                        `
-                    )}
-                    >                        {
-                            artistTattoos.map((tattoo) => (
-                                <TattooCard
-                                    data={tattoo} currentUser={currentUser} key={tattoo.id} />
-                            )
-                            )}
-                    </div>
-                </Container>
-            </section>
-
-        </main>
-    )
-};
+                        `)}
+          >
+            {" "}
+            {artistTattoos.map((tattoo) => (
+              <TattooCard
+                data={tattoo}
+                currentUser={currentUser}
+                key={tattoo.id}
+              />
+            ))}
+          </div>
+        </Container>
+      </section>
+    </main>
+  );
+}

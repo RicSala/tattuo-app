@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,6 +9,7 @@ import { Suspense } from "react";
 import Feedback from "@/components/feedback";
 import SupportButton from "@/components/support-button";
 import { GlobalErrorHandler } from "@/errors/global-error-handler";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 

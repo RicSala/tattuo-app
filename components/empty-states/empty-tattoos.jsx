@@ -1,7 +1,7 @@
 import SearchBar from "../search/search-bar";
 import FreeSearch from "../search/free-search";
 import SearchFilterButton from "../search/search-filter-button";
-import EmptyState from "../empty-state";
+import EmptyState from "./empty-state";
 import Container from "../container";
 
 export function EmptyTattoos({ filtro1, filtro2 }) {

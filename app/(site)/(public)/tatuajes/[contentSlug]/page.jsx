@@ -1,15 +1,9 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoos } from "@/actions/getTattoos";
-import EmptyState from "@/components/empty-state";
 import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
-import Heading from "@/components/heading";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import FreeSearch from "@/components/search/free-search";
-import SearchBar from "@/components/search/search-bar";
-import SearchFilterButton from "@/components/search/search-filter-button";
 import Container from "@/components/ui/container";
-import { Separator } from "@/components/ui/separator";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
 import { capitalizeFirst } from "@/lib/utils";

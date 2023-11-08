@@ -1,6 +1,6 @@
 import CitiesAsyncSelect from "../cities-async-select";
 import Container from "../container";
-import EmptyState from "../empty-state";
+import EmptyState from "./empty-state";
 import FreeSearch from "../search/free-search";
 import SearchBar from "../search/search-bar";
 import SearchFilterButton from "../search/search-filter-button";

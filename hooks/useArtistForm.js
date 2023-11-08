@@ -14,6 +14,13 @@ export const formSchema = z.object({
     .max(20, {
       message: "El nombre artístico debe tener menos de 20 caracteres.",
     }),
+  email: z
+    .string({
+      message: "Debes facilitar un email",
+    })
+    .email({
+      message: "Debes facilitar un email válido",
+    }),
   mainImage: z.union([
     z.string().min(2, {
       message: "Tienes que subir una imagen de perfil",
@@ -127,10 +134,10 @@ export function useArtistForm(artist) {
       images: artist.images || [],
       mainImage: artist.mainImage || "",
       styles: artist.styles || "",
-      minWorkPrice: artist.minWorkPrice || null,
+      minWorkPrice: artist.minWorkPrice || "",
       phone: artist.phone || "",
-      pricePerHour: artist.pricePerHour || null,
-      pricePerSession: artist.pricePerSession || null,
+      pricePerHour: artist.pricePerHour || "",
+      pricePerSession: artist.pricePerSession || "",
       facebook: artist.socials[0]?.profile || "",
       instagram: artist.socials[1]?.profile || "",
       tiktok: artist.socials[2]?.profile || "",

@@ -184,6 +184,21 @@ const TattooEditPageClient = ({
     );
   };
 
+  const filteredOptions = async (inputValue) => {
+    const res = await apiClient.get(`/tags?s=${inputValue}`);
+    const tags = res.data;
+    console.log({ tags });
+    return tags;
+  };
+
+  const handleCreate = async (inputValue) => {
+    // send a post request to our api to create a new tag
+    const res = await apiClient.post(`/tags/`, { label: inputValue });
+    const newTag = res.data;
+
+    return newTag;
+  };
+
   return (
     <>
       <Heading title="Crear / Editar pieza" subtitle={""} />
@@ -280,6 +295,9 @@ const TattooEditPageClient = ({
                         validate: (value) =>
                           value.length <= 3 || "Máximo 3 tags",
                       }}
+                      onCreateOption={handleCreate}
+                      onGetOptions={filteredOptions}
+                      isMulti={true}
                     />
                   </FormControl>
                   <FormDescription>

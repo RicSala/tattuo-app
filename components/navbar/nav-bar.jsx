@@ -10,6 +10,7 @@ import { NavMenu } from "./nav-menu";
 import Sidebar from "./sidebar";
 import TopBar from "./top-bar";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 // import UserMenu from "./UserMenu";
 
 function NavBar({ currentUser }) {
@@ -59,7 +60,20 @@ function NavBar({ currentUser }) {
         !topbarShown && "top-0",
       )}
     >
-      <TopBar shown={topbarShown} setShown={setTopbarShown} />
+      <TopBar shown={topbarShown} setShown={setTopbarShown}>
+        this is a topbar message
+      </TopBar>
+      {currentUser && !currentUser?.artist?.isComplete ? (
+        <TopBar
+          shown={topbarShown}
+          setShown={setTopbarShown}
+          className={"bg-destructive text-destructive-foreground"}
+        >
+          <Link href={"/artist/profile"}>
+            Completa tu perfil para aparecer en TATTUO
+          </Link>
+        </TopBar>
+      ) : null}
 
       <div
         className={`${

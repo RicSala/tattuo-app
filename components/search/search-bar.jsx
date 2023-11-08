@@ -1,37 +1,30 @@
-'use client'
+"use client";
 
-import SearchFilterButton from './search-filter-button';
-import FreeSearch from './free-search';
-import AsyncSelect from '../async-select';
-
-
+import SearchFilterButton from "./search-filter-button";
+import FreeSearch from "./free-search";
+import AsyncSelect from "../async-select";
 
 /**
  * @param {Object} props
  * @param {React.ReactNode} [props.children]
  * @returns {React.ReactElement}
  */
-const SearchBar = ({
-    children
-}) => {
-
-    console.log("searchBar called")
-
-    return (
-        <div
-            className="
+const SearchBar = ({ children }) => {
+  return (
+    <div
+      className="
             relative
+            my-8
             flex
             flex-row
+            flex-wrap
             justify-between
             gap-6
-            my-8
-            flex-wrap
         "
-        >
-            {children}
-        </div>
-    )
+    >
+      {children}
+    </div>
+  );
 };
 
 export default SearchBar;

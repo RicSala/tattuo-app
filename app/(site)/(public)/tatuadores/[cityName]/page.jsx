@@ -15,6 +15,7 @@ import SearchFilterButton from "@/components/search/search-filter-button";
 import { capitalizeFirst } from "@/lib/utils";
 import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/components/empty-states/empty-artists";
+import { ArtistGridHeader } from "../components/artist-grid-header";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
@@ -67,25 +68,7 @@ export default async function CityPage({ params, searchParams }) {
 
   return (
     <Container>
-      <Heading
-        title={`Tatuadores en ${capitalizeFirst(cityName)}`}
-        subtitle={"Explora por estilo o simplemente escribe lo que buscas"}
-      />
-      <Separator className="my-5" />
-
-      <SearchBar>
-        <FreeSearch />
-        <div className="flex flex-row gap-2">
-          <SearchFilterButton
-            title={filtro1.label}
-            options={filtro1.options}
-            searchParamName={filtro1.value}
-          />
-          {/* <SearchFilterButton title={filtro2.label} options={filtro2.options} searchParamName={filtro2.value} /> */}
-          {/* Eventually, I will change the city select for an async select */}
-        </div>
-      </SearchBar>
-
+      <ArtistGridHeader filtro1={filtro1} />
       <ListingGrid>
         {artists.map((artist) => {
           return (

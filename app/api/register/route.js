@@ -1,25 +1,35 @@
-import bcrypt from 'bcryptjs';
-import prisma from '@/lib/prismadb';
-import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/actions/getCurrentUser';
+import bcrypt from "bcryptjs";
+import prisma from "@/lib/prismadb";
+import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 export async function POST(req) {
+  console.log("got to post endpont");
   try {
     const body = await req.json();
 
-    const { email, password, name, confirmPassword, role = 'CLIENT' } = body;
+    const {
+      email,
+      password,
+      name,
+      confirmPassword,
+      role = "CLIENT",
+      artisticName,
+    } = body;
+
+    console.log({ body });
 
     if (!email || !password || !name) {
       return NextResponse.json(
-        { error: 'Datos incorrectos, prueba de nuevo' },
-        { status: 400 }
+        { error: "Datos incorrectos, prueba de nuevo" },
+        { status: 400 },
       );
     }
 
     if (password !== confirmPassword) {
       return NextResponse.json(
-        { error: 'Las contraseñas no coinciden' },
-        { status: 400 }
+        { error: "Las contraseñas no coinciden" },
+        { status: 400 },
       );
     }
 
@@ -30,7 +40,7 @@ export async function POST(req) {
         email,
         name,
         hashedPassword,
-        confirmPassword: '', //TODO: not sure if we should store this
+        confirmPassword: "", //TODO: not sure if we should store this
         role,
       },
     });
@@ -43,21 +53,46 @@ export async function POST(req) {
       },
     });
 
-    // create a new artist profile for the user and link it
-    if (role === 'ARTIST') {
-      await prisma.artistProfile.create({
-        data: {
-          user: { connect: { id: user.id } },
+    if (role === "ARTIST") {
+      // Search if the artist profile with that name already exist
+      const artistProfile = await prisma.artistProfile.findFirst({
+        where: {
+          artisticName,
         },
       });
+
+      if (artistProfile?.userId)
+        return NextResponse.json(
+          { error: "El nombre artístico ya está en uso" },
+          { status: 400 },
+        );
+
+      // if it exist, connect the artist profile to the user, else create the artist profile with that artisticName
+      if (artistProfile) {
+        await prisma.artistProfile.update({
+          where: {
+            artisticName,
+          },
+          data: {
+            user: { connect: { id: user.id } },
+          },
+        });
+      } else {
+        await prisma.artistProfile.create({
+          data: {
+            user: { connect: { id: user.id } },
+            artisticName,
+          },
+        });
+      }
     }
 
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
-    console.log(error, 'REGISTRATION_ERROR');
+    console.log(error, "REGISTRATION_ERROR");
     return NextResponse.json(
-      { error: 'Something went wrong' },
-      { status: 500 }
+      { error: "Something went wrong" },
+      { status: 500 },
     );
   }
 }
@@ -66,7 +101,7 @@ export async function PUT(req) {
   const currentUser = await getCurrentUser(req);
 
   if (!currentUser) {
-    return NextResponse.redirect('/login');
+    return NextResponse.redirect("/login");
   }
 
   try {
@@ -77,7 +112,7 @@ export async function PUT(req) {
       password,
       name,
       confirmPassword,
-      role = 'CLIENT',
+      role = "CLIENT",
       theme,
     } = body;
 
@@ -101,10 +136,10 @@ export async function PUT(req) {
 
     return NextResponse.json({ settings }, { status: 200 });
   } catch (error) {
-    console.log(error, 'REGISTRATION_ERROR');
+    console.log(error, "REGISTRATION_ERROR");
     return NextResponse.json(
-      { error: 'Something went wrong' },
-      { status: 500 }
+      { error: "Something went wrong" },
+      { status: 500 },
     );
   }
 }

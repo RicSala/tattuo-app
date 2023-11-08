@@ -71,6 +71,22 @@ const General = ({ form, cities, styles }) => {
       />
       <FormField
         control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="after:content-['*']">Email</FormLabel>
+            <FormControl>
+              <Input placeholder="tunombre@tuweb.com" {...field} />
+            </FormControl>
+            <FormDescription>
+              Email al que te contactarán los clientes
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
         name="phone"
         render={({ field }) => (
           <FormItem>

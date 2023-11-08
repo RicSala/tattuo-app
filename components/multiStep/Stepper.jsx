@@ -5,6 +5,7 @@ export default function Stepper({
   steps,
   activeStep,
   setStep,
+  className,
   ...props
 }) {
   const stepWidth = 100 / (Object.keys(steps).length - 1);
@@ -12,22 +13,24 @@ export default function Stepper({
   const progressWidth = stepWidth * activeStep;
 
   return (
+    // TODO: This is a bit hacky... fix the step
     <div
-      className="
+      className={cn(
+        `
         mx-auto 
         my-0
         min-h-[50px]
         w-full
         max-w-[600px]
         px-4
-        py-0
-        sm:min-h-[80px]
-        "
+        py-0`,
+        className,
+      )}
     >
       <div
         className={cn(`
             progress-bar
-            after:duration-400 relative mt-20 flex flex-row
+            after:duration-400 relative flex flex-row
             justify-between
             before:absolute
             before:left-0

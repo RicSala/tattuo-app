@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import React from "react";
@@ -23,33 +23,27 @@ import ListingGrid from "./listing-grid";
  * @returns {React.ReactElement} The rendered InfiniteListingGrid component
  */
 export default function InfiniteListingGrid({
-    Component,
-    endpoint,
-    initialData,
-    sizePerPage,
-    keyProp, // new prop for the dynamic key
-    currentUser,
-    filter,
-
+  Component,
+  endpoint,
+  initialData,
+  sizePerPage,
+  keyProp, // new prop for the dynamic key
+  currentUser,
+  filter,
 }) {
-
-    return (
-
-        <ListingGrid>
-            <CustomQueryClientProvider>
-                <InfiniteScroll
-                    endpoint={endpoint}
-                    initialData={initialData}
-                    sizePerPage={sizePerPage}
-                    keyProp={keyProp}
-                    Component={Component}
-                    currentUser={currentUser}
-                    filter={filter}
-                />
-            </CustomQueryClientProvider>
-        </ListingGrid>
-
-    )
+  return (
+    <ListingGrid>
+      <CustomQueryClientProvider>
+        <InfiniteScroll
+          endpoint={endpoint}
+          initialData={initialData}
+          sizePerPage={sizePerPage}
+          keyProp={keyProp}
+          Component={Component}
+          currentUser={currentUser}
+          filter={filter}
+        />
+      </CustomQueryClientProvider>
+    </ListingGrid>
+  );
 }
-
-

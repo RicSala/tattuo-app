@@ -7,7 +7,7 @@ import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 
 import { Form } from "@/components/ui/form";
-import { Check } from "lucide-react";
+import { AlertCircle, Check } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { DevTool } from "@hookform/devtools";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,6 +19,7 @@ import { useTabs } from "@/hooks/useTabs";
 import { useArtistForm } from "@/hooks/useArtistForm";
 import MultiStepButtons from "./components/multi-step-buttons";
 import { apiClient } from "@/lib/apiClient";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // selectedTab, setSelectedTab, scrollToTabList
 
@@ -122,7 +123,7 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     imagesRef.current = data.images;
     mainImageRef.current = data.mainImage;
 
-    return axios
+    return apiClient
       .put(`/artists/${artist.id}`, data)
       .then((res) => {
         toast({
@@ -157,6 +158,7 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
 
   return (
     <>
+      <Alerts artist={artist} />
       <Heading
         title="Tu perfil"
         subtitle={"Cuéntanos sobre ti y sobre tus piezas"}
@@ -239,3 +241,18 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
 };
 
 export default ProfilePageClient;
+
+const Alerts = ({ artist }) => {
+  const alerts = !artist.isComplete ? (
+    <Alert variant="destructive">
+      <AlertCircle className="h-4 w-4" />
+      <AlertTitle>¡Perfil incompleto!</AlertTitle>
+      <AlertDescription>
+        Recuerda que para que tu perfil se vea el TATTUO, debes completar tu
+        perfil
+      </AlertDescription>
+    </Alert>
+  ) : null;
+
+  return alerts;
+};

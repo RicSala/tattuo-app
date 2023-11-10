@@ -7,6 +7,7 @@ import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import Container from "@/components/container";
 import { EmptyArtist } from "@/components/empty-states/empty-artists";
 import { ArtistGridHeader } from "./components/artist-grid-header";
+import { GridHeader } from "../../../../components/grid-header";
 export const dynamic = "force-dynamic";
 
 const styles = getStyleList();
@@ -45,7 +46,12 @@ export default async function ArtistsPage({ searchParams }) {
 
   return (
     <Container>
-      <ArtistGridHeader filtro1={filtro1} />
+      <GridHeader
+        title={`Inspírate en los tatuajes de los mejores artistas`}
+        subtitle={`Explora por estilo, ciudad, o simplemente escribe lo que buscas`}
+        contentSlug={""}
+        filtro1={filtro1}
+      />
       <InfiniteListingGrid // to render an infinite scroll we need...
         initialData={serverLoadedArtists} // the initial data coming from the server
         sizePerPage={sizePerPage} // the size of each page

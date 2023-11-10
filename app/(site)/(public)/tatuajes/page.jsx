@@ -7,6 +7,7 @@ import Container from "@/components/ui/container";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
 import { TattoosGridHeader } from "./components/tattoos-grid-header";
+import { GridHeader } from "../../../../components/grid-header";
 export const dynamic = "force-dynamic";
 
 //TODO:
@@ -68,7 +69,13 @@ export default async function TattoosPage({ searchParams }) {
 
   return (
     <Container>
-      <TattoosGridHeader filtro1={filtro1} filtro2={filtro2} contentSlug={""} />
+      <GridHeader
+        title={`Descubre tatuajes de artistas cerca de ti`}
+        subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
+        contentSlug={""}
+        filtro1={filtro1}
+        filtro2={filtro2}
+      />
       <InfiniteListingGrid // to render an infinite scroll we need...
         initialData={serverLoadedTattoos} // the initial data coming from the server
         sizePerPage={sizePerPage} // the size of each page

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "../container";
 import { ModeToggle } from "../mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -11,11 +11,14 @@ import Sidebar from "./sidebar";
 import TopBar from "./top-bar";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import { UiContext } from "@/providers/ui/ui-provider";
 // import UserMenu from "./UserMenu";
 
 function NavBar({ currentUser }) {
   const router = useRouter();
   const userTheme = currentUser?.settings?.darkMode || "light";
+  const { setArtistRegisterOpen } = useContext(UiContext);
 
   const [topbarShown, setTopbarShown] = useState(true);
 
@@ -63,15 +66,26 @@ function NavBar({ currentUser }) {
       <TopBar shown={topbarShown} setShown={setTopbarShown}>
         this is a topbar message
       </TopBar>
-      {currentUser && !currentUser?.artist?.isComplete ? (
+
+      {currentUser &&
+      (!currentUser?.artist?.isComplete ||
+        currentUser?.artist?.tattoos.length < 3) ? (
         <TopBar
           shown={topbarShown}
           setShown={setTopbarShown}
           className={"bg-destructive text-destructive-foreground"}
         >
-          <Link href={"/artist/profile"}>
-            Completa tu perfil para aparecer en TATTUO
-          </Link>
+          {!currentUser?.artist?.isComplete ? (
+            <Link href={"/artist/profile"}>
+              Completa tu perfil para aparecer en TATTUO
+            </Link>
+          ) : currentUser?.artist?.tattoos.length < 3 ? (
+            <Link href={"/artist/tatuajes"}>
+              Publica al menos 3 piezas para hacer visible tu perfil
+            </Link>
+          ) : (
+            ""
+          )}
         </TopBar>
       ) : null}
 
@@ -109,6 +123,17 @@ function NavBar({ currentUser }) {
                   </AvatarFallback>
                 </Avatar>
               ) : null}
+              {!currentUser && (
+                <Button
+                  onClick={() => {
+                    setArtistRegisterOpen(true);
+                  }}
+                  variant="ghost"
+                  className="opacity-50"
+                >
+                  Soy tatuador
+                </Button>
+              )}
               <ModeToggle userTheme={userTheme} />
               <Sidebar className="bg-neutral" currentUser={currentUser} />
             </div>

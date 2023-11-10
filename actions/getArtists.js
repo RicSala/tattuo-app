@@ -7,9 +7,16 @@ import prisma from "@/lib/prismadb";
  * @param {{ userId: string, styles: string, city: string, freeSearch: string, artisticName:string, isClaimed:boolean }} searchParams
  * @param {number} skip
  * @param {number | undefined} take
+ * @param {boolean} onlyCompleteProfiles
  * @returns {Promise<MyTypes.ArtistProfile[]>}
  */
-export async function getArtists(searchParams, skip = 0, take = undefined) {
+export async function getArtists(
+  searchParams,
+  skip = 0,
+  take = undefined,
+  onlyCompleteProfiles = true,
+  onlyProfilesWithEnoughtTattoos = true,
+) {
   // I would call the args "filters", because actually the function could without "searchParams" specifically
 
   try {
@@ -89,8 +96,26 @@ export async function getArtists(searchParams, skip = 0, take = undefined) {
         user: null,
       };
     }
+    if (onlyCompleteProfiles) {
+      query = {
+        ...query,
+        isComplete: onlyCompleteProfiles,
+      };
+    }
+
+    if (onlyProfilesWithEnoughtTattoos) {
+      query = {
+        ...query,
+        // only artist that has at least 3 tattoos
+      };
+    }
 
     const artists = await prisma.artistProfile.findMany({
+      include: {
+        _count: {
+          select: { tattoos: true },
+        },
+      },
       where: query,
       orderBy: [{ createdAt: "asc" }, { id: "asc" }],
       skip,

@@ -6,7 +6,11 @@ import EmptyState from "@/components/empty-states/empty-state";
 import Heading from "@/components/heading";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { range } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { FakeTattooCard } from "./components/fake-tattoo-card";
 export const dynamic = "force-dynamic";
 
 const MyTattoosPage = async ({ params }) => {
@@ -63,6 +67,9 @@ const MyTattoosPage = async ({ params }) => {
             </div>
           </TattooCard>
         ))}
+        {tattoos.length < 3
+          ? range(3 - tattoos.length).map((i) => <FakeTattooCard key={i} />)
+          : ""}
       </ListingGrid>
     </>
   );

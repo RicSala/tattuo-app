@@ -81,9 +81,6 @@ export function ArtistRegisterForm({}) {
   });
 
   const onSubmit = async (data) => {
-    console.log("HELLO!!!!!!!!!!!!!");
-    console.log({ data });
-
     // TODO: I am transforming artistic name because I don't know how to do that transform between what the asyncselect expectes (object with value and label) and what the endpoint expects (a string)
     data.artisticName = data.artisticName.label;
 
@@ -93,15 +90,15 @@ export function ArtistRegisterForm({}) {
       .then((res) => {
         setArtistRegisterOpen(false);
         setSidebarOpen(false);
-
         toast({
           title: "Bienvenido a TATTUO",
-          description: "Ya puedes guardar tus obras y artistas favoritos",
+          description:
+            "Por favor, completa tu perfil y publica tres obras para aparecer en TATTUO",
         });
         signIn("credentials", {
           email: data.email,
           password: data.password,
-          callbackUrl: `${window.location.origin}/tatuajes`,
+          callbackUrl: `/artist/profile`,
         });
       })
       .catch((err) => {
@@ -110,8 +107,6 @@ export function ArtistRegisterForm({}) {
           description: "Por favor, inténtalo de nuevo",
           variant: "destructive",
         });
-        console.log("ERROR:", err.response?.data.error);
-        console.log("ERROR:", err);
       })
       .finally(() => {
         setIsLoading(false);

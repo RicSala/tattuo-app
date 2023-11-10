@@ -1,7 +1,5 @@
 "use client";
 
-import axios from "axios";
-
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
@@ -34,12 +32,23 @@ import { useHandleError } from "@/errors/useHandleError";
 import { createCustomError } from "@/errors/CustomError";
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "El título debe tener al menos 2 caracteres.",
-  }),
-  description: z.string().min(2, {
-    message: "La descripción debe tener al menos 2 caracteres.",
-  }),
+  title: z
+    .string()
+    .min(2, {
+      message: "El título debe tener al menos 2 caracteres.",
+    })
+    .max(30, {
+      message: "El título debe tener menos de 30 caracteres.",
+    }),
+
+  description: z
+    .string()
+    .min(2, {
+      message: "La descripción debe tener al menos 2 caracteres.",
+    })
+    .max(200, {
+      message: "La descripción debe tener menos de 200 caracteres.",
+    }),
   imageSrc: z
     .union([z.string().url(), z.null()])
     .refine((value) => value !== null, {
@@ -138,7 +147,7 @@ const TattooEditPageClient = ({
     }
 
     // else we update it
-    return axios
+    return apiClient
       .put(`/tattoos/`, data)
       .then((res) => {
         toast({
@@ -261,7 +270,7 @@ const TattooEditPageClient = ({
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
                     <Textarea
-                      className="resize-none "
+                      className="resize-none"
                       placeholder="Cuéntanos todo lo que te parezca importante de este trabajo"
                       {...field}
                     />

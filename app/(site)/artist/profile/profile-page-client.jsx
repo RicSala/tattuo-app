@@ -17,10 +17,12 @@ import MultiStepButtons from "./components/multi-step-buttons";
 import { apiClient } from "@/lib/apiClient";
 import { Alerts } from "./components/alerts";
 import { STEPS } from "./steps";
+import { useRouter } from "next/navigation";
 
 // selectedTab, setSelectedTab, scrollToTabList
 
 const ProfilePageClient = ({ artist, styles, cities }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [stepsStatus, setStepsStatus] = useState({});
 
@@ -36,7 +38,7 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
   // so we delete them only when the form is submitted
   // otherwise we would delete them when they click "x" (and maybe they change their mind)
   // and we would not delete them when they just change the image
-  const imagesRef = useRef(artist.images);
+  // const imagesRef = useRef(artist.images);
   const mainImageRef = useRef(artist.mainImage);
 
   const { form } = useArtistForm(artist);
@@ -62,13 +64,17 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     // Not used for now
     setIsLoading(true);
     // The images that were present when the page loaded...
-    const imagesToDelete = imagesRef.current.filter(
-      (img) => !data.images.includes(img), //... and are not present in the form now
-    );
+    // const imagesToDelete = imagesRef.current.filter(
+    //   (img) => !data.images.includes(img), //... and are not present in the form now
+    // );
+    console.log({ artist });
     const mainImageToDelete =
       mainImageRef.current !== data.mainImage ? mainImageRef.current : null;
 
-    const arrayToDelete = [...imagesToDelete, mainImageToDelete].filter(
+    const arrayToDelete = [
+      // ...imagesToDelete,
+      mainImageToDelete,
+    ].filter(
       (img) => img, // to remove false values lik
     );
 
@@ -86,17 +92,30 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
       }
     }
     // // set the ref to the new images
-    imagesRef.current = data.images;
+    // imagesRef.current = data.images;
     mainImageRef.current = data.mainImage;
 
     return apiClient
       .put(`/artists/${artist.id}`, data)
       .then((res) => {
-        toast({
-          variant: "success",
-          title: `Cambios guardados`,
-          description: "Tus cambios ya están visibles en TATTUO",
-        });
+        if (artist.tattoos.length > 2) {
+          {
+            toast({
+              variant: "success",
+              title: `Cambios guardados`,
+              description: "Tus cambios ya están visibles en TATTUO",
+            });
+          }
+        } else {
+          toast({
+            variant: "success",
+            title: `Cambios guardados`,
+            description:
+              "Publica el menos 3 tatuajes para que tu perfil sea visible",
+          });
+          router.refresh();
+          router.push("/artist/tatuajes");
+        }
       })
       .catch((err) => {
         toast({

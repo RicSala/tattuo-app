@@ -4,22 +4,12 @@ import EmptyState from "./empty-state";
 import FreeSearch from "../search/free-search";
 import SearchBar from "../search/search-bar";
 import SearchFilterButton from "../search/search-filter-button";
+import { ArtistGridHeader } from "@/app/(site)/(public)/tatuadores/components/artist-grid-header";
 
 export function EmptyArtist({ filtro1 }) {
   return (
     <Container>
-      <SearchBar>
-        <FreeSearch />
-        <div className="flex flex-row gap-2">
-          <SearchFilterButton
-            title={filtro1.label}
-            options={filtro1.options}
-            searchParamName={filtro1.value}
-          />
-          <CitiesAsyncSelect searchParamName="city" />
-          {/* Eventually, I will change the city select for an async select */}
-        </div>
-      </SearchBar>
+      <ArtistGridHeader filtro1={filtro1} />
       <EmptyState
         title="No se han encontrado tatuadores con esos filtros"
         subtitle="Modifica tus filtros para encontrar más resultados"

@@ -10,7 +10,7 @@ const FreeSearch = forwardRef(({}, ref) => {
     <div
       className="
         flex 
-        min-w-[150px] 
+        min-w-[150px]
         flex-1
         flex-row
         items-center

@@ -10,6 +10,7 @@ import { capitalizeFirst } from "@/lib/utils";
 import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/components/empty-states/empty-artists";
 import { ArtistGridHeader } from "../components/artist-grid-header";
+import { mdxToHtml } from "@/lib/mdx-to-html";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
@@ -43,6 +44,10 @@ export default async function CityPage({ params, searchParams }) {
   });
 
   const currentUser = await getCurrentUser(); //TODO: do we really need this? We are getting it on on layout! -> Probably not but it's probably it's caching it.
+
+  // const formattedText = await mdxToHtml(
+  //   generatedCities.find((item) => item.city === cityName).text,
+  // );
 
   // const serverLoadedArtists = artists.slice(0, initialDataSize)
   // const serverHasMoreArtists = artists.length > initialDataSize

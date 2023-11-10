@@ -1,9 +1,5 @@
 "use client";
 
-import SearchFilterButton from "./search-filter-button";
-import FreeSearch from "./free-search";
-import AsyncSelect from "../async-select";
-
 /**
  * @param {Object} props
  * @param {React.ReactNode} [props.children]

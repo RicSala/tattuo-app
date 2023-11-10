@@ -34,7 +34,7 @@ export const formSchema = z.object({
     .min(50, {
       message: "Tu bio debe tener al menos 50 caracteres",
     })
-    .max(100, {
+    .max(300, {
       message:
         "Sabemos que nos quieres contar muchas cosas, pero deja algo para cuando nos veamos! La bio no puede tener más de 100 caracteres",
     })

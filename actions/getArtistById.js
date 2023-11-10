@@ -21,6 +21,7 @@ export async function getArtistById(artistId) {
         likes: true,
         styles: true,
         city: true,
+        tattoos: true,
       },
     });
 

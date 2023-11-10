@@ -8,7 +8,7 @@ export function Alerts({ artist }) {
       <AlertTitle>¡Perfil incompleto!</AlertTitle>
       <AlertDescription>
         Recuerda que para que tu perfil se vea el TATTUO, debes completar tu
-        perfil
+        perfil y tener al menos 3 tatus publicados
       </AlertDescription>
     </Alert>
   ) : null;

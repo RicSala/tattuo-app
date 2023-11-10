@@ -9,7 +9,9 @@ export function TattoosGridHeader({ filtro1, filtro2, contentSlug }) {
   return (
     <>
       <Heading
-        title={`Descubre tatuajes de ${capitalizeFirst(contentSlug)}`}
+        title={`Descubre tatuajes en ${
+          contentSlug ? capitalizeFirst(contentSlug) : `tu ciudad`
+        }`}
         subtitle={
           "Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas"
         }

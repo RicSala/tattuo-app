@@ -3,12 +3,12 @@ import qs from "query-string";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "./useDebounce";
 
-export const useFreeSearchParamsFilter = () => {
+export const useFreeSearchParamsFilter = (debounceTime = 500) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const [freeSearch, setFreeSearch] = useState("");
-  const debouncedValue = useDebounce(freeSearch, 500, "search");
+  const debouncedValue = useDebounce(freeSearch, debounceTime, "search");
   useEffect(() => {
     const freeSearchParams = qs.parse(searchParams.toString()).freeSearch;
     if (freeSearchParams) {

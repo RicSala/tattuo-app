@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import ArtistSocials from "./artist-socials";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import useSave from "@/hooks/useSave";
@@ -18,15 +18,33 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useHandleError } from "@/errors/useHandleError";
+import { UiContext } from "@/providers/ui/ui-provider";
+import * as types from "@prisma/client";
+import { DisplayText } from "../display-text";
 
+/**
+ * @typedef {types.ArtistProfile} ArtistProfile
+ * @typedef {types.User} User
+ */
+
+/**
+ * @param {{
+ * artist: ArtistProfile,
+ * currentUser: User
+ * }} props
+ */
 export default function ArtistDetailsCard({ artist, currentUser }) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const { setArtistRegisterOpen } = useContext(UiContext);
   const router = useRouter();
   const { hasSaved, toggleSave } = useSave({
     listingId: artist.id,
     currentUser: currentUser,
     listingType: "artists",
   });
+
+  console.log({ artist });
+
   return (
     <div className="flex w-96 flex-col gap-2 rounded-lg bg-secondary/50 p-5">
       <div className="flex flex-row justify-between">
@@ -55,6 +73,16 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             >
               Reportar
             </DropdownMenuItem>
+            {!artist.userId ? (
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => {
+                  setArtistRegisterOpen(true);
+                }}
+              >
+                Reclamar Perfil
+              </DropdownMenuItem>
+            ) : null}
             {/* <DropdownMenuItem className="hover:cursor-pointer">Billing</DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -135,7 +163,9 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
       >
         <div>
           <p className="font-bold">Bio</p>
-          <p className="max-h-64 overflow-y-auto">{artist.bio}</p>
+          <p className="max-h-64 overflow-y-auto">
+            <DisplayText text={artist.bio} />
+          </p>
         </div>
         <Separator />
         <div>
@@ -191,6 +221,12 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             })}
           </div>
         </div>
+        {!artist.userId && (
+          <div className="flex flex-col items-center justify-center text-sm italic text-primary/70">
+            ¿Eres tú?
+            <Button variant="ghost">Reclama este perfil</Button>
+          </div>
+        )}
       </div>
     </div>
   );

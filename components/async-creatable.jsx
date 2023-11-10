@@ -22,9 +22,12 @@ const AsyncCreatable = forwardRef(
     },
     ref,
   ) => {
+    const formatCreateLabel = (inputValue) => `Crear "${inputValue}"`;
+
     return (
       // TODO: Create está en inglés
       <AsyncCreatableSelect
+        formatCreateLabel={formatCreateLabel}
         createOptionPosition="last"
         placeholder={placeholder}
         cacheOptions

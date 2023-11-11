@@ -1,66 +1,45 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-
+import { UserService } from "@/services/db/UserService";
 
 export async function POST(request, { params }) {
+  const currentUser = await getCurrentUser(request);
 
-    const currentUser = await getCurrentUser(request);
+  if (!currentUser) {
+    return NextResponse.error();
+  }
 
-    if (!currentUser) {
-        return NextResponse.error()
-    }
+  const { artistId } = params;
 
+  if (!artistId || typeof artistId !== "string") {
+    throw new Error("Invalid ID");
+  }
 
-    const { artistId } = params
+  // add an entry to the collections likedArtist
+  const likedArtist = await UserService.likeArtist(currentUser.id, artistId);
 
-    if (!artistId || typeof artistId !== 'string') {
-        throw new Error('Invalid ID')
-    }
-
-    // add an entry to the collections likedArtist
-    const likedArtist = await prisma.likedArtist.create({
-        data: {
-            artistProfile: { // the object to connect
-                connect: {
-                    id: artistId //they key to connect by
-                }
-            },
-            user: {
-                connect: {
-                    id: currentUser.id
-                }
-            }
-        }
-    })
-
-
-
-    return NextResponse.json({ likedArtist }, { status: 201 })
+  return NextResponse.json({ likedArtist }, { status: 201 });
 }
 
 export async function DELETE(request, { params }) {
+  const currentUser = await getCurrentUser(request);
 
-    const currentUser = await getCurrentUser(request);
+  if (!currentUser) {
+    return NextResponse.error();
+  }
 
-    if (!currentUser) {
-        return NextResponse.error()
-    }
+  const { artistId } = params;
 
-    const { artistId } = params
+  if (!artistId || typeof artistId !== "string") {
+    throw new Error("Invalid ID");
+  }
 
-    if (!artistId || typeof artistId !== 'string') {
-        throw new Error('Invalid ID')
-    }
+  // remove an entry from the collections likedArtist
+  const deletedArtist = await UserService.deleteLikeArtist(
+    currentUser.id,
+    artistId,
+  );
 
-    // remove an entry from the collections likedArtist
-    const deletedArtist = await prisma.likedArtist.deleteMany({
-        where: {
-            artistProfileId: artistId,
-            userId: currentUser.id
-        }
-    })
-
-
-    return NextResponse.json({ deletedArtist }, { status: 201 })
+  return NextResponse.json({ deletedArtist }, { status: 201 });
 }

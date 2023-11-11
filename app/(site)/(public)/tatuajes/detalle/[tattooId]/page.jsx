@@ -1,6 +1,4 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import getSimilarTattoos from "@/actions/getSimilarTattoos";
-import { getTattoosById } from "@/actions/getTattooById";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistSmallCard from "@/components/artist/artist-small-card";
 import { DisplayText } from "@/components/display-text";
 import HeartButton from "@/components/heart-button";
@@ -10,6 +8,7 @@ import ShareButtons from "@/components/share-buttons";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { TattooService } from "@/services/db/TattooService";
 
 const TattooDetailsPage = async ({ params }) => {
   // TODO: Head for SEO (title, description, etc)
@@ -17,17 +16,17 @@ const TattooDetailsPage = async ({ params }) => {
   // REVIEW: what is turbopack?
 
   // const tattoo = await getTattoosById(params.tattooId);
-  // const similarTattoos = await getSimilarTattoos(tattoo);
+  // const similarTattoos = await TattooService.getSimilarTattoos(tattoo);
   // const currentUser = await getCurrentUser();
   // let's change the preview to a promise.all to get all the data at once in parallel
 
-  const tattooPromise = getTattoosById(params.tattooId);
+  const tattooPromise = TattooService.getById(params.tattooId);
   const currentUserPromise = getCurrentUser();
   const [tattoo, currentUser] = await Promise.all([
     tattooPromise,
     currentUserPromise,
   ]);
-  const similarTattoos = await getSimilarTattoos(tattoo);
+  const similarTattoos = await TattooService.getSimilar(tattoo);
 
   const hostname =
     process.env.NODE_ENV === "production"

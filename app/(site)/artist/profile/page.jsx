@@ -1,9 +1,10 @@
 import EmptyState from "@/components/empty-states/empty-state";
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { getArtistById } from "@/actions/getArtistById";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ProfilePageClient from "./profile-page-client";
 import prisma from "@/lib/prismadb";
 import { getCities } from "@/lib/getCities";
+import { ArtistService } from "@/services/db/ArtistService";
+import { StyleService } from "@/services/db/StyleService";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ const ProfilePage = async (
 ) => {
   const currentUser = await getCurrentUser();
 
-  const artist = await getArtistById(currentUser.artistProfileId);
+  const artist = await ArtistService.getById(currentUser.artistProfileId);
 
   if (!artist) {
     <EmptyState
@@ -23,7 +24,7 @@ const ProfilePage = async (
     />;
   }
 
-  const styles = await prisma.style.findMany();
+  const styles = await StyleService.getStyles();
   const cities = getCities();
 
   return <ProfilePageClient artist={artist} styles={styles} cities={cities} />;

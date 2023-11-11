@@ -1,5 +1,4 @@
-import { getArtists } from "@/actions/getArtists";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
 import { getStyleList } from "@/lib/getStyleList";
 import { getCities } from "@/lib/getCities";
@@ -8,6 +7,7 @@ import Container from "@/components/container";
 import { EmptyArtist } from "@/components/empty-states/empty-artists";
 import { ArtistGridHeader } from "./components/artist-grid-header";
 import { GridHeader } from "../../../../components/grid-header";
+import { ArtistService } from "@/services/db/ArtistService";
 export const dynamic = "force-dynamic";
 
 const styles = getStyleList();
@@ -35,7 +35,11 @@ export const metadata = {
 };
 
 export default async function ArtistsPage({ searchParams }) {
-  const artists = await getArtists(searchParams, 0, initialDataSize);
+  const artists = await ArtistService.getPaginated(
+    searchParams,
+    0,
+    initialDataSize,
+  );
   const currentUser = await getCurrentUser();
 
   if (artists.length < 1) {

@@ -16,7 +16,7 @@ import {
   artistMenuItems,
   clientMenuItems,
   visitorMenuItems,
-} from "@/lib/const";
+} from "@/config/const";
 import { Separator } from "../ui/separator";
 import Logo from "./logo";
 import { useRouter } from "next/navigation";
@@ -50,7 +50,7 @@ export default function Sidebar({ currentUser }) {
   return (
     <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} className="">
       <SheetTrigger asChild className="">
-        <div className="relative">
+        <div className="relative" id="hamb-menu">
           <Menu
             className="cursor-pointer"
             onClick={() => {
@@ -65,7 +65,7 @@ export default function Sidebar({ currentUser }) {
         </div>
       </SheetTrigger>
       <SheetContent className={"flex flex-col justify-start"}>
-        <div className="my-2 flex flex-col">
+        <div className="my-2 flex flex-col" id="sidebar-content">
           <SheetHeader>
             <SheetTitle asChild>
               <Logo />

@@ -1,6 +1,6 @@
 import CustomError from "./CustomError";
 import { useToast } from "@/components/ui/use-toast";
-import { handleError } from "./handleError";
+import { handleError } from "./error-handlerss";
 
 // We do this just to "transform" our useToast hook into a "normal" function. We use the hooks as a factory to create the function on mount.
 export const useHandleError = () => {

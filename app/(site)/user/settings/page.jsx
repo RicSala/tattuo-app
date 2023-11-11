@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountSettings from "./components/account-settings";
 import NotificationsSettings from "./components/notifications-settings";

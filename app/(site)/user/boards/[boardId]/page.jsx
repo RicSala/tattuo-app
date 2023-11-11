@@ -1,5 +1,5 @@
-import { getBoardById } from "@/actions/getBoardById";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getBoardById } from "@/services/db/getBoardById";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import DeleteFromBoardButton from "@/components/delete-from-board-button";
 import EmptyState from "@/components/empty-states/empty-state";
 import Heading from "@/components/heading";

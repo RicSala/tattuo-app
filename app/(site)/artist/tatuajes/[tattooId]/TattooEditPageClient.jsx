@@ -156,6 +156,7 @@ const TattooEditPageClient = ({
           description:
             "Tu pieza ya está publicada y lista para que la vean futuros clientes",
         });
+        console.log({ data });
         router.push(`/artist/tatuajes/${res.data.id}`);
         router.refresh();
       })

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getArtists } from "@/actions/getArtists";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
 import Container from "@/components/ui/container";
 import { getStyleList } from "@/lib/getStyleList";
@@ -11,6 +10,7 @@ import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/components/empty-states/empty-artists";
 import { ArtistGridHeader } from "../components/artist-grid-header";
 import { mdxToHtml } from "@/lib/mdx-to-html";
+import { ArtistService } from "@/services/db/ArtistService";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
@@ -38,7 +38,7 @@ export default async function CityPage({ params, searchParams }) {
 
   const { cityName } = params;
 
-  const artists = await getArtists({
+  const artists = await ArtistService.getPaginated({
     ...searchParams, // spread the current search parasm...
     city: cityName, // and add the city param or overwrite it
   });

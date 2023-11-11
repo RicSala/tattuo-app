@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 
 export async function POST(req) {
   console.log("got to post endpont");

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { GTM_ID } from '@/lib/gtm';
-import { usePathname, useSearchParams } from 'next/navigation';
-import Script from 'next/script';
+import { GTM_ID } from "@/lib/gtm";
+import { usePathname, useSearchParams } from "next/navigation";
+import Script from "next/script";
 
 export default function TagManager() {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ export default function TagManager() {
   //     }
   // }, [pathname, searchParams])
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     return null;
   }
 
@@ -23,14 +23,14 @@ export default function TagManager() {
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-          height='0'
-          width='0'
-          style={{ display: 'none', visibility: 'hidden' }}
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
         />
       </noscript>
       <Script
-        id='gtm-script'
-        strategy='afterInteractive'
+        id="gtm-script"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

@@ -1,10 +1,10 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import Container from "@/components/ui/container";
 import Heading from "@/components/heading";
 import EmptyState from "@/components/empty-states/empty-state";
 import ListingGrid from "@/components/listings/listing-grid";
-import { getTattoosByBoardId } from "@/actions/getTattoosByBoardId";
 import BoardCard from "@/components/listings/board-card";
+import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
 export default async function BoardsPage({ searchParams }) {
@@ -16,7 +16,7 @@ export default async function BoardsPage({ searchParams }) {
   //TODO:  I am pretty sure there are better ways to do this...
   const boardsWithFirstTattoo = await Promise.all(
     boards.map(async (board) => {
-      const boardTattoos = await getTattoosByBoardId(board.id);
+      const boardTattoos = await TattooService.getByBoardId(board.id);
       if (boardTattoos.length < 1) return { ...board, firstTattoo: null };
       return { ...board, firstTattoo: boardTattoos[0].imageSrc };
     }),

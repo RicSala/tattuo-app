@@ -1,25 +1,26 @@
-import EmptyState from "@/components/empty-states/empty-state";
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { getArtistById } from "@/actions/getArtistById";
-import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import Heading from "@/components/heading";
-import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/ui/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
 import { cn } from "@/lib/utils";
+import { ArtistService } from "@/services/db/ArtistService";
+import { notFound } from "next/navigation";
+import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
   const { artistId } = params;
-  const artist = await getArtistById(artistId);
+  const artist = await ArtistService.getById(artistId);
+  // TODO: if it's not a valid mongoid -> not found
+  // TODO: doesn't seem to efficient get the artist twice...
 
   console.log({ params });
 
   return {
-    title: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
-    description: `Descubre a ${artist.artisticName} · Tatuador ${artist.city} especializado en ${artist.styles[0].label}`,
+    title: `Descubre a ${artist?.artisticName} · Tatuador ${artist?.city} especializado en ${artist?.styles[0].label}`,
+    description: `Descubre a ${artist?.artisticName} · Tatuador ${artist?.city} especializado en ${artist?.styles[0].label}`,
   };
 };
 
@@ -30,11 +31,11 @@ export const generateMetadata = async ({ params }) => {
 
 export default async function ArtistDetailsPage({ params }) {
   // const artist = await getArtistById(params.artistId);
-  // const artistTattoos = await getTattoosByArtistId(params.artistId);
+  // const artistTattoos = await TattooService.getTattoosByArtistId(params.artistId);
   // const currentUser = await getCurrentUser();
   // instead of awaiting in series, we can await in parallel by using Promise.all
-  const artistPromise = getArtistById(params.artistId);
-  const artistTattoosPromise = getTattoosByArtistId(params.artistId);
+  const artistPromise = ArtistService.getById(params.artistId);
+  const artistTattoosPromise = TattooService.getByArtistId(params.artistId);
   const currentUserPromise = getCurrentUser();
 
   const [artist, artistTattoos, currentUser] = await Promise.all([
@@ -44,7 +45,7 @@ export default async function ArtistDetailsPage({ params }) {
   ]);
 
   if (!artist) {
-    return <EmptyState title="No se han encontrado resultados" />;
+    return notFound(); //TODO: check the notfound page
   }
 
   const numberOfTattoos = artistTattoos.length;

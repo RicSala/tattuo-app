@@ -1,4 +1,4 @@
-import { getArtists } from "@/actions/getArtists";
+import { ArtistService } from "@/services/db/ArtistService";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -14,7 +14,7 @@ export async function GET(req) {
 
   const currentPage = parseInt(searchparamsObj.page) || 1;
 
-  const artists = await getArtists(searchparamsObj, skip, take);
+  const artists = await ArtistService.getPaginated(searchparamsObj, skip, take);
 
   // if original take is 10 and we get 11 items, we know there are more pages
   let hasMorePages = false;

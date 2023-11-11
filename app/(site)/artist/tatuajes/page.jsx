@@ -1,5 +1,4 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import DeleteTattooButton from "@/components/delete-tattoo-button";
 import EditTattooButton from "@/components/edit-tattoo-button";
 import EmptyState from "@/components/empty-states/empty-state";
@@ -11,12 +10,15 @@ import { Separator } from "@/components/ui/separator";
 import { range } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { FakeTattooCard } from "./components/fake-tattoo-card";
+import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
 const MyTattoosPage = async ({ params }) => {
   const currentUser = await getCurrentUser();
 
-  const tattoos = await getTattoosByArtistId(currentUser.artistProfileId);
+  const tattoos = await TattooService.getByArtistId(
+    currentUser.artistProfileId,
+  );
 
   if (tattoos.length < 1) {
     return (

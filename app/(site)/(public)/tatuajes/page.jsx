@@ -1,5 +1,4 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { getTattoos } from "@/actions/getTattoos";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
@@ -8,6 +7,7 @@ import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
 import { TattoosGridHeader } from "./components/tattoos-grid-header";
 import { GridHeader } from "../../../../components/grid-header";
+import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
 //TODO:
@@ -55,7 +55,7 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
  */
 export default async function TattoosPage({ searchParams }) {
-  const serverLoadedTattoos = await getTattoos(
+  const serverLoadedTattoos = await TattooService.getPaginated(
     searchParams,
     0,
     initialDataSize,

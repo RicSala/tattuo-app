@@ -2,7 +2,7 @@
 // SITEMAP
 // ROBOTS.TXT
 
-import { getCurrentUser } from "@/actions/getCurrentUser";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import FaqSection from "@/components/landing/Faqs";
 import HeroSection from "@/components/landing/HeroSection";

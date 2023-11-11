@@ -1,14 +1,11 @@
-import bcrypt from 'bcryptjs';
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import bcrypt from "bcryptjs";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import prisma from '@/lib/prismadb';
-import { getSavedTattoosByUserId } from '@/actions/getSavedTattoosByUserId';
-import { getSavedArtistsByUserId } from '@/actions/getSavedArtistByUserId';
-import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser';
-import { getFavoriteArtistIdsOfUser } from '@/actions/getFavoriteArtistIdsOfUser';
+import prisma from "@/lib/prismadb";
+import { UserService } from "@/services/db/UserService";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -18,14 +15,14 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
-      name: 'credentials',
+      name: "credentials",
       credentials: {
-        email: { label: 'Email', type: 'text', placeholder: ' ' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "text", placeholder: " " },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Missing credentials');
+          throw new Error("Missing credentials");
         }
 
         const user = await prisma.user.findUnique({
@@ -33,16 +30,16 @@ export const authOptions = {
         });
 
         if (!user || !user?.hashedPassword) {
-          throw new Error('Invalid credentials');
+          throw new Error("Invalid credentials");
         }
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword
+          user.hashedPassword,
         );
 
         if (!isCorrectPassword) {
-          throw new Error('Invalid credentials');
+          throw new Error("Invalid credentials");
         }
 
         //REVIEW: does this mean we are gonna have the whole user object in the session
@@ -53,11 +50,11 @@ export const authOptions = {
 
   // custom pages
   pages: {
-    signIn: '/',
-    newUser: '/', // New users will be directed here on first sign in
+    signIn: "/",
+    newUser: "/", // New users will be directed here on first sign in
   },
 
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
   jwt: {
     // secret: process.env.JWT_SECRET, // deprecated
   },
@@ -70,7 +67,7 @@ export const authOptions = {
   // which is used to look up the session in the database.
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    strategy: 'jwt',
+    strategy: "jwt",
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
     // Note: This option is ignored if using JSON Web Tokens (as is the case)
@@ -108,7 +105,7 @@ export const authOptions = {
         return token;
       }
 
-      if (dbUser.role === 'ARTIST') {
+      if (dbUser.role === "ARTIST") {
         const artistProfile = await prisma.artistProfile.findUnique({
           where: {
             userId: dbUser.id,
@@ -118,16 +115,16 @@ export const authOptions = {
         token.artistProfileId = artistProfile.id;
       }
 
-      const favoriteTattooIds = await getFavoriteTattooIdsOfUser(dbUser);
-      const favoriteArtistIds = await getFavoriteArtistIdsOfUser(dbUser);
-      const savedArtists = await getSavedArtistsByUserId(dbUser.id);
-      const savedTattoos = await getSavedTattoosByUserId(dbUser.id);
+      const favoriteTattooIds = await UserService.getFavoriteTattooIds(dbUser);
+      const favoriteArtistIds = await UserService.getFavoriteArtistIds(dbUser);
+      const savedArtists = await UserService.getSavedArtistsByUserId(dbUser.id);
+      const savedTattoos = await UserService.getSavedTattoosByUserId(dbUser.id);
 
       const arraySavedArtistsId = savedArtists.map(
-        (savedListing) => savedListing.id
+        (savedListing) => savedListing.id,
       );
       const arraySavedTattoosId = savedTattoos.map(
-        (savedListing) => savedListing.id
+        (savedListing) => savedListing.id,
       );
 
       // concat the favorite tattoo ids and the favorite artist ids

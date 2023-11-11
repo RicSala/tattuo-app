@@ -1,5 +1,4 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { getTattoos } from "@/actions/getTattoos";
+import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
@@ -9,6 +8,7 @@ import { getStyleList } from "@/lib/getStyleList";
 import { capitalizeFirst } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { TattoosGridHeader } from "../components/tattoos-grid-header";
+import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
 export const generatedContentSlugs = [
@@ -73,7 +73,7 @@ export default async function TattoosPage({ params, searchParams }) {
     notFound();
   }
 
-  const serverLoadedTattoos = await getTattoos(
+  const serverLoadedTattoos = await TattooService.getPaginated(
     {
       ...searchParams,
       contentSlug,

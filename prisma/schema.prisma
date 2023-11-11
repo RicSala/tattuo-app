@@ -80,30 +80,31 @@ model ArtistProfile {
   updatedAt DateTime @updatedAt
 
   // Profile fields
-  artisticName    String?       @unique
-  email           String?
-  bio             String?
-  phone           String?
-  website         String?
-  instagram       String?
-  facebook        String?
-  twitter         String?
-  youtube         String?
-  tiktok          String?
-  mainImage       String?
-  images          String[]
-  stylesIds       String[]      @db.ObjectId
-  styles          Style[]       @relation(fields: [stylesIds], references: [id])
-  pricePerHour    Int?
-  pricePerSession Int?
-  minWorkPrice    Int?
-  isComplete      Boolean?      @default(false)
-  socials         Json[]
-  tattoos         Tattoo[]
-  saves           SavedArtist[]
-  likes           LikedArtist[]
-  cityId          String?       @db.ObjectId
-  city            City?         @relation(fields: [cityId], references: [id])
+  artisticName     String?       @unique
+  email            String?
+  bio              String?
+  phone            String?
+  website          String?
+  instagram        String?
+  facebook         String?
+  twitter          String?
+  youtube          String?
+  tiktok           String?
+  mainImage        String?
+  images           String[]
+  stylesIds        String[]      @db.ObjectId
+  styles           Style[]       @relation(fields: [stylesIds], references: [id])
+  pricePerHour     Int?
+  pricePerSession  Int?
+  minWorkPrice     Int?
+  isComplete       Boolean?      @default(false)
+  hasEnoughTattoos Boolean?      @default(false)
+  socials          Json[]
+  tattoos          Tattoo[]
+  saves            SavedArtist[]
+  likes            LikedArtist[]
+  cityId           String?       @db.ObjectId
+  city             City?         @relation(fields: [cityId], references: [id])
 }
 
 model Tattoo {

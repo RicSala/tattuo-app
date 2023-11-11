@@ -1,5 +1,5 @@
 // FRONTEND ERROR HANDLING
-export const handleError = (error, showToast) => {
+export const handleFrontendError = (error, showToast) => {
   // Log the error to your logging service
   // logErrorToService(error);
 

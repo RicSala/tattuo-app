@@ -1,6 +1,6 @@
-import CustomError from "./CustomError";
+import BaseError from "./CustomError";
 import { useToast } from "@/components/ui/use-toast";
-import { handleError } from "./error-handlerss";
+import { handleFrontendError } from "./error-handlerss";
 
 // We do this just to "transform" our useToast hook into a "normal" function. We use the hooks as a factory to create the function on mount.
 export const useHandleError = () => {
@@ -10,21 +10,12 @@ export const useHandleError = () => {
 
   // Display the error message to the user
   const showToast = (error) => {
-    // Determine if a user-friendly message is available
     let toastTitle;
     let toastDescription;
-
-    // =
-    //   error instanceof CustomError
-    //     ? error.userMessage
-    //     : "An unexpected error occurred. Please try again.";
-
-    if (error instanceof CustomError) {
-      toastTitle = error.toastTitle;
-      toastDescription = error.toastDescription;
-    } else {
-      toastTitle = "Ups! Ha ocurrido algo inesperado";
-      toastDescription = "¿Puedes volver a intentarlo?";
+    if (error instanceof BaseError) {
+      toastTitle = error.toastTitle || "Ups! Ha ocurrido algo inesperado";
+      toastDescription =
+        error.toastDescription || "¿Puedes volver a intentarlo?";
     }
 
     toast({
@@ -36,7 +27,8 @@ export const useHandleError = () => {
 
   // Optionally, set error in state to be displayed elsewhere in the app
   //   setError(error);
-  const handle = (error) => handleError(error, showToast);
+
+  const handle = (error) => handleFrontendError(error, showToast);
 
   return handle;
 };

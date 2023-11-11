@@ -29,7 +29,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "@/components/icons/spinner";
 import { apiClient } from "@/lib/apiClient";
 import { useHandleError } from "@/errors/useHandleError";
-import { createCustomError } from "@/errors/CustomError";
+import BaseError, { createBaseError } from "@/errors/CustomError";
 
 const formSchema = z.object({
   title: z
@@ -125,7 +125,7 @@ const TattooEditPageClient = ({
         })
         .catch((e) => {
           handle(
-            createCustomError({
+            createBaseError({
               e,
               logMessage: "ERROR - TattooEditPageClient",
               ToastDescription: "Por favor, revisa tu formulario",
@@ -162,13 +162,14 @@ const TattooEditPageClient = ({
       })
       .catch((e) => {
         handle(
-          createCustomError({
+          createBaseError({
             e,
             logMessage: "ERROR - TattooEditPageClient",
             ToastDescription: "Por favor, revisa tu formulario",
             toastTitle: "Error al actualizar el tatuaje",
           }),
         );
+        // );
         // console.log("ERROR - TattooEditPageClient", e);
         // toast({
         //   title: "Error al actualizar el tatuaje!",
@@ -185,7 +186,7 @@ const TattooEditPageClient = ({
 
   const onError = (errors, e) => {
     handle(
-      createCustomError({
+      createBaseError({
         e: errors,
         logMessage: "ERROR - TattooEditPageClient",
         ToastDescription: "Por favor, revisa tu formulario",
@@ -223,6 +224,13 @@ const TattooEditPageClient = ({
             <h2>Sobre la pieza</h2>
 
             {/* TODO: The imageUploader is a bit of a mess: not very reusable. Could be improved using form context? */}
+            <button
+              onClick={() => {
+                throw new Error("Test Error");
+              }}
+            >
+              Trigger Error
+            </button>
 
             <FormField
               control={form.control}

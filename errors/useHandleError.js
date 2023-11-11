@@ -10,9 +10,10 @@ export const useHandleError = () => {
 
   // Display the error message to the user
   const showToast = (error) => {
-    let toastTitle;
-    let toastDescription;
+    let toastTitle = "not base error";
+    let toastDescription = "not base error";
     if (error instanceof BaseError) {
+      console.log("WHAT IS THIS?", { error });
       toastTitle = error.toastTitle || "Ups! Ha ocurrido algo inesperado";
       toastDescription =
         error.toastDescription || "¿Puedes volver a intentarlo?";

@@ -188,7 +188,7 @@ const TattooEditPageClient = ({
     handle(
       createBaseError({
         e: errors,
-        logMessage: "ERROR - TattooEditPageClient",
+        logMessage: "ERROR - TattooEditPageClient - SUBMIT",
         ToastDescription: "Por favor, revisa tu formulario",
         toastTitle: "Error al actualizar el tatuaje",
       }),
@@ -214,6 +214,13 @@ const TattooEditPageClient = ({
     <>
       <Heading title="Crear / Editar pieza" subtitle={""} />
       <Separator className="my-6" />
+      <button
+        onClick={() => {
+          throw new Error("Test Error");
+        }}
+      >
+        Trigger Error
+      </button>
 
       <div className="mx-auto w-full md:mt-14 md:w-1/2">
         <Form {...form}>
@@ -224,13 +231,6 @@ const TattooEditPageClient = ({
             <h2>Sobre la pieza</h2>
 
             {/* TODO: The imageUploader is a bit of a mess: not very reusable. Could be improved using form context? */}
-            <button
-              onClick={() => {
-                throw new Error("Test Error");
-              }}
-            >
-              Trigger Error
-            </button>
 
             <FormField
               control={form.control}

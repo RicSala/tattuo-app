@@ -3,7 +3,7 @@ export const handleFrontendError = (error, showToast) => {
   // Log the error to your logging service
   // logErrorToService(error);
 
-  console.log("FROM HANDLED FRONTEND");
+  console.log("And here we handle");
 
   // Display a user-friendly error message
   showToast(error);

@@ -216,10 +216,17 @@ const TattooEditPageClient = ({
       <Separator className="my-6" />
       <button
         onClick={() => {
+          console.log("throwing error");
           throw new Error("Test Error");
         }}
       >
         Trigger Error
+      </button>
+
+      <button
+        onClick={() => Promise.reject(new Error("Test Promise Rejection"))}
+      >
+        Trigger Promise Rejection
       </button>
 
       <div className="mx-auto w-full md:mt-14 md:w-1/2">

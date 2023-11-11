@@ -11,27 +11,28 @@ export const useGlobalErrorHandling = () => {
 
   useEffect(() => {
     const handleWindowError = (event) => {
+      alert("error catched in the global listener");
       event.preventDefault();
       console.log({ event });
-      alert("just testing");
       handle(event.error);
     };
-    // const handleUnhandledRejection = (event) => {
-    //   event.preventDefault();
-    //   handle(
-    //     new BaseError(event.reason?.message || "Unhandled promise rejection"),
-    //   );
-    // };
+    const handleUnhandledRejection = (event) => {
+      alert("REJECTION catched in the global listener");
+      event.preventDefault();
+      handle(
+        new BaseError(event.reason?.message || "Unhandled promise rejection"),
+      );
+    };
 
     window.addEventListener("error", handleWindowError);
-    // window.addEventListener("unhandledrejection", handleUnhandledRejection);
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
 
     return () => {
       window.removeEventListener("error", handleWindowError);
-      // window.removeEventListener(
-      //   "unhandledrejection",
-      //   handleUnhandledRejection,
-      // );
+      window.removeEventListener(
+        "unhandledrejection",
+        handleUnhandledRejection,
+      );
     };
   }, [handle]);
 };

@@ -13,7 +13,6 @@ export const useHandleError = () => {
     let toastTitle = "not base error";
     let toastDescription = "not base error";
     if (error instanceof BaseError) {
-      console.log("WHAT IS THIS?", { error });
       toastTitle = error.toastTitle || "Ups! Ha ocurrido algo inesperado";
       toastDescription =
         error.toastDescription || "¿Puedes volver a intentarlo?";
@@ -29,7 +28,10 @@ export const useHandleError = () => {
   // Optionally, set error in state to be displayed elsewhere in the app
   //   setError(error);
 
-  const handle = (error) => handleFrontendError(error, showToast);
+  const handle = (error) => {
+    console.log("we are goint to handle it...");
+    handleFrontendError(error, showToast);
+  };
 
   return handle;
 };

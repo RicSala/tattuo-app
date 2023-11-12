@@ -10,6 +10,7 @@ import Feedback from "@/components/feedback";
 import SupportButton from "@/components/support-button";
 import { GlobalErrorHandler } from "@/errors/global-error-handler";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { TattooDetailsModal } from "./(site)/(public)/tatuajes/(grids)/@modal/(.)detalle/[tattooId]/tattoo-details-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 

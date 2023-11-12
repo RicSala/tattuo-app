@@ -1,14 +1,15 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 import { AlertCircle } from "lucide-react";
 
-export function Alerts({ artist }) {
+export function Alerts({ artist, className }) {
   const alerts = !artist.isComplete ? (
-    <Alert variant="destructive">
+    <Alert variant="destructive" className={cn(``, className)}>
       <AlertCircle className="h-4 w-4" />
       <AlertTitle>¡Perfil incompleto!</AlertTitle>
       <AlertDescription>
-        Recuerda que para que tu perfil se vea el TATTUO, debes completar tu
-        perfil y tener al menos 3 tatus publicados
+        Para que tu perfil sea publicado, debes completarlo y tener al menos 3
+        tatus publicados
       </AlertDescription>
     </Alert>
   ) : null;

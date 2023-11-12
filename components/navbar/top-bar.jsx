@@ -26,7 +26,7 @@ export default function TopBar({
             {/*   -mt-1 sm:-mt-4 mb-1 sm:mb-4 */}
             {/* TODO: Pending. I was not able to create the animation - Do it when learnt */}
             {/* <p className="animate-horizontal"> */}
-            <p className="">{children}</p>
+            {children}
           </div>
           <div
             className="text-secondary-content absolute right-2 top-1 hidden hover:cursor-pointer group-hover:block"

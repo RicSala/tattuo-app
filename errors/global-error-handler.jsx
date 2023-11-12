@@ -11,13 +11,13 @@ export const useGlobalErrorHandling = () => {
 
   useEffect(() => {
     const handleWindowError = (event) => {
-      alert("error catched in the global listener");
+      // alert("error catched in the global listener");
       event.preventDefault();
       console.log({ event });
       handle(event.error);
     };
     const handleUnhandledRejection = (event) => {
-      alert("REJECTION catched in the global listener");
+      // alert("REJECTION catched in the global listener");
       event.preventDefault();
       handle(
         new BaseError(event.reason?.message || "Unhandled promise rejection"),

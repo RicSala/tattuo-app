@@ -143,12 +143,12 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
 
   return (
     <>
-      <Alerts artist={artist} />
       <Heading
         title="Tu perfil"
         subtitle={"Cuéntanos sobre ti y sobre tus piezas"}
       />
       <Separator className="my-6" />
+      <Alerts artist={artist} className={""} />
       <div className="mx-auto w-full md:mt-14 md:w-1/2">
         <Form {...form}>
           <form

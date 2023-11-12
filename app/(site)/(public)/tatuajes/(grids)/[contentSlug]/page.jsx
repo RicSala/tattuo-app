@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
+import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import Container from "@/components/ui/container";
@@ -7,7 +7,7 @@ import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
 import { capitalizeFirst } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { TattoosGridHeader } from "../components/tattoos-grid-header";
+import { TattoosGridHeader } from "../../components/tattoos-grid-header";
 import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 

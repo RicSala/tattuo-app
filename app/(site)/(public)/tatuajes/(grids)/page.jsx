@@ -1,12 +1,7 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import { EmptyTattoos } from "@/components/empty-states/empty-tattoos";
+import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import Container from "@/components/ui/container";
-import { getBodyParts } from "@/lib/getBodyParts";
-import { getStyleList } from "@/lib/getStyleList";
-import { TattoosGridHeader } from "./components/tattoos-grid-header";
-import { GridHeader } from "../../../../components/grid-header";
 import { TattooService } from "@/services/db/TattooService";
 export const dynamic = "force-dynamic";
 
@@ -18,21 +13,6 @@ export const metadata = {
   title: "TATTUO · Descubre Tatuajes de todos los estilos",
   description:
     "Seleccionamos los mejores tatuadores de tu ciudad para que hagas realidad ese tatuaje qué tanto tiempo llevas buscando",
-};
-
-const styles = getStyleList();
-const bodyParts = getBodyParts();
-
-const filtro1 = {
-  label: "Estilo",
-  value: "style",
-  options: styles,
-};
-
-const filtro2 = {
-  label: "Parte del cuerpo",
-  value: "bodyPart",
-  options: bodyParts,
 };
 
 // SearchFilterButton is a reusable component, so I need to provide the filter and the endpoint to get the results
@@ -64,26 +44,17 @@ export default async function TattoosPage({ searchParams }) {
   const currentUser = await getCurrentUser();
 
   if (serverLoadedTattoos.length < 1) {
-    return <EmptyTattoos filtro1={filtro1} filtro2={filtro2} />;
+    return <EmptyTattoos />;
   }
 
   return (
-    <Container>
-      <GridHeader
-        title={`Descubre tatuajes de artistas cerca de ti`}
-        subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
-        contentSlug={""}
-        filtro1={filtro1}
-        filtro2={filtro2}
-      />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp="tattoo" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      />
-    </Container>
+    <InfiniteListingGrid // to render an infinite scroll we need...
+      initialData={serverLoadedTattoos} // the initial data coming from the server
+      sizePerPage={sizePerPage} // the size of each page
+      endpoint={endpoint} // the endpoint to fetch more data in a client component
+      Component={TattooCard} // the component to render for each item
+      keyProp="tattoo" // the key prop to use to identify each item
+      currentUser={currentUser} // the current user to check if the user is logged in
+    />
   );
 }

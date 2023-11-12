@@ -69,6 +69,7 @@ export default function AppearanceSettings({ currentUser }) {
 
   return (
     <div>
+      {/* TODO: is not working */}
       <Heading title="Elige como prefieres ver TATTUO" className="text-lg" />
 
       <Form {...form}>

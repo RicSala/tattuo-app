@@ -13,6 +13,7 @@ import { Steps } from "@/components/landing/steps";
 import Testimonials1 from "@/components/landing/testimonials";
 import ModalClient from "@/components/modals/modal-client";
 import Container from "@/components/ui/container";
+import { TestComp } from "@/components/utils/test-comp";
 
 /**
  * @type {{title: string, description: string, imageUrl: string}[]}
@@ -121,6 +122,7 @@ export default async function Home({ searchParams }) {
 
       <BenefitsSection title={"Por qué elegir TATTUO?"} benefits={benefits} />
 
+      <TestComp />
       {/* <ReviewsSection reviews={reviews} /> */}
     </div>
   );

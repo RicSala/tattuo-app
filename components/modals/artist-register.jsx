@@ -32,6 +32,7 @@ import {
 } from "@/lib/api-service";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
+import Spinner from "../icons/spinner";
 
 const registerFormSchema = z.object({
   artisticName: z //object with two properties: value and string. both with atleast 3 letters
@@ -80,6 +81,12 @@ export function ArtistRegisterForm({}) {
     },
   });
 
+  const {
+    isLoading: isFormLoading,
+    isSubmitting,
+    isValidating,
+  } = form.formState;
+
   const onSubmit = async (data) => {
     // TODO: I am transforming artistic name because I don't know how to do that transform between what the asyncselect expectes (object with value and label) and what the endpoint expects (a string)
     data.artisticName = data.artisticName.label;
@@ -88,18 +95,20 @@ export function ArtistRegisterForm({}) {
     apiClient
       .post("/register", data)
       .then((res) => {
-        setArtistRegisterOpen(false);
-        setSidebarOpen(false);
         toast({
           title: "Bienvenido a TATTUO",
           description:
             "Por favor, completa tu perfil y publica tres obras para aparecer en TATTUO",
+          variant: "success",
         });
         signIn("credentials", {
           email: data.email,
           password: data.password,
+          // TODO: How can we show a loading state before the redirect instead of the "flicking"?
           callbackUrl: `/artist/profile`,
         });
+        setArtistRegisterOpen(false);
+        setSidebarOpen(false);
       })
       .catch((err) => {
         toast({
@@ -136,6 +145,9 @@ export function ArtistRegisterForm({}) {
 
     return fakeCreate;
   };
+
+  console.log("isLoadin", isLoading);
+  console.log("isSubmitting", form.formState.isSubmitting);
 
   return (
     <div className="flex flex-col gap-6">
@@ -294,7 +306,7 @@ export function ArtistRegisterForm({}) {
             /> */}
           </div>
           <div
-            className={`
+            className={`flex flex-col gap-2
                      ${step === 2 ? `block` : `hidden`}
                     `}
           >
@@ -370,7 +382,17 @@ export function ArtistRegisterForm({}) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Registrar</Button>
+            {/* REVIEW: Why doesn't "isSubmitting" work here???? */}
+            <Button disabled={isLoading} type="submit" className="flex gap-2">
+              {isLoading ? (
+                <>
+                  <Spinner />
+                  Registrando...
+                </>
+              ) : (
+                "Registrar"
+              )}
+            </Button>
           </div>
         </form>
       </Form>

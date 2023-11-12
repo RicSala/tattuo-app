@@ -4,20 +4,11 @@ import { getStyleList } from "@/lib/getStyleList";
 import { getCities } from "@/lib/getCities";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import Container from "@/components/container";
-import { EmptyArtist } from "@/components/empty-states/empty-artists";
-import { ArtistGridHeader } from "./components/artist-grid-header";
-import { GridHeader } from "../../../../components/grid-header";
+import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
+import { ArtistGridHeader } from "../components/artist-grid-header";
+import { GridHeader } from "../../../../../components/grid-header";
 import { ArtistService } from "@/services/db/ArtistService";
 export const dynamic = "force-dynamic";
-
-const styles = getStyleList();
-const cities = getCities();
-
-const filtro1 = {
-  label: "Estilos",
-  value: "styles",
-  options: styles,
-};
 
 const endpoint =
   process.env.APP_ENV === "production"
@@ -43,28 +34,20 @@ export default async function ArtistsPage({ searchParams }) {
   const currentUser = await getCurrentUser();
 
   if (artists.length < 1) {
-    return <EmptyArtist filtro1={filtro1} />;
+    return <EmptyArtist />;
   }
   const serverLoadedArtists = artists.slice(0, initialDataSize);
   const serverHasMoreArtists = artists.length > initialDataSize;
 
   return (
-    <Container>
-      <GridHeader
-        title={`Inspírate en los tatuajes de los mejores artistas`}
-        subtitle={`Explora por estilo, ciudad, o simplemente escribe lo que buscas`}
-        contentSlug={""}
-        filtro1={filtro1}
-      />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedArtists} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        hasMore={serverHasMoreArtists} // if there are more items to load
-        Component={ArtistCard} // the component to render for each item
-        keyProp="artist" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      ></InfiniteListingGrid>
-    </Container>
+    <InfiniteListingGrid // to render an infinite scroll we need...
+      initialData={serverLoadedArtists} // the initial data coming from the server
+      sizePerPage={sizePerPage} // the size of each page
+      endpoint={endpoint} // the endpoint to fetch more data in a client component
+      hasMore={serverHasMoreArtists} // if there are more items to load
+      Component={ArtistCard} // the component to render for each item
+      keyProp="artist" // the key prop to use to identify each item
+      currentUser={currentUser} // the current user to check if the user is logged in
+    ></InfiniteListingGrid>
   );
 }

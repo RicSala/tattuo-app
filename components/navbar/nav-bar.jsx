@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { UiContext } from "@/providers/ui/ui-provider";
+import { TopBars } from "./top-bars";
 // import UserMenu from "./UserMenu";
 
 function NavBar({ currentUser }) {
@@ -63,32 +64,11 @@ function NavBar({ currentUser }) {
         !topbarShown && "top-0",
       )}
     >
-      <TopBar shown={topbarShown} setShown={setTopbarShown}>
-        this is a topbar message
-      </TopBar>
-
-      {currentUser &&
-      (!currentUser?.artist?.isComplete ||
-        currentUser?.artist?.tattoos.length < 3) ? (
-        <TopBar
-          shown={topbarShown}
-          setShown={setTopbarShown}
-          className={"bg-destructive text-destructive-foreground"}
-        >
-          {!currentUser?.artist?.isComplete ? (
-            <Link href={"/artist/profile"}>
-              Completa tu perfil para aparecer en TATTUO
-            </Link>
-          ) : currentUser?.artist?.tattoos.length < 3 ? (
-            <Link href={"/artist/tatuajes"}>
-              Publica al menos 3 piezas para hacer visible tu perfil
-            </Link>
-          ) : (
-            ""
-          )}
-        </TopBar>
-      ) : null}
-
+      <TopBars
+        currentUser={currentUser}
+        topbarShown={topbarShown}
+        setTopbarShown={setTopbarShown}
+      />
       <div
         className={`${
           scrolled ? "shadow-sm" : null

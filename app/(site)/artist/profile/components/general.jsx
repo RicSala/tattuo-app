@@ -11,6 +11,7 @@ import {
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 const General = ({ form, cities, styles }) => {
   return (
@@ -128,11 +129,23 @@ const General = ({ form, cities, styles }) => {
           <FormItem>
             <FormLabel className="after:content-['*']">Bio</FormLabel>
             <FormControl>
-              <Textarea
-                className="resize-none "
-                placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..."
-                {...field}
-              />
+              <div className="relative">
+                <Textarea
+                  className="resize-none overflow-hidden"
+                  placeholder="Me llamo Black Vic, tatúo en Zaragoza y me apasiona el estilo hiper realista. Disfruto del arte del tatuaje desde que..."
+                  {...field}
+                />
+                <p
+                  className={cn(
+                    `absolute bottom-0 right-2 text-xs text-yellow-700/50`,
+                    form.watch("bio").length < 50 && "text-red-500",
+                    form.watch("bio").length > 200 && "text-green-500",
+                    form.watch("bio").length > 300 && "text-destructive",
+                  )}
+                >
+                  {form.watch("bio").length}/300
+                </p>
+              </div>
             </FormControl>
             <FormDescription>
               Cuéntanos sobre ti! Tu estilo, tu forma de trabajo, ... los

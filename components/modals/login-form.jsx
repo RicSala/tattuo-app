@@ -217,6 +217,7 @@ export function RegisterForm({}) {
         toast({
           title: "Bienvenido a TATTUO",
           description: "Ya puedes guardar tus obras y artistas favoritos",
+          variant: "success",
         });
         signIn("credentials", {
           email: data.email,
@@ -348,10 +349,14 @@ export function RegisterForm({}) {
   );
 }
 
-export function LoginModal({ variant = "login" }) {
-  const { loginModalOpen, setLoginModalOpen, setArtistRegisterOpen } =
-    useContext(UiContext);
-  const [variantShown, setVariantShown] = useState(variant);
+export function LoginModal({}) {
+  const {
+    loginModalOpen,
+    setLoginModalOpen,
+    setArtistRegisterOpen,
+    userModalVariant,
+    setUserModalVariant,
+  } = useContext(UiContext);
   const pathName = usePathname();
   const router = useRouter();
 
@@ -367,7 +372,7 @@ export function LoginModal({ variant = "login" }) {
       }}
     >
       <DialogContent>
-        {variantShown === "login" ? (
+        {userModalVariant === "login" ? (
           <>
             <div className="flex flex-col items-center space-y-2">
               <LoginForm />
@@ -377,7 +382,7 @@ export function LoginModal({ variant = "login" }) {
                   variant="ghost"
                   className="inline-block"
                   onClick={() => {
-                    setVariantShown("register");
+                    setUserModalVariant("register");
                   }}
                 >
                   ¡Créala!
@@ -407,7 +412,7 @@ export function LoginModal({ variant = "login" }) {
                 variant="ghost"
                 className="inline-block"
                 onClick={() => {
-                  setVariantShown("login");
+                  setUserModalVariant("login");
                 }}
               >
                 ¡Entra!

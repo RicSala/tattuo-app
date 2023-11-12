@@ -73,7 +73,7 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             >
               Reportar
             </DropdownMenuItem>
-            {!artist.userId ? (
+            {!artist.userId && !currentUser ? (
               <DropdownMenuItem
                 className="hover:cursor-pointer"
                 onClick={() => {
@@ -122,20 +122,6 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
         <Button
           onClick={(e) => {
             toggleSave(e);
-
-            !hasSaved
-              ? toast({
-                  variant: "success",
-                  title: "Artista guardadx!",
-                  description:
-                    "¿Por qué no le escribes un mensaje para hablar de ese tatuaje?",
-                })
-              : toast({
-                  variant: "success",
-                  title: "Artista Borrado!",
-                  description:
-                    "¿Seguro que no quieres mantenerlo en tu lista de artistas favoritos?",
-                });
           }}
           className="w-[50%]"
           variant="outline"
@@ -197,8 +183,13 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
                         
                     `}
             <a href={`Mailto: ${artist.email}`}>
-              <Button variant="outline" className="h-2 py-3">
-                {artist.email}
+              <Button
+                variant="outline"
+                className="h-2 max-w-[18rem] justify-start py-3"
+              >
+                <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap ">
+                  {artist.email}
+                </p>
               </Button>
             </a>
           </p>
@@ -221,12 +212,15 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             })}
           </div>
         </div>
-        {!artist.userId && (
+        {!artist.userId && !currentUser ? (
           <div className="flex flex-col items-center justify-center text-sm italic text-primary/70">
             ¿Eres tú?
-            <Button variant="ghost">Reclama este perfil</Button>
+            {/* TODO: How can I send the form the name of the user? */}
+            <Button variant="ghost" onClick={() => setArtistRegisterOpen(true)}>
+              Reclama este perfil
+            </Button>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

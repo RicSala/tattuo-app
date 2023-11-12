@@ -105,17 +105,6 @@ export async function PUT(request) {
 
   console.log({ body });
 
-  try {
-    // here you trowh API errors!!!!!!
-    throw createBaseError({
-      toastTitle: "testing",
-      ToastDescription: "test desciprtion",
-    });
-  } catch (e) {
-    console.log("error");
-    return NextResponse.json({ error: e.friendlyMessage }, { status: 500 });
-  }
-
   const currentTattoo = await TattooService.getById(body.tattooId, {
     includeTags: true,
   });

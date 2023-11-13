@@ -3,7 +3,7 @@ import { apiClient } from "@/lib/apiClient";
 import { UiContext } from "@/providers/ui/ui-provider";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 
 // given an artistId and a currentUser, returns:
 // hasSaved: boolean => true if the user has Saved the listing
@@ -12,14 +12,17 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
   const { toast } = useToast();
   const router = useRouter();
   const { setLoginModalOpen } = useContext(UiContext);
+  const [hasSaved, sehasFavorited] = useState(() => {
+    return currentUser?.savedIds?.includes(listingId);
+  });
 
   // why do we use useMemo here? => so we don't have to recalculate the value every time the component re-renders
   // could be heavy because of the includes() method
   // everytime the component that use the hook re-renders, the hook will be called again
   // it's like "embedding" the logic inside the component
-  const hasSaved = useMemo(() => {
-    return currentUser?.savedIds?.includes(listingId);
-  }, [currentUser, listingId]);
+  // const hasSaved = useMemo(() => {
+  //   return currentUser?.savedIds?.includes(listingId);
+  // }, [currentUser, listingId]);
 
   const toggleSave = useCallback(
     async (event) => {
@@ -39,9 +42,11 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
         let request;
 
         if (hasSaved) {
+          sehasFavorited(false);
           request = () =>
             apiClient.delete(`/${listingType}/saves/${listingId}`);
         } else {
+          sehasFavorited(true);
           request = () => apiClient.post(`/${listingType}/saves/${listingId}`);
         }
 

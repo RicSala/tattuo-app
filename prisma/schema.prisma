@@ -26,7 +26,7 @@ model User {
   // RELATIONS
   boards       Board[]
   accounts     Account[]
-  artist       ArtistProfile?
+  artist       ArtistProfile[]
   savedTattoos SavedTattoo[]
   savedArtists SavedArtist[]
   likedTattoos LikedTattoo[]
@@ -75,7 +75,7 @@ model ArtistProfile {
   // DB fields
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   user      User?    @relation(fields: [userId], references: [id])
-  userId    String?  @unique @db.ObjectId // Now optional, can be null
+  userId    String?  @db.ObjectId // Now optional, can be null
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

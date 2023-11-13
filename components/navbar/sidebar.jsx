@@ -44,7 +44,7 @@ export default function Sidebar({ currentUser }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const incompleteProfile = !currentUser?.artist?.isComplete;
-  const notEnoughTattoos = currentUser?.artist.tattoos.length < 3;
+  const notEnoughTattoos = currentUser?.artist?.tattoos?.length < 3;
   const notifications = incompleteProfile || notEnoughTattoos;
 
   return (

@@ -106,7 +106,7 @@ export const authOptions = {
       }
 
       if (dbUser.role === "ARTIST") {
-        const artistProfile = await prisma.artistProfile.findUnique({
+        const artistProfile = await prisma.artistProfile.findFirst({
           where: {
             userId: dbUser.id,
           },

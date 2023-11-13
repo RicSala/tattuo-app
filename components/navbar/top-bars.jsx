@@ -9,6 +9,14 @@ import { Button } from "../ui/button";
 export function TopBars({ topbarShown, setTopbarShown, currentUser }) {
   const { setUserModalVariant } = useContext(UiContext);
   const { setLoginModalOpen } = useContext(UiContext);
+
+  if (
+    currentUser?.artist?.isComplete &&
+    currentUser?.artist?.tattoos.length >= 3
+  ) {
+    return setTopbarShown(false);
+  }
+
   return (
     <>
       {!currentUser && (

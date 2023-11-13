@@ -54,7 +54,7 @@ const faqs = [
       "Nada. Nothing. Nein. Niente. TATTUO es gratis para todos los usuarios. Busca tus tatuadorxs por estilo, ciudad o descúbrelos por sus tatuajes y escríbeles directamente a sus redes sociales",
   },
   {
-    question: "¿Qué precio tiene un tatujae?",
+    question: "¿Qué precio tiene un tatuaje?",
     answer:
       "El precio de un tatuaje depende de muchos factores, como el tamaño, el estilo, el color, etc. Escríbele al tatuador que te interesa y cuéntale tu idea, él te dirá el precio",
   },
@@ -114,7 +114,7 @@ export default async function Home({ searchParams }) {
       {/* <ReviewsSection reviews={reviews} /> */}
       <FaqSection faqs={faqs} title="Preguntas frecuentes" />
       <Steps />
-      <Testimonials1 />
+      {/* <Testimonials1 /> */}
 
       {/* <StepsSection steps={steps} title="¿Cómo funciona?" /> */}
 
@@ -122,7 +122,7 @@ export default async function Home({ searchParams }) {
 
       <BenefitsSection title={"Por qué elegir TATTUO?"} benefits={benefits} />
 
-      <TestComp />
+      {/* <TestComp /> */}
       {/* <ReviewsSection reviews={reviews} /> */}
     </div>
   );

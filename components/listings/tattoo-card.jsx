@@ -33,51 +33,51 @@ export default function TattooCard({
 
   const router = useRouter();
 
-  const onBoardCreate = useCallback(
-    (title) => {
-      return apiClient
-        .post("/boards", { title: title })
-        .then((res) => {
-          toast({
-            variant: "success",
-            title: `Tablero ${title} creado`,
-            description:
-              "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
-          });
-          router.refresh();
-          console.log("response", res);
-          return res.data;
-        })
-        .catch((err) => {
-          // toast.error('Something went wrong')
-        });
+  // const onBoardCreate = useCallback(
+  //   (title) => {
+  //     return apiClient
+  //       .post("/boards", { title: title })
+  //       .then((res) => {
+  //         toast({
+  //           variant: "success",
+  //           title: `Tablero ${title} creado`,
+  //           description:
+  //             "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
+  //         });
+  //         router.refresh();
+  //         console.log("response", res);
+  //         return res.data;
+  //       })
+  //       .catch((err) => {
+  //         // toast.error('Something went wrong')
+  //       });
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [router, toast],
-  );
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   },
+  //   [router, toast],
+  // );
 
-  const onBoardSelect = useCallback((tattoo, board) => {
-    // add the tattoo to the board
-    apiClient
-      .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
-      .then((res) => {
-        toast({
-          variant: "success",
-          title: `Tutuaje añadido a ${board.title}`,
-          description: "Puedes seguir añadiendo más tatuajes",
-        });
-      })
-      .catch((err) => {
-        console.log("ERROR - TattooCard", err);
-        toast({
-          variant: "destructive",
-          title: `No ha sido posible añadir el tatuaje a ${board.title}`,
-          description: `${err.response.data.error}`,
-        });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const onBoardSelect = useCallback((tattoo, board) => {
+  //   // add the tattoo to the board
+  //   apiClient
+  //     .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
+  //     .then((res) => {
+  //       toast({
+  //         variant: "success",
+  //         title: `Tutuaje añadido a ${board.title}`,
+  //         description: "Puedes seguir añadiendo más tatuajes",
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log("ERROR - TattooCard", err);
+  //       toast({
+  //         variant: "destructive",
+  //         title: `No ha sido posible añadir el tatuaje a ${board.title}`,
+  //         description: `${err.response.data.error}`,
+  //       });
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <div
@@ -121,8 +121,8 @@ export default function TattooCard({
                 tattoo={data}
                 currentUser={currentUser}
                 boards={currentUser?.boards || []}
-                onBoardCreate={onBoardCreate}
-                onBoardSelect={onBoardSelect}
+                // onBoardCreate={onBoardCreate}
+                // onBoardSelect={onBoardSelect}
                 className=" group-hover:border-border group-hover:bg-background group-hover:text-primary sm:border-none sm:bg-transparent sm:text-transparent"
               />
             </div>

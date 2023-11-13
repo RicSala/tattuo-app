@@ -10,6 +10,14 @@ export class BoardService {
     return board;
   }
 
+  static async deleteById(boardId) {
+    await prisma.board.delete({
+      where: {
+        id: boardId,
+      },
+    });
+  }
+
   static async addTattooById(boardId, tattooId) {
     const board = prisma.boardTattoo.create({
       data: {

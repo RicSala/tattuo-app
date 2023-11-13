@@ -201,11 +201,11 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
                   <Socials form={form} />
                 </div>
               </TabsContent>
-              {/* <TabsContent value="images">
+              <TabsContent value="images">
                 <div className="space-y-8">
                   <Images form={form} />
                 </div>
-              </TabsContent> */}
+              </TabsContent>
             </Tabs>
 
             <MultiStepButtons

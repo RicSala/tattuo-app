@@ -11,7 +11,7 @@ import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
 const Images = ({ form }) => {
   return (
     <>
-      <h2>Fotos de trabajos</h2>
+      <h2>Imagen de tu ficha</h2>
 
       <FormField
         control={form.control}
@@ -19,10 +19,10 @@ const Images = ({ form }) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="after:content-['*']">
-              Algunos de tus trabajos
+              Aparecerá en la tarjeta de la cuadrícula de tatuadores
             </FormLabel>
             <div className="flex flex-row flex-wrap gap-5">
-              {field.value.map((image, index) => {
+              {field?.value?.map((image, index) => {
                 const onChange = async () => {
                   const newImageArray = form
                     .getValues("images")
@@ -49,9 +49,10 @@ const Images = ({ form }) => {
               />
             </FormControl>
             <FormDescription>
-              Sube las tres piezas que más te representen!
+              Si no subes nada, saldrá tu foto principal!
               <br />
-              Mejor aún si son una de cada estilo que nos has contado arriba!
+              Pero es mejor que subas la imagen de algún trabajo que represente
+              tu estilo!
             </FormDescription>
             <FormMessage />
           </FormItem>

@@ -21,11 +21,11 @@ export const STEPS = [
       "youtube",
     ],
   },
-  // {
-  //   key: "images",
-  //   label: "Imágenes",
-  //   validations: ["images"],
-  // },
+  {
+    key: "images",
+    label: "Imágenes",
+    validations: ["images"],
+  },
   // {
   //   key: "tattos",
   //   label: "Tatuajes",

@@ -51,7 +51,7 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
         }
 
         await request();
-        router.refresh();
+        // router.refresh();
         // toast({
         //     title: "Guardado!",
         //     description: "Has guardado al artista. ¿Por qué no le escribes?"

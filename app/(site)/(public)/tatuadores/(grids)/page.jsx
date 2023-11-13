@@ -39,6 +39,8 @@ export default async function ArtistsPage({ searchParams }) {
   const serverLoadedArtists = artists.slice(0, initialDataSize);
   const serverHasMoreArtists = artists.length > initialDataSize;
 
+  console.log({ serverLoadedArtists });
+
   return (
     <InfiniteListingGrid // to render an infinite scroll we need...
       initialData={serverLoadedArtists} // the initial data coming from the server

@@ -13,20 +13,76 @@ import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
 import { UiContext } from "@/providers/ui/ui-provider";
 import { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 export function BoardAdder({
   tattoo,
   boards,
   className,
-  onBoardCreate,
-  onBoardSelect,
+  // onBoardCreate,
+  // onBoardSelect,
   currentUser,
 }) {
-  //TODO: The open state of the adder is controlled by radix primitive or shadcn. Understand why and how to control it myself.
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [showCreateForm, setShowCreateForm] = React.useState(false);
+  const router = useRouter();
   const { toast } = useToast();
-  const { setLoginModalOpen } = React.useContext(UiContext);
+  const [isCreatingBoard, setIsCreatingBoard] = useState(false);
+
+  const onBoardCreate = useCallback(
+    (title) => {
+      setIsCreatingBoard(true);
+      apiClient
+        .post("/boards", { title: title })
+        .then((res) => {
+          toast({
+            variant: "success",
+            title: `Tablero ${title} creado`,
+            description:
+              "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
+          });
+          router.refresh();
+          console.log("response", res);
+          return res.data;
+        })
+        .catch((err) => {
+          // toast.error('Something went wrong')
+        })
+        .finally(() => {
+          setIsCreatingBoard(false);
+        });
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [router, toast],
+  );
+
+  const onBoardSelect = useCallback((tattoo, board) => {
+    // add the tattoo to the board
+    apiClient
+      .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
+      .then((res) => {
+        toast({
+          variant: "success",
+          title: `Tutuaje añadido a ${board.title}`,
+          description: "Puedes seguir añadiendo más tatuajes",
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR - TattooCard", err);
+        toast({
+          variant: "destructive",
+          title: `No ha sido posible añadir el tatuaje a ${board.title}`,
+          description: `${err.response.data.error}`,
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //TODO: The open state of the adder is controlled by radix primitive or shadcn. Understand why and how to control it myself.
+  const [showCreateForm, setShowCreateForm] = React.useState(false);
+  const { setLoginModalOpen } = useContext(UiContext);
 
   return (
     <Popover
@@ -87,13 +143,14 @@ export function BoardAdder({
           ) : (
             <BoardCreationForm
               onBoardCreate={async (title) => {
-                setShowCreateForm(false);
                 // setIsOpen(false)
-                return await onBoardCreate(title);
+                await onBoardCreate(title);
+                setShowCreateForm(false);
               }}
               onCancel={() => setShowCreateForm(false)}
               onBoardSelect={onBoardSelect}
               tattoo={tattoo}
+              isCreatingBoard={isCreatingBoard}
             />
           )}
         </ScrollArea>
@@ -141,6 +198,7 @@ const BoardCreationForm = ({
   onBoardSelect,
   tattoo,
   onCancel,
+  isCreatingBoard,
 }) => {
   const {
     register,
@@ -153,7 +211,6 @@ const BoardCreationForm = ({
     },
   });
 
-  const [creatingBoard, setCreatingBoard] = useState(false);
   React.useEffect(() => {
     setFocus("title");
   }, [setFocus]);
@@ -206,7 +263,7 @@ const BoardCreationForm = ({
             >
               Cancelar
             </Button>
-            <Button size="lg" type="submit">
+            <Button size="lg" type="submit" disabled={isCreatingBoard}>
               Crear
             </Button>
           </div>

@@ -2,13 +2,10 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 
-export async function getSession() {
-  return await getServerSession(authOptions); // Auth handles the session for us in both the client and server
-}
-
 export async function getCurrentUser() {
   try {
-    const session = await getSession();
+    const session = await getServerSession(authOptions);
+    console.log({ session });
 
     if (!session?.user?.email) {
       return null;
@@ -39,6 +36,7 @@ export async function getCurrentUser() {
       createdAt: currentUser.createdAt.toISOString(), // sanitizing the date
       updatedAt: currentUser.updatedAt.toISOString(),
       emailVerified: currentUser.emailVerified?.toISOString() || null,
+      artist: currentUser.artist[0], //TODO: Chapucilla...
       artistProfileId: session.user.artistProfileId,
       favoriteIds: session.user.favoriteIds,
       savedIds: session.user.savedIds,

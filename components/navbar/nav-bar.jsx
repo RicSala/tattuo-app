@@ -21,6 +21,8 @@ function NavBar({ currentUser }) {
   const userTheme = currentUser?.settings?.darkMode || "light";
   const { setArtistRegisterOpen } = useContext(UiContext);
 
+  console.log({ currentUser });
+
   const [topbarShown, setTopbarShown] = useState(true);
 
   const getAvatarFallbackText = (user) => {
@@ -59,9 +61,9 @@ function NavBar({ currentUser }) {
     <div
       className={cn(
         `
-                sticky -top-8 z-40 w-full
+                sticky top-0 z-40 w-full
                 `,
-        !topbarShown && "top-0",
+        topbarShown && "-top-8",
       )}
     >
       <TopBars
@@ -92,11 +94,7 @@ function NavBar({ currentUser }) {
                   }}
                 >
                   <AvatarImage
-                    src={
-                      currentUser?.image ||
-                      currentUser?.artist?.mainImage ||
-                      undefined
-                    }
+                    src={currentUser?.image || currentUser?.artist?.mainImage}
                   />
                   <AvatarFallback>
                     {getAvatarFallbackText(currentUser)}

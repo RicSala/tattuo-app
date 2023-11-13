@@ -12,6 +12,7 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { useToast } from "../ui/use-toast";
 import { UiContext } from "@/providers/ui/ui-provider";
+import { useState } from "react";
 
 export function BoardAdder({
   tattoo,
@@ -152,6 +153,7 @@ const BoardCreationForm = ({
     },
   });
 
+  const [creatingBoard, setCreatingBoard] = useState(false);
   React.useEffect(() => {
     setFocus("title");
   }, [setFocus]);

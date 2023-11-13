@@ -25,6 +25,7 @@ export async function POST(req) {
       userId: user.id,
     });
     console.log("Board created 🟩");
+    console.log({ newBoard });
 
     return NextResponse.json(newBoard);
   } catch (error) {

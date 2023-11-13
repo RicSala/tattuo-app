@@ -48,7 +48,7 @@ export class BoardService {
   }
 
   static async create({ title, userId }) {
-    await prisma.board.create({
+    const newBoard = await prisma.board.create({
       data: {
         title,
         user: {
@@ -56,10 +56,12 @@ export class BoardService {
         },
       },
     });
+
+    return newBoard;
   }
 
   static async getByUserId(userId, { includeTattoos = false }) {
-    prisma.board.findMany({
+    const boards = await prisma.board.findMany({
       where: {
         userId: userId,
       },
@@ -67,5 +69,6 @@ export class BoardService {
         tattoos: includeTattoos,
       },
     });
+    return boards;
   }
 }

@@ -56,7 +56,7 @@ export function InfiniteScroll({
     ),
   };
 
-  console.log("here:", { formattedInitialData });
+  // console.log("here:", { formattedInitialData });
 
   console.log({ endpoint });
 

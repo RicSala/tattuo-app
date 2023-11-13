@@ -32,7 +32,7 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
         toast({
           title: "Accede a tu cuenta",
           description: "Debes estar conectado para esta acción",
-          variant: "destructive",
+          variant: "customDestructive",
         });
         setLoginModalOpen(true);
         return;
@@ -60,7 +60,7 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
         toast({
           title: "Ha habido un error",
           description: "Por favo, inténtalo de nuevo",
-          variant: "destructive",
+          variant: "customDestructive",
         });
       }
     },

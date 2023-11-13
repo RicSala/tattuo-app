@@ -72,7 +72,7 @@ export function BoardAdder({
       .catch((err) => {
         console.log("ERROR - TattooCard", err);
         toast({
-          variant: "destructive",
+          variant: "customDestructive",
           title: `No ha sido posible añadir el tatuaje a ${board.title}`,
           description: `${err.response.data.error}`,
         });
@@ -106,7 +106,7 @@ export function BoardAdder({
               toast({
                 title: "Accede a tu cuenta",
                 description: "Debes estar conectado para esta acción",
-                variant: "destructive",
+                variant: "customDestructive",
               });
               setLoginModalOpen(true);
               return;

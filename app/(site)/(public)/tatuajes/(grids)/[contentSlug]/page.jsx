@@ -33,18 +33,6 @@ export const generateMetadata = async ({ params }) => {
 const styles = getStyleList();
 const bodyParts = getBodyParts();
 
-const filtro1 = {
-  label: "Estilo",
-  value: "style",
-  options: styles,
-};
-
-const filtro2 = {
-  label: "Parte del cuerpo",
-  value: "bodyPart",
-  options: bodyParts,
-};
-
 const endpoint =
   process.env.NODE_ENV === "production"
     ? `${process.env.HOST_NAME_PROD}/api/tattoos`
@@ -85,30 +73,14 @@ export default async function TattoosPage({ params, searchParams }) {
   const currentUser = await getCurrentUser();
 
   if (serverLoadedTattoos.length < 1) {
-    return <EmptyTattoos filtro1={filtro1} filtro2={filtro2} />;
+    return <EmptyTattoos />;
   }
 
   return (
-    <Container>
-      {/* <InfiniteListingGrid // to render an infinite scroll we need...
-              initialData={serverLoadedTattoos} // the initial data coming from the server
-              sizePerPage={sizePerPage} // the size of each page
-              endpoint={endpoint}  // the endpoint to fetch more data in a client component
-              Component={TattooCard} // the component to render for each item
-              keyProp="tattoo" // the key prop to use to identify each item
-              currentUser={currentUser} // the current user to check if the user is logged in
-          /> */}
-
-      <TattoosGridHeader
-        filtro1={filtro1}
-        filtro2={filtro2}
-        contentSlug={contentSlug}
-      />
-      <ListingGrid>
-        {serverLoadedTattoos.map((tattoo) => (
-          <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
-        ))}
-      </ListingGrid>
-    </Container>
+    <ListingGrid>
+      {serverLoadedTattoos.map((tattoo) => (
+        <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
+      ))}
+    </ListingGrid>
   );
 }

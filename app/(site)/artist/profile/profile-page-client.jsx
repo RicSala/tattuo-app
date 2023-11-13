@@ -119,7 +119,7 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
       })
       .catch((err) => {
         toast({
-          variant: "destructive",
+          variant: "customDestructive",
           title: `Error al guardar`,
           description:
             "No hemos podido guardar tus cambios, por favor, inténtalo de nuevo",
@@ -135,7 +135,7 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
 
   const onError = (errors, e) => {
     toast({
-      variant: "destructive",
+      variant: "customDestructive",
       title: `Error al guardar`,
       description: "Por favor, revisa el formulario",
     });

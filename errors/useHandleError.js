@@ -21,7 +21,7 @@ export const useHandleError = () => {
     toast({
       title: toastTitle,
       description: toastDescription,
-      variant: "destructive",
+      variant: "customDestructive",
     });
   };
 

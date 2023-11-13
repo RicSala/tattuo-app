@@ -114,7 +114,7 @@ export function ArtistRegisterForm({}) {
         toast({
           title: "Error creando usuario",
           description: "Por favor, inténtalo de nuevo",
-          variant: "destructive",
+          variant: "customDestructive",
         });
       })
       .finally(() => {

@@ -37,7 +37,7 @@ const useFavorite = ({ listingId, currentUser, listingType }) => {
         toast({
           title: "Accede a tu cuenta",
           description: "Debes estar conectado para esta acción",
-          variant: "destructive",
+          variant: "customDestructive",
         });
         setLoginModalOpen(true);
         return;

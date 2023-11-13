@@ -82,7 +82,7 @@ export function LoginForm({}) {
         toast({
           title: `Error al entrar`,
           description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
-          variant: "destructive",
+          variant: "customDestructive",
         });
       });
   };
@@ -229,7 +229,7 @@ export function RegisterForm({}) {
         toast({
           title: "Error creando usuario",
           description: "Por favor, inténtalo de nuevo",
-          variant: "destructive",
+          variant: "customDestructive",
         });
         console.log("ERROR:", err.response?.data.error);
         console.log("ERROR:", err);

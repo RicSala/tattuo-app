@@ -16,7 +16,7 @@ export function useBoardAdder(title, tattoo) {
       .catch((err) => {
         console.log("ERROR - TattooCard", err);
         toast({
-          variant: "destructive",
+          variant: "customDestructive",
           title: `No ha sido posible añadir el tatuaje a ${board.title}`,
           description: `${err.response.data.error}`,
         });

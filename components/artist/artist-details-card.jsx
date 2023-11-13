@@ -178,14 +178,14 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
               </Button>
             </a>
           </p>
-          <p className="max-h-64 overflow-y-auto">
+          <p className="max-h-64">
             {`Email:
                         
                     `}
             <a href={`Mailto: ${artist.email}`}>
               <Button
                 variant="outline"
-                className="h-2 max-w-[18rem] justify-start py-3"
+                className="h-2 max-w-[16rem] justify-start py-3"
               >
                 <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap ">
                   {artist.email}

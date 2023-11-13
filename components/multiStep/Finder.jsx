@@ -182,7 +182,7 @@ export default function Finder({ children, setResults, ...props }) {
         toast({
           title: "Error",
           description: "Ha habido un error al buscar los artistas",
-          variant: "destructive",
+          variant: "customDestructive",
         });
         setIsLoading(false);
       })

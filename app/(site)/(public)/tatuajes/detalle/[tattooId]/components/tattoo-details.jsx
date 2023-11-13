@@ -3,9 +3,10 @@ import { DisplayText } from "@/components/display-text";
 import HeartButton from "@/components/heart-button";
 import ShareButtons from "@/components/share-buttons";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export function TattooDetails({ tattoo, currentUser }) {
+export function TattooDetails({ tattoo, currentUser, className }) {
   const hostname =
     process.env.NODE_ENV === "production"
       ? `${process.env.HOST_NAME_PROD}/api/artists`
@@ -16,11 +17,16 @@ export function TattooDetails({ tattoo, currentUser }) {
   );
 
   return (
-    <div className="mx-auto max-w-screen-lg overflow-hidden rounded-xl border shadow-lg">
+    <div
+      className={cn(
+        `mx-auto max-w-screen-lg overflow-hidden rounded-xl border bg-background shadow-lg`,
+        className,
+      )}
+    >
       <div className="flex flex-col overflow-hidden lg:flex-row ">
         {/* order-first 
                 md:order-none */}
-        <div className="relative aspect-square grow basis-1/2">
+        <div className="relative aspect-square grow ">
           <Image
             alt="tattoo"
             fill

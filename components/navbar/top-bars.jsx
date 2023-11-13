@@ -24,8 +24,8 @@ export function TopBars({ topbarShown, setTopbarShown, currentUser }) {
             }}
             className="cursor-pointer"
           >
-            <span className="underline">Regístrate</span> para guardar tatuajes,
-            tatuadores y contactar con ellos
+            <span className="underline">Regístrate</span> y contacta con tu
+            tatuador
           </p>
         </TopBar>
       )}

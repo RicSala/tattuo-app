@@ -23,9 +23,10 @@ const filtro2 = {
   options: bodyParts,
 };
 
-const ArtistGridLayout = async ({ children }) => {
+const ArtistGridLayout = async (props) => {
   const user = await getCurrentUser();
 
+  console.log({ props });
   // REVIEW: why not passing current user to children through the layout?
   return (
     <>
@@ -37,7 +38,8 @@ const ArtistGridLayout = async ({ children }) => {
           filtro1={filtro1}
           filtro2={filtro2}
         />
-        {children}
+        {props.modal}
+        {props.children}
       </Container>
     </>
   );

@@ -24,11 +24,10 @@ export default function AppearanceSettings({ currentUser }) {
   const router = useRouter();
   const form = useForm({
     defaultValues: {
-      darkMode: currentUser.settings.darkMode,
+      darkMode: currentUser?.settings?.darkMode || 'false',
     },
   });
 
-  console.log("DARK????", currentUser.settings.darkMode);
   const { isDirty, isSubmitted, isSubmitting } = form.formState;
   const [isSaving, setIsSaving] = useState(false);
 

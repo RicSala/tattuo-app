@@ -19,7 +19,6 @@ import { TopBars } from "./top-bars";
 function NavBar({ currentUser }) {
   const router = useRouter();
   const userTheme = currentUser?.settings?.darkMode || "light";
-  console.log("SETTINGS", currentUser.settings);
   const { setArtistRegisterOpen } = useContext(UiContext);
 
   console.log({ currentUser });

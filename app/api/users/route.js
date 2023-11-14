@@ -15,7 +15,10 @@ export async function PUT(request) {
   const body = await request.json();
 
   const { data } = body;
-  const { name, currentPassword, newPassword, confirmNewPassword } = data;
+
+  console.log({ data });
+  const { name, currentPassword, newPassword, confirmNewPassword, darkMode } =
+    data;
 
   let updatedData = {};
 
@@ -52,9 +55,13 @@ export async function PUT(request) {
     updatedData.name = name;
   }
 
+  updatedData.darkMode = darkMode;
+
+  console.log({ updatedData });
+
   // Update the user in the database
-  const newUser = await prisma.user.update({
-    where: { id: currentUser.id },
+  const newUser = await prisma.settings.update({
+    where: { userId: currentUser.id },
     data: updatedData,
   });
 

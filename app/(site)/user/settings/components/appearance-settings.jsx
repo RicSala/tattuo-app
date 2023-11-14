@@ -17,55 +17,50 @@ import { apiClient } from "@/lib/apiClient";
 import { Check, Save } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function AppearanceSettings({ currentUser }) {
   const router = useRouter();
   const form = useForm({
     defaultValues: {
-      theme: currentUser.settings.darkMode,
+      darkMode: currentUser.settings.darkMode,
     },
   });
+
+  console.log("DARK????", currentUser.settings.darkMode);
   const { isDirty, isSubmitted, isSubmitting } = form.formState;
-
-  useEffect(() => {
-    console.log({ isSubmitted });
-    console.log({ isDirty });
-  }, [isSubmitted, isDirty]);
-
-  useEffect(() => {
-    isSubmitting ? console.log("submitting") : null;
-  }, [isSubmitting]);
+  const [isSaving, setIsSaving] = useState(false);
 
   const { setTheme } = useTheme();
 
   const onSubmit = (data) => {
+    setIsSaving(true);
+    console.log({ data });
     apiClient
-      .put(`/register`, data)
+      .put("/users", {
+        data,
+      })
       .then((res) => {
-        console.log(res);
-        router.refresh();
         toast({
+          title: "Usuario actualizado correctamente",
+          description: "Puedes seguir navegando y descubriendo nuev@s artistas",
           variant: "success",
-          title: "Hemos actualizado tu configuración",
-          description:
-            "Puedes seguir navegando por TATTUO con tu nueva configuración",
         });
       })
-      .catch((err) => console.log(err))
-      .finally(
-        form.reset(data, {
-          keepIsSubmitted: true,
-        }),
-      );
+      .catch((error) => {
+        console.log({ error });
+        toast({
+          title: "Error al guardar",
+          description: error.response.data.error,
+          variant: "customDestructive",
+        });
+      })
+      .finally(() => {
+        router.refresh();
+        setIsSaving(false);
+      });
   };
-
-  // useEffect((props) => {
-  //     console.log("set theme")
-  //     currentTheme === 'dark' ? setTheme('dark') : setTheme('light')
-
-  // }, [currentTheme]);
 
   return (
     <div>
@@ -81,7 +76,7 @@ export default function AppearanceSettings({ currentUser }) {
             <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="theme"
+                name="darkMode"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">

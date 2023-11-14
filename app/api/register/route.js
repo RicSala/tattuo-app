@@ -113,10 +113,12 @@ export async function PUT(req) {
       name,
       confirmPassword,
       role = "CLIENT",
-      theme,
+      darkMode,
     } = body;
 
     let data = {};
+
+    console.log({ darkMode });
 
     // if (theme !== undefined) {
     //     data.darkMode = theme;
@@ -136,7 +138,6 @@ export async function PUT(req) {
 
     return NextResponse.json({ settings }, { status: 200 });
   } catch (error) {
-    console.log(error, "REGISTRATION_ERROR");
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 },

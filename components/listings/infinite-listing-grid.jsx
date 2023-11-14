@@ -31,6 +31,7 @@ export default function InfiniteListingGrid({
   currentUser,
   filter,
 }) {
+  console.log({ initialData });
   return (
     <ListingGrid>
       <CustomQueryClientProvider>

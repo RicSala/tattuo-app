@@ -39,10 +39,10 @@ export function BoardAdder({
           toast({
             variant: "success",
             title: `Tablero ${title} creado`,
-            description:
-              "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
+            description: "Ahora añadiremos el tatuaje a tu tablero...",
           });
           router.refresh();
+          onBoardSelect(tattoo, res.data);
           console.log("response", res);
           return res.data;
         })
@@ -65,7 +65,7 @@ export function BoardAdder({
       .then((res) => {
         toast({
           variant: "success",
-          title: `Tutuaje añadido a ${board.title}`,
+          title: `Tatuaje añadido a ${board.title}`,
           description: "Puedes seguir añadiendo más tatuajes",
         });
       })

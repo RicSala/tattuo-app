@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 const ArtistCard = ({ data, currentUser, className }) => {
   const router = useRouter();
+  console.log({ data });
 
   return (
     <div
@@ -39,7 +40,7 @@ const ArtistCard = ({ data, currentUser, className }) => {
         </div>
 
         <div className="aspect-square overflow-hidden">
-          <div class="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
+          <div className="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
             <div className="relative inset-0 aspect-square overflow-hidden transition-transform">
               <Image
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

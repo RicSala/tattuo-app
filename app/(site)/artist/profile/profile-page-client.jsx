@@ -67,7 +67,6 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     // const imagesToDelete = imagesRef.current.filter(
     //   (img) => !data.images.includes(img), //... and are not present in the form now
     // );
-    console.log({ artist });
     const mainImageToDelete =
       mainImageRef.current !== data.mainImage ? mainImageRef.current : null;
 

@@ -30,7 +30,7 @@ export class TattooService {
     const query = this.#buildQuery(searchParams);
     const tattoos = await prisma.tattoo.findMany({
       where: query,
-      orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       skip,
       take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
     });
@@ -156,7 +156,6 @@ export class TattooService {
       (taggedTattoo) => !updatedTagIds.includes(taggedTattoo.tag.id),
     );
 
-    console.log({ oldData });
     // Build the Prisma update query
     const updateQuery = {
       where: {

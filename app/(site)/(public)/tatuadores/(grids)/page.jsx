@@ -8,6 +8,7 @@ import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-a
 import { ArtistGridHeader } from "../components/artist-grid-header";
 import { GridHeader } from "../../../../../components/grid-header";
 import { ArtistService } from "@/services/db/ArtistService";
+import ListingGrid from "@/components/listings/listing-grid";
 export const dynamic = "force-dynamic";
 
 const endpoint =
@@ -38,8 +39,6 @@ export default async function ArtistsPage({ searchParams }) {
   }
   const serverLoadedArtists = artists.slice(0, initialDataSize);
   const serverHasMoreArtists = artists.length > initialDataSize;
-
-  console.log({ serverLoadedArtists });
 
   return (
     <InfiniteListingGrid // to render an infinite scroll we need...

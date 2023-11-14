@@ -57,7 +57,6 @@ export default async function TattoosPage({ params, searchParams }) {
   );
 
   if (!isGeneratedContentSlug) {
-    console.log("NOT FOUD CALLED");
     notFound();
   }
 

@@ -21,8 +21,6 @@ export const AuthProvider = ({ children }) => {
   // use a ref to keep track of how many times the component has been rendered
   const renders = useRef(0);
 
-  console.log("AUTHPROVIDER - renders: ", renders.current++);
-
   useEffect(() => {
     if (status === "authenticated") {
       try {

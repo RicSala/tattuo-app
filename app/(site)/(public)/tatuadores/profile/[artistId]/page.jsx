@@ -16,18 +16,11 @@ export const generateMetadata = async ({ params }) => {
   // TODO: if it's not a valid mongoid -> not found
   // TODO: doesn't seem to efficient get the artist twice...
 
-  console.log({ params });
-
   return {
     title: `Descubre a ${artist?.artisticName} · Tatuador ${artist?.city} especializado en ${artist?.styles[0].label}`,
     description: `Descubre a ${artist?.artisticName} · Tatuador ${artist?.city} especializado en ${artist?.styles[0].label}`,
   };
 };
-
-// export const metadata = {
-//     title: 'hello',
-//     description: 'hello',
-// }
 
 export default async function ArtistDetailsPage({ params }) {
   // const artist = await getArtistById(params.artistId);
@@ -47,8 +40,6 @@ export default async function ArtistDetailsPage({ params }) {
   if (!artist) {
     return notFound(); //TODO: check the notfound page
   }
-
-  const numberOfTattoos = artistTattoos.length;
 
   return (
     <main className="flex flex-row flex-wrap justify-center gap-4">

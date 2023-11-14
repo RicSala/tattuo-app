@@ -95,8 +95,6 @@ const reviews = [
 export default async function Home({ searchParams }) {
   const currentUser = await getCurrentUser();
 
-  console.log({ currentUser });
-
   return (
     <div className="gap flex min-h-screen flex-col items-center justify-between">
       {/* There are probably better ways to do this, but I don't know how. Basically I need access to the context to be able to open the modal, and the only way I see to do it is "embedding" a client component somewhere in the page */}

@@ -26,7 +26,6 @@ const filtro2 = {
 const ArtistGridLayout = async (props) => {
   const user = await getCurrentUser();
 
-  // console.log({ props });
   // REVIEW: why not passing current user to children through the layout?
   return (
     <>

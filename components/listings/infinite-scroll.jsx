@@ -13,6 +13,7 @@ export function InfiniteScroll({
   sizePerPage, // the number of items each request will load
   hasMore, // just in case there are no more (just those shown by the server)
   endpoint, // api endpoing to get more data
+  keyProp,
   Component, // component that will be rendered with the "data"
   currentUser, // to ad functionality like "like" or add to board
   filter, // TODO: I think this one is not necesary anymore...we are solving it with the searchparams already
@@ -56,11 +57,11 @@ export function InfiniteScroll({
     ),
   };
 
-  // console.log("here:", { formattedInitialData });
-
-  console.log({ endpoint });
+  console.log({ formattedInitialData });
+  console.log("FROM INFINITE", { initialData });
 
   const fetchData = async (page = 1) => {
+    console.log("FROM FETCH", page);
     const response = await apiClient
       .get(
         `${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${
@@ -88,7 +89,7 @@ export function InfiniteScroll({
     isFetching,
     isInitialLoading,
   } = useInfiniteQuery({
-    queryKey: ["posts", search], // the query key, which is used to determine if the query is fresh or if it should use cached data
+    queryKey: [keyProp, search], // the query key, which is used to determine if the query is fresh or if it should use cached data
 
     queryFn: async (
       { pageParam = 1 }, //mockFetch(pageParam), // query function. receives a queryFunctionContext object: https://tanstack.com/query/v4/docs/react/guides/query-functions#queryfunctioncontext
@@ -101,13 +102,16 @@ export function InfiniteScroll({
     // stablish the next page param (in our case, the next page number)
     // if it returns false, hasNextPage will be false and we can stop fetching
     getNextPageParam: (lastPage, allPages) => {
-      console.log({ allPages });
+      console.log("all pages!!!!", allPages);
+      console.log("last page!!!!", lastPage);
       if (lastPage?.pagination.hasMorePages === false) return false;
       return lastPage?.pagination.nextPage; // this will be the next page number in the previous function (the queryFn)
     },
     refetchOnWindowFocus: false, // by default, when the window gets focused, the query will refetch
 
-    initialData: formattedInitialData,
+    initialData: () => {
+      return formattedInitialData;
+    },
   });
 
   useEffect(() => {
@@ -123,7 +127,11 @@ export function InfiniteScroll({
     return <div>Something went wrong</div>;
   }
 
+  console.log("pre flatmap", data);
   const allElements = data?.pages.flatMap((page) => page.data); // get all the elements from all the pages
+
+  console.log("data here", data);
+  console.log({ allElements });
 
   return (
     <>
@@ -132,6 +140,9 @@ export function InfiniteScroll({
         const childProps = { data: element };
         // add the currrnt user to the props
         childProps.currentUser = currentUser;
+        {
+          /* console.log({ childProps }); */
+        }
 
         return (
           // if it's the last post of the last page, we set the ref

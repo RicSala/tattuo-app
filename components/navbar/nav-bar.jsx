@@ -81,7 +81,7 @@ function NavBar({ currentUser }) {
             <div className="flex flex-row items-center justify-between gap-5">
               <Logo />
 
-              <div className="hidden sm:flex">
+              <div className="hidden md:flex">
                 <NavMenu currentUser={currentUser} />
               </div>
             </div>

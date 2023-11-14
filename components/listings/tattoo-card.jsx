@@ -19,6 +19,7 @@ import { useToast } from "../ui/use-toast";
 import HeartButton from "../heart-button";
 import path from "path";
 import { apiClient } from "@/lib/apiClient";
+import { Skeleton } from "../ui/skeleton";
 
 export default function TattooCard({
   currentUser,
@@ -142,3 +143,4 @@ export default function TattooCard({
     </div>
   );
 }
+TattooCard.Skeleton = <Skeleton classNama="h-80 w-80" />;

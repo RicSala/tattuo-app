@@ -152,8 +152,9 @@ export function ArtistRegisterForm({}) {
   console.log("isSubmitting", form.formState.isSubmitting);
 
   useEffect(() => {
-    // Prefetch the dashboard page
-    router.prefetch("/dashboard");
+    console.log("prefetching");
+    // Prefetch the profile page
+    router.prefetch("/artist/profile");
   }, [router]);
 
   return (

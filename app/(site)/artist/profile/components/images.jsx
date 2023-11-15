@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FormControl,
   FormDescription,
@@ -7,8 +9,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Images = ({ form }) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("prefecth add tattoos page");
+    router.prefetch("/artist/tatuajes");
+  }, [router]);
+
   return (
     <>
       <h2>Imagen de tu ficha</h2>

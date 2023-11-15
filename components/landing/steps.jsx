@@ -8,10 +8,10 @@ export function Steps({}) {
       {/* mb-32 mt-32  sm:mt-56 */}
       <div className="px-6 lg:px-8">
         <div className="mx-auto flex max-w-2xl flex-col gap-2 sm:text-center">
-          <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+          <h2 className="text-4xl font-bold text-foreground sm:text-5xl">
             Localiza tu tatuador HOY
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-foreground">
             Encuentra el artista perfecto para lo que buscas en{" "}
             {config.general.appName}
           </p>
@@ -23,7 +23,7 @@ export function Steps({}) {
         {/* space-y-4 md:space-x-12 */}
         <li className="md:flex-1">
           <SingleStep stepNumber={1} title="Crea tu cuenta">
-            <span className="mt-2 text-zinc-700">
+            <span className="mt-2 text-foreground/80">
               Así podrás guardar los tatuajes que más te gusten y contactar con
               los artistas
             </span>
@@ -31,7 +31,7 @@ export function Steps({}) {
         </li>
         <li className="md:flex-1">
           <SingleStep stepNumber={2} title="Descubre tu tatuador">
-            <span className="mt-2 text-zinc-700">
+            <span className="mt-2 text-foreground/80">
               Conoce sus estilos, las piezas que ha realizado, lo opinión de
               otros clientes, ...
             </span>
@@ -39,7 +39,7 @@ export function Steps({}) {
         </li>
         <li className="md:flex-1">
           <SingleStep stepNumber={3} title="Contáctale cómo quieras">
-            <span className="mt-2 text-zinc-700">
+            <span className="mt-2 text-foreground/80">
               No nos &ldquo;ponemos en medio&ldquo;, contacta a tu tatuador
               directamente y cuéntale qué buscas
             </span>

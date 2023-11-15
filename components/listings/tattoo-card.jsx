@@ -28,6 +28,7 @@ export default function TattooCard({
   hasBoardAdder = true,
   likeable = true,
   children,
+  imagePriority = false,
   ...props
 }) {
   const { toast } = useToast();
@@ -107,13 +108,16 @@ export default function TattooCard({
           className,
         )}
       >
-        <CardContent className="grid gap-4">
+        <CardContent className="card-content relative h-full w-full gap-4">
           <Image
             src={data.imageSrc}
             fill
             alt={"tattoo"}
             className="object-cover"
             id="tattoo-image"
+            // TW DEFAULTS: STARTS IN... sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
+            priority={imagePriority}
           />
           <div className="absolute bottom-0 w-full">{children}</div>
           {hasBoardAdder && (

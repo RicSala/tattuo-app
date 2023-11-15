@@ -6,6 +6,7 @@ import HeartButton from "../heart-button";
 import { Avatar } from "../ui/avatar";
 import SaveButton from "../save-button";
 import { cn } from "@/lib/utils";
+import { Badge } from "../ui/badge";
 
 const ArtistCard = ({ data, currentUser, className }) => {
   const router = useRouter();
@@ -18,7 +19,9 @@ const ArtistCard = ({ data, currentUser, className }) => {
         router.prefetch(`/tatuajes/detalle/${data.id}`);
       }}
       className={cn(
-        `group isolate flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border shadow-sm`,
+        `group isolate flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border shadow-sm
+        transition-shadow ease-in-out hover:shadow-lg
+        `,
         className,
       )}
     >
@@ -55,9 +58,10 @@ const ArtistCard = ({ data, currentUser, className }) => {
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-start gap-6 px-5 py-3">
+      <div className="flex flex-row items-center justify-between gap-6 px-5 py-3">
         {/* <Avatar user={data} /> */}
-        <p>{data.artisticName}</p>
+        <p className="truncate">{data.artisticName}</p>
+        <Badge className={"bg-primary/60"}>Verificado</Badge>
       </div>
       {/* <div className="px-5 py-3">
                 €€€

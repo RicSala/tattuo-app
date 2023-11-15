@@ -87,6 +87,7 @@ export async function POST(req) {
       }
     }
 
+    console.log("USER!!!!", { user });
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     console.log(error, "REGISTRATION_ERROR");

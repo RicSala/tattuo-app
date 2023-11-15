@@ -58,6 +58,7 @@ const MyTattoosPage = async ({ params }) => {
             canSave={false}
             hasBoardAdder={false}
             likeable={false}
+            TattooCard={true}
           >
             {/* TODO: improve style */}
             <div className="mb-2 flex w-full flex-row justify-start gap-2">

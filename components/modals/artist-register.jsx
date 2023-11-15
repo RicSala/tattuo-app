@@ -94,21 +94,23 @@ export function ArtistRegisterForm({}) {
     setIsLoading(true);
     apiClient
       .post("/register", data)
-      .then((res) => {
+      .then(async (res) => {
         toast({
           title: "Bienvenido a TATTUO",
           description:
             "Por favor, completa tu perfil y publica tres obras para aparecer en TATTUO",
           variant: "success",
         });
-        signIn("credentials", {
+        // Wait for signIn to complete
+        await signIn("credentials", {
           email: data.email,
           password: data.password,
-          // TODO: How can we show a loading state before the redirect instead of the "flicking"?
           callbackUrl: `/artist/profile`,
         });
-        setArtistRegisterOpen(false);
-        setSidebarOpen(false);
+
+        // Only close the modal and sidebar after successful signIn
+        // setArtistRegisterOpen(false);
+        // setSidebarOpen(false);
       })
       .catch((err) => {
         toast({
@@ -424,7 +426,7 @@ const STEPS = [
   },
   {
     key: "confirm",
-    label: "Cofirmación",
+    label: "Confirmación",
     validations: ["confirmation"],
   },
   {

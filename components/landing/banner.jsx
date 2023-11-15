@@ -23,7 +23,7 @@ export default function Banner({ currentUser }) {
             ÚNETE A TATTUO
           </h1>
 
-          <p className="text-[0.9375rem] text-white/70 lg:text-lg lg:leading-tight">
+          <p className="text-[0.9375rem] text-primary-foreground lg:text-lg lg:leading-tight">
             Contacta con tatuadores cerca de ti. Inspírate. Guarda tus diseños
             favoritos. Y es <b>GRATIS</b>.
           </p>

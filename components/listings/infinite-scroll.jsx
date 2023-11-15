@@ -140,6 +140,8 @@ export function InfiniteScroll({
         const childProps = { data: element };
         // add the currrnt user to the props
         childProps.currentUser = currentUser;
+        childProps.imagePriority = true;
+
         {
           /* console.log({ childProps }); */
         }

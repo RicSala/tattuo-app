@@ -31,7 +31,7 @@ export function TattooDetails({ tattoo, currentUser, className }) {
             alt="tattoo"
             fill
             src={tattoo?.imageSrc}
-            loading="lazy"
+            priority
             className="object-cover "
           />
 

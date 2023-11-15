@@ -8,7 +8,12 @@ import SaveButton from "../save-button";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 
-const ArtistCard = ({ data, currentUser, className }) => {
+const ArtistCard = ({
+  data,
+  currentUser,
+  className,
+  imagePriority = false,
+}) => {
   const router = useRouter();
   console.log({ data });
 
@@ -16,7 +21,8 @@ const ArtistCard = ({ data, currentUser, className }) => {
     <div
       onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
       onMouseEnter={() => {
-        router.prefetch(`/tatuajes/detalle/${data.id}`);
+        router.prefetch(`/tatuadores/profile/654e02287ffff1cdf25b7d92`);
+        console.log("prefetched");
       }}
       className={cn(
         `group isolate flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border shadow-sm
@@ -46,11 +52,12 @@ const ArtistCard = ({ data, currentUser, className }) => {
           <div className="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
             <div className="relative inset-0 aspect-square overflow-hidden transition-transform">
               <Image
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
                 fill={true}
                 //TODO:  What about when there is not image??
                 src={data?.images[0] || data.mainImage}
                 alt="profile picture"
+                priority={imagePriority}
                 className="object-cover"
               />
             </div>

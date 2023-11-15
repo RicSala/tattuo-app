@@ -22,12 +22,20 @@ const MyTattoosPage = async ({ params }) => {
 
   if (tattoos.length < 1) {
     return (
-      <EmptyState
-        title="No has publicado ningún tatuaje"
-        subtitle="Publica tatuajes para que tus clientes puedan verlos"
-        actionLabel="Publicar tatuaje"
-        actionUrl="/artist/tatuajes/new"
-      />
+      <>
+        <EmptyState
+          title="No has publicado ningún tatuaje"
+          subtitle="Publica tatuajes para que tus clientes puedan verlos"
+          actionLabel="Publicar tatuaje"
+          actionUrl="/artist/tatuajes/new"
+          className={"mb-6"}
+        />
+        <ListingGrid>
+          {range(3).map((i) => (
+            <FakeTattooCard key={i} />
+          ))}
+        </ListingGrid>
+      </>
     );
   }
 

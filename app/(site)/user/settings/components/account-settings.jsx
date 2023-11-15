@@ -93,7 +93,7 @@ export default function AccountSettings({ currentUser }) {
                 <FormLabel>Contraseña actual</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Aquí va tu contraseña"
+                    placeholder="Aquí va tu contraseña actual..."
                     {...field}
                     type="password"
                   />
@@ -114,7 +114,7 @@ export default function AccountSettings({ currentUser }) {
                 <FormLabel>Contraseña nueva</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Aquí va tu contraseña"
+                    placeholder="Aquí la nueva..."
                     {...field}
                     type="password"
                   />
@@ -132,7 +132,7 @@ export default function AccountSettings({ currentUser }) {
                 <FormLabel>Confirma tu contraseña nueva</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Aquí va tu contraseña"
+                    placeholder="...y aquí repite la nueva"
                     {...field}
                     type="password"
                   />

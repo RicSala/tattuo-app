@@ -290,7 +290,7 @@ const TattooEditPageClient = ({
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Etiquetas</FormLabel>
+                  <FormLabel>Etiquetas / Contenido</FormLabel>
 
                   <FormControl>
                     <AsyncCreatable
@@ -311,8 +311,8 @@ const TattooEditPageClient = ({
                     />
                   </FormControl>
                   <FormDescription>
-                    Cuéntanos más sobre la pieza: descripción, qué aparece,
-                    estilo, colores, parte del cuerpo, etc.
+                    Palabras clave para encontrar tu pieza. Especialmente, qué
+                    contenido (por ejemplo: leon, flor, mariposa, estrella, ...)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -332,10 +332,7 @@ const TattooEditPageClient = ({
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Esta es la foto que aparecerá en tus publicaciones, tu foto
-                    de perfil
-                  </FormDescription>
+                  <FormDescription>¿Dónde lo has tatuado?</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -350,8 +347,7 @@ const TattooEditPageClient = ({
                     <CustomSelect options={styles} isMulti={false} {...field} />
                   </FormControl>
                   <FormDescription>
-                    Esta es la foto que aparecerá en tus publicaciones, tu foto
-                    de perfil
+                    ¿Cuál es el estilo PRINCIPAL del trabajo?
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

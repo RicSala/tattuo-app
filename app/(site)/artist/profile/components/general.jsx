@@ -25,7 +25,7 @@ const General = ({ form, cities, styles }) => {
         name="mainImage"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Foto principal</FormLabel>
+            <FormLabel>Foto de perfil</FormLabel>
             <FormControl>
               <ImageThumbnail
                 placeholderUrl="/images/placeholder.svg"
@@ -34,10 +34,14 @@ const General = ({ form, cities, styles }) => {
             </FormControl>
             <FormControl>
               <ImageUploader
+                maxFiles={1}
                 field={field}
                 setValue={form.setValue}
                 trigger={form.trigger}
                 disabled={form.formState.isLoading}
+                afterChange={() => {
+                  form.trigger("mainImage");
+                }}
               />
             </FormControl>
             <FormDescription>
@@ -164,7 +168,14 @@ const General = ({ form, cities, styles }) => {
           <FormItem>
             <FormLabel className="after:content-['*']">Estilos</FormLabel>
             <FormControl>
-              <CustomSelect options={styles} isMulti={true} {...field} />
+              <CustomSelect
+                options={styles}
+                isMulti={true}
+                {...field}
+                afterChange={() => {
+                  form.trigger("styles");
+                }}
+              />
             </FormControl>
             <FormDescription>
               Puedes elegir hasta tres estilos. Seguro que controlas muchos más,

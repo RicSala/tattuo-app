@@ -35,7 +35,7 @@ export default function MultiStepButtons({
         <>
           <Button
             type="button"
-            className={`flex flex-row items-center gap-2
+            className={`relative flex flex-row items-center gap-2
                     ${selectedTab === STEPS.length - 1 ? `hidden` : null}`}
             onClick={(event) => {
               form.trigger(STEPS[selectedTab].validations).then((isValid) => {
@@ -45,10 +45,21 @@ export default function MultiStepButtons({
                 }
               });
             }}
+            disabled={
+              isSubmitting || isValidating
+              // ||
+              // Object.keys(form.formState.errors).length !== 0
+            }
           >
             Siguiente
             <Redo />
+            {Object.keys(form.formState.errors).length !== 0 && (
+              <p className="absolute -top-4 text-xs text-destructive">
+                Revisa el formulario
+              </p>
+            )}
           </Button>
+
           <Button
             // TODO: this should work with isSubmitting...somehow it doesn't!
             disabled={isLoading}

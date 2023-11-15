@@ -55,61 +55,72 @@ const AsyncSelect = forwardRef(
         placeholder={placeholder}
         isMulti={isMulti}
         noOptionsMessage={noOptionsMessage}
-        styles={{
-          option: (provided, state) => ({
-            // this is the style of the options
-            ...provided,
-            backgroundColor: state.isFocused ? "white" : "#030711",
-            color: state.isFocused ? "black" : "white",
-          }),
-
-          menu: (provided, state) => ({
-            // this is the style of the menu
-            ...provided,
-            backgroundColor: "#030711",
-            color: "#000",
-          }),
-
-          singleValue: (provided, state) => ({
-            // this is the style of the selected option
-            ...provided,
-            color: "grey",
-          }),
-
-          dropdownIndicator: (provided, state) => ({
-            // this is the style of the arrow
-            ...provided,
-            display: "none",
-          }),
-
-          control: (provided, state) => ({
-            // this is the style of the container
-            ...provided,
-            border: "1px solid border-border ",
-            boxShadow: "none",
-            backgroundColor: "bg-background",
-            borderColor: "border-border",
-            color: "grey",
-          }),
-
-          indicatorSeparator: (provided, state) => ({
-            // this is the style of the line that separates the arrow from the container
-            ...provided,
-            display: "none",
-          }),
-
-          container: (provided, state) => ({
-            // this is the style of the container
-            ...provided,
-            backgroundColor: "",
-          }),
-
-          input: (provided, state) => ({
-            // this is the style of the input
-            ...provided,
-            color: "grey",
-          }),
+        classNames={{
+          menuList: (state) => "text-black",
+          input: (state) => "",
+          container: () => "",
+          // control: () => "border border-red-400",
+          menu: () => "",
+          valueContainer: () => "bg-background border-border",
+          placeholder: () => "",
+          // "text-red-500",
         }}
+        //TODO: investigate why not all classes are being applied!!
+        // styles={{
+        //   option: (provided, state) => ({
+        //     // this is the style of the options
+        //     ...provided,
+        //     backgroundColor: state.isFocused ? "white" : "#030711",
+        //     color: state.isFocused ? "black" : "white",
+        //   }),
+
+        //   menu: (provided, state) => ({
+        //     // this is the style of the menu
+        //     ...provided,
+        //     backgroundColor: "#030711",
+        //     color: "#000",
+        //   }),
+
+        //   singleValue: (provided, state) => ({
+        //     // this is the style of the selected option
+        //     ...provided,
+        //     color: "grey",
+        //   }),
+
+        //   dropdownIndicator: (provided, state) => ({
+        //     // this is the style of the arrow
+        //     ...provided,
+        //     display: "none",
+        //   }),
+
+        //   control: (provided, state) => ({
+        //     // this is the style of the container
+        //     ...provided,
+        //     border: "1px solid border-border ",
+        //     boxShadow: "none",
+        //     backgroundColor: "bg-background",
+        //     borderColor: "border-border",
+        //     color: "grey",
+        //   }),
+
+        //   indicatorSeparator: (provided, state) => ({
+        //     // this is the style of the line that separates the arrow from the container
+        //     ...provided,
+        //     display: "none",
+        //   }),
+
+        //   container: (provided, state) => ({
+        //     // this is the style of the container
+        //     ...provided,
+        //     backgroundColor: "",
+        //   }),
+
+        //   input: (provided, state) => ({
+        //     // this is the style of the input
+        //     ...provided,
+        //     color: "grey",
+        //   }),
+        // }}
       />
     );
   },

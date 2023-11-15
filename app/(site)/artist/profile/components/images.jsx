@@ -60,7 +60,8 @@ const Images = ({ form }) => {
               />
             </FormControl>
             <FormDescription>
-              Si no subes nada, saldrá tu foto principal!
+              Si no subes nada, saldrá tu foto de perfil!
+              <br />
               <br />
               Pero es mejor que subas la imagen de algún trabajo que represente
               tu estilo!

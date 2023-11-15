@@ -94,6 +94,8 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     // imagesRef.current = data.images;
     mainImageRef.current = data.mainImage;
 
+    router.prefetch("artist/tatuajes");
+
     return apiClient
       .put(`/artists/${artist.id}`, data)
       .then((res) => {
@@ -215,6 +217,10 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
               //   scrollToTabList={scrollToTabList}
               isLoading={isLoading}
             />
+            <div className="text-center text-xs italic text-muted-foreground">
+              Más información facilites = Más clientes y más preparados para
+              trabajar contigo
+            </div>
           </form>
         </Form>
       </div>

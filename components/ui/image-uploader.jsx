@@ -6,7 +6,13 @@ import { Button } from "./button";
 import Image from "next/image";
 import { forwardRef } from "react";
 
-const ImageUploader = ({ maxFiles = 3, field, disabled }) => {
+const ImageUploader = ({
+  maxFiles = 3,
+  field,
+  disabled,
+  trigger,
+  afterChange = () => {},
+}) => {
   // TODO: improve cloudinary widget: https://cloudinary.com/documentation/upload_widget
   //  translations: https://upload-widget.cloudinary.com/2.8.20/global/text.json
 
@@ -15,6 +21,7 @@ const ImageUploader = ({ maxFiles = 3, field, disabled }) => {
       onUpload={(result) => {
         if (Array.isArray(field.value)) {
           field.onChange([...field.value, result.info.secure_url]);
+          trigger("mainImage");
           // trigger(name)
         }
         // if value is a string, replace it
@@ -23,9 +30,10 @@ const ImageUploader = ({ maxFiles = 3, field, disabled }) => {
           // trigger(name)
         }
         console.log("result", result);
+        afterChange();
       }}
       uploadPreset="lbgb29le"
-      onBlur={field.onBlur}
+      onBlur={() => field.onBlur()}
       value={field.value}
       options={{
         showAdvancedOptions: true,

@@ -112,7 +112,7 @@ function NavBar({ currentUser }) {
                   Soy tatuador
                 </Button>
               )}
-              <ModeToggle userTheme={userTheme} />
+              {/* <ModeToggle userTheme={userTheme} /> */}
               <Sidebar className="bg-neutral" currentUser={currentUser} />
             </div>
           </header>

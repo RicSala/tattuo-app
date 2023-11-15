@@ -14,7 +14,7 @@ import {
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -151,11 +151,16 @@ export function ArtistRegisterForm({}) {
   console.log("isLoadin", isLoading);
   console.log("isSubmitting", form.formState.isSubmitting);
 
+  useEffect(() => {
+    // Prefetch the dashboard page
+    router.prefetch("/dashboard");
+  }, [router]);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="text-center">
         <div className="text-2xl font-bold">Consigue clientes en TATTUO</div>
-        <div className="mt-2 font-light text-neutral-500">Crea tu cuenta</div>
+        <div className="mt-2 font-light text-primary">Crea tu cuenta</div>
       </div>
       <Stepper
         steps={STEPS}
@@ -171,6 +176,9 @@ export function ArtistRegisterForm({}) {
                     `}
           >
             <div className="flex flex-col items-center">
+              <p>
+                <strong>Antes de nada</strong>...
+              </p>
               <p>
                 <strong>Búscate</strong> en TATTUO!
               </p>
@@ -207,8 +215,11 @@ export function ArtistRegisterForm({}) {
                     />
                   </FormControl>
                   <FormDescription>
-                    Es posible que tu perfil ya esté dado de alta, búscate para
-                    reclamarlo antes de seguir
+                    <strong className="text-primary">
+                      Es posible que tu perfil ya esté dado de alta
+                    </strong>
+                    , búscate para reclamarlo antes de seguir y si no te
+                    encuentras créalo!
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

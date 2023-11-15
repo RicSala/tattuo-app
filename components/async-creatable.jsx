@@ -55,6 +55,9 @@ const AsyncCreatable = forwardRef(
         loadingMessage={() => {
           return "...Cargando";
         }}
+        classNames={{
+          menuList: (state) => "text-black",
+        }}
       />
     );
   },

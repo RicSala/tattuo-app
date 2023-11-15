@@ -90,9 +90,9 @@ export default function Sidebar({ currentUser }) {
               key={el.label}
             />
           ))}
-          <Separator className="my-1" />
           {currentUser?.role === "ARTIST" ? (
             <>
+              <Separator className="my-1" />
               {artistMenuItems.map((el) => (
                 <MenuItem
                   warningIcon={

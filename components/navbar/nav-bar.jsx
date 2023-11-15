@@ -107,7 +107,7 @@ function NavBar({ currentUser }) {
                     setArtistRegisterOpen(true);
                   }}
                   variant="ghost"
-                  className="opacity-50"
+                  className="text-xs opacity-50"
                 >
                   Soy tatuador
                 </Button>

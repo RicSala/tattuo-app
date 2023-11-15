@@ -1,12 +1,6 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import ArtistSmallCard from "@/components/artist/artist-small-card";
-import { DisplayText } from "@/components/display-text";
-import HeartButton from "@/components/heart-button";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import ShareButtons from "@/components/share-buttons";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
 import { TattooDetails } from "./components/tattoo-details";

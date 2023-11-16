@@ -71,11 +71,11 @@ export function ArtistRegisterForm({}) {
     resolver: zodResolver(registerFormSchema),
 
     defaultValues: {
-      artisticName: "Ricardo Sala",
-      email: "ricardo@google.com",
-      name: "Ricardo Sala",
-      password: "88888888",
-      confirmPassword: "88888888",
+      artisticName: "",
+      email: "",
+      name: "",
+      password: "",
+      confirmPassword: "",
       role: "ARTIST",
       confirm: false,
     },

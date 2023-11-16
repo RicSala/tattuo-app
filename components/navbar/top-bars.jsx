@@ -55,7 +55,7 @@ export function TopBars({ topbarShown, setTopbarShown, currentUser }) {
             </Link>
           ) : currentUser?.artist?.tattoos.length < 3 ? (
             <Link href={"/artist/tatuajes"}>
-              <p>Publica al menos 3 piezas para hacer visible tu perfil</p>
+              <p>Publica 3 tatuajes y haz visible tu perfil</p>
             </Link>
           ) : (
             ""

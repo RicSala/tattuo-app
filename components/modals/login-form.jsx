@@ -45,8 +45,8 @@ export function LoginForm({}) {
     resolver: zodResolver(signInFormSchema),
 
     defaultValues: {
-      email: "ricardo@google.com",
-      password: "88888888",
+      email: "",
+      password: "",
     },
   });
 
@@ -197,10 +197,10 @@ export function RegisterForm({}) {
     resolver: zodResolver(registerFormSchema),
 
     defaultValues: {
-      email: "ricardo@google.com",
-      name: "Ricardo Sala",
-      password: "88888888",
-      confirmPassword: "88888888",
+      email: "",
+      name: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 

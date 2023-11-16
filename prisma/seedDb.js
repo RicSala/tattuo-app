@@ -11,7 +11,7 @@ const numSaves = 200;
 const numLikes = 200;
 const numBoards = 50;
 const onlyDelete = false;
-const building = false;
+const building = true;
 
 // pics a random element from an array
 const randomElement = (array) => {

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // TODO: delete before deployment
+  productionBrowserSourceMaps: true,
+
   // output: 'standalone', // https://nextjs.org/docs/app/api-reference/next-config-js/output
 
   // experimental: {

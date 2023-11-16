@@ -30,6 +30,32 @@ export function BoardAdder({
   const { toast } = useToast();
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
 
+  const onBoardSelect = useCallback((tattoo, board) => {
+    // add the tattoo to the board
+    apiClient
+      .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
+      .then((res) => {
+        toast({
+          variant: "success",
+          title: `Tatuaje añadido a ${board.title}`,
+          description: "Puedes seguir añadiendo más tatuajes",
+        });
+      })
+      .catch((err) => {
+        console.log("ERROR - TattooCard", err);
+        toast({
+          variant: "customDestructive",
+          title: `No ha sido posible añadir el tatuaje a ${board.title}`,
+          description: `${err.response.data.error}`,
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //TODO: The open state of the adder is controlled by radix primitive or shadcn. Understand why and how to control it myself.
+  const [showCreateForm, setShowCreateForm] = React.useState(false);
+  const { setLoginModalOpen } = useContext(UiContext);
+
   const onBoardCreate = useCallback(
     (title) => {
       setIsCreatingBoard(true);
@@ -57,32 +83,6 @@ export function BoardAdder({
     },
     [onBoardSelect, router, tattoo, toast],
   );
-
-  const onBoardSelect = useCallback((tattoo, board) => {
-    // add the tattoo to the board
-    apiClient
-      .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
-      .then((res) => {
-        toast({
-          variant: "success",
-          title: `Tatuaje añadido a ${board.title}`,
-          description: "Puedes seguir añadiendo más tatuajes",
-        });
-      })
-      .catch((err) => {
-        console.log("ERROR - TattooCard", err);
-        toast({
-          variant: "customDestructive",
-          title: `No ha sido posible añadir el tatuaje a ${board.title}`,
-          description: `${err.response.data.error}`,
-        });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //TODO: The open state of the adder is controlled by radix primitive or shadcn. Understand why and how to control it myself.
-  const [showCreateForm, setShowCreateForm] = React.useState(false);
-  const { setLoginModalOpen } = useContext(UiContext);
 
   return (
     <Popover

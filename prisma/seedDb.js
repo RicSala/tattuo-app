@@ -3,6 +3,9 @@
 const { PrismaClient } = require("@prisma/client");
 const { fakerES } = require("@faker-js/faker");
 var bcrypt = require("bcryptjs");
+const { getCities } = require("../lib/getCities");
+const { getBodyParts } = require("../lib/getBodyParts");
+const { getStyleList } = require("../lib/getStyleList");
 
 const numClients = 50;
 const numArtists = 20;
@@ -12,6 +15,7 @@ const numLikes = 200;
 const numBoards = 50;
 const onlyDelete = false;
 const building = true;
+const onlySeedBodyPartsAndCities = true;
 
 // pics a random element from an array
 const randomElement = (array) => {
@@ -38,6 +42,57 @@ const randomNumber = (min, max) => {
 const prisma = new PrismaClient();
 
 const seedDb = async () => {
+  if (onlySeedBodyPartsAndCities) {
+    const cities = getCities();
+    const bodyParts = getBodyParts();
+    const styles = getStyleList();
+
+    console.log("Seeding database");
+
+    // add all the cities to the database
+    try {
+      const result = await prisma.city.createMany({
+        data: cities.map((city) => ({
+          label: city.label,
+          value: city.label,
+          parent_code: city.parent_code,
+          code: city.code,
+        })),
+      });
+      console.log(`Successfully created ${result.count} cities`);
+    } catch (error) {
+      console.log("Error creating cities: ", error);
+    }
+
+    // add all bodyParts to the database
+    try {
+      const result = await prisma.bodyPart.createMany({
+        data: bodyParts.map((bodyPart) => ({
+          label: bodyPart.label,
+          value: bodyPart.label,
+        })),
+      });
+      console.log(`Successfully created ${result.count} bodyParts`);
+    } catch (error) {
+      console.log("Error creating bodyParts: ", error);
+    }
+
+    // add all styles to the database
+    try {
+      const result = await prisma.style.createMany({
+        data: styles.map((style) => ({
+          label: style.label,
+          value: style.label,
+        })),
+      });
+      console.log(`Successfully created ${result.count} styles`);
+    } catch (error) {
+      console.log("Error creating styles: ", error);
+    }
+
+    return;
+  }
+
   const styleIds = await prisma.style
     .findMany()
     .then((styles) => styles.map((style) => style.id));

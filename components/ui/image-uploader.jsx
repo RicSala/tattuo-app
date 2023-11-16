@@ -41,8 +41,8 @@ const ImageUploader = ({
         clientAllowedFormats: ["png", "jpeg"],
         croppingShowDimensions: true,
         croppingValidateDimensions: true,
-        minImageWidth: 600, //TODO: change this to a bigger size
-        minImageHeight: 600,
+        minImageWidth: 400, //TODO: change this to a bigger size
+        minImageHeight: 400,
         maxFiles: maxFiles,
         cropping: true,
         sources: [

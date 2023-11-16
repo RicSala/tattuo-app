@@ -10,7 +10,7 @@ import { range } from "@/lib/utils";
 export const metadata = {
   title: "TATTUO · Descubre Tatuajes de todos los estilos",
   description:
-    "Seleccionamos los mejores tatuadores de tu ciudad para que hagas realidad ese tatuaje qué tanto tiempo llevas buscando",
+    "Seleccionamos los mejores tatuadores de tu ciudad para que hagas realidad ese tatuaje que tanto tiempo llevas buscando",
 };
 
 export default async function TattoosPage({ searchParams }) {

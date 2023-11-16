@@ -45,8 +45,6 @@ export class ArtistService {
       updatedInfo.isComplete = true;
     }
 
-    console.log({ oldProfile });
-
     const updatedProfile = await prisma.artistProfile.update({
       where: {
         id: oldProfile.id,

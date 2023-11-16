@@ -30,7 +30,7 @@ const TattooDetailsPage = async ({ params }) => {
   return (
     <div className="">
       <TattooDetails tattoo={tattoo} currentUser={currentUser} />
-      <h2 className="mt-20">También te pueden gustar...</h2>
+      <h2 className="mb-4 mt-20">También te pueden gustar...</h2>
       {similarTattoos?.length > 0 && (
         <ListingGrid>
           {similarTattoos.map((tattoo) => (

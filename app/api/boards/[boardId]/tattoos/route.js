@@ -37,7 +37,6 @@ export async function POST(req, { params }) {
       );
     }
 
-    // Add the tattoo to the board
     console.log("Board found 🟩. Adding tattoo...");
     const updatedBoard = await BoardService.addTattooById(
       boardId,

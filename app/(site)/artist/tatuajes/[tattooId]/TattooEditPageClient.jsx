@@ -132,12 +132,6 @@ const TattooEditPageClient = ({
               toastTitle: "Error al actualizar el tatuaje",
             }),
           );
-          // console.log("ERROR - TattooEditPageClient", err);
-          // toast({
-          //   title: "Error al crear el tatuaje",
-          //   description: "Por favor, revisa el formulario",
-          //   variant: "destructive",
-          // });
         })
         .finally(() => {
           form.reset(data, {
@@ -156,7 +150,6 @@ const TattooEditPageClient = ({
           description:
             "Tu pieza ya está publicada y lista para que la vean futuros clientes",
         });
-        console.log({ data });
         router.push(`/artist/tatuajes/${res.data.id}`);
         router.refresh();
       })
@@ -169,13 +162,6 @@ const TattooEditPageClient = ({
             toastTitle: "Error al actualizar el tatuaje",
           }),
         );
-        // );
-        // console.log("ERROR - TattooEditPageClient", e);
-        // toast({
-        //   title: "Error al actualizar el tatuaje!",
-        //   description: "Por favor, revisa el formulario",
-        //   variant: "destructive",
-        // });
       })
       .finally(() => {
         form.reset(data, {
@@ -198,7 +184,6 @@ const TattooEditPageClient = ({
   const filteredOptions = async (inputValue) => {
     const res = await apiClient.get(`/tags?s=${inputValue}`);
     const tags = res.data;
-    console.log({ tags });
     return tags;
   };
 

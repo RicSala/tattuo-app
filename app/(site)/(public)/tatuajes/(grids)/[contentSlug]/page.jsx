@@ -44,11 +44,6 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  */
 export default async function TattoosPage({ params, searchParams }) {
   const { contentSlug } = params;
-  console.log(
-    "HERE",
-    generatedContentSlugs.map((item) => item.content),
-  );
-
   const isGeneratedContentSlug = generatedContentSlugs
     .map((item) => item.content)
     .includes(params.contentSlug);

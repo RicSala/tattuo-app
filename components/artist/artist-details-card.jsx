@@ -43,8 +43,6 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
     listingType: "artists",
   });
 
-  console.log({ artist });
-
   return (
     <div className="flex w-96 flex-col gap-2 rounded-lg bg-secondary/50 p-5">
       <div className="flex flex-row justify-between">

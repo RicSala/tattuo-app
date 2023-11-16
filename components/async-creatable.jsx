@@ -70,7 +70,6 @@ export default AsyncCreatable;
 const updateMulti = (value, newOption) => {
   let newValueArray;
   if (value) {
-    console.log({ value });
     newValueArray = [...value, newOption];
   } else newValueArray = [newOption];
   return newValueArray;

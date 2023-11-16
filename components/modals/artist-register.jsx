@@ -134,12 +134,10 @@ export function ArtistRegisterForm({}) {
       label: artist.artisticName,
       ...artist,
     }));
-    console.log({ formattedArtistArray });
     return formattedArtistArray;
   };
 
   const handleCreate = async (inputValue) => {
-    console.log({ inputValue });
     const fakeCreate = {
       value: inputValue,
       label: inputValue,
@@ -149,11 +147,7 @@ export function ArtistRegisterForm({}) {
     return fakeCreate;
   };
 
-  console.log("isLoadin", isLoading);
-  console.log("isSubmitting", form.formState.isSubmitting);
-
   useEffect(() => {
-    console.log("prefetching");
     // Prefetch the profile page
     router.prefetch("/artist/profile");
   }, [router]);
@@ -197,7 +191,6 @@ export function ArtistRegisterForm({}) {
                       {...field}
                       id="artisticName"
                       onChange={(event) => {
-                        // console.log(form.getValues("artisticName").value);
                         field.onChange(event);
                         setStep((prev) => prev + 1);
                       }}
@@ -235,9 +228,7 @@ export function ArtistRegisterForm({}) {
           >
             <FormField
               control={form.control}
-              onChange={() => {
-                console.log("heloo");
-              }}
+              onChange={() => {}}
               name="confirm"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
@@ -257,7 +248,7 @@ export function ArtistRegisterForm({}) {
                     }
                     `}
                     >
-                      Confirmo que este es mi perfil{" "}
+                      Confirmo que este es mi perfil:{" "}
                       {form.getValues("artisticName")?.value ?? ""}
                     </FormLabel>
                     <FormDescription>
@@ -287,7 +278,6 @@ export function ArtistRegisterForm({}) {
                       <Checkbox
                         {...field}
                         onChange={(event) => {
-                          console.log(form.getValues("confirm"));
                           field.onChange(event);
                         }}
                         control={form.control}
@@ -317,7 +307,6 @@ export function ArtistRegisterForm({}) {
                     <Button
                       type="button"
                       onClick={() => {
-                        console.log(form.getValues("confirm"));
                         setStep((prev) => prev + 1);
                       }}
                     >

@@ -7,13 +7,11 @@ import { useHandleError } from "./useHandleError";
 // The global listener in case some error occurs that we have not considered
 export const useGlobalErrorHandling = () => {
   const handle = useHandleError();
-  console.log("GLOBAL ERROR LISTENER RENDERED");
 
   useEffect(() => {
     const handleWindowError = (event) => {
       // alert("error catched in the global listener");
       event.preventDefault();
-      console.log({ event });
       handle(event.error);
     };
     const handleUnhandledRejection = (event) => {

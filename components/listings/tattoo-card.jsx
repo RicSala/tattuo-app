@@ -47,7 +47,6 @@ export default function TattooCard({
   //             "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
   //         });
   //         router.refresh();
-  //         console.log("response", res);
   //         return res.data;
   //       })
   //       .catch((err) => {
@@ -71,7 +70,6 @@ export default function TattooCard({
   //       });
   //     })
   //     .catch((err) => {
-  //       console.log("ERROR - TattooCard", err);
   //       toast({
   //         variant: "destructive",
   //         title: `No ha sido posible añadir el tatuaje a ${board.title}`,

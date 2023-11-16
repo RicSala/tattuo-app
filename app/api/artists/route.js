@@ -2,8 +2,6 @@ import { ArtistService } from "@/services/db/ArtistService";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  console.log("got here!");
-
   const url = new URL(req.nextUrl); // Create a URL object
 
   const searchparamsObj = Object.fromEntries(url.searchParams); // get the search params and convert them to an object

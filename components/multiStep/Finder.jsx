@@ -157,7 +157,6 @@ export default function Finder({ children, setResults, ...props }) {
   } = form;
 
   const onSubmit = (data) => {
-    console.log(data);
     setIsLoading(true);
     toast({
       title: "Enviando información",
@@ -178,7 +177,6 @@ export default function Finder({ children, setResults, ...props }) {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         toast({
           title: "Error",
           description: "Ha habido un error al buscar los artistas",
@@ -187,17 +185,13 @@ export default function Finder({ children, setResults, ...props }) {
         setIsLoading(false);
       })
       .finally(() => {
-        console.log("reseteando formulario");
-
         form.reset(data, {
           keepIsSubmitted: true,
         });
       });
   };
 
-  const onError = (errors, e) => {
-    // console.log(errors, e)
-  };
+  const onError = (errors, e) => {};
 
   return (
     <div className="mx-auto sm:w-full md:w-full lg:w-2/3 xl:w-1/2">

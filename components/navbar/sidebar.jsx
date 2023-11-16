@@ -187,7 +187,6 @@ export default function Sidebar({ currentUser }) {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      console.log("clicked");
                       setArtistRegisterOpen(true);
                     }}
                     className="w-fit"

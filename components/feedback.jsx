@@ -32,9 +32,7 @@ export default function Feedback({}) {
       },
       body: JSON.stringify({ value, message }),
     })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .finally(() => {
         setMessage("");
         setValue("");

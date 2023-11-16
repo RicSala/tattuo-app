@@ -47,7 +47,6 @@ export const useFreeSearchParamsFilter = (debounceTime = 500) => {
 
   useEffect(() => {
     if (debouncedValue || debouncedValue === "") {
-      // console.log("debouncedValue from useffect", debouncedValue)
       onFreeSearchClick();
     }
   }, [debouncedValue, onFreeSearchClick]);

@@ -24,7 +24,7 @@ export default function AppearanceSettings({ currentUser }) {
   const router = useRouter();
   const form = useForm({
     defaultValues: {
-      darkMode: currentUser?.settings?.darkMode || 'false',
+      darkMode: currentUser?.settings?.darkMode || "false",
     },
   });
 
@@ -35,7 +35,6 @@ export default function AppearanceSettings({ currentUser }) {
 
   const onSubmit = (data) => {
     setIsSaving(true);
-    console.log({ data });
     apiClient
       .put("/users", {
         data,
@@ -48,7 +47,6 @@ export default function AppearanceSettings({ currentUser }) {
         });
       })
       .catch((error) => {
-        console.log({ error });
         toast({
           title: "Error al guardar",
           description: error.response.data.error,

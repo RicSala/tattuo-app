@@ -25,7 +25,6 @@ export const UiProvider = ({ children }) => {
   };
 
   const setArtistRegisterOpen = (value) => {
-    console.log("provider", value);
     dispatch({ type: "[UI] - set ArtistRegister open", payload: value });
   };
 

@@ -11,7 +11,6 @@ export function TestComp({ currentUser }) {
       <h2>Global error handling testers</h2>
       <button
         onClick={() => {
-          console.log("throwing error");
           throw new Error("Test Error");
         }}
       >

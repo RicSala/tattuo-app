@@ -29,7 +29,6 @@ export const useHandleError = () => {
   //   setError(error);
 
   const handle = (error) => {
-    console.log("we are goint to handle it...");
     handleFrontendError(error, showToast);
   };
 

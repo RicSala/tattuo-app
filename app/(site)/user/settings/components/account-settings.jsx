@@ -51,7 +51,6 @@ export default function AccountSettings({ currentUser }) {
 
   const onSubmit = (data) => {
     setIsSaving(true);
-    console.log({ data });
     apiClient
       .put("/users", {
         data,
@@ -64,7 +63,6 @@ export default function AccountSettings({ currentUser }) {
         });
       })
       .catch((error) => {
-        console.log({ error });
         toast({
           title: "Error al guardar",
           description: error.response.data.error,

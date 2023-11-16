@@ -40,7 +40,6 @@ const footterMenu = [
         label: `Tatuajes de ${item.content}`,
         url: `/tatuajes/${item.content}`,
       }));
-      console.log({ object });
       return object;
     })(),
   },

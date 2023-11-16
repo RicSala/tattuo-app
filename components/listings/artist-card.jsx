@@ -15,14 +15,12 @@ const ArtistCard = ({
   imagePriority = false,
 }) => {
   const router = useRouter();
-  console.log({ data });
 
   return (
     <div
       onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
       onMouseEnter={() => {
         router.prefetch(`/tatuadores/profile/654e02287ffff1cdf25b7d92`);
-        console.log("prefetched");
       }}
       className={cn(
         `group isolate flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border shadow-sm

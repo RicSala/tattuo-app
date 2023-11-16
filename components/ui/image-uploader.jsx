@@ -29,7 +29,6 @@ const ImageUploader = ({
           field.onChange(result.info.secure_url);
           // trigger(name)
         }
-        console.log("result", result);
         afterChange();
       }}
       uploadPreset="lbgb29le"
@@ -66,7 +65,7 @@ const ImageUploader = ({
             crop: {
               title: "Recorta tu imagen",
               crop_btn: "Recortar",
-              skip_btn: "Saltar",
+              skip_btn: "Saltar y Guardar",
               close_prompt: "Cerrar cancelará la subida, ¿Estás segur@?",
               corner_tooltip: "Arrastra la esquina para cambiar el recorte",
               handle_tooltip: "Arrastra el handle para cambiar el recorte",
@@ -163,8 +162,6 @@ const ImageThumbnail = forwardRef(
         </div>
         <div
           onClick={async () => {
-            console.log("deleting image");
-            console.log(placeholderUrl);
             onChange(null);
             // setValue(fieldName, null, {
             //     shouldValidate: true,

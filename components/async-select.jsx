@@ -9,7 +9,6 @@ const getOptions = async (inputValue, resources) => {
     const res = await apiClient.get(`/${resources}?s=${inputValue}`);
     return res.data;
   } catch (error) {
-    console.log(error);
     return [];
   }
 };

@@ -57,11 +57,7 @@ export function InfiniteScroll({
     ),
   };
 
-  console.log({ formattedInitialData });
-  console.log("FROM INFINITE", { initialData });
-
   const fetchData = async (page = 1) => {
-    console.log("FROM FETCH", page);
     const response = await apiClient
       .get(
         `${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${
@@ -71,7 +67,6 @@ export function InfiniteScroll({
       )
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
         throw err;
       });
     return response;
@@ -102,8 +97,6 @@ export function InfiniteScroll({
     // stablish the next page param (in our case, the next page number)
     // if it returns false, hasNextPage will be false and we can stop fetching
     getNextPageParam: (lastPage, allPages) => {
-      console.log("all pages!!!!", allPages);
-      console.log("last page!!!!", lastPage);
       if (lastPage?.pagination.hasMorePages === false) return false;
       return lastPage?.pagination.nextPage; // this will be the next page number in the previous function (the queryFn)
     },
@@ -122,16 +115,10 @@ export function InfiniteScroll({
   }, [entry, fetchNextPage, hasNextPage]);
 
   if (error) {
-    console.log("ERROR - INFINITE SCROLL", error);
-
     return <div>Something went wrong</div>;
   }
 
-  console.log("pre flatmap", data);
   const allElements = data?.pages.flatMap((page) => page.data); // get all the elements from all the pages
-
-  console.log("data here", data);
-  console.log({ allElements });
 
   return (
     <>
@@ -143,7 +130,6 @@ export function InfiniteScroll({
         childProps.imagePriority = true;
 
         {
-          /* console.log({ childProps }); */
         }
 
         return (

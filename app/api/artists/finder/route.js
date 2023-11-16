@@ -20,8 +20,6 @@ export async function POST(request, { params }) {
 const getMatches = async (currentUser, body) => {
   const { styles, address } = body;
 
-  console.log({ address });
-
   try {
     const city = await CityService.getByLabel(address.label);
 
@@ -41,7 +39,6 @@ const getMatches = async (currentUser, body) => {
       take: 5,
     });
 
-    console.log("Matched Artists:", matchedArtists);
     return matchedArtists;
   } catch (error) {
     console.error("Error querying artists:", error);

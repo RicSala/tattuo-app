@@ -11,7 +11,6 @@ export async function POST(req) {
     // check if the a board with the same title and the same user already exists
     const board = await BoardService.getByTitleAndUserId(body.title, user.id);
     if (board) {
-      console.log("Board Already exist");
       return NextResponse.json(
         { error: "Board already exists" },
         { status: 400 },
@@ -25,7 +24,6 @@ export async function POST(req) {
       userId: user.id,
     });
     console.log("Board created 🟩");
-    console.log({ newBoard });
 
     return NextResponse.json(newBoard);
   } catch (error) {

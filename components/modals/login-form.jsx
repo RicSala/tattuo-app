@@ -58,7 +58,6 @@ export function LoginForm({}) {
       redirect: false,
     })
       .then((response) => {
-        console.log({ response });
         if (response.error) {
           toast({
             title: `Error al entrar`,
@@ -78,7 +77,6 @@ export function LoginForm({}) {
         }
       })
       .catch((error) => {
-        console.log({ error });
         toast({
           title: `Error al entrar`,
           description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",
@@ -231,8 +229,6 @@ export function RegisterForm({}) {
           description: "Por favor, inténtalo de nuevo",
           variant: "customDestructive",
         });
-        console.log("ERROR:", err.response?.data.error);
-        console.log("ERROR:", err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -416,6 +412,20 @@ export function LoginModal({}) {
                 }}
               >
                 ¡Entra!
+              </Button>
+            </p>
+
+            <p className="text-sm text-primary/50">
+              ¿Eres Tatuador(a)?{" "}
+              <Button
+                variant="ghost"
+                className="inline-block"
+                onClick={() => {
+                  setLoginModalOpen(false);
+                  setArtistRegisterOpen(true);
+                }}
+              >
+                ¡Publica tu trabajo!
               </Button>
             </p>
           </div>

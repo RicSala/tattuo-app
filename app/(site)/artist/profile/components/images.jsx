@@ -16,7 +16,6 @@ const Images = ({ form }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("prefecth add tattoos page");
     router.prefetch("/artist/tatuajes");
   }, [router]);
 

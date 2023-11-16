@@ -83,7 +83,6 @@ const CustomSelect = forwardRef(
           options={options}
           value={value}
           onChange={(e) => {
-            console.log({ e });
             onChange(e);
             afterChange();
           }}

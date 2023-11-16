@@ -21,8 +21,6 @@ function NavBar({ currentUser }) {
   const userTheme = currentUser?.settings?.darkMode || "light";
   const { setArtistRegisterOpen } = useContext(UiContext);
 
-  console.log({ currentUser });
-
   const [topbarShown, setTopbarShown] = useState(true);
 
   const getAvatarFallbackText = (user) => {

@@ -42,7 +42,6 @@ export function BoardAdder({
         });
       })
       .catch((err) => {
-        console.log("ERROR - TattooCard", err);
         toast({
           variant: "customDestructive",
           title: `No ha sido posible añadir el tatuaje a ${board.title}`,
@@ -69,7 +68,6 @@ export function BoardAdder({
           });
           router.refresh();
           onBoardSelect(tattoo, res.data);
-          console.log("response", res);
           return res.data;
         })
         .catch((err) => {
@@ -87,9 +85,7 @@ export function BoardAdder({
   return (
     <Popover
       // open={isOpen}
-      onMouseLeave={() => {
-        console.log("leave");
-      }}
+      onMouseLeave={() => {}}
     >
       <PopoverTrigger asChild>
         <Button

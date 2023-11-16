@@ -42,7 +42,7 @@ export const config = {
   email: {
     subdomain: "",
 
-    fromNoReply: "Tattuo <noreply@ricardosala.com>",
+    fromNoReply: "Tattuo <noreply@mg.tattuo.com>",
 
     fromAdmin: "Ricardo at Tattuo <ricardo@mg.tattuo.com>",
 

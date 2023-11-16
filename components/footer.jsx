@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { Separator } from "./ui/separator";
 import { InstagramIcon } from "lucide-react";
+import { generatedContentSlugs } from "@/config/constants";
 
 const footterMenu = [
   {
@@ -34,13 +35,14 @@ const footterMenu = [
   },
   {
     title: "Principales temáticas",
-    items: [
-      { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposa" },
-      { label: "Tatuajes de Tribales", url: "/tatuajes/tribal" },
-      { label: "Tatuajes de Estrellas", url: "/tatuajes/estrella" },
-      { label: "Tatuajes de Goku", url: "/tatuajes/goku" },
-      { label: "Tatuajes de Árbol", url: "/tatuajes/arbol" },
-    ],
+    items: (() => {
+      const object = generatedContentSlugs.map((item) => ({
+        label: `Tatuajes de ${item.content}`,
+        url: `/tatuajes/${item.content}`,
+      }));
+      console.log({ object });
+      return object;
+    })(),
   },
 ];
 

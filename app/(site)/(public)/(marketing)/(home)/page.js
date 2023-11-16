@@ -14,6 +14,7 @@ import Testimonials1 from "@/components/landing/testimonials";
 import ModalClient from "@/components/modals/modal-client";
 import Container from "@/components/ui/container";
 import { TestComp } from "@/components/utils/test-comp";
+import Hero2 from "@/components/landing/hero2";
 
 /**
  * @type {{title: string, description: string, imageUrl: string}[]}
@@ -51,7 +52,7 @@ const faqs = [
   {
     question: "¿Cuánto cuesta?",
     answer:
-      "Nada. Nothing. Nein. Niente. TATTUO es gratis para todos los usuarios. Busca tus tatuadorxs por estilo, ciudad o descúbrelos por sus tatuajes y escríbeles directamente a sus redes sociales",
+      "TATTUO es gratis para todos los usuarios. Busca tus tatuadorxs por estilo, ciudad o descúbrelos por sus tatuajes y escríbeles directamente a sus redes sociales",
   },
   {
     question: "¿Qué precio tiene un tatuaje?",
@@ -100,15 +101,16 @@ export default async function Home({ searchParams }) {
       {/* There are probably better ways to do this, but I don't know how. Basically I need access to the context to be able to open the modal, and the only way I see to do it is "embedding" a client component somewhere in the page */}
 
       <ModalClient />
+      <Hero2 currentUser={currentUser} />
 
-      <HeroSection
+      {/* <HeroSection
         title={"Descubre tatuajes y tatuadores cerca de ti"}
         subtitle={
           "TATTUO selecciona los mejores tatuadores en tu ciudad y te pone en contacto con ellos"
         }
         cta={"Empezar"}
         currentUser={currentUser}
-      />
+      /> */}
       {/* <ReviewsSection reviews={reviews} /> */}
       <FaqSection faqs={faqs} title="Preguntas frecuentes" />
       <Steps />
@@ -120,7 +122,7 @@ export default async function Home({ searchParams }) {
 
       <BenefitsSection title={"Por qué elegir TATTUO?"} benefits={benefits} />
 
-      {/* <TestComp /> */}
+      {/* <TestComp currentUser={currentUser} /> */}
       {/* <ReviewsSection reviews={reviews} /> */}
     </div>
   );

@@ -32,7 +32,7 @@ export async function POST(req, { params }) {
     if (tattooAlreadyInBoard) {
       console.log("Tattoo already in board");
       return NextResponse.json(
-        { error: "El tatuaje ya está en el tablero" },
+        { error: "El tatuaje ya estaba en el tablero" },
         { status: 400 },
       );
     }

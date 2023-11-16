@@ -9,15 +9,8 @@ import { capitalizeFirst } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { TattoosGridHeader } from "../../components/tattoos-grid-header";
 import { TattooService } from "@/services/db/TattooService";
+import { generatedContentSlugs } from "@/config/constants";
 export const dynamic = "force-dynamic";
-
-export const generatedContentSlugs = [
-  "mariposa",
-  "tribal",
-  "estrella",
-  "goku",
-  "arbol",
-];
 
 export const generateMetadata = async ({ params }) => {
   const { contentSlug } = params;
@@ -51,10 +44,14 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  */
 export default async function TattoosPage({ params, searchParams }) {
   const { contentSlug } = params;
-
-  const isGeneratedContentSlug = generatedContentSlugs.includes(
-    params.contentSlug,
+  console.log(
+    "HERE",
+    generatedContentSlugs.map((item) => item.content),
   );
+
+  const isGeneratedContentSlug = generatedContentSlugs
+    .map((item) => item.content)
+    .includes(params.contentSlug);
 
   if (!isGeneratedContentSlug) {
     notFound();

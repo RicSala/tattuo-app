@@ -120,7 +120,8 @@ export function ArtistRegisterForm({}) {
         });
       })
       .finally(() => {
-        setIsLoading(false);
+        // TODO: it was finishing before the redirect!
+        // setIsLoading(false);
       });
   };
 
@@ -247,7 +248,15 @@ export function ArtistRegisterForm({}) {
                     />
                   </FormControl>
                   <div className="flex flex-col gap-2">
-                    <FormLabel>
+                    <FormLabel
+                      className={`
+                    ${
+                      form.getValues("confirm")
+                        ? "text-green-600"
+                        : "text-destructive"
+                    }
+                    `}
+                    >
                       Confirmo que este es mi perfil{" "}
                       {form.getValues("artisticName")?.value ?? ""}
                     </FormLabel>

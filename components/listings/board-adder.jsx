@@ -55,7 +55,7 @@ export function BoardAdder({
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [router, toast],
+    [onBoardSelect, router, tattoo, toast],
   );
 
   const onBoardSelect = useCallback((tattoo, board) => {

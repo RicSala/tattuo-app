@@ -56,8 +56,7 @@ export default async function CityPage({ params, searchParams }) {
   }
 
   return (
-    <Container>
-      <ArtistGridHeader filtro1={filtro1} />
+    <>
       <ListingGrid>
         {artists.map((artist) => {
           return (
@@ -72,8 +71,12 @@ export default async function CityPage({ params, searchParams }) {
 
       <div className="mt-10 flex flex-col gap-3">
         <h2>Encuentra tatuador en {cityName}</h2>
-        {generatedCities.find((item) => item.city === cityName).text}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: generatedCities.find((item) => item.city === cityName).text,
+          }}
+        ></div>
       </div>
-    </Container>
+    </>
   );
 }

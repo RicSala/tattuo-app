@@ -22,7 +22,7 @@ const AsyncCreatable = forwardRef(
     },
     ref,
   ) => {
-    const formatCreateLabel = (inputValue) => `Crear "${inputValue}"`;
+    const formatCreateLabel = (inputValue) => `Crear perfil de "${inputValue}"`;
 
     return (
       // TODO: Create está en inglés

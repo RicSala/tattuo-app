@@ -68,7 +68,9 @@ const ArtistCard = ({
       <div className="flex flex-row items-center justify-between gap-6 px-5 py-3">
         {/* <Avatar user={data} /> */}
         <p className="truncate">{data.artisticName}</p>
-        <Badge className={"bg-primary/60"}>Verificado</Badge>
+        {data.userId ? (
+          <Badge className={"bg-primary/60"}>Verificado</Badge>
+        ) : null}
       </div>
       {/* <div className="px-5 py-3">
                 €€€

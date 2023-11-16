@@ -6,7 +6,7 @@ export async function POST(request) {
 
   await sendEmail(
     "ricardo@grouz.io",
-    "New Feedback received",
+    "Nuevo Feedback Recibido",
     `Rating: ${body.value}<br>Message: ${body.message}<br>`,
     `<strong>Rating</strong>: ${body.value}<br><strong>Message</strong>: ${body.message}<br>`,
     "ricardo@ricardo.com",

@@ -34,6 +34,13 @@ export default withAuth(
       console.log("BLOCKED in 2nd filter");
       return NextResponse.rewrite(new URL("/denied", request.url));
     }
+    if (
+      request.nextUrl.pathname.includes("/superadmin") &&
+      request.nextauth.token?.role !== "ADMIN" // TODO: this is not blocking unlogged artists! why???
+    ) {
+      console.log("BLOCKED BY SUPERADMIN FILTER");
+      return NextResponse.rewrite(new URL("/denied", request.url));
+    }
   },
   {
     callbacks: {
@@ -54,6 +61,7 @@ export const config = {
     "/user/settings",
     "/admin/:path*",
     "/artist/:path*",
+    "/superadmin/:path*",
   ],
 };
 

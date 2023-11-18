@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/Z_OLD
+/app/scr/
+# files that are in the root folder and start with my_
+/my_*

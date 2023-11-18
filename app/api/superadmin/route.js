@@ -1,8 +1,4 @@
-import {
-  scrapeCheerios,
-  getArtistBasicInfo,
-  getData,
-} from "@/app/(site)/scr/scraper";
+import { getData } from "@/app/scr/scraper";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {

@@ -38,7 +38,7 @@ export class BoardService {
   }
 
   static async deleteTattooById(boardId, tattooId) {
-    prisma.boardTattoo.delete({
+    const deletedTattoo = prisma.boardTattoo.delete({
       where: {
         boardId_tattooId: {
           boardId,
@@ -46,6 +46,8 @@ export class BoardService {
         },
       },
     });
+
+    return deletedTattoo;
   }
 
   static async getByTitleAndUserId(title, userId) {

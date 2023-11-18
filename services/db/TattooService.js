@@ -28,6 +28,7 @@ export class TattooService {
 
   static async getPaginated(searchParams, skip = 0, take = undefined) {
     const query = this.#buildQuery(searchParams);
+    console.log({ query });
     const tattoos = await prisma.tattoo.findMany({
       where: query,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
@@ -53,7 +54,7 @@ export class TattooService {
       include: {
         artistProfile: includeArtistProfile,
         likes: includeLikes,
-        style: includeStyle,
+        styles: includeStyle,
         tags: {
           include: {
             tag: includeTags,
@@ -156,6 +157,7 @@ export class TattooService {
       (taggedTattoo) => !updatedTagIds.includes(taggedTattoo.tag.id),
     );
 
+    console.log("here:", tagsToAdd, tagsToRemove);
     // Build the Prisma update query
     const updateQuery = {
       where: {
@@ -167,8 +169,13 @@ export class TattooService {
         imageSrc: updatedData.imageSrc,
         category: updatedData.category,
         location: updatedData.location,
-        style: {
-          connect: { id: updatedData.style.id },
+        // updatedData.styles is now an array! So this is not correct anymore
+        // style: {
+        //   connect: { id: updatedData.style.id },
+        // },
+        // Instead, we need to do:
+        styles: {
+          connect: updatedData.styles.map((style) => ({ id: style.id })),
         },
         bodyPart: {
           connect: { id: updatedData.bodyPart.id },
@@ -222,7 +229,7 @@ export class TattooService {
   }
 
   static #buildQuery(searchParams) {
-    const { userId, style, bodyPart, freeSearch, contentSlug } = searchParams;
+    const { userId, styles, bodyPart, freeSearch, contentSlug } = searchParams;
 
     // ### SEARCH FUNCTIONALITY ###
     // // we are building the query object for prisma
@@ -230,12 +237,14 @@ export class TattooService {
 
     // // conditionally add properties to the query object...
 
-    const stylesArray = style?.split(",").map((style) => style.trim());
+    const stylesArray = styles?.split(",").map((style) => style.trim());
 
     if (stylesArray && stylesArray.length > 0) {
-      query.style = {
-        label: {
-          in: stylesArray,
+      query.styles = {
+        some: {
+          label: {
+            in: stylesArray,
+          },
         },
       };
     }

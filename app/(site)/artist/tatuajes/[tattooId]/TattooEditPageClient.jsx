@@ -54,11 +54,20 @@ const formSchema = z.object({
     .refine((value) => value !== null, {
       message: "Sube una imagen de la pieza",
     }),
-  style: z.object({
-    id: z.string(),
-    label: z.string(),
-    value: z.string(),
-  }),
+  // style:
+  //  z.object({
+  //   id: z.string(),
+  //   label: z.string(),
+  //   value: z.string(),
+  // }),
+
+  styles: z.array(
+    z.object({
+      id: z.string(),
+      label: z.string(),
+      value: z.string(),
+    }),
+  ),
 
   tattooId: z.string().min(2, {
     message: "Debes ingresar un id de tatuaje",
@@ -94,7 +103,8 @@ const TattooEditPageClient = ({
       title: tattoo.title || "",
       description: tattoo.description || "",
       imageSrc: tattoo.imageSrc || "",
-      style: tattoo.style || "",
+      // style: tattoo.style || "",
+      styles: tattoo.styles || [],
       tattooId: tattoo.id || "new",
       bodyPart: tattoo.bodyPart || undefined,
       tags: tattoo.tags?.map((tag) => tag.tag) || undefined,
@@ -322,7 +332,34 @@ const TattooEditPageClient = ({
                 </FormItem>
               )}
             />
+
             <FormField
+              control={form.control}
+              name="styles"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="after:content-['*']">Estilos</FormLabel>
+                  <FormControl>
+                    <CustomSelect
+                      options={styles}
+                      isMulti={true}
+                      {...field}
+                      afterChange={() => {
+                        form.trigger("styles");
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Puedes elegir hasta tres estilos. Seguro que controlas
+                    muchos más, pero los clientes quieren saber lo que mejor se
+                    te da!
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* <FormField
               control={form.control}
               name="style"
               render={({ field }) => (
@@ -337,7 +374,7 @@ const TattooEditPageClient = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="mt-5 flex flex-row justify-between">
               <Button
                 variant="outline"

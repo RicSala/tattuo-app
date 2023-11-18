@@ -126,8 +126,10 @@ model Tattoo {
   likes LikedTattoo[]
   tags  TaggedTattoo[]
 
-  styleId String? @db.ObjectId
-  style   Style?  @relation(fields: [styleId], references: [id])
+  stylesIds String[] @db.ObjectId
+  styles    Style[]  @relation(fields: [stylesIds], references: [id])
+  // styleId String? @db.ObjectId
+  // style   Style?  @relation(fields: [styleId], references: [id])
 
   bodyPartId String?   @db.ObjectId
   bodyPart   BodyPart? @relation(fields: [bodyPartId], references: [id])
@@ -248,7 +250,9 @@ model Style {
   label String @unique
   value String
 
-  tattoos          Tattoo[]
+  tattooIds String[] @db.ObjectId
+  tattoos   Tattoo[] @relation(fields: [tattooIds], references: [id])
+
   artistProfileIds String[]        @db.ObjectId
   artistProfiles   ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
 }

@@ -35,6 +35,7 @@ const FreeSearch = forwardRef(({}, ref) => {
         placeholder="Búsqueda libre"
         value={freeSearch}
         onChange={(e) => {
+          console.log("search: ", e.target.value);
           setFreeSearch(e.target.value);
         }}
         onKeyDown={(e) => {

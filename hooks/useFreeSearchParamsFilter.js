@@ -38,9 +38,6 @@ export const useFreeSearchParamsFilter = (debounceTime = 500) => {
     );
 
     router.push(url);
-
-    //TODO: not sure this is correct, but we obviously need to modify searchParams without causing more rerenders...
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue, pathname, router, searchParams]);
 
   // debounced search on typping

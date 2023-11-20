@@ -29,12 +29,14 @@ export class TattooService {
   static async getPaginated(searchParams, skip = 0, take = undefined) {
     const query = this.#buildQuery(searchParams);
     console.log({ query });
+    console.log(query?.styles?.some);
     const tattoos = await prisma.tattoo.findMany({
       where: query,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       skip,
       take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
     });
+    console.log({ tattoos });
     return tattoos;
   }
 

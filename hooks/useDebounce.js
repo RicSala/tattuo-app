@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 
+export function useDebounce(value, delay = 500, text = "filter") {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
+  useEffect(() => {
+    console.log("debouncing");
+    console.log({ value });
 
-export function useDebounce(value, delay, text = "filter") {
+    const handler = setTimeout(() => {
+      console.log("setting after", delay, "seconds debounced");
+      console.log("Value is: ", value);
+      setDebouncedValue(value);
+    }, delay);
 
-    const [debouncedValue, setDebouncedValue] = useState(value);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
 
-    useEffect(() => {
-
-        const handler =
-            setTimeout(() => {
-                setDebouncedValue(value)
-            }
-                , delay)
-
-        return () => {
-            clearTimeout(handler)
-        }
-    }, [value, delay]);
-
-    return debouncedValue
-
+  return debouncedValue;
 }

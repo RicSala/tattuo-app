@@ -56,8 +56,6 @@ export function TattooDetails({ tattoo, currentUser, className }) {
           <div className="px-4 pt-4">
             <h3>Estilo</h3>
             <div className="flex gap-2">
-              {JSON.stringify(tattoo?.styles)}
-
               {tattoo?.styles
                 ? tattoo.styles.map((style) => (
                     <Badge key={style.id} variant={"secondary"}>

@@ -1,3 +1,4 @@
+import { mapLabelsToIds } from "@/lib/getStyleList";
 import prisma from "@/lib/prismadb";
 
 export class TattooService {
@@ -29,14 +30,13 @@ export class TattooService {
   static async getPaginated(searchParams, skip = 0, take = undefined) {
     const query = this.#buildQuery(searchParams);
     console.log({ query });
-    console.log(query?.styles?.some);
+    console.log("Looking for tattoos...");
     const tattoos = await prisma.tattoo.findMany({
       where: query,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-      skip,
+      skip: skip,
       take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
     });
-    console.log({ tattoos });
     return tattoos;
   }
 
@@ -230,24 +230,33 @@ export class TattooService {
     return;
   }
 
+  // Given a tattoo, it updates its "textIndex" property to combine the title, descripction and tags
+  static updateSearchTextIndex(tattoo) {
+    const tags = tattoo.tags.map((taggedTattoo) => taggedTattoo.tag.label);
+    // ${tattoo.title}
+    const textIndex = `
+    ${tattoo.description} ${tags.join(" ")} ${tattoo.id}`;
+    return textIndex;
+  }
+
   static #buildQuery(searchParams) {
     const { userId, styles, bodyPart, freeSearch, contentSlug } = searchParams;
 
     // ### SEARCH FUNCTIONALITY ###
     // // we are building the query object for prisma
+
+    //TODO: check this out!
+    /**
+     * @type {import('.prisma/client').Prisma.TattooWhereInput}
+     */
     let query = {};
 
     // // conditionally add properties to the query object...
-
     const stylesArray = styles?.split(",").map((style) => style.trim());
-
     if (stylesArray && stylesArray.length > 0) {
-      query.styles = {
-        some: {
-          label: {
-            in: stylesArray,
-          },
-        },
+      const styleIds = mapLabelsToIds(stylesArray);
+      query.stylesIds = {
+        hasSome: styleIds,
       };
     }
 
@@ -266,34 +275,9 @@ export class TattooService {
 
     // create a query that returns the tattoos that match the search in the title or description
     if (freeSearch) {
-      query = {
-        ...query,
-        OR: [
-          {
-            title: {
-              contains: freeSearch,
-              mode: "insensitive",
-            },
-          },
-          {
-            description: {
-              contains: freeSearch,
-              mode: "insensitive",
-            },
-          },
-          {
-            tags: {
-              some: {
-                tag: {
-                  label: {
-                    contains: freeSearch,
-                    mode: "insensitive",
-                  },
-                },
-              },
-            },
-          },
-        ],
+      query.searchText = {
+        contains: freeSearch,
+        mode: "insensitive",
       };
     }
 
@@ -316,6 +300,8 @@ export class TattooService {
         ],
       };
     }
+
+    // console.log(JSON.stringify(query));
 
     return query;
   }

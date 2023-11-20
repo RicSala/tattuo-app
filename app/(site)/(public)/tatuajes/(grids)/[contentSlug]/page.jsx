@@ -47,7 +47,6 @@ export default async function TattoosPage({ params, searchParams }) {
   const isGeneratedContentSlug = generatedContentSlugs
     .map((item) => item.content)
     .includes(params.contentSlug);
-
   if (!isGeneratedContentSlug) {
     notFound();
   }
@@ -55,10 +54,12 @@ export default async function TattoosPage({ params, searchParams }) {
   const serverLoadedTattoos = await TattooService.getPaginated(
     {
       ...searchParams,
-      contentSlug,
+      // TODO: How do we solve this so the content slug works better? Should probably return the same as a free
+      freeSearch: contentSlug.slice(0, -1),
     },
     0,
-    initialDataSize,
+    // TODO: ojo!
+    undefined,
   );
 
   const currentUser = await getCurrentUser();

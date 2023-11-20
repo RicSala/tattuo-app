@@ -34,8 +34,8 @@ export class TattooService {
     const tattoos = await prisma.tattoo.findMany({
       where: query,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-      skip: skip,
-      take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
+      skip,
+      take, // fetch 'take + 1' items, so we know if there are more items to fetch
     });
     return tattoos;
   }
@@ -115,20 +115,22 @@ export class TattooService {
     imageSrc,
     category,
     location,
-    style,
+    styles,
     bodyPart,
     artistProfile,
     tags,
   }) {
-    const listing = await prisma.tattoo.create({
+    console.log({ styles });
+
+    let listing = await prisma.tattoo.create({
       data: {
         title,
         description,
         imageSrc,
         category,
         location,
-        style: {
-          connect: { id: style.id },
+        styles: {
+          connect: styles.map((style) => ({ id: style.id })),
         },
         bodyPart: {
           connect: { id: bodyPart.id },
@@ -141,6 +143,7 @@ export class TattooService {
             tag: { connect: { id: tag.id } },
           })),
         },
+        searchText: this.#updateSearchTextIndex(title, description, tags),
       },
     });
 
@@ -151,6 +154,8 @@ export class TattooService {
     const currentTagIds = oldData.tags.map((t) => t.tag.id);
     const updatedTagIds = updatedData.tags.map((t) => t.id);
 
+    console.log({ oldData }, { updatedData });
+
     // Identify tags to be added and removed
     const tagsToAdd = updatedData.tags.filter(
       (tag) => !currentTagIds.includes(tag.id),
@@ -159,7 +164,12 @@ export class TattooService {
       (taggedTattoo) => !updatedTagIds.includes(taggedTattoo.tag.id),
     );
 
-    console.log("here:", tagsToAdd, tagsToRemove);
+    const updatedSearchText = this.#updateSearchTextIndex(
+      updatedData.title,
+      updatedData.description,
+      updatedData.tags,
+    );
+
     // Build the Prisma update query
     const updateQuery = {
       where: {
@@ -171,6 +181,7 @@ export class TattooService {
         imageSrc: updatedData.imageSrc,
         category: updatedData.category,
         location: updatedData.location,
+        searchText: updatedSearchText,
         // updatedData.styles is now an array! So this is not correct anymore
         // style: {
         //   connect: { id: updatedData.style.id },
@@ -213,11 +224,14 @@ export class TattooService {
         }),
       ),
     ];
-
     // Execute the transaction
-    const transactionResult = await prisma.$transaction(operations);
-
-    return transactionResult[0];
+    try {
+      const transactionResult = await prisma.$transaction(operations);
+      return transactionResult[0];
+    } catch (error) {
+      console.log("ERROR - update() - ", error);
+      return null;
+    }
   }
 
   //
@@ -231,11 +245,10 @@ export class TattooService {
   }
 
   // Given a tattoo, it updates its "textIndex" property to combine the title, descripction and tags
-  static updateSearchTextIndex(tattoo) {
-    const tags = tattoo.tags.map((taggedTattoo) => taggedTattoo.tag.label);
-    // ${tattoo.title}
-    const textIndex = `
-    ${tattoo.description} ${tags.join(" ")} ${tattoo.id}`;
+  static #updateSearchTextIndex(title, description, tags) {
+    const tagLabels = tags.map((tag) => tag.label);
+
+    const textIndex = `${title} ${description} ${tagLabels.join(" ")}`;
     return textIndex;
   }
 

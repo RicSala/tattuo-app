@@ -86,7 +86,7 @@ export async function POST(request) {
   const body = await request.json();
 
   // non used property will be ignored
-  const listing = TattooService.create({
+  const listing = await TattooService.create({
     ...body,
     artistProfile,
   });

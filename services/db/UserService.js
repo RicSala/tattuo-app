@@ -1,6 +1,15 @@
 import prisma from "@/lib/prismadb";
 
 export class UserService {
+  static async settingsUpdate(userId, data) {
+    prisma.settings.update({
+      where: {
+        userId: userId,
+      },
+      data,
+    });
+  }
+
   static async saveTattoo(userId, tattooId) {
     const savedTattoo = await prisma.savedTattoo.create({
       data: {
@@ -188,6 +197,43 @@ export class UserService {
     });
 
     return boards;
+  }
+
+  static async getUserByEmail(email) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    return user;
+  }
+
+  static async register(name, email, hashedPassword, role = "CLIENT") {
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name,
+        hashedPassword,
+        confirmPassword: "", //TODO: not sure if we should store this
+        role,
+        settings: {
+          create: {},
+        },
+      },
+    });
+
+    return user;
+  }
+
+  static async getUserById(userId) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
   }
 
   //

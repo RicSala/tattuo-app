@@ -91,7 +91,7 @@ export const formSchema = z.object({
 
   website: z.union([
     z.string().url({
-      message: "Tu web debe ser una url válida",
+      message: "Tu web debe ser una url válida (con https:// delante)",
     }),
     z.literal(""),
   ]),
@@ -140,10 +140,19 @@ export function useArtistForm(artist) {
       phone: artist.phone || "",
       pricePerHour: artist.pricePerHour || "",
       pricePerSession: artist.pricePerSession || "",
-      facebook: artist.socials[0]?.profile || "",
-      instagram: artist.socials[1]?.profile || "",
-      tiktok: artist.socials[2]?.profile || "",
-      twitter: artist.socials[3]?.profile || "",
+      // being artist.socials an array of this type: [{"network":"instagram","profile":"https://www.instagram.com/blackandkolortattoo/"}] get the element of the array with network = facebook
+      facebook:
+        artist.socials.filter((social) => social.network === "facebook")[0]
+          ?.profile || "",
+      instagram:
+        artist.socials.filter((social) => social.network === "instagram")[0]
+          ?.profile || "",
+      tiktok:
+        artist.socials.filter((social) => social.network === "tiktok")[0]
+          ?.profile || "",
+      twitter:
+        artist.socials.filter((social) => social.network === "twitter")[0]
+          ?.profile || "",
       website: artist.website || "",
       youtube: artist.youtube || "",
     },

@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
+import { UserService } from "@/services/db/UserService";
+import { ArtistService } from "@/services/db/ArtistService";
 
 export async function POST(req) {
   console.log("got to post endpont");
@@ -35,58 +37,32 @@ export async function POST(req) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        name,
-        hashedPassword,
-        confirmPassword: "", //TODO: not sure if we should store this
-        role,
-      },
-    });
+    // TODO: this (creating the user and later connecting the artist) is gonna creat a problem if he's artist and later can claim his profile (because the user will already be taken!)
+    const user = await UserService.register(name, email, hashedPassword, role);
 
-    // create the settings for the user
+    if (role === "CLIENT") return NextResponse.json({ user }, { status: 201 });
+    if (role === "ADMIN") return NextResponse.json({ user }, { status: 201 });
 
-    await prisma.settings.create({
-      data: {
-        user: { connect: { id: user.id } },
-      },
-    });
+    // Search if the artist profile with that name already exist
+    const artistProfile = await ArtistService.getByArtisticName(artisticName);
 
-    if (role === "ARTIST") {
-      // Search if the artist profile with that name already exist
-      const artistProfile = await prisma.artistProfile.findFirst({
-        where: {
-          artisticName,
-        },
-      });
+    console.log("ARTIST PROFILE", artistProfile);
 
-      if (artistProfile?.userId)
-        return NextResponse.json(
-          { error: "El nombre artístico ya está en uso" },
-          { status: 400 },
-        );
-
-      // if it exist, connect the artist profile to the user, else create the artist profile with that artisticName
-      if (artistProfile) {
-        await prisma.artistProfile.update({
-          where: {
-            artisticName,
-          },
-          data: {
-            user: { connect: { id: user.id } },
-          },
-        });
-      } else {
-        await prisma.artistProfile.create({
-          data: {
-            user: { connect: { id: user.id } },
-            artisticName,
-          },
-        });
-      }
+    if (artistProfile?.userId) {
+      return NextResponse.json(
+        { error: "El nombre artístico ya está en uso" },
+        { status: 400 },
+      );
     }
 
+    // if it exist, connect the artist profile to the user, else create the artist profile with that artisticName
+    if (!!artistProfile) {
+      console.log("connected");
+      ArtistService.connectWithUserId(artistProfile.id, user.id);
+    } else {
+      console.log("CREATED!!!!!");
+      ArtistService.createWithUserId(artisticName, user.id);
+    }
     console.log("USER!!!!", { user });
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
@@ -120,22 +96,7 @@ export async function PUT(req) {
     let data = {};
 
     console.log({ darkMode });
-
-    // if (theme !== undefined) {
-    //     data.darkMode = theme;
-    // }
-
-    // if (password !== confirmPassword) {
-    //     return NextResponse.json({ error: 'Las contraseñas no coinciden' }, { status: 400 })
-    // }
-
-    // update the current user settings with the new value of theme
-    const settings = await prisma.settings.update({
-      where: {
-        userId: currentUser.id,
-      },
-      data,
-    });
+    const settings = UserService.settingsUpdate(currentUser.id, data);
 
     return NextResponse.json({ settings }, { status: 200 });
   } catch (error) {

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/services/db/getCurrentUser";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import { BoardService } from "@/services/db/BoardService";
+import { TattooService } from "@/services/db/TattooService";
 
 export async function POST(req, { params }) {
   const boardId = params.boardId;
@@ -22,12 +23,10 @@ export async function POST(req, { params }) {
     }
 
     // check if the tattoo is already in the board
-    const tattooAlreadyInBoard = await prisma.boardTattoo.findFirst({
-      where: {
-        boardId: boardId,
-        tattooId: body.tattooId,
-      },
-    });
+    const tattoosInBoard = await TattooService.getByBoardId(boardId);
+    const tattooAlreadyInBoard = tattoosInBoard.find(
+      (tattoo) => tattoo.id === body.tattooId,
+    );
 
     if (tattooAlreadyInBoard) {
       console.log("Tattoo already in board");

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/services/db/getCurrentUser";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import { CityService } from "@/services/db/CityService";
+import { ArtistService } from "@/services/db/ArtistService";
 
 export async function POST(request, { params }) {
   const currentUser = await getCurrentUser(request);
@@ -28,7 +29,7 @@ const getMatches = async (currentUser, body) => {
       return;
     }
 
-    const matchedArtists = await prisma.artistProfile.findMany({
+    const matchedArtists = await ArtistService.getArtists({
       where: {
         cityId: city.id,
       },

@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/lib/prismadb";
 import { UserService } from "@/services/db/UserService";
+import { ArtistService } from "@/services/db/ArtistService";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -25,9 +26,7 @@ export const authOptions = {
           throw new Error("Missing credentials");
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        const user = await UserService.getUserByEmail(credentials.email);
 
         if (!user || !user?.hashedPassword) {
           throw new Error("Invalid credentials");
@@ -98,20 +97,14 @@ export const authOptions = {
     // is called on a new session, after the user signs in. In subsequent calls, only token will be available.
     // whatever this callback returns will be the token that is stored in the cookie.
     async jwt({ token }) {
-      const dbUser = await prisma.user.findUnique({ where: { id: token.sub } });
+      const dbUser = await UserService.getUserById(token.sub);
 
       // Do we have to do this?
       if (!dbUser) {
         return token;
       }
-
       if (dbUser.role === "ARTIST") {
-        const artistProfile = await prisma.artistProfile.findFirst({
-          where: {
-            userId: dbUser.id,
-          },
-        });
-
+        const artistProfile = await ArtistService.getArtistByUserId(dbUser.id);
         token.artistProfileId = artistProfile.id;
       }
 

@@ -4,6 +4,26 @@ import prisma from "@/lib/prismadb";
 import { isProfileComplete } from "@/lib/utils";
 
 export class ArtistService {
+  static async connectWithUserId(artistId, userId) {
+    await prisma.artistProfile.update({
+      where: {
+        id: artistId,
+      },
+      data: {
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  static async createWithUserId(artisticName, userId) {
+    await prisma.artistProfile.create({
+      data: {
+        artisticName,
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
   static async getById(id) {
     const artist = await prisma.artistProfile.findUnique({
       where: {
@@ -17,6 +37,27 @@ export class ArtistService {
         tattoos: true,
       },
     });
+    return artist;
+  }
+
+  static async getArtistByUserId(userId) {
+    console.log("inside get by id", userId);
+    const artist = await prisma.artistProfile.findFirst({
+      where: {
+        userId,
+      },
+    });
+    console.log("finishd  get by id", artist);
+    return artist;
+  }
+
+  static async getByArtisticName(artisticName) {
+    const artist = await prisma.artistProfile.findFirst({
+      where: {
+        artisticName,
+      },
+    });
+
     return artist;
   }
 
@@ -61,6 +102,23 @@ export class ArtistService {
     });
 
     return updatedProfile;
+  }
+
+  static async getArtists(
+    options = {
+      where: {},
+      include: {
+        styles: false,
+        city: false,
+        tattoos: false,
+      },
+      take: undefined,
+    },
+  ) {
+    const query = {
+      options,
+    };
+    return prisma.artistProfile.findMany(query);
   }
 
   /**

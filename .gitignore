@@ -35,7 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Internal use files
 /Z_OLD
 /app/scr/
+/app/api/superadmin/
+
 # files that are in the root folder and start with my_
 /my_*

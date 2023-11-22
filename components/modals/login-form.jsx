@@ -14,7 +14,7 @@ import {
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
@@ -50,6 +50,11 @@ export function LoginForm({}) {
     },
   });
 
+  useEffect(() => {
+    console.log("prefetching.........");
+    router.prefetch("/tatuajes", {});
+  }, [router]);
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     return signIn("credentials", {
@@ -60,16 +65,17 @@ export function LoginForm({}) {
       .then((response) => {
         console.log({ response });
         if (response.error) {
+          console.log("error:", response.error);
           toast({
             title: `Error al entrar`,
             description: "Tus credenciales parecen no ser correctas",
             variant: "customDestructive",
           });
         } else {
+          router.push("/tatuajes", {});
           router.refresh();
           setLoginModalOpen(false);
           setSidebarOpen(false);
-          router.push("/tatuajes");
           toast({
             title: "Bienvenido de nuevo",
             description: "Ya puedes guardar tus obras y artistas favoritos",
@@ -78,6 +84,7 @@ export function LoginForm({}) {
         }
       })
       .catch((error) => {
+        console.log("there was an error", error);
         toast({
           title: `Error al entrar`,
           description: "Algo ha ocurrido. Por favor, inténtalo de nuevo",

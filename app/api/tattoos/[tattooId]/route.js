@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import prisma from "@/lib/prismadb";
+import { TattooService } from "@/services/db/TattooService";
 
 export async function DELETE(request, { params }) {
   const currentUser = await getCurrentUser();
@@ -19,12 +19,10 @@ export async function DELETE(request, { params }) {
     throw new Error("Invalid ID");
   }
 
-  // delete the tattoo
-  const deletedTattoo = await prisma.tattoo.delete({
-    where: {
-      id: tattooId,
-    },
-  });
+  await TattooService.delete(tattooId);
 
-  return NextResponse.json(deletedTattoo);
+  return NextResponse.json(
+    { data: null, message: "Deleted tattoo", ok: "true", status: "200" },
+    { status: 200 },
+  );
 }

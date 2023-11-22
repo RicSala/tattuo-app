@@ -3,6 +3,7 @@ import { getStripeInstance } from "@/lib/stripe";
 import { config } from "@/config/shipper.config";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { UserService } from "@/services/db/UserService";
 
 export async function POST(request) {
   const stripe = await getStripeInstance();
@@ -60,24 +61,12 @@ export async function POST(request) {
         let user;
 
         if (userId) {
-          // with prisma, find the user with id = userId
-          user = await prisma.user.findUnique({
-            where: {
-              id: userId,
-            },
-          });
+          user = await UserService.getUserById(userId);
         } else if (userEmail) {
           // with prisma, create a new user iwth email = userEmail and name = userName
-          user = await prisma.user.create({
-            data: {
-              email: userEmail,
-              name: userName,
-            },
-          });
+          user = await UserService.register(userName, userEmail);
         }
-
         console.log({ user });
-
         // TODO: More business logic could be necesary (one off payments vs subscriptins, monthly vs yearly, credit systems...)
 
         // save it in the database

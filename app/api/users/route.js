@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prismadb";
+import { UserService } from "@/services/db/UserService";
 
 export async function PUT(request) {
   const currentUser = await getCurrentUser();
@@ -60,12 +61,7 @@ export async function PUT(request) {
   console.log({ updatedData });
 
   // Update the user in the database
-  const newUser = await prisma.settings.update({
-    where: { userId: currentUser.id },
-    data: updatedData,
-  });
-
-  console.log(newUser.name);
+  await UserService.settingsUpdate(currentUser.id, updatedData);
 
   return NextResponse.json(
     {

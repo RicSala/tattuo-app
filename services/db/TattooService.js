@@ -1,5 +1,6 @@
 import { mapLabelsToIds } from "@/lib/getStyleList";
 import prisma from "@/lib/prismadb";
+import { TagService } from "./OthersService";
 
 export class TattooService {
   static async getByBoardId(boardId) {
@@ -234,6 +235,13 @@ export class TattooService {
     }
   }
 
+  static async delete(tattooId) {
+    await prisma.tattoo.delete({
+      where: {
+        id: tattooId,
+      },
+    });
+  }
   //
   //
   // ###############

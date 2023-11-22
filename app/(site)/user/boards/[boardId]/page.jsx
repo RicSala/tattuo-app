@@ -1,4 +1,3 @@
-import { getBoardById } from "@/services/db/getBoardById";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import DeleteFromBoardButton from "@/components/delete-from-board-button";
 import EmptyState from "@/components/empty-states/empty-state";
@@ -7,10 +6,11 @@ import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
+import { BoardService } from "@/services/db/BoardService";
 
 const TattooDetailsPage = async ({ params }) => {
   const currentUser = await getCurrentUser();
-  const board = await getBoardById(params.boardId);
+  const board = await BoardService.getBoardById(params.boardId);
   const tattoos = board.tattoos.map((boardTattoo) => boardTattoo.tattoo);
 
   if (!tattoos || tattoos.length === 0) {

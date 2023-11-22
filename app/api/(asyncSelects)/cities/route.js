@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import queryString from "query-string";
 import prisma from "@/lib/prismadb";
-import { CityService } from "@/services/db/CityService";
+import { CityService } from "@/services/db/OthersService";
 
 export async function GET(request) {
   //TODO: I am pretty sure we dont neeed searchparams with nextjs

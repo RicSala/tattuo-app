@@ -3,7 +3,7 @@ import Container from "@/components/ui/container";
 import prisma from "@/lib/prismadb";
 import TattooEditPageClient from "./TattooEditPageClient";
 import { TattooService } from "@/services/db/TattooService";
-import { StyleService } from "@/services/db/StyleService";
+import { OthersService } from "@/services/db/OthersService";
 
 const TattooEditPage = async ({
   // currentUser //REVIEW: why not passing current user to children through the layout?
@@ -11,8 +11,8 @@ const TattooEditPage = async ({
 }) => {
   // We load user, styles and bodyParts in parallel to save time
   const currentUserPromise = getCurrentUser();
-  const stylesPromise = StyleService.getStyles();
-  const bodyPartsPromise = prisma.bodyPart.findMany();
+  const stylesPromise = OthersService.getStyles();
+  const bodyPartsPromise = OthersService.getBodyParts();
 
   const [currentUser, styles, bodyParts] = await Promise.all([
     currentUserPromise,

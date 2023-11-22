@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import { CityService } from "@/services/db/CityService";
+import { CityService } from "@/services/db/OthersService";
 import { ArtistService } from "@/services/db/ArtistService";
 
 export async function POST(request, { params }) {

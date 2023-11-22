@@ -209,7 +209,12 @@ export class UserService {
     return user;
   }
 
-  static async register(name, email, hashedPassword, role = "CLIENT") {
+  static async register(
+    name,
+    email,
+    hashedPassword = undefined,
+    role = "CLIENT",
+  ) {
     const user = await prisma.user.create({
       data: {
         email,

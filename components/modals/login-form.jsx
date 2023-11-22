@@ -58,6 +58,7 @@ export function LoginForm({}) {
       redirect: false,
     })
       .then((response) => {
+        console.log({ response });
         if (response.error) {
           toast({
             title: `Error al entrar`,

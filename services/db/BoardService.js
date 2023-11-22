@@ -81,4 +81,34 @@ export class BoardService {
     });
     return boards;
   }
+
+  // given a board id, it returns the board completed data, including the artist profile
+  /**
+   * @param {string} boardId
+   * @returns {Promise<(import("@prisma/client").Board & { tattoos: import("@prisma/client").Tattoo[] }) | null>}
+   */
+  static async getBoardById(boardId) {
+    try {
+      const board = await prisma.board.findUnique({
+        where: {
+          id: boardId,
+        },
+        include: {
+          tattoos: {
+            include: {
+              tattoo: true,
+            },
+          },
+        },
+      });
+
+      if (!board) {
+        return null;
+      }
+
+      return board;
+    } catch (error) {
+      return null;
+    }
+  }
 }

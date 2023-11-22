@@ -57,6 +57,7 @@ export default async function CityPage({ params, searchParams }) {
 
   return (
     <>
+      {JSON.stringify(currentUser)}
       <ListingGrid>
         {artists.map((artist) => {
           return (

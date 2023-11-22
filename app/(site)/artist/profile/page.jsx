@@ -4,7 +4,7 @@ import ProfilePageClient from "./profile-page-client";
 import prisma from "@/lib/prismadb";
 import { getCities } from "@/lib/getCities";
 import { ArtistService } from "@/services/db/ArtistService";
-import { StyleService } from "@/services/db/StyleService";
+import { OthersService } from "@/services/db/OthersService";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,7 @@ const ProfilePage = async (
     />;
   }
 
-  const styles = await StyleService.getStyles();
+  const styles = await OthersService.getStyles();
   const cities = getCities();
 
   return <ProfilePageClient artist={artist} styles={styles} cities={cities} />;

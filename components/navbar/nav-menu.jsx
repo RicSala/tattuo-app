@@ -65,11 +65,13 @@ export function NavMenu({ currentUser }) {
                     </NavigationMenuContent>
                 </NavigationMenuItem> */}
 
-        <Link href="/tatuadores" legacyBehavior passHref>
+        {/* <Link href="/tatuadores" legacyBehavior passHref prefetch> */}
+        <Link href="/tatuadores" prefetch>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             Encuentra Tatuador
           </NavigationMenuLink>
         </Link>
+        {/* </Link> */}
 
         <Link href="/tatuajes" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>

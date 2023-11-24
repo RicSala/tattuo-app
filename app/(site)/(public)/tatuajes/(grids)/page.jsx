@@ -6,7 +6,6 @@ import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getBodyParts } from "@/lib/getBodyParts";
-import { getData } from "@/app/scr/scraper";
 export const dynamic = "force-dynamic";
 
 //TODO:

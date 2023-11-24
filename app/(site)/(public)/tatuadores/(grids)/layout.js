@@ -21,15 +21,7 @@ const ArtistGridLayout = async ({ children }) => {
   // REVIEW: why not passing current user to children through the layout?
   return (
     <>
-      <Container>
-        <GridHeader
-          title={`Inspírate en los tatuajes de los mejores artistas`}
-          subtitle={`Explora por estilo, ciudad, o simplemente escribe lo que buscas`}
-          contentSlug={""}
-          filtro1={filtro1}
-        />
-        {children}
-      </Container>
+      <Container>{children}</Container>
     </>
   );
 };

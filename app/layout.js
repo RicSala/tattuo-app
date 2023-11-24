@@ -2,7 +2,6 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { UiProvider } from "@/providers/ui/ui-provider";
-import { LoginModal } from "@/components/modals/login-form";
 import { ArtistRegisterModal } from "@/components/modals/artist-register";
 import TagManager from "@/scripts/gtm";
 import { Suspense } from "react";
@@ -10,6 +9,7 @@ import Feedback from "@/components/feedback";
 import SupportButton from "@/components/support-button";
 import { GlobalErrorHandler } from "@/errors/global-error-handler";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { LoginModal } from "@/components/modals/login-form";
 
 const inter = Inter({ subsets: ["latin"] });
 

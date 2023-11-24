@@ -3,6 +3,10 @@ import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-ta
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { TattooService } from "@/services/db/TattooService";
+import { GridHeader } from "@/components/grid-header";
+import { getStyleList } from "@/lib/getStyleList";
+import { getBodyParts } from "@/lib/getBodyParts";
+import { getData } from "@/app/scr/scraper";
 export const dynamic = "force-dynamic";
 
 //TODO:
@@ -25,6 +29,23 @@ const endpoint =
 const sizePerPage = 5;
 const numberOfPagesToLoad = 2;
 const initialDataSize = numberOfPagesToLoad * sizePerPage;
+const styles = getStyleList();
+// const cities = getCities();
+const bodyParts = getBodyParts();
+
+const filtro1 = {
+  label: "Estilos",
+  value: "styles",
+  options: styles,
+};
+
+const filtro2 = {
+  label: "Parte del cuerpo",
+  value: "bodyPart",
+  options: bodyParts,
+};
+
+// getData();
 
 /**
  * TattoosPage component
@@ -48,13 +69,22 @@ export default async function TattoosPage({ searchParams }) {
   }
 
   return (
-    <InfiniteListingGrid // to render an infinite scroll we need...
-      initialData={serverLoadedTattoos} // the initial data coming from the server
-      sizePerPage={sizePerPage} // the size of each page
-      endpoint={endpoint} // the endpoint to fetch more data in a client component
-      Component={TattooCard} // the component to render for each item
-      keyProp="tattoo" // the key prop to use to identify each item
-      currentUser={currentUser} // the current user to check if the user is logged in
-    />
+    <>
+      <GridHeader
+        title={`Descubre tatuajes de artistas cerca de ti`}
+        subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
+        contentSlug={""}
+        filtro1={filtro1}
+        // filtro2={filtro2}
+      />
+      <InfiniteListingGrid // to render an infinite scroll we need...
+        initialData={serverLoadedTattoos} // the initial data coming from the server
+        sizePerPage={sizePerPage} // the size of each page
+        endpoint={endpoint} // the endpoint to fetch more data in a client component
+        Component={TattooCard} // the component to render for each item
+        keyProp="tattoo" // the key prop to use to identify each item
+        currentUser={currentUser} // the current user to check if the user is logged in
+      />
+    </>
   );
 }

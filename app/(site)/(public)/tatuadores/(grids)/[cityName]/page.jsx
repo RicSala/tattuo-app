@@ -11,6 +11,7 @@ import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-a
 import { ArtistGridHeader } from "../../components/artist-grid-header";
 import { mdxToHtml } from "@/lib/mdx-to-html";
 import { ArtistService } from "@/services/db/ArtistService";
+import { GridHeader } from "@/components/grid-header";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
@@ -57,7 +58,14 @@ export default async function CityPage({ params, searchParams }) {
 
   return (
     <>
-      {JSON.stringify(currentUser)}
+      <GridHeader
+        title={`Encuentra a los mejores tatuadores de ${capitalizeFirst(
+          cityName,
+        )}`}
+        subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}
+        contentSlug={""}
+        filtro1={filtro1}
+      />
       <ListingGrid>
         {artists.map((artist) => {
           return (

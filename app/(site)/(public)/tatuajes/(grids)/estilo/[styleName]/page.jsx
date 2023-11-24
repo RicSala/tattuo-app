@@ -4,10 +4,10 @@ import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import Container from "@/components/ui/container";
 import { getBodyParts } from "@/lib/getBodyParts";
-import { getStyleList } from "@/lib/getStyleList";
-import { capitalizeFirst } from "@/lib/utils";
+import { getStyleList, mapValueToLabel } from "@/lib/getStyleList";
+import { capitalizeFirst, sanitize } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { TattoosGridHeader } from "../../components/tattoos-grid-header";
+import { TattoosGridHeader } from "../../../components/tattoos-grid-header";
 import { TattooService } from "@/services/db/TattooService";
 import { generatedContentSlugs } from "@/config/constants";
 import { GridHeader } from "@/components/grid-header";
@@ -15,12 +15,12 @@ import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
-  const { contentSlug } = params;
+  const { styleName } = params;
 
   return {
-    title: `Tatuajes de ${capitalizeFirst(contentSlug)}`,
+    title: `Tatuajes de ${capitalizeFirst(styleName)}`,
     description: `Descubre tatuajes de ${capitalizeFirst(
-      contentSlug,
+      styleName,
     )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
   };
 };
@@ -42,7 +42,7 @@ const filtro2 = {
 };
 
 const sizePerPage = 5;
-const numberOfPagesToLoad = 1;
+const numberOfPagesToLoad = 2;
 const initialDataSize = numberOfPagesToLoad * sizePerPage;
 
 /**
@@ -54,24 +54,27 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
  */
 export default async function TattoosPage({ params, searchParams }) {
-  const { contentSlug } = params;
-  const isGeneratedContentSlug = generatedContentSlugs
-    .map((item) => item.content)
-    .includes(params.contentSlug);
-  if (!isGeneratedContentSlug) {
+  const { styleName } = params;
+  const endpoint =
+    process.env.NODE_ENV === "production"
+      ? `${process.env.HOST_NAME_PROD}/api/tattoos/estilo/${styleName}`
+      : `${process.env.HOST_NAME_DEV}/api/tattoos/estilo/${styleName}`;
+
+  const isGeneratedStyle = getStyleList()
+    .map((item) => item.value)
+    .includes(styleName);
+  if (!isGeneratedStyle) {
     notFound();
   }
 
-  const endpoint =
-    process.env.NODE_ENV === "production"
-      ? `${process.env.HOST_NAME_PROD}/api/tattoos/content/${contentSlug}`
-      : `${process.env.HOST_NAME_DEV}/api/tattoos/content/${contentSlug}`;
+  const label = mapValueToLabel(styleName);
+  console.log({ label });
 
   const serverLoadedTattoos = await TattooService.getPaginated(
     {
       ...searchParams,
-      // TODO: How do we solve this so the content slug works better? Should probably return the same as a free
-      freeSearch: contentSlug.slice(0, -1),
+      // we are modifying the searchParams to add the styles string
+      styles: label,
     },
     0,
     // TODO: ojo!
@@ -87,7 +90,7 @@ export default async function TattoosPage({ params, searchParams }) {
   return (
     <>
       <GridHeader
-        title={`Descubre tatuajes de ${contentSlug}`}
+        title={`Tatuajes estilo ${label}`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
@@ -99,20 +102,22 @@ export default async function TattoosPage({ params, searchParams }) {
         sizePerPage={sizePerPage} // the size of each page
         endpoint={endpoint} // the endpoint to fetch more data in a client component
         Component={TattooCard} // the component to render for each item
-        keyProp={`tattoo-${contentSlug}`} // the key prop to use to identify each item
+        keyProp={`tattoo-${styleName}`} // the key prop to use to identify each item
         currentUser={currentUser} // the current user to check if the user is logged in
       />
+
       {/* <ListingGrid>
         {serverLoadedTattoos.map((tattoo) => (
           <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
         ))}
       </ListingGrid> */}
       <div className="mt-10 flex flex-col gap-3">
-        <h2>Tatuajes de {contentSlug}</h2>
+        <h2>Tatuajes de {styleName}</h2>
         <div
           dangerouslySetInnerHTML={{
-            __html: generatedContentSlugs.find(
-              (item) => item.content === contentSlug,
+            __html: getStyleList().find(
+              (item) =>
+                sanitize(item.label.toLowerCase()) === styleName.toLowerCase(),
             ).text,
           }}
         ></div>

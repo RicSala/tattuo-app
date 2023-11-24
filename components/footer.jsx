@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Separator } from "./ui/separator";
 import { InstagramIcon } from "lucide-react";
 import { generatedContentSlugs } from "@/config/constants";
+import { getStyleList } from "@/lib/getStyleList";
 
 const footterMenu = [
   {
@@ -39,6 +40,16 @@ const footterMenu = [
       const object = generatedContentSlugs.map((item) => ({
         label: `Tatuajes de ${item.content}`,
         url: `/tatuajes/${item.content}`,
+      }));
+      return object;
+    })(),
+  },
+  {
+    title: "Principales estilos",
+    items: (() => {
+      const object = getStyleList().map((item) => ({
+        label: `Tatuajes ${item.label}`,
+        url: `/tatuajes/estilo/${item.value}`,
       }));
       return object;
     })(),

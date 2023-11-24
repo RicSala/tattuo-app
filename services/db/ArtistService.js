@@ -41,13 +41,11 @@ export class ArtistService {
   }
 
   static async getArtistByUserId(userId) {
-    console.log("inside get by id", userId);
     const artist = await prisma.artistProfile.findFirst({
       where: {
         userId,
       },
     });
-    console.log("finishd  get by id", artist);
     return artist;
   }
 

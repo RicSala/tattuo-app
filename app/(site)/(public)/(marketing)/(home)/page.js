@@ -2,7 +2,6 @@
 // SITEMAP
 // ROBOTS.TXT
 
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import FaqSection from "@/components/landing/Faqs";
 import HeroSection from "@/components/landing/HeroSection";
@@ -15,6 +14,7 @@ import ModalClient from "@/components/modals/modal-client";
 import Container from "@/components/ui/container";
 import { TestComp } from "@/components/utils/test-comp";
 import Hero2 from "@/components/landing/hero2";
+import { getCurrentUser } from "../../../../../services/db/getCurrentUser";
 
 /**
  * @type {{title: string, description: string, imageUrl: string}[]}

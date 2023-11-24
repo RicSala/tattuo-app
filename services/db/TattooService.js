@@ -32,6 +32,8 @@ export class TattooService {
     const query = this.#buildQuery(searchParams);
     console.log({ query });
     console.log("Looking for tattoos...");
+    console.log({ skip });
+    console.log({ take });
     const tattoos = await prisma.tattoo.findMany({
       where: query,
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],

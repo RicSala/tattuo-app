@@ -19,6 +19,7 @@ export function InfiniteScroll({
   filter, // TODO: I think this one is not necesary anymore...we are solving it with the searchparams already
 }) {
   const searchParams = useSearchParams();
+  console.log("HAS MOREEEEE", hasMore);
 
   const [search, setSearch] = useState(searchParams.toString());
 
@@ -39,16 +40,23 @@ export function InfiniteScroll({
     pages: Array.from(
       // 'pages' is an array created by dividing the 'initialData' into chunks (pages) of data
       // based on the specified 'sizePerPage'.
+      // Array.from creates an array from an array-like or iterable object, that EXPECTS A LENGTH PROPERTY
       { length: Math.ceil(initialData.length / sizePerPage) }, // total number of pages needed (elements in the array)
 
-      (_, index) => ({
-        // map function, creating each page
-        data: initialData.slice(sizePerPage * index, sizePerPage * (index + 1)),
-        pageParam: index + 1,
-        pagination: {
-          nextPage: hasMore ? index + 2 : false,
-        },
-      }),
+      (_, index) => {
+        return {
+          // map function, creating each page
+          data: initialData.slice(
+            sizePerPage * index,
+            sizePerPage * (index + 1),
+          ), // take the elements for each page
+          pageParam: index + 1, // the page number we are in
+          pagination: {
+            nextPage: hasMore ? index + 2 : false,
+            hasMorePages: hasMore,
+          },
+        };
+      },
     ),
 
     pageParams: Array.from(
@@ -57,7 +65,10 @@ export function InfiniteScroll({
     ),
   };
 
+  console.log({ formattedInitialData });
+
   const fetchData = async (page = 1) => {
+    console.log("quering the database with page: ", { page });
     const response = await apiClient
       .get(
         `${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${
@@ -69,6 +80,7 @@ export function InfiniteScroll({
       .catch((err) => {
         throw err;
       });
+    console.log({ response });
     return response;
   };
 
@@ -89,6 +101,7 @@ export function InfiniteScroll({
     queryFn: async (
       { pageParam = 1 }, //mockFetch(pageParam), // query function. receives a queryFunctionContext object: https://tanstack.com/query/v4/docs/react/guides/query-functions#queryfunctioncontext
     ) => {
+      console.log({ pageParam });
       const response = await fetchData(pageParam);
       const { pagination } = response;
       return { data: response.data, pageParam, pagination }; // this will be lastpage in getNextPageParam
@@ -97,6 +110,8 @@ export function InfiniteScroll({
     // stablish the next page param (in our case, the next page number)
     // if it returns false, hasNextPage will be false and we can stop fetching
     getNextPageParam: (lastPage, allPages) => {
+      console.log("from get nextpage", { lastPage });
+      console.log("from get nextpage", { allPages });
       if (lastPage?.pagination.hasMorePages === false) return false;
       return lastPage?.pagination.nextPage; // this will be the next page number in the previous function (the queryFn)
     },
@@ -120,6 +135,8 @@ export function InfiniteScroll({
 
   const allElements = data?.pages.flatMap((page) => page.data); // get all the elements from all the pages
 
+  console.log({ data });
+
   return (
     <>
       {allElements.map((element, i) => {
@@ -137,7 +154,7 @@ export function InfiniteScroll({
           <div
             key={element.id}
             ref={i === allElements.length - 1 ? ref : null}
-            className="inline"
+            className={"inline"}
           >
             <Component {...childProps} />
           </div>

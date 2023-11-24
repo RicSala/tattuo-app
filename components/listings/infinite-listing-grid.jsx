@@ -42,6 +42,7 @@ export default function InfiniteListingGrid({
           Component={Component}
           currentUser={currentUser}
           filter={filter}
+          hasMore={initialData.length >= sizePerPage}
         />
       </CustomQueryClientProvider>
     </ListingGrid>

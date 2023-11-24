@@ -9,11 +9,46 @@
 
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { sanitize } from "./lib/utils";
 
 // withAuth auments the rquest and puts the user token in the request object
 export default withAuth(
   function middleware(request) {
     console.log("MIDDLEWARE"); // we have now the token available in the request!
+
+    // TODO: Need to decide how to manage the redirects from ? to / in the urls
+    // TODO: Among other things, it will prob be easier to let only select one style at a time
+    console.log(
+      "searchParams in midd",
+      request.nextUrl.searchParams.get("styles"),
+    );
+    console.log("here!!", request.nextUrl.searchParams);
+    console.log("here!!", request.nextUrl.search);
+    console.log("pathname->", request.nextUrl.pathname);
+
+    // style redirections to urls without search params only if there is one style selected and we are in the tatuajes page
+    if (
+      request.nextUrl.searchParams.get("styles") &&
+      (request.nextUrl.pathname === "/tatuajes" ||
+        request.nextUrl.pathname.startsWith("/tatuajes/estilo"))
+    ) {
+      const styles = request.nextUrl.searchParams.get("styles").split(",");
+      const style = styles[0];
+
+      // remove the styles from the search params
+      request.nextUrl.searchParams.delete("styles");
+      const newUrl = `/tatuajes/estilo/${sanitize(style.toLowerCase())}${
+        request.nextUrl.search
+          ? request.nextUrl.search === "%7D"
+            ? ""
+            : request.nextUrl.search
+          : request.nextUrl.search
+      }`;
+      console.log("here!!", request.nextUrl.search);
+      console.log("here!!", request.nextUrl.search);
+
+      return NextResponse.redirect(new URL(newUrl, request.url));
+    }
 
     // protect the paths of the users
     if (
@@ -62,6 +97,7 @@ export const config = {
     "/admin/:path*",
     "/artist/:path*",
     "/superadmin/:path*",
+    "/tatuajes/:path*",
   ],
 };
 

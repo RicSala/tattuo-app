@@ -74,7 +74,7 @@ export function LoginForm({}) {
         } else {
           router.push("/tatuajes", {});
           router.refresh();
-          setLoginModalOpen(false);
+          // setLoginModalOpen(false);
           setSidebarOpen(false);
           toast({
             title: "Bienvenido de nuevo",

@@ -5,11 +5,8 @@ export function useDebounce(value, delay = 500, text = "filter") {
 
   useEffect(() => {
     console.log("debouncing");
-    console.log({ value });
 
     const handler = setTimeout(() => {
-      console.log("setting after", delay, "seconds debounced");
-      console.log("Value is: ", value);
       setDebouncedValue(value);
     }, delay);
 

@@ -1,3 +1,5 @@
+//@ts-check
+
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";

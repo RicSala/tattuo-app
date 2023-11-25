@@ -119,13 +119,6 @@ export class ArtistService {
     return prisma.artistProfile.findMany(query);
   }
 
-  /**
-   * @param {{ userId: string, styles: string, city: string, freeSearch: string, artisticName:string, isClaimed:boolean }} searchParams
-   * @param {number} skip
-   * @param {number | undefined} take
-   * @param {boolean} onlyCompleteProfiles
-   * @returns {Promise<MyTypes.ArtistProfile[]>}
-   */
   static async getPaginated(
     searchParams,
     skip = 0,
@@ -149,6 +142,9 @@ export class ArtistService {
       skip,
       take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
     });
+    /**
+     * @typedef {typeof artists} GetPaginatedReturn
+     */
 
     return artists;
   }

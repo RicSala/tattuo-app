@@ -5,7 +5,13 @@ import SearchFilterButton from "@/components/search/search-filter-button";
 import { Separator } from "@/components/ui/separator";
 import { capitalizeFirst } from "@/lib/utils";
 
-export function GridHeader({ title, subtitle, filtro1, filtro2, contentSlug }) {
+export function GridHeader({
+  title,
+  subtitle,
+  filtro1,
+  filtro2 = null,
+  contentSlug,
+}) {
   return (
     <>
       <Heading title={title} subtitle={subtitle} />

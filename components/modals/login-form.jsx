@@ -361,8 +361,6 @@ export function LoginModal({}) {
     userModalVariant,
     setUserModalVariant,
   } = useContext(UiContext);
-  const pathName = usePathname();
-  const router = useRouter();
 
   return (
     <Dialog

@@ -13,7 +13,10 @@ const ArtistGridLayout = async (props) => {
   // REVIEW: why not passing current user to children through the layout?
   return (
     <>
-      <Container>{props.children}</Container>
+      <Container>
+        {props.modal}
+        {props.children}
+      </Container>
     </>
   );
 };

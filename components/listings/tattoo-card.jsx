@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { BoardAdder } from "./board-adder";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import HeartButton from "../heart-button";
@@ -34,6 +34,14 @@ export default function TattooCard({
   const { toast } = useToast();
 
   const router = useRouter();
+
+  useEffect(() => {
+    // Prefetch the tattoo details when the component mounts
+    console.log("prefetching...");
+    router.prefetch(`/tatuajes/detalle/${data.id}`, {
+      kind: "full",
+    });
+  }, [data.id, router]); // The effect depends on the tattoo id and will re-run if it changes
 
   // const onBoardCreate = useCallback(
   //   (title) => {

@@ -31,7 +31,6 @@ export function TattooDetails({ tattoo, currentUser, className }) {
             alt="tattoo"
             fill
             src={tattoo?.imageSrc}
-            placeholder="blur"
             priority
             loading="eager"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 50vw"

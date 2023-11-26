@@ -1,25 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import Link from "next/link";
 import { BoardAdder } from "./board-adder";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { useToast } from "../ui/use-toast";
 import HeartButton from "../heart-button";
 import path from "path";
-import { apiClient } from "@/lib/apiClient";
 import { Skeleton } from "../ui/skeleton";
+import Link from "next/link";
 
 export default function TattooCard({
   currentUser,
@@ -31,8 +22,6 @@ export default function TattooCard({
   imagePriority = false,
   ...props
 }) {
-  const { toast } = useToast();
-
   const router = useRouter();
 
   useEffect(() => {
@@ -88,18 +77,22 @@ export default function TattooCard({
   // }, []);
 
   return (
-    <div
+    <Link
+      href={`/tatuajes/detalle/${data.id}`}
       className="cursor-pointer"
-      onMouseEnter={() => {
-        router.prefetch(`/tatuajes/detalle/${data.id}`);
-      }}
-      onClick={(event) => {
-        if (event.target.id !== "tattoo-image" && event.target !== path) {
-          event.preventDefault();
-        } else {
-          router.push(`/tatuajes/detalle/${data.id}`);
-        }
-      }}
+      // onMouseEnter={() => {
+      //   router.prefetch(`/tatuajes/detalle/${data.id}`);
+      // }}
+      // onClick={(event) => {
+      //   if (event.target.id !== "tattoo-image" && event.target !== path) {
+      //     event.preventDefault();
+      //   } else {
+      //     router.push(`/tatuajes/detalle/${data.id}`, {
+      //       scroll: false, //TODO: Why it does not prevent the scroll?
+      //     });
+      //   }
+      // }}
+      scroll={true}
     >
       <Card
         className={cn(
@@ -150,7 +143,7 @@ export default function TattooCard({
           )}
         </CardContent>
       </Card>
-    </div>
+    </Link>
   );
 }
 TattooCard.Skeleton = <Skeleton classNama="h-80 w-80" />;

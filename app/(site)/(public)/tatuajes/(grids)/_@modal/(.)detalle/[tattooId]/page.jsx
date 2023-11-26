@@ -1,8 +1,6 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { TattooService } from "@/services/db/TattooService";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import React from "react";
-import { TattooDetails } from "../../../../detalle/[tattooId]/components/tattoo-details";
 import { TattooModal } from "./tattooModal";
 
 // const Page = ({ params }) => {

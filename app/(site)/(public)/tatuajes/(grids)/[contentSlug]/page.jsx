@@ -1,18 +1,15 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
-import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import Container from "@/components/ui/container";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList } from "@/lib/getStyleList";
 import { capitalizeFirst } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { TattoosGridHeader } from "../../components/tattoos-grid-header";
 import { TattooService } from "@/services/db/TattooService";
 import { generatedContentSlugs } from "@/config/constants";
 import { GridHeader } from "@/components/grid-header";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
   const { contentSlug } = params;
@@ -24,6 +21,24 @@ export const generateMetadata = async ({ params }) => {
     )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
   };
 };
+
+// It's gonna be used in build time
+export const generateStaticParams = () => {
+  return generatedContentSlugs.map((item) => {
+    return {
+      contentSlug: item.content,
+    };
+  });
+};
+
+// true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// false: Dynamic segments not included in generateStaticParams will return a 404.
+export const dynamicParams = true; // true | false,
+
+// false | 'force-cache' | 0 | number
+export const revalidate = 86400; // 24 hours
+
+export const dynamic = "force-static";
 
 const styles = getStyleList();
 // const cities = getCities();
@@ -61,6 +76,8 @@ export default async function TattoosPage({ params, searchParams }) {
   if (!isGeneratedContentSlug) {
     notFound();
   }
+
+  console.log("this is a test");
 
   const endpoint =
     process.env.NODE_ENV === "production"

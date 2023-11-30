@@ -4,6 +4,7 @@ import SearchBar from "@/components/search/search-bar";
 import SearchFilterButton from "@/components/search/search-filter-button";
 import { Separator } from "@/components/ui/separator";
 import { capitalizeFirst } from "@/lib/utils";
+import NextBreadcrumb from "./breadcrumbs";
 
 export function GridHeader({
   title,
@@ -14,6 +15,16 @@ export function GridHeader({
 }) {
   return (
     <>
+      <NextBreadcrumb
+        activeClasses={"!text-primary font-semibold"}
+        capitalizeLinks={true}
+        containerClasses={
+          "flex flex-wrap items-center text-sm font-medium gap-2 text-primary/60"
+        }
+        homeElement={"Inicio"}
+        listClasses={"flex items-center text-primary/60"}
+        separator={">"}
+      />
       <Heading title={title} subtitle={subtitle} />
       <Separator className="my-5" />
 

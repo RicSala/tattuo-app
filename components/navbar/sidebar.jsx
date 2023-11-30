@@ -45,7 +45,8 @@ export default function Sidebar({ currentUser }) {
 
   const incompleteProfile = !currentUser?.artist?.isComplete;
   const notEnoughTattoos = currentUser?.artist?.tattoos?.length < 3;
-  const notifications = incompleteProfile || notEnoughTattoos;
+  const notifications =
+    currentUser?.artistProfile && (incompleteProfile || notEnoughTattoos);
 
   return (
     <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} className="">

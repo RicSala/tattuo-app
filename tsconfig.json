@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "**/*.jsx"
+    "**/*.jsx",
+    "app/scr/scraper.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -100,7 +100,7 @@ model ArtistProfile {
   likes            LikedArtist[]
   cityId           String?       @db.ObjectId
   city             City?         @relation(fields: [cityId], references: [id])
-
+  Lead             Lead?
   // @@index([userId])
   // @@index([cityId])
 }
@@ -303,4 +303,163 @@ model BoardTattoo {
   tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
 
   @@unique([boardId, tattooId])
+}
+
+// Create a "lead" model that will be used to keep track of leads. 
+// A lead will have assign an artist to it, and will have the following fields:
+// - name
+// - email
+// - phone
+// - description
+// - artistId
+// - artist
+// - createdAt
+// - updatedAt
+// - status (enum: PENDING, CONTACTED, NOT_INTERESTED, INTERESTED, SCHEDULED, DONE)
+
+model Lead {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String?
+  email       String?
+  phone       String?
+  description String?
+
+  // RELATIONS
+  artistId String        @unique @db.ObjectId
+  artist   ArtistProfile @relation(fields: [artistId], references: [id])
+
+  status LeadStatus @default(PENDING)
+}
+
+enum LeadStatus {
+  PENDING
+  CONTACTED
+  NOT_INTERESTED
+  INTERESTED
+  SCHEDULED
+  DONE
+}
+
+model Studio {
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  name                String               @unique //TODO: uncomment after testing
+  email               String?
+  phone               String?
+  address             String?
+  city                String?
+  country             String?
+  zip                 String?
+  website             String?
+  socials             Json[]
+  images              String[]
+  // RELATIONS
+  // artistId String @db.ObjectId
+  // artist   ArtistProfile @relation(fields: [artistId], references: [id])
+  studioGoogleProfile studioGoogleProfile?
+}
+
+model InstagramAccount {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  url               String     @unique
+  profileName       String
+  fullName          String?
+  bio               String?
+  followersCount    Int?
+  followingCount    Int?
+  instagramId       String?
+  isBusinessAccount Boolean?
+  category          String?
+  phoneNumber       String?
+  isPrivate         Boolean?
+  isVerified        Boolean?
+  imageUrl          String?
+  postCount         Int?
+  website           String?
+  mailFound         String?
+  publicEmail       String?
+  contactPhone      String?
+  businessAddress   String?
+  businessZip       String?
+  businessCity      String?
+  status            LeadStatus @default(PENDING)
+
+  //? RELATIONS
+  // artistId String @db.ObjectId
+  // artist   ArtistProfile @relation(fields: [artistId], references: [id])
+  studioGoogleProfile   studioGoogleProfile? @relation(fields: [studioGoogleProfileId], references: [id])
+  studioGoogleProfileId String?              @db.ObjectId
+}
+
+model InstagramPost {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  url          String   @unique
+  description  String
+  commentCount Int
+  likeCount    Int
+  pubDate      DateTime
+  isSidecar    Boolean
+  postType     String
+  caption      String
+  profileUrl   String
+  imageUrl     String
+  postId       String
+}
+
+model studioGoogleProfile {
+  id            String                    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+  placeUrl      String                    @unique //TODO: uncomment after testing
+  title         String                    @unique //TODO: uncomment after testing
+  rating        Float
+  reviewCount   Int
+  category      String
+  attributes    String
+  address       String
+  plusCode      String
+  website       String
+  phoneNumber   String
+  miercoles     String
+  jueves        String
+  viernes       String
+  sabado        String
+  domingo       String
+  lunes         String
+  martes        String
+  currentStatus String
+  imgUrl        String
+  isClaimed     Boolean
+  latitude      Float
+  longitude     Float
+  query         String
+  timestamp     DateTime
+  info          String
+  status        studioGoogleProfileStatus @default(PENDING)
+
+  instagramAccounts InstagramAccount[]
+  // RELATIONS
+  // May or may not have a studio
+  Studio            Studio?            @relation(fields: [studioId], references: [id])
+  studioId          String?            @unique @db.ObjectId
+}
+
+enum studioGoogleProfileStatus {
+  PENDING
+  ERROR
+  CRAWLING
+  CRAWLED
+  CONTACTED
+  NOT_INTERESTED
+  INTERESTED
+  SUCCESS
 }

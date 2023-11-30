@@ -8,6 +8,8 @@ import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getBodyParts } from "@/lib/getBodyParts";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
+import NextBreadcrumb from "@/components/breadcrumbs";
 export const dynamic = "force-dynamic";
 
 //TODO:

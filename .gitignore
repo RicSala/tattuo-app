@@ -39,6 +39,8 @@ next-env.d.ts
 /Z_OLD
 /app/scr/
 /app/api/superadmin/
+/app/(site)/superadmin/
+/public/uploads/
 
 # files that are in the root folder and start with my_
 /my_*

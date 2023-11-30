@@ -111,10 +111,11 @@ export class ArtistService {
         tattoos: false,
       },
       take: undefined,
+      skip: undefined,
     },
   ) {
     const query = {
-      options,
+      ...options,
     };
     return prisma.artistProfile.findMany(query);
   }

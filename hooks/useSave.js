@@ -2,7 +2,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { apiClient } from "@/lib/apiClient";
 import { UiContext } from "@/providers/ui/ui-provider";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useContext, useMemo, useState } from "react";
 
 // given an artistId and a currentUser, returns:
@@ -11,6 +11,7 @@ import { useCallback, useContext, useMemo, useState } from "react";
 const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const pathName = usePathname();
   const { setLoginModalOpen } = useContext(UiContext);
   const [hasSaved, sehasFavorited] = useState(() => {
     return currentUser?.savedIds?.includes(listingId);
@@ -62,6 +63,11 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
           description: "Por favo, inténtalo de nuevo",
           variant: "customDestructive",
         });
+      } finally {
+        // TODO: This refresh is to force the saved artist page to refresh, but is causing a flickering effect on other pages too. Investigate this. For now, we fix by doing it only on the saved artist page.
+        if (pathName === "/user/saved") {
+          router.refresh();
+        }
       }
     },
     [
@@ -69,6 +75,7 @@ const useSave = ({ listingId, currentUser, listingType = "artists" }) => {
       hasSaved,
       listingId,
       listingType,
+      pathName,
       router,
       setLoginModalOpen,
       toast,

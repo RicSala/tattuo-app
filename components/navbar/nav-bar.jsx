@@ -14,11 +14,14 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { UiContext } from "@/providers/ui/ui-provider";
 import { TopBars } from "./top-bars";
+import { useSession } from "next-auth/react";
 // import UserMenu from "./UserMenu";
 
-function NavBar({ currentUser }) {
+function NavBar({}) {
+  const { data: session } = useSession({});
+  const currentUser = session?.user;
   const router = useRouter();
-  const userTheme = currentUser?.settings?.darkMode || "light";
+
   const { setArtistRegisterOpen } = useContext(UiContext);
 
   const [topbarShown, setTopbarShown] = useState(true);

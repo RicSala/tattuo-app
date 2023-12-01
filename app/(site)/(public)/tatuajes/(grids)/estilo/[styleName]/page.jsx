@@ -68,7 +68,6 @@ export default async function TattoosPage({ params, searchParams }) {
   }
 
   const label = mapValueToLabel(styleName);
-  console.log({ label });
 
   const serverLoadedTattoos = await TattooService.getPaginated(
     {

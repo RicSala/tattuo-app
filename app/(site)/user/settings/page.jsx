@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountSettings from "./components/account-settings";
 import NotificationsSettings from "./components/notifications-settings";
 import AppearanceSettings from "./components/appearance-settings";
+export const dynamic = "force-dynamic";
 
 export default async function SettingsPage({}) {
   const currentUser = await getCurrentUser();
@@ -16,13 +17,13 @@ export default async function SettingsPage({}) {
           <TabsTrigger value="appearance">Apariencia</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <AccountSettings currentUser={currentUser} />
+          <AccountSettings />
         </TabsContent>
         <TabsContent value="notifications">
-          <NotificationsSettings currentUser={currentUser} />
+          <NotificationsSettings />
         </TabsContent>
         <TabsContent value="appearance">
-          <AppearanceSettings currentUser={currentUser} />
+          <AppearanceSettings />
         </TabsContent>
       </Tabs>
     </div>

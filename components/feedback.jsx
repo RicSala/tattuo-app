@@ -116,7 +116,7 @@ export default function Feedback({}) {
         className="text-base-content absolute left-0 top-0 -translate-x-full translate-y-1/4 cursor-pointer rounded-l-lg bg-secondary/90 p-4 px-1 text-sm transition [writing-mode:vertical-rl;] hover:bg-secondary"
         onClick={() => setIsVisible(!isVisible)}
       >
-        Tu Opinión
+        Sugerencias
       </div>
 
       <Button

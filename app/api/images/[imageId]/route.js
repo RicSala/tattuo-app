@@ -34,7 +34,6 @@ export async function DELETE(request, { params }) {
   cloudinary.v2.uploader
     .destroy(`tatuajes/${imageId}`)
     .then((result) => {
-      console.log(result);
       return NextResponse.json({
         message: "Image deleted",
         status: 200,

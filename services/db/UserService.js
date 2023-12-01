@@ -231,11 +231,12 @@ export class UserService {
     return user;
   }
 
-  static async getUserById(userId) {
+  static async getUserById(userId, options = {}) {
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
+      ...options,
     });
 
     return user;

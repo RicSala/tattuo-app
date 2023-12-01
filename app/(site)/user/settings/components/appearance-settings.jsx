@@ -15,13 +15,16 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 import { apiClient } from "@/lib/apiClient";
 import { Check, Save } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function AppearanceSettings({ currentUser }) {
+export default function AppearanceSettings({}) {
   const router = useRouter();
+  const { data: session } = useSession();
+  const currentUser = session?.user;
   const form = useForm({
     defaultValues: {
       darkMode: currentUser?.settings?.darkMode || "false",

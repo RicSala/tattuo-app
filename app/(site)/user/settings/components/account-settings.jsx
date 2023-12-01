@@ -17,6 +17,7 @@ import { apiClient } from "@/lib/apiClient";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -35,14 +36,16 @@ const registerFormSchema = z.object({
   // }),
 });
 
-export default function AccountSettings({ currentUser }) {
+export default function AccountSettings({}) {
   const [isSaving, setIsSaving] = useState(false);
+  const { data: session } = useSession({});
+  const currentUser = session?.user;
 
   const form = useForm({
     resolver: zodResolver(registerFormSchema),
 
     defaultValues: {
-      name: currentUser.name,
+      name: currentUser ? currentUser?.name : "",
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
@@ -77,7 +80,7 @@ export default function AccountSettings({ currentUser }) {
   return (
     <div>
       <Heading
-        title={`${currentUser.name}, configura tu cuenta`}
+        title={`${currentUser?.name}, configura tu cuenta`}
         className="text-lg"
       />
 

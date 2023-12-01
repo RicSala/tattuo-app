@@ -46,8 +46,6 @@ export async function POST(req) {
     // Search if the artist profile with that name already exist
     const artistProfile = await ArtistService.getByArtisticName(artisticName);
 
-    console.log("ARTIST PROFILE", artistProfile);
-
     if (artistProfile?.userId) {
       return NextResponse.json(
         { error: "El nombre artístico ya está en uso" },
@@ -63,7 +61,6 @@ export async function POST(req) {
       console.log("CREATED!!!!!");
       ArtistService.createWithUserId(artisticName, user.id);
     }
-    console.log("USER!!!!", { user });
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     console.log(error, "REGISTRATION_ERROR");
@@ -95,7 +92,6 @@ export async function PUT(req) {
 
     let data = {};
 
-    console.log({ darkMode });
     const settings = UserService.settingsUpdate(currentUser.id, data);
 
     return NextResponse.json({ settings }, { status: 200 });

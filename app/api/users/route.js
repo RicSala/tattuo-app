@@ -7,8 +7,6 @@ import { UserService } from "@/services/db/UserService";
 export async function PUT(request) {
   const currentUser = await getCurrentUser();
 
-  console.log({ currentUser });
-
   if (!currentUser) {
     return NextResponse.json({ error: "Not logged in" }, { status: 401 });
   }
@@ -17,7 +15,6 @@ export async function PUT(request) {
 
   const { data } = body;
 
-  console.log({ data });
   const { name, currentPassword, newPassword, confirmNewPassword, darkMode } =
     data;
 
@@ -29,11 +26,7 @@ export async function PUT(request) {
       currentUser.hashedPassword,
     );
 
-    console.log({ isCorrectPassword });
-
     const passwordsMatch = newPassword === confirmNewPassword;
-
-    console.log({ passwordsMatch });
 
     if (!isCorrectPassword) {
       return NextResponse.json(
@@ -57,8 +50,6 @@ export async function PUT(request) {
   }
 
   updatedData.darkMode = darkMode;
-
-  console.log({ updatedData });
 
   // Update the user in the database
   await UserService.settingsUpdate(currentUser.id, updatedData);

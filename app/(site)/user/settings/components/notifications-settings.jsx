@@ -13,7 +13,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useForm } from "react-hook-form";
 
-export default function NotificationsSettings({ currentUser }) {
+export default function NotificationsSettings({}) {
   const form = useForm();
 
   const onSubmit = (data) => {};

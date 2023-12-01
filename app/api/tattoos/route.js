@@ -103,8 +103,6 @@ export async function PUT(request) {
 
   const body = await request.json();
 
-  console.log({ body });
-
   const currentTattoo = await TattooService.getById(body.tattooId, {
     includeTags: true,
   });

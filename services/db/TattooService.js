@@ -119,8 +119,6 @@ export class TattooService {
     artistProfile,
     tags,
   }) {
-    console.log({ styles });
-
     let listing = await prisma.tattoo.create({
       data: {
         title,
@@ -152,8 +150,6 @@ export class TattooService {
   static async update(oldData, updatedData) {
     const currentTagIds = oldData.tags.map((t) => t.tag.id);
     const updatedTagIds = updatedData.tags.map((t) => t.id);
-
-    console.log({ oldData }, { updatedData });
 
     // Identify tags to be added and removed
     const tagsToAdd = updatedData.tags.filter(

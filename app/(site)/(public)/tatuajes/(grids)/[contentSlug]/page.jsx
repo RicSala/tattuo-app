@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import TattooCard from "@/components/listings/tattoo-card";
 import { getBodyParts } from "@/lib/getBodyParts";
@@ -36,9 +35,9 @@ export const generateStaticParams = () => {
 export const dynamicParams = true; // true | false,
 
 // false | 'force-cache' | 0 | number
-export const revalidate = 86400; // 24 hours
+// export const revalidate = 86400; // 24 hours
 
-export const dynamic = "force-static";
+// export const dynamic = "error";
 
 const styles = getStyleList();
 // const cities = getCities();
@@ -77,7 +76,7 @@ export default async function TattoosPage({ params, searchParams }) {
     notFound();
   }
 
-  console.log("this is a test");
+  console.log("this is a test in content slug");
 
   const endpoint =
     process.env.NODE_ENV === "production"
@@ -94,8 +93,6 @@ export default async function TattoosPage({ params, searchParams }) {
     // TODO: ojo!
     initialDataSize,
   );
-
-  const currentUser = await getCurrentUser();
 
   if (serverLoadedTattoos.length < 1) {
     return <EmptyTattoos />;
@@ -117,7 +114,6 @@ export default async function TattoosPage({ params, searchParams }) {
         endpoint={endpoint} // the endpoint to fetch more data in a client component
         Component={TattooCard} // the component to render for each item
         keyProp={`tattoo-${contentSlug}`} // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
       />
       {/* <ListingGrid>
         {serverLoadedTattoos.map((tattoo) => (

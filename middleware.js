@@ -18,13 +18,6 @@ export default withAuth(
 
     // TODO: Need to decide how to manage the redirects from ? to / in the urls
     // TODO: Among other things, it will prob be easier to let only select one style at a time
-    console.log(
-      "searchParams in midd",
-      request.nextUrl.searchParams.get("styles"),
-    );
-    console.log("here!!", request.nextUrl.searchParams);
-    console.log("here!!", request.nextUrl.search);
-    console.log("pathname->", request.nextUrl.pathname);
 
     // style redirections to urls without search params only if there is one style selected and we are in the tatuajes page
     if (
@@ -44,8 +37,6 @@ export default withAuth(
             : request.nextUrl.search
           : request.nextUrl.search
       }`;
-      console.log("here!!", request.nextUrl.search);
-      console.log("here!!", request.nextUrl.search);
 
       return NextResponse.redirect(new URL(newUrl, request.url));
     }
@@ -81,7 +72,6 @@ export default withAuth(
     callbacks: {
       // the middleware funtion will execute only if this functio returns true
       authorized: ({ token }) => {
-        // console.log({ token })
         // return !!token // we are gonna let them in, and separate cases in the middleware function
         return !!true;
       },

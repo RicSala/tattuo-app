@@ -51,7 +51,6 @@ export function LoginForm({}) {
   });
 
   useEffect(() => {
-    console.log("prefetching.........");
     router.prefetch("/tatuajes", {});
   }, [router]);
 
@@ -63,7 +62,6 @@ export function LoginForm({}) {
       redirect: false,
     })
       .then((response) => {
-        console.log({ response });
         if (response.error) {
           console.log("error:", response.error);
           toast({

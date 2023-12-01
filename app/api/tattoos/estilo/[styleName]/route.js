@@ -14,7 +14,6 @@ export async function GET(req, { params }) {
   // searchparamsObj.styles = styleName;
 
   const label = mapValueToLabel(styleName);
-  console.log({ label });
 
   const originalTake = parseInt(searchparamsObj.pageSize) || 10;
   const take = originalTake + 1; // we add one to the take to know if there are more pages

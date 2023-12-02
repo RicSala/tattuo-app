@@ -1,20 +1,17 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import HeartButton from "../heart-button";
-import { Avatar } from "../ui/avatar";
 import SaveButton from "../save-button";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
+import { useSession } from "next-auth/react";
 
-const ArtistCard = ({
-  data,
-  currentUser,
-  className,
-  imagePriority = false,
-}) => {
+const ArtistCard = ({ data, className, imagePriority = false }) => {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  const currentUser = session?.user;
 
   return (
     <div

@@ -1,15 +1,14 @@
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
 import { getStyleList } from "@/lib/getStyleList";
-import { getCities } from "@/lib/getCities";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-import Container from "@/components/container";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
-import { ArtistGridHeader } from "../components/artist-grid-header";
 import { GridHeader } from "../../../../../components/grid-header";
 import { ArtistService } from "@/services/db/ArtistService";
-import ListingGrid from "@/components/listings/listing-grid";
-export const dynamic = "force-dynamic";
+
+// For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
+// false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
 const endpoint =
   process.env.NODE_ENV === "production"
@@ -39,8 +38,6 @@ export default async function ArtistsPage({ searchParams }) {
     0,
     initialDataSize,
   );
-  const currentUser = await getCurrentUser();
-
   if (artists.length < 1) {
     return <EmptyArtist />;
   }
@@ -62,7 +59,6 @@ export default async function ArtistsPage({ searchParams }) {
         hasMore={serverHasMoreArtists} // if there are more items to load
         Component={ArtistCard} // the component to render for each item
         keyProp="artist" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
       ></InfiniteListingGrid>
     </>
   );

@@ -18,7 +18,6 @@ import { useSession } from "next-auth/react";
  * @param {Object[]} props.initialData - The initial data for rendering
  * @param {number} props.sizePerPage - The size of each page
  * @param {string} props.keyProp - The key property for dynamic keys
- * @param {Object} props.currentUser - Information about the current user
  * @param {Object} [props.filter] - Optional filter for the listing
  *
  * @returns {React.ReactElement} The rendered InfiniteListingGrid component

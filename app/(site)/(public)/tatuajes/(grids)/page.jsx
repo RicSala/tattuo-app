@@ -1,6 +1,5 @@
 //@ts-check
 
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
@@ -8,13 +7,15 @@ import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getBodyParts } from "@/lib/getBodyParts";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import NextBreadcrumb from "@/components/breadcrumbs";
-export const dynamic = "force-dynamic";
 
 //TODO:
 // SITEMAP
 // ROBOTS.TXT [x]
+
+// For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
+// false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
 export const metadata = {
   title: "TATTUO · Descubre Tatuajes de todos los estilos",
@@ -65,8 +66,6 @@ export default async function TattoosPage({ searchParams }) {
     initialDataSize,
   );
 
-  const currentUser = await getCurrentUser();
-
   if (serverLoadedTattoos.length < 1) {
     return <EmptyTattoos />;
   }
@@ -86,7 +85,6 @@ export default async function TattoosPage({ searchParams }) {
         endpoint={endpoint} // the endpoint to fetch more data in a client component
         Component={TattooCard} // the component to render for each item
         keyProp="tattoo" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
       />
     </>
   );

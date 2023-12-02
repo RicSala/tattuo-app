@@ -8,6 +8,7 @@ import Banner from "@/components/landing/banner";
 import { Steps } from "@/components/landing/steps";
 import ModalClient from "@/components/modals/modal-client";
 import Hero2 from "@/components/landing/hero2";
+import { TestComp } from "@/components/utils/test-comp";
 
 export const dynamic = "error";
 

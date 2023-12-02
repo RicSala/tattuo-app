@@ -7,14 +7,11 @@ import { getBodyParts } from "@/lib/getBodyParts";
 // import Container from "@/components/ui/Container";
 
 const ArtistGridLayout = async (props) => {
-  // REVIEW: why not passing current user to children through the layout?
   return (
-    <>
-      <Container>
-        {props.modal}
-        {props.children}
-      </Container>
-    </>
+    <Container>
+      {props.modal}
+      {props.children}
+    </Container>
   );
 };
 export default ArtistGridLayout;

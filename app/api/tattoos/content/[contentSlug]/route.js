@@ -10,6 +10,8 @@ export async function GET(req, { params }) {
   const { contentSlug } = params;
   const url = new URL(req.nextUrl); // Create a URL object
 
+  console.log("¡¡url!! ", url);
+
   let searchparamsObj = Object.fromEntries(url.searchParams);
   // searchparamsObj.styles = styleName;
 

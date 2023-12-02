@@ -8,6 +8,8 @@ import { createBaseError } from "@/errors/CustomError";
 export async function GET(req) {
   const url = new URL(req.nextUrl); // Create a URL object
 
+  console.log("¡¡url!! ", url);
+
   const searchparamsObj = Object.fromEntries(url.searchParams);
 
   const originalTake = parseInt(searchparamsObj.pageSize) || 10;

@@ -3,6 +3,9 @@ const nextConfig = {
   // TODO: delete before deployment
   productionBrowserSourceMaps: true,
 
+  // enable a static export. ref: https://nextjs.org/docs/pages/building-your-application/deploying/static-exports
+  output: 'export',
+ 
   // output: 'standalone', // https://nextjs.org/docs/app/api-reference/next-config-js/output
 
   // experimental: {

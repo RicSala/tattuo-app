@@ -145,10 +145,6 @@ export const authOptions = {
       // const favoriteTattooIds = await UserService.getFavoriteTattooIds(user);
       // const favoriteTattooIds = await UserService.getFavoriteTattooIds(user);
 
-      console.log("¡USUARIO!", session.user);
-      console.log("¡boards!", token.boards);
-      console.log("¡settings!", token.settings);
-
       if (session && session.user) {
         session.user.role = token.role;
         session.user.boards = token.boards;
@@ -160,7 +156,6 @@ export const authOptions = {
           session.user.artistProfileId = token.artistProfileId;
         }
       }
-      console.log("¡USUARIO 2!", session.user);
       return session;
     },
   },

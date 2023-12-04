@@ -235,6 +235,7 @@ model City {
   label         String
   value         String
   artistProfile ArtistProfile[]
+  Studio        Studio[]
 
   @@unique([label, parent_code])
 }
@@ -344,23 +345,42 @@ enum LeadStatus {
 }
 
 model Studio {
-  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  name                String               @unique //TODO: uncomment after testing
-  email               String?
-  phone               String?
-  address             String?
-  city                String?
-  country             String?
-  zip                 String?
-  website             String?
-  socials             Json[]
-  images              String[]
+  id                String                    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  name              String                    @unique //TODO: uncomment after testing
+  email             String?
+  phone             String?
+  address           String?
+  city              City?                     @relation(fields: [cityId], references: [id])
+  country           String?
+  zip               String?
+  website           String?
+  socials           Json[]
+  images            String[]
+  googlePlaceUrl    String?                   @unique //TODO: uncomment after testing
+  googleRating      Float?
+  googleReviewCount Int?
+  phoneNumber       String?
+  lunes             String?
+  martes            String?
+  miercoles         String?
+  jueves            String?
+  viernes           String?
+  sabado            String?
+  domingo           String?
+  mainImageUrl      String?
+  isClaimed         Boolean?
+  latitude          Float?
+  longitude         Float?
+  info              String?
+  status            studioGoogleProfileStatus @default(PENDING)
+
   // RELATIONS
   // artistId String @db.ObjectId
   // artist   ArtistProfile @relation(fields: [artistId], references: [id])
   studioGoogleProfile studioGoogleProfile?
+  cityId              String?              @db.ObjectId
 }
 
 model InstagramAccount {

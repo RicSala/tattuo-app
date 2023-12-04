@@ -24,6 +24,14 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "lh5.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "streetviewpixels-pa.googleapis.com",
+      },
+      {
+        protocol: "https",
         hostname: "d1kq2dqeox7x40.cloudfront.net",
       },
       {

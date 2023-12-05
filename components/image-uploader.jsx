@@ -161,7 +161,9 @@ export default ImageUploader;
 // }
 
 /**
- * @typedef {React.ComponentPropsWithoutRef<'image'> && } MergedImageProps
+ * @typedef {React.ComponentPropsWithoutRef<'image'> && {
+ *
+ * } } MergedImageProps
  */
 
 /**

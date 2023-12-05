@@ -2,7 +2,7 @@ import { getCurrentUser } from "@/services/db/getCurrentUser";
 import Heading from "@/components/heading";
 import TattooCard from "@/components/listings/tattoo-card";
 import { Separator } from "@/components/ui/separator";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
 import { cn } from "@/lib/utils";
 import { ArtistService } from "@/services/db/ArtistService";

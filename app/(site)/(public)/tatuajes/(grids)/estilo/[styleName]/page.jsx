@@ -1,7 +1,7 @@
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList, mapValueToLabel } from "@/lib/getStyleList";
 import { capitalizeFirst, sanitize } from "@/lib/utils";

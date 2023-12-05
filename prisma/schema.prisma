@@ -34,6 +34,7 @@ model User {
 
   // messages Message[]
   settings Settings?
+  Studio   Studio[]
 }
 
 model Settings {
@@ -101,6 +102,10 @@ model ArtistProfile {
   cityId           String?       @db.ObjectId
   city             City?         @relation(fields: [cityId], references: [id])
   Lead             Lead?
+
+  // An artist can be or not in a studio
+  studioId String? @db.ObjectId
+  studio   Studio? @relation(fields: [studioId], references: [id])
   // @@index([userId])
   // @@index([cityId])
 }
@@ -349,6 +354,8 @@ model Studio {
   createdAt         DateTime                  @default(now())
   updatedAt         DateTime                  @updatedAt
   name              String                    @unique //TODO: uncomment after testing
+  slug              String? // @unique //TODO: uncomment after testing
+  description       String?
   email             String?
   phone             String?
   address           String?
@@ -381,6 +388,11 @@ model Studio {
   // artist   ArtistProfile @relation(fields: [artistId], references: [id])
   studioGoogleProfile studioGoogleProfile?
   cityId              String?              @db.ObjectId
+  artists             ArtistProfile[]
+
+  // The studio can have an owner (a user)
+  userId String? @db.ObjectId
+  user   User?   @relation(fields: [userId], references: [id])
 }
 
 model InstagramAccount {

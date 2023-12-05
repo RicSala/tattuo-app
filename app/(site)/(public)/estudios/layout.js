@@ -1,6 +1,6 @@
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 
 const ArtistGridLayout = async ({ children }) => {
-  return <Container>{children}</Container>;
+  return <>{children}</>;
 };
 export default ArtistGridLayout;

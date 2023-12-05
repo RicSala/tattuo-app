@@ -91,7 +91,7 @@ export default function Sidebar({ currentUser }) {
               key={el.label}
             />
           ))}
-          {currentUser?.role === "ARTIST" ? (
+          {currentUser?.role === "ARTIST" || currentUser?.role === "ADMIN" ? (
             <>
               <Separator className="my-1" />
               {artistMenuItems.map((el) => (

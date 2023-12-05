@@ -8,7 +8,15 @@ import { Badge } from "../ui/badge";
 import { useSession } from "next-auth/react";
 import { Prisma, Studio, studioGoogleProfile } from "@prisma/client";
 import { data } from "autoprefixer";
-import { Star } from "lucide-react";
+import {
+  LocateIcon,
+  PinIcon,
+  Star,
+  StarHalf,
+  StarHalfIcon,
+  StarIcon,
+} from "lucide-react";
+import { Rating } from "../rating";
 
 type WithGoogleProfile<T> = T & { studioGoogleProfile: studioGoogleProfile };
 
@@ -31,7 +39,7 @@ const StudioCard = ({
 
   return (
     <div
-      onClick={() => router.push(``)}
+      onClick={() => router.push(`/estudios/${studio.id}`)}
       onMouseEnter={() => {
         router.prefetch(`/tatuadores/profile/654e02287ffff1cdf25b7d92`);
       }}
@@ -88,12 +96,19 @@ const StudioCard = ({
           </Badge>
         ) : null}
       </div>
-      <div className="flex flex-row items-center justify-end gap-6 px-5 py-3">
+      <div className="relative flex flex-row items-center justify-end gap-2 px-5 pb-2">
+        <p className="mr-auto flex cursor-pointer items-center gap-2">
+          {/* {studio.studioGoogleProfile.address} */}
+          Zaragoza
+          <PinIcon className="h-4 w-4" />
+        </p>
         {/* <Avatar user={data} /> */}
-        <Star className="h-5 w-5 text-primary" />
-        <p className="truncate">{studio.studioGoogleProfile.rating}</p>
+        <Rating value={studio.studioGoogleProfile.rating} />
         <p className="truncate">
-          ({studio.studioGoogleProfile.reviewCount} reviews)
+          {studio.studioGoogleProfile.rating}
+          <span className="relative -bottom-0 ml-1 truncate text-xs italic text-primary/50">
+            ({studio.studioGoogleProfile.reviewCount} reviews)
+          </span>
         </p>
       </div>
       {/* <div className="px-5 py-3">

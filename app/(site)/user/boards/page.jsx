@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import Heading from "@/components/heading";
 import EmptyState from "@/components/empty-states/empty-state";
 import ListingGrid from "@/components/listings/listing-grid";

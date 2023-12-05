@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getCities } from "@/lib/getCities";

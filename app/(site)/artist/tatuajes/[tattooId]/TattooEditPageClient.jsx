@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Check, Save, Undo } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";

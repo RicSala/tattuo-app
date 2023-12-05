@@ -1,44 +1,38 @@
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
 
-export default function GradientBorder({
-    children, className
-}) {
-    return (
-
-
-
-        <div
-            className={cn(`
-        w-32
-            h-10
-        cursor-pointer
+export default function GradientBorder({ children, className }) {
+  return (
+    <div
+      className={cn(
+        `
+        relative
+            flex
+        h-10
         
-        flex
+        w-32
+        cursor-pointer
         items-center
         justify-center
-        relative
+        overflow-hidden
         rounded-lg
         shadow-sm
-        overflow-hidden
-        hover:scale-110
         transition-transform
-
-
-        before:content-['']
         before:absolute
-        before:w-[110%]
+
+
         before:h-[350%]
-        before:bg-[conic-gradient(#FF2E2E,#FF831E,#FCFF51,#58FF57,#575FFF,#D257FF,#FF57E5,#FF1556)]
+        before:w-[110%]
         before:animate-spin
+        before:bg-[conic-gradient(#FF2E2E,#FF831E,#FCFF51,#58FF57,#575FFF,#D257FF,#FF57E5,#FF1556)]
+        before:content-['']
+        hover:scale-110
                     `,
-                className
-            )}
-        >
+        className,
+      )}
+    >
+      {children}
 
-            {children}
-
-            {/* <div
+      {/* <div
                     after="Hover me!"
                     className="
     gradient_button
@@ -68,9 +62,6 @@ export default function GradientBorder({
   ">
                     {children}
                 </div> */}
-
-        </div>
-
-
-    );
+    </div>
+  );
 }

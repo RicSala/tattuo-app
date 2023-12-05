@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

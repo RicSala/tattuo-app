@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import prisma from "@/lib/prismadb";
 import TattooEditPageClient from "./TattooEditPageClient";
 import { TattooService } from "@/services/db/TattooService";

@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useContext, useEffect, useState } from "react";
@@ -33,6 +32,7 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import Spinner from "../icons/spinner";
+import { Button } from "../ui/button";
 
 const registerFormSchema = z.object({
   artisticName: z //object with two properties: value and string. both with atleast 3 letters

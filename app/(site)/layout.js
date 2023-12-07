@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import NavBar from "@/components/navbar/nav-bar";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 // import Container from "@/components/ui/Container";
 // export const dynamic = "force-dynamic";
 

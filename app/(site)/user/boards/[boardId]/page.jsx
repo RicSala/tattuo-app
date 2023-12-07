@@ -5,7 +5,7 @@ import Heading from "@/components/heading";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { Button } from "@/components/ui/button";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import { BoardService } from "@/services/db/BoardService";
 
 const TattooDetailsPage = async ({ params }) => {

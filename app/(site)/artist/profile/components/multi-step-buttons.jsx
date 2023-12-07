@@ -55,6 +55,7 @@ export default function MultiStepButtons({
             <Redo />
             {Object.keys(form.formState.errors).length !== 0 && (
               <p className="absolute -top-4 text-xs text-destructive">
+                {JSON.stringify(form.formState.errors)}
                 Revisa el formulario
               </p>
             )}

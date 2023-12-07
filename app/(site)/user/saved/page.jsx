@@ -3,7 +3,7 @@ import EmptyState from "@/components/empty-states/empty-state";
 import Heading from "@/components/heading";
 import ArtistCard from "@/components/listings/artist-card";
 import ListingGrid from "@/components/listings/listing-grid";
-import Container from "@/components/ui/container";
+import Container from "@/components/container";
 import { Separator } from "@/components/ui/separator";
 import { UserService } from "@/services/db/UserService";
 //TODO: If we delete the below if condition, we need to add this to force dynamic behaviour...Investigate this.

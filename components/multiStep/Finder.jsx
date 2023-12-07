@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import Stepper from "./Stepper";
-import AsyncSelect from "../async-select";
+import PrimitiveAsyncSelect from "../async-select";
 import { Textarea } from "../ui/textarea";
-import ImageUploader, { ImageThumbnail } from "../ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "../image-uploader";
 import { getStyleList } from "@/lib/getStyleList";
 import { useState } from "react";
 import { getCities } from "@/lib/getCities";
@@ -212,7 +212,7 @@ export default function Finder({ children, setResults, ...props }) {
                 <FormItem>
                   <FormLabel className="">Ciudad</FormLabel>
                   <FormControl>
-                    <AsyncSelect
+                    <PrimitiveAsyncSelect
                       placeholder="Donde sueles tatuar habitualmente"
                       {...field}
                       resources="cities"

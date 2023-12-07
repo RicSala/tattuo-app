@@ -15,6 +15,13 @@ export const artistMenuItems = [
     warningIcon: AlertCircle,
     warningMessage: "Tu perfil está incompleto",
   },
+  {
+    id: "studio",
+    url: "/studio/profile",
+    label: "Mi estudio",
+    warningIcon: AlertCircle,
+    warningMessage: "No estás asociado a ningún estudio",
+  },
 ];
 
 export const clientMenuItems = [

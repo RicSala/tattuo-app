@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { useRef, useState } from "react";
 import Spinner from "./icons/spinner";
-import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 import { useClickOutside } from "@/hooks/use-click-outside";
+import { Button } from "./ui/button";
 
 export default function Feedback({}) {
   const [isVisible, setIsVisible] = useState(false);

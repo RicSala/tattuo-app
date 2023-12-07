@@ -3,6 +3,7 @@
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
+import { Tag } from "@prisma/client";
 
 import {
   Form,
@@ -18,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Check, Save, Undo } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -193,6 +194,9 @@ const TattooEditPageClient = ({
 
   const filteredOptions = async (inputValue) => {
     const res = await apiClient.get(`/tags?s=${inputValue}`);
+    /**
+     * @type {Tag[]}
+     */
     const tags = res.data;
     return tags;
   };

@@ -3,6 +3,7 @@
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
+import { Tag } from "@prisma/client";
 
 import {
   Form,
@@ -193,6 +194,9 @@ const TattooEditPageClient = ({
 
   const filteredOptions = async (inputValue) => {
     const res = await apiClient.get(`/tags?s=${inputValue}`);
+    /**
+     * @type {Tag[]}
+     */
     const tags = res.data;
     return tags;
   };

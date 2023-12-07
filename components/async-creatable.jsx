@@ -4,7 +4,10 @@ import { apiClient } from "@/lib/apiClient";
 import { forwardRef } from "react";
 
 import AsyncCreatableSelect from "react-select/async-creatable";
-
+/**
+ * @typedef {ForwardRefExoticComponent<RefAttributes<HTMLSelectElement>>} Option
+ * @@type {Option}
+ */
 const AsyncCreatable = forwardRef(
   (
     {

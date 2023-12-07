@@ -29,6 +29,8 @@ import { Check } from "lucide-react";
 import { useRef, useState } from "react";
 import { FieldValues, UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
+import prisma from "@/lib/prismadb";
+import { PrismaClient, Studio } from "@prisma/client";
 
 const weekDays = [
   {
@@ -111,13 +113,8 @@ const registerStudioSchema = z.object(
   {},
 );
 
-// infer the type from registerStudioSchema
-
 type StudioFormValues = z.infer<typeof registerStudioSchema>;
-type StudioProfileClientProps = {
-  // TODO: chapucero...pero no se me ocurre otra forma de hacerlo
-  form: UseFormReturn<any, any, undefined>;
-};
+type UserFormReturnType = UseFormReturn<any, any, undefined>;
 
 export function StudioProfilePageClient({}) {
   const [stepsStatus, setStepsStatus] = useState({});
@@ -225,7 +222,7 @@ export function StudioProfilePageClient({}) {
   );
 }
 
-const StudioProfileClient = ({ form }: StudioProfileClientProps) => {
+const StudioProfileClient = ({ form }: { form: UserFormReturnType }) => {
   return (
     <>
       <div className="flex flex-col gap-6">
@@ -345,7 +342,7 @@ const StudioProfileClient = ({ form }: StudioProfileClientProps) => {
                 <div className="flex flex-wrap gap-4">
                   {form
                     .getValues("images")
-                    ?.map((image) => (
+                    ?.map((image: string) => (
                       <ImageThumbnail
                         key={image}
                         value={image}
@@ -374,7 +371,7 @@ const StudioProfileClient = ({ form }: StudioProfileClientProps) => {
   );
 };
 
-const OpenHours = ({ form }) => {
+const OpenHours = ({ form }: { form: UserFormReturnType }) => {
   return (
     <div className="mt8 mt-10 flex flex-col">
       <h2>Horarios</h2>
@@ -408,7 +405,7 @@ const OpenHours = ({ form }) => {
   );
 };
 
-const StudioClaim = ({ form }) => {
+const StudioClaim = ({ form }: { form: UserFormReturnType }) => {
   // We won't actually create the studio here
   const handleCreate = async (inputValue: string) => {
     const fakeCreate = {
@@ -456,7 +453,7 @@ const StudioClaim = ({ form }) => {
               <AsyncCreatable
                 {...field}
                 id="name"
-                onChange={(selection) => {
+                onChange={(selection: any) => {
                   field.onChange(selection);
                   console.log({ selection });
                   // If selection has id, then it's an existing studio and we have to "load" it into the form
@@ -484,7 +481,7 @@ const StudioClaim = ({ form }) => {
                 }}
                 control={form.control}
                 trigger={form.trigger}
-                errors={form.errors}
+                errors={form.formState.errors}
                 setValue={form.setValue}
                 onCreateOption={handleCreate}
                 onGetOptions={filteredOptions}
@@ -506,12 +503,17 @@ const StudioClaim = ({ form }) => {
   );
 };
 
-const Confirm = ({ form, onConfirm }) => {
+const Confirm = ({
+  form,
+  onConfirm,
+}: {
+  form: UserFormReturnType;
+  onConfirm: () => void;
+}) => {
   return (
     <div>
       <FormField
         control={form.control}
-        onChange={() => {}}
         name="confirm"
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">

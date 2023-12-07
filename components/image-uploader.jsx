@@ -161,17 +161,18 @@ export default ImageUploader;
 // }
 
 /**
- * @typedef {React.ComponentPropsWithoutRef<'image'> && {
- *
- * } } MergedImageProps
+ * Define the type of the prop object
+ * @typedef {Object} ImageThumbnailPropTypes
+ * @property {string} placeholderUrl
+ * @property {string} value
  */
 
 /**
- * @typedef {React.ComponentPropsWithoutRef<'image'>} ImageProps
+ * @typedef {ImageThumbnailPropTypes & React.ComponentPropsWithoutRef<'image'>} MergedImageProps
  */
 
 /**
- * @type {React.ForwardRefRenderFunction<HTMLImageElement, ImageProps>}
+ * @type {React.ForwardRefRenderFunction<HTMLButtonElement, MergedImageProps>}
  */
 const ImageThumbnail = forwardRef(
   // <HTMLInputElement, InputProps>

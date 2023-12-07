@@ -31,7 +31,7 @@ export const metadata = {
     "Encuentra tatuadores cerca de ti buscando por tatuajes, por estilo, por ciudad... Y contáctales cuando quieras totalmente GRATIS",
 };
 
-export default async function ArtistsPage({ searchParams }) {
+export default async function StudiosPage({}) {
   const studios = await prisma.studio.findMany({
     include: {
       studioGoogleProfile: true,
@@ -40,8 +40,8 @@ export default async function ArtistsPage({ searchParams }) {
   if (studios.length < 1) {
     return <EmptyArtist filtro1={filtro1} />;
   }
-  const serverLoadedArtists = studios.slice(0, initialDataSize);
-  const serverHasMoreArtists = studios.length > initialDataSize;
+  //   const serverLoadedArtists = studios.slice(0, initialDataSize);
+  //   const serverHasMoreArtists = studios.length > initialDataSize;
 
   return (
     <>

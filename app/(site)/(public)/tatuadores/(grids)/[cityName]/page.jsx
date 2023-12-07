@@ -16,21 +16,21 @@ export const generateMetadata = async ({ params }) => {
   return { title: `Tatuadores en ${capitalizeFirst(cityName)}` };
 };
 
-// true (default): Dynamic segments not included in generateStaticParams are generated on demand.
-// false: Dynamic segments not included in generateStaticParams will return a 404.
-export const dynamicParams = true; // true | false,
-// false | 'force-cache' | 0 | number
-export const revalidate = 86400; // 24 hours
-export const dynamic = "error";
+// // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// // false: Dynamic segments not included in generateStaticParams will return a 404.
+// export const dynamicParams = true; // true | false,
+// // false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
-// It's gonna be used in build time
-export const generateStaticParams = () => {
-  return getCities().map((item) => {
-    return {
-      cityName: item.label,
-    };
-  });
-};
+// // It's gonna be used in build time
+// export const generateStaticParams = () => {
+//   return getCities().map((item) => {
+//     return {
+//       cityName: item.label,
+//     };
+//   });
+// };
 
 const styles = getStyleList();
 const filtro1 = {

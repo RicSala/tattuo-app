@@ -46,8 +46,7 @@ export default async function ArtistsPage({ searchParams }) {
   return (
     <>
       <GridHeader
-        title={`Encuentra a los mejores tatuadores de
-      )}`}
+        title={`Los mejores estudios de tatuaje cerca de ti`}
         subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}

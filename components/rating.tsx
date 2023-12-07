@@ -23,19 +23,19 @@ export function Rating({ value }) {
 const RatingPoint = ({ status, fullIcon: FullIcon, halfIcon: HalfIcon }) => {
   return (
     <div className="relative">
-      <FullIcon className="relative h-4 w-4" />
+      <FullIcon className="relative h-3 w-3" />
       {
         {
           full: (
             <FullIcon
               fill
-              className="absolute left-0 top-0 h-4 w-4 overflow-hidden"
+              className="absolute left-0 top-0 h-3 w-3 overflow-hidden"
             />
           ),
           half: (
             <HalfIcon
               fill
-              className="absolute left-0 top-0 h-4 w-4 overflow-hidden"
+              className="absolute left-0 top-0 h-3 w-3 overflow-hidden"
             />
           ),
           empty: null,

@@ -1,11 +1,18 @@
+import { mapLabelsToIds } from "@/lib/getStyleList";
 import prisma from "@/lib/prismadb";
 
 export class StudioService {
-  static async getPaginated(searchParams, skip = 0, take = undefined) {
+  static async getPaginated(
+    searchParams,
+    skip = 0,
+    take = undefined,
+    include = {},
+  ) {
     const query = this.#buildQuery(searchParams);
     const studios = await prisma.studio.findMany({
       where: query,
       orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+      include,
       skip,
       take,
     });
@@ -14,6 +21,7 @@ export class StudioService {
 
   static async update(studioData) {
     const { id, ...data } = studioData;
+    console.log({ data });
     const studio = await prisma.studio.update({
       where: { id },
       data,
@@ -35,6 +43,13 @@ export class StudioService {
     return studio;
   }
 
+  static async getUserStudios(userId) {
+    const studios = await prisma.studio.findMany({
+      where: { userId },
+    });
+    return studios;
+  }
+
   static #buildQuery(searchParams) {
     const { name, styles, city, freeSearch, unclaimed } = searchParams;
 
@@ -45,6 +60,12 @@ export class StudioService {
     let query = {};
 
     const stylesArray = styles?.split(",").map((style) => style.trim());
+    if (stylesArray && stylesArray.length > 0) {
+      const styleIds = mapLabelsToIds(stylesArray);
+      query.stylesIds = {
+        hasSome: styleIds,
+      };
+    }
 
     if (name) {
       query.name = {
@@ -56,7 +77,7 @@ export class StudioService {
     if (city) {
       query.city = {
         label: {
-          contains: city,
+          equals: city,
           mode: "insensitive",
         },
       };
@@ -69,12 +90,12 @@ export class StudioService {
         OR: [
           {
             name: {
-              contains: name,
+              contains: freeSearch,
               mode: "insensitive",
             },
           },
           {
-            bio: {
+            description: {
               contains: freeSearch,
               mode: "insensitive",
             },

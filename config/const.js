@@ -17,7 +17,7 @@ export const artistMenuItems = [
   },
   {
     id: "studio",
-    url: "/studio/profile",
+    url: "/artist/studios",
     label: "Mi estudio",
     warningIcon: AlertCircle,
     warningMessage: "No estás asociado a ningún estudio",

@@ -48,7 +48,7 @@ const ArtistCard = ({ data, className, imagePriority = false }) => {
             <div className="relative inset-0 aspect-square overflow-hidden transition-transform">
               <Image
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
-                fill={true}
+                fill
                 //TODO:  What about when there is not image??
                 src={
                   data?.images[0] || data.mainImage || "/images/placeholder.png"

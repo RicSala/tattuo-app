@@ -103,6 +103,7 @@ export default async function TattoosPage({ params, searchParams }) {
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
+        freeSearch={false}
         // filtro2={filtro2}
       />
 

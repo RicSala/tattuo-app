@@ -20,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { UiContext } from "@/providers/ui/ui-provider";
 import {
   ArtistProfile,
   Studio,
@@ -35,7 +36,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import router from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export type WithAdditionalProperties<T> = T & {
   studioGoogleProfile: studioGoogleProfile;
@@ -76,6 +77,9 @@ export function StudioDetailsCard({
 
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+
+  const { setArtistRegisterOpen } = useContext(UiContext);
+
   const currentUser = session?.user;
 
   return (
@@ -106,12 +110,23 @@ export function StudioDetailsCard({
             >
               Reportar
             </DropdownMenuItem>
-            {!studio.userId && !currentUser ? (
+            {!studio.userId && currentUser ? (
               <DropdownMenuItem
                 className="hover:cursor-pointer"
-                // onClick={() => {
-                //   setArtistRegisterOpen(true);
-                // }}
+                onClick={() => {
+                  if (!currentUser) {
+                    toast({
+                      title: "Accede a tu cuenta",
+                      description:
+                        "Para reclamar un estudio, debes estar logueado",
+                      variant: "destructive",
+                    });
+                    setArtistRegisterOpen(true);
+                    return;
+                  }
+
+                  router.push(`/studio/profile/${studio.id}`);
+                }}
               >
                 Reclamar estudio
               </DropdownMenuItem>
@@ -188,7 +203,20 @@ export function StudioDetailsCard({
             </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="h-96 w-full">
-                <Map />
+                <Map
+                  center={{
+                    lat: studio.latitude,
+                    lng: studio.longitude,
+                  }}
+                  zoom={15}
+                  mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_STUDIO_MAP_ID}
+                >
+                  <div className="fle flex-col gap-2">
+                    <h3>{studio.name}</h3>
+                    <p>{studio.studioGoogleProfile.address}</p>
+                    <p>{studio.studioGoogleProfile.phoneNumber}</p>
+                  </div>
+                </Map>
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -277,11 +305,27 @@ export function StudioDetailsCard({
           </div>
         </div>
         <Separator />
-        {!studio.userId && !currentUser ? (
+        {!studio.userId && currentUser ? (
           <div className="flex items-center justify-center gap-2 text-sm italic text-primary/70">
             ¿Eres tú?
             {/* TODO: How can I send the form the name of the user? */}
-            <Button variant="ghost" onClick={() => {}}>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                if (!currentUser) {
+                  toast({
+                    title: "Accede a tu cuenta",
+                    description:
+                      "Para reclamar un estudio, debes estar logueado",
+                    variant: "destructive",
+                  });
+                  setArtistRegisterOpen(true);
+                  return;
+                }
+
+                router.push(`/studio/profile/${studio.id}`);
+              }}
+            >
               Reclama este estudio
             </Button>
           </div>

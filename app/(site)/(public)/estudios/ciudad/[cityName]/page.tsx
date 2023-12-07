@@ -6,6 +6,7 @@ import StudioCard from "@/components/listings/studio-card";
 import { StudioService } from "@/services/db/StudioService";
 import { Studio, studioGoogleProfile } from "@prisma/client";
 import { generatedCities } from "@/config/constants";
+import { notFound } from "next/navigation";
 
 const endpoint =
   process.env.NODE_ENV === "production"
@@ -32,17 +33,25 @@ const filtroCity = {
 };
 
 export const metadata = {
-  title: "Los mejores tatuadores de tu ciudad",
+  title: `Los mejores tatuadores de tu ciudad`,
   description:
     "Encuentra tatuadores cerca de ti buscando por tatuajes, por estilo, por ciudad... Y contáctales cuando quieras totalmente GRATIS",
 };
 
 export default async function StudiosPage({
   searchParams,
+  params,
 }: {
   searchParams: Record<string, string>;
+  params: Record<string, string>;
 }) {
   console.log("searchParams", searchParams);
+  const { cityName } = params;
+
+  const city = cities.find((item) => item.city === cityName);
+  if (!city) {
+    return notFound();
+  }
 
   type WithGoogleProfile<T> = T & {
     studioGoogleProfile: studioGoogleProfile;
@@ -53,6 +62,7 @@ export default async function StudiosPage({
   const studios = (await StudioService.getPaginated(
     {
       ...searchParams,
+      city: cityName,
     },
     0,
     // TODO: ojo!
@@ -64,17 +74,15 @@ export default async function StudiosPage({
   if (studios.length < 1) {
     return <EmptyArtist filtro1={filtro1} />;
   }
-  //   const serverLoadedArtists = studios.slice(0, initialDataSize);
-  //   const serverHasMoreArtists = studios.length > initialDataSize;
 
   return (
     <>
       <GridHeader
-        title={`Los mejores estudios de tatuaje cerca de ti`}
+        title={`Los mejores estudios de tatuaje de ${params.cityName}`}
         subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         // filtro1={filtro1}
-        filtroCities={filtroCity}
+        // filtroCities={filtroCity}
       />
       <ListingGrid>
         {studios.map((studio) => (

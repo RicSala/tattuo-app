@@ -4,18 +4,28 @@ import SearchBar from "@/components/search/search-bar";
 import SearchFilterButton from "@/components/search/search-filter-button";
 import { Separator } from "@/components/ui/separator";
 import { capitalizeFirst } from "@/lib/utils";
-import NextBreadcrumb from "./breadcrumbs";
+import Breadcrumbs from "./breadcrumbs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import { CitiesFilter } from "./cities-filter";
 
 export function GridHeader({
   title,
   subtitle,
-  filtro1,
+  freeSearch = true,
+  filtro1 = null,
   filtro2 = null,
   contentSlug,
+  filtroCities = null,
 }) {
   return (
     <>
-      <NextBreadcrumb
+      <Breadcrumbs
         activeClasses={"!text-primary font-semibold"}
         capitalizeLinks={true}
         containerClasses={
@@ -29,7 +39,7 @@ export function GridHeader({
       <Separator className="my-5" />
 
       <SearchBar>
-        <FreeSearch />
+        {freeSearch && <FreeSearch />}
         <div className="flex flex-row gap-2">
           {filtro1 && (
             <SearchFilterButton
@@ -45,6 +55,8 @@ export function GridHeader({
               searchParamName={filtro2.value}
             />
           )}
+
+          {filtroCities && <CitiesFilter filtroCities={filtroCities} />}
         </div>
       </SearchBar>
     </>

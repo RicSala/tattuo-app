@@ -12,34 +12,38 @@ import {
   Pin,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export function Map() {
+export function Map({
+  center = { lat: 41.64, lng: -0.8978125 },
+  zoom = 15,
+  children = null,
+  mapId = "363183913ebd8ffe",
+}: {
+  center: { lat: number; lng: number };
+  zoom: number;
+  children?: React.ReactNode;
+  mapId: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
       <div className="h-full w-full">
         <BaseMap
           zoom={15}
-          center={{ lat: 41.64, lng: -0.8978125 }}
-          mapId="363183913ebd8ffe"
+          center={center}
+          mapId={mapId}
           mapTypeControl={false}
           streetViewControl={false}
         >
-          <AdvancedMarker
-            position={{ lat: 41.64, lng: -0.8978125 }}
-            onClick={() => setOpen(!open)}
-          >
+          <AdvancedMarker position={center} onClick={() => setOpen(!open)}>
             <Pin background="black" borderColor="white" glyphColor="gray" />
             {open && (
               <InfoWindow
-                position={{ lat: 41.64, lng: -0.8978125 }}
+                position={{ ...center, lat: center.lat + 0.0025 }}
                 onCloseClick={() => setOpen(false)}
               >
-                <div className="flex flex-col">
-                  <h1>Estudio de tatuajes</h1>
-                  <p>Estudio de tatuajes</p>
-                </div>
+                {children}
               </InfoWindow>
             )}
           </AdvancedMarker>

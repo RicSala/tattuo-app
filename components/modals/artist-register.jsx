@@ -199,7 +199,7 @@ export function ArtistRegisterForm({}) {
                       errors={form.errors}
                       setValue={form.setValue}
                       rules={{
-                        required: "Debes seleccionar al menos un tag",
+                        required: "Debes especificar un nombre artístico",
                         // max lenth of the array is 3
                         validate: (value) =>
                           value.length <= 3 || "Máximo 3 tags",

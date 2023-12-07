@@ -17,9 +17,18 @@ import {
   Pin,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { data } from "autoprefixer";
+import { get } from "http";
+import { Label } from "./ui/label";
 
-export function PlacesAutocompleteMap() {
+export function PlacesAutocompleteMap({
+  studioName,
+  form,
+}: {
+  studioName: string;
+  form: any;
+}) {
   const [open, setOpen] = useState(false);
   const {
     ready, // whether is ready to use having loaded the Google Maps JavaScript API
@@ -28,20 +37,32 @@ export function PlacesAutocompleteMap() {
     suggestions: { status, data },
     clearSuggestions, // to be called after the user selects a suggestion
   } = usePlacesAutocomplete({});
-  const [selected, setSelected] = useState({});
+  const [selected, setSelected] = useState({ lat: 0, lng: 0 });
+
+  useEffect(() => {
+    const getGeoCode = async () => {
+      const geocode = await getGeocode({ address: studioName });
+      const coordinates = await getLatLng(geocode[0]);
+      form.setValue("latitude", coordinates.lat);
+      form.setValue("longitude", coordinates.lng);
+
+      return coordinates;
+    };
+
+    getGeoCode().then((coordinates) => {
+      setSelected(coordinates);
+    });
+  }, [studioName, value]);
 
   return (
-    <APIProvider
-      apiKey={"AIzaSyA60IfgEhUb9r0gMcYbkR0oKMFSAUTUR_I"}
-      libraries={["places"]}
-    >
-      {ready ? "ready" : "not ready"}
-
+    <>
+      <Label>Busca tu estudio</Label>
       <PrimitiveAsyncSelect
+        defaultInputValue={studioName}
         // ref={ref}
         // cacheOptions
         value={value}
-        isDisabled={!ready}
+        // isDisabled={!ready}
         onChange={async (selection) => {
           console.log("selection", selection);
           const results = await getGeocode({ address: selection.value });
@@ -76,25 +97,23 @@ export function PlacesAutocompleteMap() {
       <div className="h-full w-full">
         <BaseMap
           zoom={15}
-          center={{ lat: 41.64, lng: -0.8978125 }}
+          center={selected}
           mapId="363183913ebd8ffe"
           mapTypeControl={false}
           streetViewControl={false}
         >
           {selected && selected.lat && selected.lng && (
-            <AdvancedMarker
-              position={{ lat: 41.64, lng: -0.8978125 }}
-              onClick={() => setOpen(!open)}
-            >
+            <AdvancedMarker position={selected} onClick={() => setOpen(!open)}>
               <Pin background="black" borderColor="white" glyphColor="gray" />
               {open && (
                 <InfoWindow
-                  position={{ lat: 41.64, lng: -0.8978125 }}
+                  position={{ ...selected, lat: selected.lat + 0.0015 }}
                   onCloseClick={() => setOpen(false)}
                 >
-                  <div className="flex flex-col">
-                    <h1>Estudio de tatuajes</h1>
-                    <p>Estudio de tatuajes</p>
+                  <div className="fle flex-col gap-2">
+                    <h3>{studioName}</h3>
+                    <p>{}</p>
+                    <p>{}</p>
                   </div>
                 </InfoWindow>
               )}
@@ -102,6 +121,6 @@ export function PlacesAutocompleteMap() {
           )}
         </BaseMap>
       </div>
-    </APIProvider>
+    </>
   );
 }

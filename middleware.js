@@ -55,7 +55,8 @@ export default withAuth(
     // protect the paths of the artists
     if (
       request.nextUrl.pathname.includes("/artist") &&
-      request.nextauth.token?.role !== "ARTIST" // TODO: this is not blocking unlogged artists! why???
+      request.nextauth.token?.role !== "ARTIST" &&
+      request.nextauth.token?.role !== "ADMIN" // TODO: this is not blocking unlogged artists! why???
     ) {
       console.log("BLOCKED in 2nd filter");
       return NextResponse.rewrite(new URL("/denied", request.url));

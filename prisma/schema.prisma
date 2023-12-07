@@ -2,313 +2,313 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js" // Specify the Prisma client - 
+    provider = "prisma-client-js" // Specify the Prisma client - 
 }
 
 datasource db {
-  provider = "mongodb" // Specify the MongoDB database adapter
-  url      = env("MONGO_URL")
+    provider = "mongodb" // Specify the MongoDB database adapter
+    url      = env("MONGO_URL")
 }
 
 model User {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  // name type decorator defaultauto map-to-mongo-_id ??
-  name            String?
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  confirmPassword String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  role            UserRole  @default(CLIENT)
+    id              String    @id @default(auto()) @map("_id") @db.ObjectId
+    // name type decorator defaultauto map-to-mongo-_id ??
+    name            String?
+    email           String?   @unique
+    emailVerified   DateTime?
+    image           String?
+    hashedPassword  String?
+    confirmPassword String?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+    role            UserRole  @default(CLIENT)
 
-  // RELATIONS
-  boards       Board[]
-  accounts     Account[]
-  artist       ArtistProfile[]
-  savedTattoos SavedTattoo[]
-  savedArtists SavedArtist[]
-  likedTattoos LikedTattoo[]
-  likedArtists LikedArtist[]
+    // RELATIONS
+    boards       Board[]
+    accounts     Account[]
+    artist       ArtistProfile[]
+    savedTattoos SavedTattoo[]
+    savedArtists SavedArtist[]
+    likedTattoos LikedTattoo[]
+    likedArtists LikedArtist[]
 
-  // messages Message[]
-  settings Settings?
-  Studio   Studio[]
+    // messages Message[]
+    settings Settings?
+    Studio   Studio[]
 }
 
 model Settings {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  // RELATIONS
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique @db.ObjectId
+    // RELATIONS
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique @db.ObjectId
 
-  // Settings fields
-  darkMode Boolean @default(false)
+    // Settings fields
+    darkMode Boolean @default(false)
 }
 
 // TODO: change from saves to savedTattoos
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String // REVIEW:  what is the db.String decorator for?
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String // REVIEW:  what is the db.String decorator for?
+    access_token      String? @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
 
-  // RELATIONS
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // RELATIONS
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId]) // the combination of provider and providerAccountId must be unique
+    @@unique([provider, providerAccountId]) // the combination of provider and providerAccountId must be unique
 }
 
 model ArtistProfile {
-  // DB fields
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?  @db.ObjectId // Now optional, can be null
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    // DB fields
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    user      User?    @relation(fields: [userId], references: [id])
+    userId    String?  @db.ObjectId // Now optional, can be null
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  // Profile fields
-  artisticName     String?       @unique
-  email            String?
-  bio              String?
-  phone            String?
-  website          String?
-  mainImage        String?
-  images           String[]
-  stylesIds        String[]      @db.ObjectId
-  styles           Style[]       @relation(fields: [stylesIds], references: [id])
-  pricePerHour     Int?
-  pricePerSession  Int?
-  minWorkPrice     Int?
-  isComplete       Boolean?      @default(false)
-  hasEnoughTattoos Boolean?      @default(false)
-  socials          Json[]
-  tattoos          Tattoo[]
-  saves            SavedArtist[]
-  likes            LikedArtist[]
-  cityId           String?       @db.ObjectId
-  city             City?         @relation(fields: [cityId], references: [id])
-  Lead             Lead?
+    // Profile fields
+    artisticName     String?       @unique
+    email            String?
+    bio              String?
+    phone            String?
+    website          String?
+    mainImage        String?
+    images           String[]
+    stylesIds        String[]      @db.ObjectId
+    styles           Style[]       @relation(fields: [stylesIds], references: [id])
+    pricePerHour     Int?
+    pricePerSession  Int?
+    minWorkPrice     Int?
+    isComplete       Boolean?      @default(false)
+    hasEnoughTattoos Boolean?      @default(false)
+    socials          Json[]
+    tattoos          Tattoo[]
+    saves            SavedArtist[]
+    likes            LikedArtist[]
+    cityId           String?       @db.ObjectId
+    city             City?         @relation(fields: [cityId], references: [id])
+    Lead             Lead?
 
-  // An artist can be or not in a studio
-  studioId String? @db.ObjectId
-  studio   Studio? @relation(fields: [studioId], references: [id])
-  // @@index([userId])
-  // @@index([cityId])
+    // An artist can be or not in a studio
+    studioId String? @db.ObjectId
+    studio   Studio? @relation(fields: [studioId], references: [id])
+    // @@index([userId])
+    // @@index([cityId])
 }
 
 model Tattoo {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  title       String
-  description String
-  imageSrc    String
-  content     String?
-  // numLikes      Int      @default(0)
+    title       String
+    description String
+    imageSrc    String
+    content     String?
+    // numLikes      Int      @default(0)
 
-  // Create a textIndex to speedup search operations
-  searchText String @default("")
+    // Create a textIndex to speedup search operations
+    searchText String @default("")
 
-  // RELATIONS
-  artistProfileId String?        @db.ObjectId
-  artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
+    // RELATIONS
+    artistProfileId String?        @db.ObjectId
+    artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
 
-  saves SavedTattoo[]
-  likes LikedTattoo[]
-  tags  TaggedTattoo[]
+    saves SavedTattoo[]
+    likes LikedTattoo[]
+    tags  TaggedTattoo[]
 
-  stylesIds String[] @db.ObjectId
-  styles    Style[]  @relation(fields: [stylesIds], references: [id])
-  // styleId String? @db.ObjectId
-  // style   Style?  @relation(fields: [styleId], references: [id])
+    stylesIds String[] @db.ObjectId
+    styles    Style[]  @relation(fields: [stylesIds], references: [id])
+    // styleId String? @db.ObjectId
+    // style   Style?  @relation(fields: [styleId], references: [id])
 
-  bodyPartId String?   @db.ObjectId
-  bodyPart   BodyPart? @relation(fields: [bodyPartId], references: [id])
+    bodyPartId String?   @db.ObjectId
+    bodyPart   BodyPart? @relation(fields: [bodyPartId], references: [id])
 
-  boards BoardTattoo[]
-  // @@index([artistProfileId])
+    boards BoardTattoo[]
+    // @@index([artistProfileId])
 
-  // @@index([title])
-  // @@index([description])
-  @@index([stylesIds])
+    // @@index([title])
+    // @@index([description])
+    @@index([stylesIds])
 }
 
 enum UserRole {
-  ADMIN
-  CLIENT
-  ARTIST
+    ADMIN
+    CLIENT
+    ARTIST
 }
 
 model SavedTattoo {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  tattooId String @db.ObjectId
-  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+    tattooId String @db.ObjectId
+    tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
 
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, tattooId])
+    @@unique([userId, tattooId])
 }
 
 // saved Artist
 model SavedArtist {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  artistProfileId String        @db.ObjectId
-  artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+    artistProfileId String        @db.ObjectId
+    artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
 
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, artistProfileId])
+    @@unique([userId, artistProfileId])
 }
 
 // liked tattoo
 model LikedTattoo {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  tattooId String @db.ObjectId
-  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+    tattooId String @db.ObjectId
+    tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
 
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, tattooId])
+    @@unique([userId, tattooId])
 }
 
 model TaggedTattoo {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  tattooId String @db.ObjectId
-  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+    tattooId String @db.ObjectId
+    tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
 
-  tagId String @db.ObjectId
-  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  // @@index([tattooId])
-  // @@index([tagId])
+    tagId String @db.ObjectId
+    tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+    // @@index([tattooId])
+    // @@index([tagId])
 
-  @@unique([tattooId, tagId])
+    @@unique([tattooId, tagId])
 }
 
 // liked artist
 model LikedArtist {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  artistProfileId String        @db.ObjectId
-  artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+    artistProfileId String        @db.ObjectId
+    artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
 
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @db.ObjectId
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, artistProfileId])
+    @@unique([userId, artistProfileId])
 }
 
 // model City
 model City {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  parent_code   String
-  code          String
-  label         String
-  value         String
-  artistProfile ArtistProfile[]
-  Studio        Studio[]
+    parent_code   String
+    code          String
+    label         String
+    value         String
+    artistProfile ArtistProfile[]
+    Studio        Studio[]
 
-  @@unique([label, parent_code])
+    @@unique([label, parent_code])
 }
 
 // model BodyPart
 model BodyPart {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  label  String
-  value  String
-  tattoo Tattoo[]
+    label  String
+    value  String
+    tattoo Tattoo[]
 }
 
 model Style {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  label String @unique
-  value String @unique
+    label String @unique
+    value String @unique
 
-  tattooIds String[] @db.ObjectId
-  tattoos   Tattoo[] @relation(fields: [tattooIds], references: [id])
+    tattooIds String[] @db.ObjectId
+    tattoos   Tattoo[] @relation(fields: [tattooIds], references: [id])
 
-  artistProfileIds String[]        @db.ObjectId
-  artistProfiles   ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
+    artistProfileIds String[]        @db.ObjectId
+    artistProfiles   ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
 
-  @@index([tattooIds])
+    @@index([tattooIds])
 }
 
 model Tag {
-  id        String         @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  label     String         @unique
-  value     String         @unique
-  tattoos   TaggedTattoo[]
+    id        String         @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @updatedAt
+    label     String         @unique
+    value     String         @unique
+    tattoos   TaggedTattoo[]
 }
 
 model Board {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  public    Boolean? @default(false)
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title     String
+    public    Boolean? @default(false)
+    userId    String   @db.ObjectId
+    user      User     @relation(fields: [userId], references: [id])
 
-  tattoos BoardTattoo[]
+    tattoos BoardTattoo[]
 
-  // userid and title must be unique
-  @@unique([userId, title])
+    // userid and title must be unique
+    @@unique([userId, title])
 }
 
 model BoardTattoo {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  boardId String @db.ObjectId
-  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+    boardId String @db.ObjectId
+    board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
-  tattooId String @db.ObjectId
-  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+    tattooId String @db.ObjectId
+    tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
 
-  @@unique([boardId, tattooId])
+    @@unique([boardId, tattooId])
 }
 
 // Create a "lead" model that will be used to keep track of leads. 
@@ -324,174 +324,175 @@ model BoardTattoo {
 // - status (enum: PENDING, CONTACTED, NOT_INTERESTED, INTERESTED, SCHEDULED, DONE)
 
 model Lead {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  name        String?
-  email       String?
-  phone       String?
-  description String?
+    name        String?
+    email       String?
+    phone       String?
+    description String?
 
-  // RELATIONS
-  artistId String        @unique @db.ObjectId
-  artist   ArtistProfile @relation(fields: [artistId], references: [id])
+    // RELATIONS
+    artistId String        @unique @db.ObjectId
+    artist   ArtistProfile @relation(fields: [artistId], references: [id])
 
-  status LeadStatus @default(PENDING)
+    status LeadStatus @default(PENDING)
 }
 
 enum LeadStatus {
-  PENDING
-  CONTACTED
-  NOT_INTERESTED
-  INTERESTED
-  SCHEDULED
-  DONE
+    PENDING
+    CONTACTED
+    NOT_INTERESTED
+    INTERESTED
+    SCHEDULED
+    DONE
 }
 
 model Studio {
-  id                String                    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt         DateTime                  @default(now())
-  updatedAt         DateTime                  @updatedAt
-  name              String                    @unique //TODO: uncomment after testing
-  slug              String? // @unique //TODO: uncomment after testing
-  description       String?
-  email             String?
-  phone             String?
-  address           String?
-  city              City?                     @relation(fields: [cityId], references: [id])
-  country           String?
-  zip               String?
-  website           String?
-  socials           Json[]
-  images            String[]
-  googlePlaceUrl    String?                   @unique //TODO: uncomment after testing
-  googleRating      Float?
-  googleReviewCount Int?
-  phoneNumber       String?
-  lunes             String?
-  martes            String?
-  miercoles         String?
-  jueves            String?
-  viernes           String?
-  sabado            String?
-  domingo           String?
-  mainImageUrl      String?
-  isClaimed         Boolean?
-  latitude          Float?
-  longitude         Float?
-  info              String?
-  status            studioGoogleProfileStatus @default(PENDING)
+    id                String                    @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt         DateTime                  @default(now())
+    updatedAt         DateTime                  @updatedAt
+    name              String                    @unique //TODO: uncomment after testing
+    slug              String?                   @unique //TODO: uncomment after testing
+    description       String?
+    email             String?
+    phone             String?
+    address           String?
+    city              City?                     @relation(fields: [cityId], references: [id])
+    country           String?
+    zip               String?
+    website           String?
+    socials           Json[]
+    images            String[]
+    googlePlaceUrl    String?                   @unique //TODO: uncomment after testing
+    googleRating      Float?
+    googleReviewCount Int?
+    phoneNumber       String?
+    whatsapp          String?
+    lunes             String?
+    martes            String?
+    miercoles         String?
+    jueves            String?
+    viernes           String?
+    sabado            String?
+    domingo           String?
+    mainImageUrl      String?
+    isClaimed         Boolean?
+    latitude          Float?
+    longitude         Float?
+    info              String?
+    status            studioGoogleProfileStatus @default(PENDING)
 
-  // RELATIONS
-  // artistId String @db.ObjectId
-  // artist   ArtistProfile @relation(fields: [artistId], references: [id])
-  studioGoogleProfile studioGoogleProfile?
-  cityId              String?              @db.ObjectId
-  artists             ArtistProfile[]
+    // RELATIONS
+    // artistId String @db.ObjectId
+    // artist   ArtistProfile @relation(fields: [artistId], references: [id])
+    studioGoogleProfile studioGoogleProfile?
+    cityId              String?              @db.ObjectId
+    artists             ArtistProfile[]
 
-  // The studio can have an owner (a user)
-  userId String? @db.ObjectId
-  user   User?   @relation(fields: [userId], references: [id])
+    // The studio can have an owner (a user)
+    userId String? @db.ObjectId
+    user   User?   @relation(fields: [userId], references: [id])
 }
 
 model InstagramAccount {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  url               String     @unique
-  profileName       String
-  fullName          String?
-  bio               String?
-  followersCount    Int?
-  followingCount    Int?
-  instagramId       String?
-  isBusinessAccount Boolean?
-  category          String?
-  phoneNumber       String?
-  isPrivate         Boolean?
-  isVerified        Boolean?
-  imageUrl          String?
-  postCount         Int?
-  website           String?
-  mailFound         String?
-  publicEmail       String?
-  contactPhone      String?
-  businessAddress   String?
-  businessZip       String?
-  businessCity      String?
-  status            LeadStatus @default(PENDING)
+    url               String     @unique
+    profileName       String
+    fullName          String?
+    bio               String?
+    followersCount    Int?
+    followingCount    Int?
+    instagramId       String?
+    isBusinessAccount Boolean?
+    category          String?
+    phoneNumber       String?
+    isPrivate         Boolean?
+    isVerified        Boolean?
+    imageUrl          String?
+    postCount         Int?
+    website           String?
+    mailFound         String?
+    publicEmail       String?
+    contactPhone      String?
+    businessAddress   String?
+    businessZip       String?
+    businessCity      String?
+    status            LeadStatus @default(PENDING)
 
-  //? RELATIONS
-  // artistId String @db.ObjectId
-  // artist   ArtistProfile @relation(fields: [artistId], references: [id])
-  studioGoogleProfile   studioGoogleProfile? @relation(fields: [studioGoogleProfileId], references: [id])
-  studioGoogleProfileId String?              @db.ObjectId
+    //? RELATIONS
+    // artistId String @db.ObjectId
+    // artist   ArtistProfile @relation(fields: [artistId], references: [id])
+    studioGoogleProfile   studioGoogleProfile? @relation(fields: [studioGoogleProfileId], references: [id])
+    studioGoogleProfileId String?              @db.ObjectId
 }
 
 model InstagramPost {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  url          String   @unique
-  description  String
-  commentCount Int
-  likeCount    Int
-  pubDate      DateTime
-  isSidecar    Boolean
-  postType     String
-  caption      String
-  profileUrl   String
-  imageUrl     String
-  postId       String
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    url          String   @unique
+    description  String
+    commentCount Int
+    likeCount    Int
+    pubDate      DateTime
+    isSidecar    Boolean
+    postType     String
+    caption      String
+    profileUrl   String
+    imageUrl     String
+    postId       String
 }
 
 model studioGoogleProfile {
-  id            String                    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime                  @default(now())
-  updatedAt     DateTime                  @updatedAt
-  placeUrl      String                    @unique //TODO: uncomment after testing
-  title         String                    @unique //TODO: uncomment after testing
-  rating        Float
-  reviewCount   Int
-  category      String
-  attributes    String
-  address       String
-  plusCode      String
-  website       String
-  phoneNumber   String
-  miercoles     String
-  jueves        String
-  viernes       String
-  sabado        String
-  domingo       String
-  lunes         String
-  martes        String
-  currentStatus String
-  imgUrl        String
-  isClaimed     Boolean
-  latitude      Float
-  longitude     Float
-  query         String
-  timestamp     DateTime
-  info          String
-  status        studioGoogleProfileStatus @default(PENDING)
+    id            String                    @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt     DateTime                  @default(now())
+    updatedAt     DateTime                  @updatedAt
+    placeUrl      String                    @unique //TODO: uncomment after testing
+    title         String                    @unique //TODO: uncomment after testing
+    rating        Float
+    reviewCount   Int
+    category      String
+    attributes    String
+    address       String
+    plusCode      String
+    website       String
+    phoneNumber   String
+    miercoles     String
+    jueves        String
+    viernes       String
+    sabado        String
+    domingo       String
+    lunes         String
+    martes        String
+    currentStatus String
+    imgUrl        String
+    isClaimed     Boolean
+    latitude      Float
+    longitude     Float
+    query         String
+    timestamp     DateTime
+    info          String
+    status        studioGoogleProfileStatus @default(PENDING)
 
-  instagramAccounts InstagramAccount[]
-  // RELATIONS
-  // May or may not have a studio
-  Studio            Studio?            @relation(fields: [studioId], references: [id])
-  studioId          String?            @unique @db.ObjectId
+    instagramAccounts InstagramAccount[]
+    // RELATIONS
+    // May or may not have a studio
+    Studio            Studio?            @relation(fields: [studioId], references: [id])
+    studioId          String?            @unique @db.ObjectId
 }
 
 enum studioGoogleProfileStatus {
-  PENDING
-  ERROR
-  CRAWLING
-  CRAWLED
-  CONTACTED
-  NOT_INTERESTED
-  INTERESTED
-  SUCCESS
+    PENDING
+    ERROR
+    CRAWLING
+    CRAWLED
+    CONTACTED
+    NOT_INTERESTED
+    INTERESTED
+    SUCCESS
 }

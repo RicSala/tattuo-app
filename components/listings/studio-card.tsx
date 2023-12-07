@@ -18,7 +18,9 @@ import {
 } from "lucide-react";
 import { Rating } from "../rating";
 
-type WithGoogleProfile<T> = T & { studioGoogleProfile: studioGoogleProfile };
+export type WithGoogleProfile<T> = T & {
+  studioGoogleProfile: studioGoogleProfile;
+};
 
 interface StudioCardProps {
   studio: WithGoogleProfile<Studio>;
@@ -39,7 +41,7 @@ const StudioCard = ({
 
   return (
     <div
-      onClick={() => router.push(`/estudios/${studio.id}`)}
+      onClick={() => router.push(`/estudios/${studio.slug}`)}
       onMouseEnter={() => {
         router.prefetch(`/tatuadores/profile/654e02287ffff1cdf25b7d92`);
       }}
@@ -51,14 +53,14 @@ const StudioCard = ({
       )}
     >
       <div className="relative">
-        <div className="absolute right-3 top-3 z-[3]">
+        {/* <div className="absolute right-3 top-3 z-[3]">
           <HeartButton
             className={""}
             listingId={studio.id}
             currentUser={currentUser}
             listingType="artists"
           />
-        </div>
+        </div> */}
 
         <div className="absolute left-3 top-3 z-[3]">
           <SaveButton
@@ -73,11 +75,9 @@ const StudioCard = ({
             <div className="relative inset-0 aspect-square overflow-hidden transition-transform">
               <Image
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
-                fill={true}
+                fill
                 //TODO:  What about when there is not image??
-                src={
-                  studio.studioGoogleProfile.imgUrl || "/images/placeholder.png"
-                }
+                src={studio.mainImageUrl || "/images/placeholder.png"}
                 alt="profile picture"
                 priority={imagePriority}
                 className="object-cover"
@@ -103,11 +103,11 @@ const StudioCard = ({
           <PinIcon className="h-4 w-4" />
         </p>
         {/* <Avatar user={data} /> */}
-        <Rating value={studio.studioGoogleProfile.rating} />
+        <Rating value={studio.googleRating} />
         <p className="truncate">
-          {studio.studioGoogleProfile.rating}
+          {studio.googleRating}
           <span className="relative -bottom-0 ml-1 truncate text-xs italic text-primary/50">
-            ({studio.studioGoogleProfile.reviewCount} reviews)
+            ({studio.googleReviewCount} reviews)
           </span>
         </p>
       </div>

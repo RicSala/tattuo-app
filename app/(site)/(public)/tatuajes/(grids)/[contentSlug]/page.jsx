@@ -22,20 +22,20 @@ export const generateMetadata = async ({ params }) => {
 };
 
 // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
-// false: Dynamic segments not included in generateStaticParams will return a 404.
-export const dynamicParams = true; // true | false,
-// false | 'force-cache' | 0 | number
-export const revalidate = 86400; // 24 hours
-export const dynamic = "error";
+// // false: Dynamic segments not included in generateStaticParams will return a 404.
+// export const dynamicParams = true; // true | false,
+// // false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
-// It's gonna be used in build time
-export const generateStaticParams = () => {
-  return generatedContentSlugs.map((item) => {
-    return {
-      contentSlug: item.content,
-    };
-  });
-};
+// // It's gonna be used in build time
+// export const generateStaticParams = () => {
+//   return generatedContentSlugs.map((item) => {
+//     return {
+//       contentSlug: item.content,
+//     };
+//   });
+// };
 
 const styles = getStyleList();
 // const cities = getCities();

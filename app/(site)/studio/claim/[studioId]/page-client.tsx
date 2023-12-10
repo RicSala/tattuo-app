@@ -4,21 +4,14 @@ import MultiStepButtons from "@/app/(site)/artist/profile/components/multi-step-
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTabs } from "@/hooks/useTabs";
-import { getUnclaimedArtistsProfiles } from "@/lib/api-service";
 import { apiClient } from "@/lib/apiClient";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { id } from "date-fns/locale";
-import { Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { FieldValues, UseFormReturn, useForm } from "react-hook-form";
-import { z } from "zod";
-import prisma from "@/lib/prismadb";
-import { PrismaClient, Studio } from "@prisma/client";
-import { APIProvider } from "@vis.gl/react-google-maps";
-import { useSession } from "next-auth/react";
-import { StudioProfileClient } from "./StudioProfileClient";
-import { Confirm } from "./Confirm";
-import { StudioClaim } from "./StudioClaim";
+import { useRef, useState } from "react";
+import { City, Studio } from "@prisma/client";
+import { StudioProfileClient } from "./(components)/studio-profile-form";
+import { Confirm } from "./(components)/claim-confirm";
+import { StudioClaim } from "./(components)/studio-claim";
+import { useStudioForm } from "./useStudioForm";
+import { WithProperty } from "@/types";
 
 export const weekDays = [
   {
@@ -66,7 +59,7 @@ const STEPS: Step[] = [
   {
     key: "confirm",
     label: "Confirma",
-    validations: [],
+    validations: ["confirm"],
   },
   {
     key: "profile",
@@ -75,80 +68,36 @@ const STEPS: Step[] = [
   },
 ];
 
-const registerStudioSchema = z.object(
-  {
-    name: z.string(),
-    confirm: z.boolean(),
-    email: z.string().email(),
-    address: z.string(),
-    lunes: z.string(),
-    martes: z.string(),
-    miercoles: z.string(),
-    jueves: z.string(),
-    viernes: z.string(),
-    sabado: z.string(),
-    domingo: z.string(),
-    id: z.string().optional(),
-    phone: z.string().optional(),
-    whatsapp: z.string().optional(),
-    mainImageUrl: z.string().optional(),
-    images: z.array(z.string()).optional(),
-    userId: z.string().optional(),
-  },
-  {},
-);
-
-type StudioFormValues = z.infer<typeof registerStudioSchema>;
-export type UserFormReturnType = UseFormReturn<any, any, undefined>;
-
 export function StudioProfilePageClient({
   studio,
   currentUser,
+  cities,
 }: {
-  studio: Studio;
+  studio: WithProperty<Studio, "city", City>;
   currentUser: any;
+  cities: City[];
 }) {
   const [stepsStatus, setStepsStatus] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState("idle");
 
   const tabsBarRef = useRef();
   const tabRefs = useRef([]);
   const { selectedTab, setSelectedTab } = useTabs(tabsBarRef, tabRefs);
 
-  const form = useForm({
-    resolver: zodResolver(registerStudioSchema),
-    defaultValues: {
-      name: studio.name || "",
-      email: studio.email || "",
-      address: studio.address || "",
-      confirm: false,
-      lunes: studio.lunes || "",
-      martes: studio.martes || "",
-      miercoles: studio.miercoles || "",
-      jueves: studio.jueves || "",
-      viernes: studio.viernes || "",
-      sabado: studio.sabado || "",
-      domingo: studio.domingo || "",
-      phone: studio.phone || "",
-      whatsapp: studio.whatsapp || "",
-      mainImageUrl: studio.mainImageUrl || "",
-      images: [],
-      id: studio.id || "",
-      userId: currentUser.id || "",
-    },
-  });
+  const { form } = useStudioForm(studio, currentUser);
 
-  const onSubmit = async (data: StudioFormValues) => {
-    console.log(data);
-    data.name;
-    setIsLoading(true);
-    const res = await apiClient.post("/studios", {
-      action: data.id ? "UPDATE" : "CREATE",
-      data,
-    });
-
-    console.log({ res });
-    setIsLoading(false);
+  const onSubmit = async (data: WithProperty<Studio, "city", City>) => {
+    try {
+      setLoadingStatus("loading");
+      const res = await apiClient.post("/studios", {
+        action: data.id === "new" ? "CREATE" : "UPDATE",
+        data,
+      });
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoadingStatus("idle");
+    }
   };
 
   const onConfirm = () => {
@@ -195,7 +144,11 @@ export function StudioProfilePageClient({
             </TabsContent>
             <TabsContent value="profile">
               <div>
-                <StudioProfileClient form={form} studioName={studio.name} />
+                <StudioProfileClient
+                  form={form}
+                  studioName={studio?.name}
+                  cities={cities}
+                />
               </div>
             </TabsContent>
           </Tabs>
@@ -206,7 +159,7 @@ export function StudioProfilePageClient({
             setSelectedTab={setSelectedTab}
             STEPS={STEPS}
             //   scrollToTabList={scrollToTabList}
-            isLoading={isLoading}
+            loadingStatus={loadingStatus}
           />
         </form>
       </Form>

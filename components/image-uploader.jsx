@@ -18,7 +18,6 @@ const ImageUploader = (
 ) => {
   // TODO: improve cloudinary widget: https://cloudinary.com/documentation/upload_widget
   //  translations: https://upload-widget.cloudinary.com/2.8.20/global/text.json
-  console.log("field value-->", field.value);
 
   return (
     <CldUploadWidget
@@ -177,7 +176,6 @@ export default ImageUploader;
 const ImageThumbnail = forwardRef(
   // <HTMLInputElement, InputProps>
   ({ value, onChange, placeholderUrl }, ref) => {
-    console.log("value-->", value);
     return (
       <div className="relative h-40 w-40">
         <div className="relative h-40 w-40 overflow-hidden rounded-md">

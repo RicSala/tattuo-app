@@ -16,7 +16,8 @@ export class TattooService {
     return tattoosArray;
   }
 
-  static async getByArtistId(artistId) {
+  //   TODO: This is pretty hacky, we should use a better approach
+  static async getByArtistId(artistId = "f55c8b9893caf3bb32fc1b85") {
     const tattoos = await prisma.tattoo.findMany({
       where: {
         artistProfileId: artistId,

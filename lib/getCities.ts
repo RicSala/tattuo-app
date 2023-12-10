@@ -1,47 +1,76 @@
 // Used to load some styles in the dropdowns
 // TODO: To be replaced by a call to the API
+import { City } from "@prisma/client";
 
-export const getCities = () => {
+export const getCities = (): City[] => {
+  // for now return only Madrid, Barcelona, Zaragoza, Valencia, Sevilla, Bilbao.
+  return [
+    {
+      parent_code: "28",
+      code: "079",
+      label: "Madrid",
+      value: "madrid",
+      id: "1",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      parent_code: "08",
+      code: "019",
+      label: "Barcelona",
+      value: "barcelona",
+      id: "2",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
 
-    // for now return only Madrid, Barcelona, Zaragoza, Valencia, Sevilla, Bilbao.
-    return [
-        {
-            "parent_code": "28",
-            "code": "079",
-            "label": "Madrid"
-        },
-        {
-            "parent_code": "08",
-            "code": "019",
-            "label": "Barcelona"
-        },
-
-        {
-            "parent_code": "50",
-            "code": "019",
-            "label": "Zaragoza"
-        },
-        {
-            "parent_code": "46",
-            "code": "079",
-            "label": "Valencia"
-        },
-        {
-            "parent_code": "41",
-            "code": "079",
-            "label": "Sevilla"
-        },
-        {
-            "parent_code": "48",
-            "code": "079",
-            "label": "Bilbao"
-        },
-        {
-            "parent_code": "01",
-            "code": "079",
-            "label": "Vitoria-Gasteiz"
-        }]
-}
+    {
+      parent_code: "50",
+      code: "019",
+      label: "Zaragoza",
+      value: "zaragoza",
+      id: "3",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      parent_code: "46",
+      code: "079",
+      label: "Valencia",
+      value: "valencia",
+      id: "4",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      parent_code: "41",
+      code: "079",
+      label: "Sevilla",
+      value: "sevilla",
+      id: "5",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      parent_code: "48",
+      code: "079",
+      label: "Bilbao",
+      value: "bilbao",
+      id: "6",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      parent_code: "01",
+      code: "079",
+      label: "Vitoria-Gasteiz",
+      value: "vitoria-gasteiz",
+      id: "7",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+};
 
 //     return [
 //         {
@@ -40700,4 +40729,4 @@ export const getCities = () => {
 //             "label": "Melilla"
 //         }
 //     ]
-// } 
+// }

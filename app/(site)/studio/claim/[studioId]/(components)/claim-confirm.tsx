@@ -1,4 +1,9 @@
-"use client";
+// "use client";
+//REVIEW:  https://github.com/vercel/next.js/discussions/46795
+// "use client" does NOT tell Reactjs that a component is a client component.
+// "use client" tells Nextjs that a component can be a server - client boundary.
+// And that has interesting connotations, specially when you need to pass functions as props
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -7,8 +12,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
-import { UserFormReturnType } from "./studio-profile-page-client";
+import { UserFormReturnType } from "@/types";
 
 export const Confirm = ({
   form,
@@ -42,6 +48,8 @@ export const Confirm = ({
                 Más adelante te pediremos que confirmes con un email propio para
                 confirmar que eres tú
               </FormDescription>
+              <FormMessage />
+
               <Button type="button" onClick={onConfirm}>
                 Confirmar
               </Button>

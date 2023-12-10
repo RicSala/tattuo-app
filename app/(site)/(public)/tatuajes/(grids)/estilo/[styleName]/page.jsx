@@ -37,22 +37,22 @@ const filtro1 = {
 //   options: bodyParts,
 // };
 
-// // It's gonna be used in build time
-// export const generateStaticParams = () => {
-//   return getStyleList().map((item) => {
-//     console.log("item: ", item.value);
-//     return {
-//       styleName: item.value,
-//     };
-//   });
-// };
+// It's gonna be used in build time
+export const generateStaticParams = () => {
+  return getStyleList().map((item) => {
+    console.log("item: ", item.value);
+    return {
+      styleName: item.value,
+    };
+  });
+};
 
-// // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
-// // false: Dynamic segments not included in generateStaticParams will return a 404.
-// export const dynamicParams = true; // true | false,
+// true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// false: Dynamic segments not included in generateStaticParams will return a 404.
+export const dynamicParams = true; // true | false,
 
-// // false | 'force-cache' | 0 | number
-// export const revalidate = 86400; // 24 hours
+// false | 'force-cache' | 0 | number
+export const revalidate = 86400; // 24 hours
 
 const sizePerPage = 5;
 const numberOfPagesToLoad = 2;
@@ -104,6 +104,7 @@ export default async function TattoosPage({ params, searchParams }) {
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
+        freeSearch={true}
         // filtro2={filtro2}
       />
 

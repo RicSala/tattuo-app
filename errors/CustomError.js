@@ -6,8 +6,8 @@ export default class BaseError extends Error {
     isOperational = true,
     logMessage = "ERROR - Not localized",
 
-    // toastTitle = "Error inesperado",
-    // toastDescription = "Ha ocurrido un error inesperado. Por favor, inténtalo otra vez",
+    toastTitle = "Error inesperado",
+    toastDescription = "Ha ocurrido un error inesperado. Por favor, inténtalo otra vez",
     // friendlyMessage = "Ha ocurrido un error inesperado.",
   ) {
     super(message);
@@ -16,6 +16,8 @@ export default class BaseError extends Error {
     this.isOperational = isOperational; // If the error is known and expected (like validation errors)
     this.logMessage = logMessage;
     this.originalError = originalError;
+    this.toastTitle = toastTitle;
+    this.toastDescription = toastDescription;
     Error.captureStackTrace(this, this.constructor);
 
     // this.toastTitle = toastTitle;
@@ -26,17 +28,6 @@ export default class BaseError extends Error {
   }
 }
 
-/**
- * Creates a CustomError object
- * @param {Object} params
- * @param {Error} params.e - The error object
- * @param {string} params.toastTitle - The title of the toast
- * @param {ToastDescription} params.ToastDescription - The description of the toast
- * @param {string} params.logMessage - The message to be logged
- * @param {boolean} params.isOperational - If the error is known and expected (like validation errors)
- *
- * @returns {BaseError} - The CustomError object
- */
 export function createBaseError({
   message,
   originalError,

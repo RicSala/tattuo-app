@@ -125,7 +125,7 @@ export function StudioDetailsCard({
                     return;
                   }
 
-                  router.push(`/studio/profile/${studio.id}`);
+                  router.push(`/studio/claim/${studio.id}`);
                 }}
               >
                 Reclamar estudio
@@ -181,14 +181,14 @@ export function StudioDetailsCard({
         <div>
           <p className="font-bold">Sobre el estudio</p>
           <p className="max-h-64 overflow-y-auto">
-            <DisplayText text={studio.info} />
+            <DisplayText text={studio.description} />
           </p>
         </div>
         <Separator />
         <div>
           <p className="font-bold">Dirección</p>
           <p className="max-h-64 overflow-y-auto">
-            <DisplayText text={studio.studioGoogleProfile.address} />
+            <DisplayText text={studio.address} />
           </p>
           <Collapsible
             open={isOpen}
@@ -213,8 +213,8 @@ export function StudioDetailsCard({
                 >
                   <div className="fle flex-col gap-2">
                     <h3>{studio.name}</h3>
-                    <p>{studio.studioGoogleProfile.address}</p>
-                    <p>{studio.studioGoogleProfile.phoneNumber}</p>
+                    <p>{studio.address}</p>
+                    <p>{studio.phoneNumber}</p>
                   </div>
                 </Map>
               </div>
@@ -323,7 +323,7 @@ export function StudioDetailsCard({
                   return;
                 }
 
-                router.push(`/studio/profile/${studio.id}`);
+                router.push(`/studio/claim/${studio.id}`);
               }}
             >
               Reclama este estudio

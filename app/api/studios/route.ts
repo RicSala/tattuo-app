@@ -1,6 +1,6 @@
 import { ArtistService } from "@/services/db/ArtistService";
 import { StudioService } from "@/services/db/StudioService";
-import { ApiResponse } from "@/types";
+import { ApiResponse, inviteFormData } from "@/types";
 import { ca } from "date-fns/locale";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -75,6 +75,14 @@ export async function POST(request: NextRequest): Promise<any> {
         const deletedStudio = await StudioService.delete(data.id);
         console.log("deletedStudio: ", deletedStudio);
         break;
+
+      case "INVITE":
+        // cast data to inviteFormData
+        const inviteData = data as inviteFormData;
+        const invitedStudio = await StudioService.invite(inviteData);
+        console.log("invitedStudio: ", invitedStudio);
+        break;
+
       default:
         break;
     }

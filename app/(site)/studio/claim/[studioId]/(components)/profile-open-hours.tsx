@@ -8,7 +8,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserFormReturnType, weekDays } from "./studio-profile-page-client";
+import { UserFormReturnType } from "@/types";
+import { weekDays } from "../page-client";
 
 export const OpenHours = ({ form }: { form: UserFormReturnType }) => {
   return (

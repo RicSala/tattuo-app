@@ -25,14 +25,11 @@ import { LoginForm } from "./login-form";
 import { apiClient } from "@/lib/apiClient";
 import Stepper from "../multiStep/Stepper";
 import AsyncCreatable from "../async-creatable";
-import {
-  getArtistsProfiles,
-  getUnclaimedArtistsProfiles,
-} from "@/lib/api-service";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import Spinner from "../icons/spinner";
 import { Button } from "../ui/button";
+import { getUnclaimedArtistsProfiles } from "@/lib/api-service";
 
 const registerFormSchema = z.object({
   artisticName: z //object with two properties: value and string. both with atleast 3 letters

@@ -1,10 +1,9 @@
 import { TattooService } from "@/services/db/TattooService";
+import { StudioProfilePageClient } from "./page-client";
 import prisma from "@/lib/prismadb";
 import { MapsProvider } from "@/providers/maps-provider";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { getCities } from "@/lib/getCities";
-import { StudioProfileClient } from "../../claim/[studioId]/(components)/studio-profile-form";
-import { ClientWrapper } from "./clientWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -30,16 +29,19 @@ const ProfilePage = async ({ params }: { params: { studioId: string } }) => {
   // if the tattoo is not new, we get it from the database
   // otherwise we just pass an empty object
   if (!isNew)
-    studio = await prisma.studio.findUnique({ where: { id: studioId } });
+    studio = await prisma.studio.findUnique({
+      where: { id: studioId },
+      include: { city: true },
+    });
   const cities = getCities();
 
   return (
     <MapsProvider>
       <div className="mx-auto max-w-2xl">
-        <ClientWrapper
-          cities={cities}
+        <StudioProfilePageClient
           studio={studio}
           currentUser={currentUser}
+          cities={cities}
         />
       </div>
     </MapsProvider>

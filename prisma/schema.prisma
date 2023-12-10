@@ -34,7 +34,7 @@ model User {
 
     // messages Message[]
     settings Settings?
-    Studio   Studio[]
+    studio   Studio[]
 }
 
 model Settings {
@@ -104,10 +104,11 @@ model ArtistProfile {
     Lead             Lead?
 
     // An artist can be or not in a studio
-    studioId String? @db.ObjectId
-    studio   Studio? @relation(fields: [studioId], references: [id])
+    studioId String?  @db.ObjectId
+    studio   Studio?  @relation(fields: [studioId], references: [id])
     // @@index([userId])
     // @@index([cityId])
+    Invite   Invite[]
 }
 
 model Tattoo {
@@ -388,12 +389,13 @@ model Studio {
     // artistId String @db.ObjectId
     // artist   ArtistProfile @relation(fields: [artistId], references: [id])
     studioGoogleProfile studioGoogleProfile?
-    cityId              String?              @db.ObjectId
+    cityId              String               @db.ObjectId
     artists             ArtistProfile[]
 
     // The studio can have an owner (a user)
-    userId String? @db.ObjectId
-    user   User?   @relation(fields: [userId], references: [id])
+    user   User?    @relation(fields: [userId], references: [id])
+    userId String?  @db.ObjectId
+    Invite Invite[]
 }
 
 model InstagramAccount {
@@ -495,4 +497,29 @@ enum studioGoogleProfileStatus {
     NOT_INTERESTED
     INTERESTED
     SUCCESS
+}
+
+// We are going to create an "invitation" system: the studios will be able to invite artists to join the studio, and the artist will be able to accept or reject the invitation.
+
+model Invite {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // RELATIONS
+    studioId String @db.ObjectId
+    studio   Studio @relation(fields: [studioId], references: [id])
+
+    artistId String        @db.ObjectId
+    artist   ArtistProfile @relation(fields: [artistId], references: [id])
+
+    status InviteStatus @default(PENDING)
+
+    @@unique([studioId, artistId])
+}
+
+enum InviteStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
 }

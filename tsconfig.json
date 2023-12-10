@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
+    "target": "es2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "checkJs": false,
     "strict": false,
     "noEmit": true,
     "incremental": true,

@@ -22,10 +22,11 @@ const AsyncCreatable = forwardRef(
       onCreateOption,
       isMulti = false,
       placeholder = "Selecciona",
+      createLabel = "Crear perfil de ",
     },
     ref,
   ) => {
-    const formatCreateLabel = (inputValue) => `Crear perfil de "${inputValue}"`;
+    const formatCreateLabel = (inputValue) => `${createLabel}${inputValue}`;
 
     return (
       // TODO: Create está en inglés
@@ -41,17 +42,16 @@ const AsyncCreatable = forwardRef(
           // setValue(name, newTag)
           let selectedOptions;
           isMulti
-            ? (selectedOptions = updateMulti(newOption))
+            ? (selectedOptions = updateMulti(value, newOption))
             : (selectedOptions = newOption);
+          console.log({ selectedOptions });
+          console.log({ value });
 
           onChange(selectedOptions);
           // trigger(name)
         }}
         onBlur={onBlur}
-        onChange={(value) => {
-          onChange(value);
-          // trigger(name)
-        }}
+        onChange={onChange}
         value={value}
         isMulti={isMulti}
         isClearable={true}
@@ -71,6 +71,7 @@ AsyncCreatable.displayName = "AsyncCreatable";
 export default AsyncCreatable;
 
 const updateMulti = (value, newOption) => {
+  console.log("from update", { value });
   let newValueArray;
   if (value) {
     newValueArray = [...value, newOption];

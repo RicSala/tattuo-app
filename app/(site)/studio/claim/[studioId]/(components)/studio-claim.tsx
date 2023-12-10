@@ -8,8 +8,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useEffect } from "react";
 import { getUnclaimedStudioProfiles } from "@/lib/api-service";
-import { UserFormReturnType } from "./studio-profile-page-client";
+import { UserFormReturnType } from "@/types";
 
 export const StudioClaim = ({ form }: { form: UserFormReturnType }) => {
   // We won't actually create the studio here
@@ -61,10 +62,10 @@ export const StudioClaim = ({ form }: { form: UserFormReturnType }) => {
                 id="name"
                 onChange={(selection: any) => {
                   field.onChange(selection.value);
-                  console.log({ selection });
+                  console.log("from claim", { selection });
                   // If selection has id, then it's an existing studio and we have to "load" it into the form
                   if (selection.id) {
-                    form.setValue("name", selection.name);
+                    form.setValue("name", selection.name || field.value);
                     form.setValue("email", selection.email || "");
                     form.setValue("address", selection.address);
                     form.setValue("lunes", selection.lunes);

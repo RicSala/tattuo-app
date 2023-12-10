@@ -1,5 +1,7 @@
 "use client";
 import { PlacesAutocompleteMap } from "@/components/places-autocomplete";
+import PrimitiveAsyncSelect from "@/components/async-select";
+
 import {
   FormControl,
   FormDescription,
@@ -10,15 +12,19 @@ import {
 } from "@/components/ui/form";
 import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Input } from "@/components/ui/input";
-import { UserFormReturnType } from "./studio-profile-page-client";
-import { OpenHours } from "./OpenHours";
+import { OpenHours } from "./profile-open-hours";
+import { City } from "@prisma/client";
+import { Textarea } from "@/components/ui/textarea";
+import { UserFormReturnType } from "@/types";
 
 export const StudioProfileClient = ({
   form,
   studioName,
+  cities,
 }: {
   form: UserFormReturnType;
   studioName: string;
+  cities: City[];
 }) => {
   return (
     <>
@@ -97,12 +103,48 @@ export const StudioProfileClient = ({
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="after:content-['*']">Ciudad</FormLabel>
+                <FormControl>
+                  <PrimitiveAsyncSelect
+                    defaultOptions={cities}
+                    placeholder="Selecciona ciudad"
+                    {...field}
+                    //@ts-ignore
+                    resources="cities"
+                  />
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <div className="h-96 w-full">
             <PlacesAutocompleteMap
               studioName={form.getValues("name")}
               form={form}
             />
           </div>
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Descripción</FormLabel>
+                <FormControl>
+                  <Textarea rows={7} {...field} />
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
       <div className="mt8 mt-10 flex flex-col">

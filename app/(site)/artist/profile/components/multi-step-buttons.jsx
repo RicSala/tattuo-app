@@ -9,12 +9,35 @@ export default function MultiStepButtons({
   selectedTab,
   setSelectedTab,
   // scrollToTabList,
-  isLoading,
+  loadingStatus,
   STEPS,
 }) {
   const { isDirty, isSubmitted, isSubmitting, isValidating } = form.formState;
 
   const router = useRouter();
+
+  useEffect(() => {
+    //   Prevent enter from submitting the form
+    const handleKeyDown = (event) => {
+      if (
+        event.key === "Enter" &&
+        //   and is not the last step
+        selectedTab !== STEPS.length - 1
+      ) {
+        event.preventDefault();
+        form.trigger(STEPS[selectedTab].validations).then((isValid) => {
+          if (isValid) {
+            setSelectedTab((prev) => prev + 1);
+            // scrollToTabList ? scrollToTabList() : null;
+          }
+        });
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [STEPS, STEPS.length, form, selectedTab, setSelectedTab]);
 
   return (
     <div className="mt-5 flex flex-row justify-between">
@@ -55,7 +78,6 @@ export default function MultiStepButtons({
             <Redo />
             {Object.keys(form.formState.errors).length !== 0 && (
               <p className="absolute -top-4 text-xs text-destructive">
-                {JSON.stringify(form.formState.errors)}
                 Revisa el formulario
               </p>
             )}
@@ -63,12 +85,12 @@ export default function MultiStepButtons({
 
           <Button
             // TODO: this should work with isSubmitting...somehow it doesn't!
-            disabled={isLoading}
+            disabled={loadingStatus === "loading"}
             type="submit"
-            className={`flex flex-row items-center gap-2
+            className={`relative flex flex-row items-center gap-2
                         ${selectedTab !== STEPS.length - 1 ? `hidden` : null}`}
           >
-            {isLoading ? (
+            {loadingStatus === "loading" ? (
               <div className="flex flex-row gap-2">
                 Guardando
                 <Spinner />
@@ -82,6 +104,11 @@ export default function MultiStepButtons({
               <>
                 Guardar
                 <Save />
+                {Object.keys(form.formState.errors).length !== 0 && (
+                  <p className="absolute -top-4 text-xs text-destructive">
+                    Revisa el formulario
+                  </p>
+                )}
               </>
             )}
           </Button>

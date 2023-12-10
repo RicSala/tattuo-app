@@ -17,6 +17,7 @@ import {
   StarIcon,
 } from "lucide-react";
 import { Rating } from "../rating";
+import React from "react";
 
 export type WithGoogleProfile<T> = T & {
   studioGoogleProfile: studioGoogleProfile;
@@ -26,12 +27,14 @@ interface StudioCardProps {
   studio: WithGoogleProfile<Studio>;
   className?: string;
   imagePriority?: boolean;
+  children?: React.ReactNode;
 }
 
 const StudioCard = ({
   studio,
   className,
   imagePriority = false,
+  children,
   ...props
 }: StudioCardProps) => {
   const router = useRouter();
@@ -85,6 +88,7 @@ const StudioCard = ({
             </div>
           </div>
         </div>
+        <div className="absolute bottom-0 w-full">{children}</div>
       </div>
 
       <div className="flex flex-row items-center justify-between gap-6 px-5 py-3">

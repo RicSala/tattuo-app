@@ -104,7 +104,8 @@ export function InfiniteScroll({
     // stablish the next page param (in our case, the next page number)
     // if it returns false, hasNextPage will be false and we can stop fetching
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage?.pagination.hasMorePages === false) return false;
+      //   if (lastPage?.pagination.hasMorePages === false) return false;
+      if (lastPage?.pagination.hasMorePages === false) return undefined;
       return lastPage?.pagination.nextPage; // this will be the next page number in the previous function (the queryFn)
     },
     refetchOnWindowFocus: false, // by default, when the window gets focused, the query will refetch

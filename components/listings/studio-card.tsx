@@ -8,23 +8,12 @@ import { Badge } from "../ui/badge";
 import { useSession } from "next-auth/react";
 import { Prisma, Studio, studioGoogleProfile } from "@prisma/client";
 import { data } from "autoprefixer";
-import {
-  LocateIcon,
-  PinIcon,
-  Star,
-  StarHalf,
-  StarHalfIcon,
-  StarIcon,
-} from "lucide-react";
+import { PinIcon } from "lucide-react";
 import { Rating } from "../rating";
 import React from "react";
 
-export type WithGoogleProfile<T> = T & {
-  studioGoogleProfile: studioGoogleProfile;
-};
-
 interface StudioCardProps {
-  studio: WithGoogleProfile<Studio>;
+  studio: Studio;
   className?: string;
   imagePriority?: boolean;
   children?: React.ReactNode;

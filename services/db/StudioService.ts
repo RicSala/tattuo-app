@@ -1,7 +1,14 @@
+import { invitationMail } from "@/config/const";
 import { mapLabelsToIds } from "@/lib/getStyleList";
+import { sendEmail } from "@/lib/mailgun";
 import prisma from "@/lib/prismadb";
 import { slugify } from "@/lib/utils";
-import { WithProperty, inviteFormData, searchParams } from "@/types";
+import {
+  ExitFormBody,
+  WithProperty,
+  inviteFormBody,
+  searchParams,
+} from "@/types";
 import { City, Prisma, Studio } from "@prisma/client";
 
 export class StudioService {
@@ -31,7 +38,7 @@ export class StudioService {
   ) {
     // REVIEW: This is another easy way to omit properties from an object
     const { id, userId, cityId, ...data } = studioData;
-    console.log({ data });
+    console.log("PRE UPDATE", { data });
     const studio = await prisma.studio.update({
       where: { id },
       data: {
@@ -40,6 +47,7 @@ export class StudioService {
         city: { connect: { id: data.city.id } },
       },
     });
+    console.log("POST UPDATE", { studio });
     return studio;
   }
 
@@ -93,14 +101,103 @@ export class StudioService {
     return studios;
   }
 
-  static async invite({ studioId, invites }: inviteFormData) {
+  static async getArtistInvites(artistId: string) {
+    const artist = await prisma.artistProfile.findUnique({
+      where: { id: artistId },
+      include: {
+        Invites: {
+          include: {
+            studio: true,
+          },
+        },
+      },
+    });
+    return artist.Invites;
+  }
+
+  static async getArtistStudios(artistId: string) {
+    const artist = await prisma.artistProfile.findUnique({
+      where: { id: artistId },
+      include: {
+        studios: true,
+      },
+    });
+    return artist.studios;
+  }
+
+  static async acceptInvite(inviteId: string) {
+    // update the invite document (invite is a join collection between artist and studio)
+    const invite = await prisma.invite.update({
+      where: {
+        id: inviteId,
+      },
+      data: {
+        status: "ACCEPTED",
+      },
+    });
+
+    // update the studio document to add the artist
+    const studio = await prisma.studio.update({
+      where: { id: invite.studioId },
+      data: {
+        artists: {
+          connect: {
+            id: invite.artistId,
+          },
+        },
+      },
+    });
+    return invite;
+  }
+
+  static async exitStudio({ studioId, artistId }: ExitFormBody) {
+    // update the studio document to remove the artist
+    const studio = await prisma.studio.update({
+      where: { id: studioId },
+      data: {
+        artists: {
+          disconnect: {
+            id: artistId,
+          },
+        },
+      },
+    });
+    return studio;
+  }
+
+  static async rejectInvite(inviteId: string) {
+    // update the invite document (invite is a join collection between artist and studio)
+    const invite = await prisma.invite.update({
+      where: {
+        id: inviteId,
+      },
+      data: {
+        status: "REJECTED",
+      },
+    });
+
+    // We don't need to update anything else, the invite is just rejected
+    return invite;
+  }
+
+  static async invite({ studioId, invites }: inviteFormBody) {
     console.log("inviting artists...");
     console.log({ studioId, invites });
     for (let i = 0; i < invites.length; i++) {
       // If artist.id = "email", next iteration
       const invite = invites[i];
       const id = invite.id;
-      if (id === "email") continue;
+      //   If the id is email, is a non-registered artist that we have to invite via email
+      if (id === "email") {
+        await sendEmail(
+          invite.label,
+          "TATTUO - Has sido invitado a unirte a un estudio",
+          "Te han invitado a TATTUO",
+          invitationMail(),
+          "ricardo@tattuo.com",
+        );
+        continue;
+      }
       await prisma.invite.upsert({
         // data: {
         //   artistId: artist.id,

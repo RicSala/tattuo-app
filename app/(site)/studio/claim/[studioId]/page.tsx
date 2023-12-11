@@ -1,5 +1,5 @@
 import { TattooService } from "@/services/db/TattooService";
-import { StudioProfilePageClient } from "./page-client";
+import { StudioClaimPageClient } from "./page-client";
 import prisma from "@/lib/prismadb";
 import { MapsProvider } from "@/providers/maps-provider";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
@@ -38,7 +38,7 @@ const ProfilePage = async ({ params }: { params: { studioId: string } }) => {
   return (
     <MapsProvider>
       <div className="mx-auto max-w-2xl">
-        <StudioProfilePageClient
+        <StudioClaimPageClient
           studio={studio}
           currentUser={currentUser}
           cities={cities}

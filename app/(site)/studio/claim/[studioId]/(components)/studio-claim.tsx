@@ -80,6 +80,14 @@ export const StudioClaim = ({ form }: { form: UserFormReturnType }) => {
                     form.setValue("whatsapp", selection.whatsapp || "");
                     form.setValue("mainImageUrl", selection.mainImageUrl || "");
                     form.setValue("images", selection.images || "");
+                    // form.setValue(
+                    //   "city",
+                    //   {
+                    //     id: selection.city.id,
+                    //     value: selection.city.value,
+                    //     label: selection.city.label,
+                    //   } || "",
+                    // );
                     // setStep((prev) => prev + 1);
                   }
                 }}

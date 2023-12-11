@@ -1,6 +1,5 @@
 "use client";
 import { PlacesAutocompleteMap } from "@/components/places-autocomplete";
-import PrimitiveAsyncSelect from "@/components/async-select";
 
 import {
   FormControl,
@@ -16,8 +15,9 @@ import { OpenHours } from "./profile-open-hours";
 import { City } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
 import { UserFormReturnType } from "@/types";
+import { AsyncSelect } from "@/components/async-select";
 
-export const StudioProfileClient = ({
+export const StudioProfileForm = ({
   form,
   studioName,
   cities,
@@ -104,6 +104,7 @@ export const StudioProfileClient = ({
             )}
           />
 
+          {/* As the loaded studio does not include the city, this field is empty every time on claim */}
           <FormField
             control={form.control}
             name="city"
@@ -111,7 +112,7 @@ export const StudioProfileClient = ({
               <FormItem>
                 <FormLabel className="after:content-['*']">Ciudad</FormLabel>
                 <FormControl>
-                  <PrimitiveAsyncSelect
+                  <AsyncSelect
                     defaultOptions={cities}
                     placeholder="Selecciona ciudad"
                     {...field}

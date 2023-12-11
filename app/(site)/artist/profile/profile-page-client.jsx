@@ -21,7 +21,7 @@ import { Form } from "@/components/ui/form";
 
 // selectedTab, setSelectedTab, scrollToTabList
 
-const ProfilePageClient = ({ artist, styles, cities }) => {
+export const ProfilePageClient = ({ artist, styles, cities }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [stepsStatus, setStepsStatus] = useState({});
@@ -229,5 +229,3 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     </>
   );
 };
-
-export default ProfilePageClient;

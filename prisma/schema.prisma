@@ -104,11 +104,11 @@ model ArtistProfile {
     Lead             Lead?
 
     // An artist can be or not in a studio
-    studioId String?  @db.ObjectId
-    studio   Studio?  @relation(fields: [studioId], references: [id])
+    studioId String[] @db.ObjectId
+    studios  Studio[] @relation(fields: [studioId], references: [id])
     // @@index([userId])
     // @@index([cityId])
-    Invite   Invite[]
+    Invites  Invite[]
 }
 
 model Tattoo {
@@ -383,6 +383,7 @@ model Studio {
     latitude          Float?
     longitude         Float?
     info              String?
+    confirmed         Boolean                   @default(false)
     status            studioGoogleProfileStatus @default(PENDING)
 
     // RELATIONS
@@ -390,12 +391,14 @@ model Studio {
     // artist   ArtistProfile @relation(fields: [artistId], references: [id])
     studioGoogleProfile studioGoogleProfile?
     cityId              String               @db.ObjectId
-    artists             ArtistProfile[]
 
     // The studio can have an owner (a user)
-    user   User?    @relation(fields: [userId], references: [id])
-    userId String?  @db.ObjectId
-    Invite Invite[]
+    user             User?           @relation(fields: [userId], references: [id])
+    userId           String?         @db.ObjectId
+    Invite           Invite[]
+    // ArtistProfile   ArtistProfile[] @relation(fields: [artistProfileId], references: [id])
+    artistProfileIds String[]        @db.ObjectId
+    artists          ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
 }
 
 model InstagramAccount {

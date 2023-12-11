@@ -29,7 +29,7 @@ export async function POST(
   }
 }
 
-export async function GET(request: NextRequest, { params }) {
+export async function GET(request: NextRequest) {
   const parsedUrl = queryString.parseUrl(request.url);
   const { query } = parsedUrl;
 

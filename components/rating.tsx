@@ -1,7 +1,9 @@
 import { range } from "@mantine/hooks";
 import { Star, StarHalf } from "lucide-react";
 
-export function Rating({ value }) {
+type status = "full" | "half" | "empty";
+
+export function Rating({ value }: { value: number }) {
   return (
     <div className="flex items-center">
       {range(1, 5).map((i) => {
@@ -20,27 +22,30 @@ export function Rating({ value }) {
   );
 }
 
-const RatingPoint = ({ status, fullIcon: FullIcon, halfIcon: HalfIcon }) => {
+const RatingPoint = ({
+  status,
+  fullIcon: FullIcon,
+  halfIcon: HalfIcon,
+}: {
+  status: status;
+  fullIcon: any;
+  halfIcon: any;
+}) => {
   return (
     <div className="relative">
       <FullIcon className="relative h-3 w-3" />
-      {
-        {
-          full: (
-            <FullIcon
-              fill
-              className="absolute left-0 top-0 h-3 w-3 overflow-hidden"
-            />
-          ),
-          half: (
-            <HalfIcon
-              fill
-              className="absolute left-0 top-0 h-3 w-3 overflow-hidden"
-            />
-          ),
-          empty: null,
-        }[status]
-      }
+      {status === "half" && (
+        <HalfIcon
+          fill
+          className="absolute left-0 top-0 h-3 w-3  fill-primary text-transparent"
+        />
+      )}
+      {status === "empty" && (
+        <FullIcon className="absolute left-0 top-0 h-3 w-3" />
+      )}
+      {status === "full" && (
+        <FullIcon fill className="absolute left-0 top-0 h-3 w-3 fill-current" />
+      )}
     </div>
   );
 };

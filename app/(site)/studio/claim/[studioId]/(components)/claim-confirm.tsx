@@ -27,7 +27,7 @@ export const Confirm = ({
     <div>
       <FormField
         control={form.control}
-        name="confirm"
+        name="confirmed"
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
@@ -39,7 +39,7 @@ export const Confirm = ({
             <div className="flex flex-col gap-2">
               <FormLabel
                 className={`
-          ${form.getValues("confirm") ? "text-green-600" : "text-destructive"}
+          ${form.getValues("confirmed") ? "text-green-600" : "text-destructive"}
           `}
               >
                 Confirmo que este es mi estudio: {form.getValues("name") || ""}

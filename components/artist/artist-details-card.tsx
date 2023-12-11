@@ -17,23 +17,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useHandleError } from "@/errors/useHandleError";
 import { UiContext } from "@/providers/ui/ui-provider";
-import * as types from "@prisma/client";
 import { DisplayText } from "../display-text";
+import { ArtistProfile, Studio, Style, User } from "@prisma/client";
+import { WithProperty } from "@/types";
 
-/**
- * @typedef {types.ArtistProfile} ArtistProfile
- * @typedef {types.User} User
- */
+type ArtistDetailsCardProps = {
+  artist: WithProperty<
+    WithProperty<ArtistProfile, "styles", Style[]>,
+    "studios",
+    Studio[]
+  >;
+  currentUser: any;
+};
 
-/**
- * @param {{
- * artist: ArtistProfile,
- * currentUser: User
- * }} props
- */
-export default function ArtistDetailsCard({ artist, currentUser }) {
+export default function ArtistDetailsCard({
+  artist,
+  currentUser,
+}: ArtistDetailsCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { setArtistRegisterOpen } = useContext(UiContext);
   const router = useRouter();
@@ -195,7 +196,7 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
         <Separator />
         <div>
           <p className="mb-2 font-bold">Redes Sociales</p>
-          <ArtistSocials artist={artist} />
+          <ArtistSocials artist={artist} title={""} />
         </div>
         <Separator />
         <div>
@@ -210,6 +211,20 @@ export default function ArtistDetailsCard({ artist, currentUser }) {
             })}
           </div>
         </div>
+        {artist.studios?.length > 0 && (
+          <div>
+            <p className="mb-2 font-bold">Trabaja en:</p>
+            <div className="flex flex-row flex-wrap gap-2">
+              {artist.studios?.map((studio, index) => {
+                return (
+                  <Badge key={index} color="primary" className="inline">
+                    {studio.name}
+                  </Badge>
+                );
+              })}
+            </div>
+          </div>
+        )}
         {!artist.userId && !currentUser ? (
           <div className="flex flex-col items-center justify-center text-sm italic text-primary/70">
             ¿Eres tú?

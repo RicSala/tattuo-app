@@ -10,12 +10,11 @@ const registerStudioSchema = z.object(
       .string()
       .max(100, { message: "Cómo máximo 100 carateres" })
       .refine((val) => val !== "", {
-        message:
-          "Cuéntanos sobre el estudio. ¿Qué estilos se tatúan? ¿Qué tipo de ambiente hay?",
+        message: "Debes elegir o crear el nombre de tu estudio",
       }),
     description: z.string(),
     // the next boolean needs to be TRUE to submit the form!
-    confirm: z.boolean().refine((val) => val === true, {
+    confirmed: z.boolean().refine((val) => val === true, {
       message: "Debes confirmar que eres el dueño del estudio",
     }),
     email: z.string().email({ message: "Introduce un email válido" }),
@@ -69,7 +68,7 @@ export const useStudioForm = (
       description: studio?.description || "",
       email: studio?.email || "",
       address: studio?.address || "",
-      confirm: false,
+      confirmed: studio?.confirmed || false,
       lunes: studio?.lunes || "",
       martes: studio?.martes || "",
       miercoles: studio?.miercoles || "",
@@ -85,7 +84,11 @@ export const useStudioForm = (
       images: [],
       id: studio?.id || "new",
       userId: currentUser.id || "",
-      city: studio?.city || { id: "", label: "", value: "" },
+      city: {
+        id: studio?.city.id,
+        label: studio?.city.label,
+        value: studio?.city.value,
+      } || { id: "", label: "", value: "" },
     },
   });
 

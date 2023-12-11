@@ -1,7 +1,7 @@
 "use client";
 
-import PrimitiveAsyncSelect from "./async-select";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
+import { AsyncSelect } from "./async-select";
 
 const CitiesAsyncSelect = ({
   searchParamName,
@@ -15,7 +15,7 @@ const CitiesAsyncSelect = ({
 
   return (
     <div className="min-w-[200px]">
-      <PrimitiveAsyncSelect
+      <AsyncSelect
         placeholder="Ciudad"
         resources={"cities"}
         value={value}

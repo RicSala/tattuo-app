@@ -10,6 +10,8 @@ import PrimitiveAsyncSelect from "react-select/async";
 // REVIEW: Usefull links
 // https://www.youtube.com/watch?v=s4n_x5B58Dw&list=PL2rFahu9sLJ2QuJaKKYDaJp0YqjFCDCtN&index=5
 // https://developers.google.com/maps/documentation/geocoding/requests-geocoding?hl=es-419#RegionCodes
+// https://cloud.google.com/blog/products/maps-platform/introducing-react-components-for-the-maps-javascript-api
+// https://visgl.github.io/react-google-maps/docs/get-started
 
 import {
   APIProvider,
@@ -19,12 +21,14 @@ import {
   MarkerProps,
   Pin,
   InfoWindow,
+  useApiIsLoaded,
 } from "@vis.gl/react-google-maps";
 import React, { useEffect, useState } from "react";
 import { data } from "autoprefixer";
 import { get } from "http";
 import { Label } from "./ui/label";
 import BaseError, { createBaseError } from "@/errors/CustomError";
+import { selectStyles } from "./async-select";
 
 export function PlacesAutocompleteMap({
   studioName,
@@ -34,19 +38,19 @@ export function PlacesAutocompleteMap({
   form: any;
 }) {
   const [open, setOpen] = useState(false);
-  const {
-    ready, // whether is ready to use having loaded the Google Maps JavaScript API
-    value, // the value entered in the input
-    setValue,
-    suggestions: { status, data },
-    clearSuggestions, // to be called after the user selects a suggestion
-  } = usePlacesAutocomplete({});
+  const autocomplete = usePlacesAutocomplete({});
   const [selected, setSelected] = useState({ lat: 0, lng: 0 });
+  const isLoaded = useApiIsLoaded();
 
   useEffect(() => {
-    const getGeoCode = async () => {
-      console.log("studioName", studioName);
-      //   try {
+    // if the script is not loaded, we don't do anything
+    if (!isLoaded) return console.log("not ready");
+
+    // if the studio is new, we don't do anything
+    if (form.getValues("id") === "new") return;
+
+    // Created this function to get the coordinates from the studioName
+    const getGeo = async () => {
       const geocode = await getGeocode({
         address: studioName,
         language: "es",
@@ -56,18 +60,17 @@ export function PlacesAutocompleteMap({
       form.setValue("latitude", coordinates.lat);
       form.setValue("longitude", coordinates.lng);
       return coordinates;
-      //   } catch (error) {
-      //     console.log("error", error);
-      //   }
     };
-    console.log("form", form.getValues("id", "images"));
 
-    if (form.getValues("id") !== "new") {
-      getGeoCode().then((coordinates) => {
-        setSelected(coordinates);
-      });
-    }
-  }, [form, studioName]);
+    // if the studio is not new and the api is loaded, we get the coordinates from the studio name (if it exists)
+    // using the getGeo function
+    getGeo().then((coordinates) => {
+      setSelected(coordinates);
+    });
+  }, [form, studioName, isLoaded]);
+
+  // if the script is not loaded, don't render the map
+  if (!isLoaded) return <p>Cargando...</p>;
 
   return (
     <>
@@ -84,20 +87,17 @@ export function PlacesAutocompleteMap({
       </Label>
       <PrimitiveAsyncSelect
         defaultInputValue={studioName}
-        // ref={ref}
-        // cacheOptions
         value={{
-          value: value,
-          label: value,
+          value: autocomplete.value,
+          label: autocomplete.value,
         }}
         onBlur={() => {
           form.trigger("latitude");
           form.trigger("longitude");
         }}
-        // isDisabled={!ready}
+        classNames={selectStyles}
         onChange={async (selection) => {
-          setValue(selection.value);
-          //   console.log("selection", selection);
+          autocomplete.setValue(selection.value);
           try {
             const results = await getGeocode({
               address: selection.value,
@@ -145,32 +145,21 @@ export function PlacesAutocompleteMap({
           }
         }}
         // onBlur={onBlur}
-        isSearchable={true}
+        isSearchable
         loadOptions={async (string) => {
-          setValue(string);
+          autocomplete.setValue(string);
           //   await new Promise((resolve) => setTimeout(resolve, 1000));
-          const formattedData = data.map((suggestion) => ({
-            value: suggestion.description,
-            label: suggestion.description,
-            ...suggestion,
-          }));
-
-          //   console.log("formattedData", formattedData);
-
+          const formattedData = autocomplete.suggestions.data.map(
+            (suggestion) => ({
+              value: suggestion.description,
+              label: suggestion.description,
+              ...suggestion,
+            }),
+          );
           return formattedData;
         }}
-        classNames={{
-          menuList: (state) => "text-black",
-          input: (state) => "",
-          container: () => "",
-          // control: () => "border border-red-400",
-          menu: () => "",
-          valueContainer: () => "bg-background border-border",
-          placeholder: () => "",
-          // "text-red-500",
-        }}
       />
-      <div className="h-full w-full">
+      <div className="h-3/4 w-full">
         <Label
           className={`
       ${

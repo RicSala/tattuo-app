@@ -35,3 +35,41 @@ export const visitorMenuItems = [
   { url: "/tatuajes", label: "Descubrir tatuajes" },
   { url: "/blog", label: "Blog · Todo sobre tatuajes" },
 ];
+
+export const weekDays = [
+  {
+    label: "Lunes",
+    value: "lunes",
+  },
+  {
+    label: "Martes",
+    value: "martes",
+  },
+  {
+    label: "Miércoles",
+    value: "miercoles",
+  },
+  {
+    label: "Jueves",
+    value: "jueves",
+  },
+  {
+    label: "Viernes",
+    value: "viernes",
+  },
+  {
+    label: "Sábado",
+    value: "sabado",
+  },
+  {
+    label: "Domingo",
+    value: "domingo",
+  },
+];
+
+export const invitationMail = () =>
+  `
+<h1>Bienvenido a TATTUO</h1>
+<p>Para completar tu registro, por favor haz click en el siguiente enlace:</p>
+
+`;

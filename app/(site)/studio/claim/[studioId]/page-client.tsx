@@ -7,42 +7,12 @@ import { useTabs } from "@/hooks/useTabs";
 import { apiClient } from "@/lib/apiClient";
 import { useRef, useState } from "react";
 import { City, Studio } from "@prisma/client";
-import { StudioProfileClient } from "./(components)/studio-profile-form";
+import { StudioProfileForm } from "./(components)/studio-profile-form";
 import { Confirm } from "./(components)/claim-confirm";
 import { StudioClaim } from "./(components)/studio-claim";
 import { useStudioForm } from "./useStudioForm";
 import { WithProperty } from "@/types";
-
-export const weekDays = [
-  {
-    label: "Lunes",
-    value: "lunes",
-  },
-  {
-    label: "Martes",
-    value: "martes",
-  },
-  {
-    label: "Miércoles",
-    value: "miercoles",
-  },
-  {
-    label: "Jueves",
-    value: "jueves",
-  },
-  {
-    label: "Viernes",
-    value: "viernes",
-  },
-  {
-    label: "Sábado",
-    value: "sabado",
-  },
-  {
-    label: "Domingo",
-    value: "domingo",
-  },
-];
+import { updateOrCreateStudio } from "@/lib/api-service";
 
 type Step = {
   key: string;
@@ -54,12 +24,12 @@ const STEPS: Step[] = [
   {
     key: "claim",
     label: "Búscalo",
-    validations: [],
+    validations: ["name"],
   },
   {
     key: "confirm",
     label: "Confirma",
-    validations: ["confirm"],
+    validations: ["confirmed"],
   },
   {
     key: "profile",
@@ -68,7 +38,7 @@ const STEPS: Step[] = [
   },
 ];
 
-export function StudioProfilePageClient({
+export function StudioClaimPageClient({
   studio,
   currentUser,
   cities,
@@ -89,10 +59,7 @@ export function StudioProfilePageClient({
   const onSubmit = async (data: WithProperty<Studio, "city", City>) => {
     try {
       setLoadingStatus("loading");
-      const res = await apiClient.post("/studios", {
-        action: data.id === "new" ? "CREATE" : "UPDATE",
-        data,
-      });
+      const res = await updateOrCreateStudio(data);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -101,7 +68,7 @@ export function StudioProfilePageClient({
   };
 
   const onConfirm = () => {
-    const isConfirmed = form.getValues("confirm");
+    const isConfirmed = form.getValues("confirmed");
     if (isConfirmed) setSelectedTab((prev) => prev + 1);
   };
 
@@ -144,7 +111,7 @@ export function StudioProfilePageClient({
             </TabsContent>
             <TabsContent value="profile">
               <div>
-                <StudioProfileClient
+                <StudioProfileForm
                   form={form}
                   studioName={studio?.name}
                   cities={cities}

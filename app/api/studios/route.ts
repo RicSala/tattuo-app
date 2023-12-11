@@ -1,6 +1,12 @@
 import { ArtistService } from "@/services/db/ArtistService";
 import { StudioService } from "@/services/db/StudioService";
-import { ApiResponse, inviteFormData } from "@/types";
+import {
+  InviteFormBody,
+  ApiResponse,
+  inviteFormBody,
+  ExitFormBody,
+} from "@/types";
+import { ArtistProfile, Studio } from "@prisma/client";
 import { ca } from "date-fns/locale";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -56,6 +62,7 @@ export async function POST(request: NextRequest): Promise<any> {
     console.log("body: ", body);
     const { action, data } = body;
     // delete the field .confirm from data:
+    // TODO: I think this is not needed anymore
     delete data.confirm;
     // TODO: add to db????
     // switch on action
@@ -63,7 +70,7 @@ export async function POST(request: NextRequest): Promise<any> {
       case "UPDATE":
         // update the studio
         const studio = await StudioService.update(data);
-        console.log("studio: ", studio);
+        // console.log("studio: ", studio);
         break;
       case "CREATE":
         // create the studio
@@ -78,9 +85,29 @@ export async function POST(request: NextRequest): Promise<any> {
 
       case "INVITE":
         // cast data to inviteFormData
-        const inviteData = data as inviteFormData;
+        const inviteData = data as inviteFormBody;
         const invitedStudio = await StudioService.invite(inviteData);
         console.log("invitedStudio: ", invitedStudio);
+        break;
+
+      case "ACCEPT_INVITE":
+        // cast data to inviteFormData
+        const acceptInviteData = data as InviteFormBody;
+        const { inviteId: acceptInviteId } = acceptInviteData;
+        await StudioService.acceptInvite(acceptInviteId);
+        break;
+
+      case "REJECT_INVITE":
+        // cast data to inviteFormData
+        const rejectInviteData = data as InviteFormBody;
+        const { inviteId: rejectInviteId } = rejectInviteData;
+        await StudioService.rejectInvite(rejectInviteId);
+        break;
+      case "EXIT":
+        // cast data to inviteFormData
+        const exitStudioData = data as ExitFormBody;
+        const { studioId, artistId } = exitStudioData;
+        await StudioService.exitStudio({ studioId, artistId });
         break;
 
       default:
@@ -93,10 +120,17 @@ export async function POST(request: NextRequest): Promise<any> {
     return NextResponse.error();
   }
 
-  // the first param goes on .data already...
+  //   REVIEW: How can we type the response itself? is it possible and useful?
+  const body: StudioUpdateResponse = {
+    data: undefined,
+    message: "Updated studio info",
+    ok: true,
+    statusCode: 200,
+  };
 
-  return NextResponse.json(
-    { data: null, message: "Updated studio info", ok: "true", status: "200" },
-    { status: 200 },
-  );
+  return NextResponse.json(body, { status: 200 });
 }
+
+export type StudioUpdateResponse = ApiResponse<null>;
+export type GetArtistStudiosRespose = ApiResponse<Studio[]>;
+export type ExitStudioRespose = ApiResponse<undefined>;

@@ -2,7 +2,7 @@ import { getCurrentUser } from "@/services/db/getCurrentUser";
 import Heading from "@/components/heading";
 import FinderClient from "./finder-client";
 
-export default function FinderPage({ children, ...props }) {
+export default function FinderPage({}) {
   const currentUser = getCurrentUser();
 
   return (

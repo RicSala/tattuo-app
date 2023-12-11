@@ -6,7 +6,6 @@ import Image from "next/image";
 import { BoardAdder } from "./board-adder";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useToast } from "../ui/use-toast";
 import HeartButton from "../heart-button";
 import path from "path";
 import { Skeleton } from "../ui/skeleton";
@@ -32,66 +31,19 @@ export default function TattooCard({
     });
   }, [data.id, router]); // The effect depends on the tattoo id and will re-run if it changes
 
-  // const onBoardCreate = useCallback(
-  //   (title) => {
-  //     return apiClient
-  //       .post("/boards", { title: title })
-  //       .then((res) => {
-  //         toast({
-  //           variant: "success",
-  //           title: `Tablero ${title} creado`,
-  //           description:
-  //             "Hemos añadido el tatuaje a tu tablero. ¡Sigue añadiendo más tatuajes!",
-  //         });
-  //         router.refresh();
-  //         return res.data;
-  //       })
-  //       .catch((err) => {
-  //         // toast.error('Something went wrong')
-  //       });
-
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   },
-  //   [router, toast],
-  // );
-
-  // const onBoardSelect = useCallback((tattoo, board) => {
-  //   // add the tattoo to the board
-  //   apiClient
-  //     .post(`/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
-  //     .then((res) => {
-  //       toast({
-  //         variant: "success",
-  //         title: `Tutuaje añadido a ${board.title}`,
-  //         description: "Puedes seguir añadiendo más tatuajes",
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       toast({
-  //         variant: "destructive",
-  //         title: `No ha sido posible añadir el tatuaje a ${board.title}`,
-  //         description: `${err.response.data.error}`,
-  //       });
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <Link
       href={`/tatuajes/detalle/${data.id}`}
       className="cursor-pointer"
-      // onMouseEnter={() => {
-      //   router.prefetch(`/tatuajes/detalle/${data.id}`);
-      // }}
-      // onClick={(event) => {
-      //   if (event.target.id !== "tattoo-image" && event.target !== path) {
-      //     event.preventDefault();
-      //   } else {
-      //     router.push(`/tatuajes/detalle/${data.id}`, {
-      //       scroll: false, //TODO: Why it does not prevent the scroll?
-      //     });
-      //   }
-      // }}
+      onClick={(event) => {
+        if (event.target.id !== "tattoo-image" && event.target !== path) {
+          event.preventDefault();
+        } else {
+          router.push(`/tatuajes/detalle/${data.id}`, {
+            scroll: false, //TODO: Why it does not prevent the scroll?
+          });
+        }
+      }}
       scroll={true}
     >
       <Card
@@ -125,8 +77,6 @@ export default function TattooCard({
                 tattoo={data}
                 currentUser={currentUser}
                 boards={currentUser?.boards || []}
-                // onBoardCreate={onBoardCreate}
-                // onBoardSelect={onBoardSelect}
                 className=" group-hover:border-border group-hover:bg-background group-hover:text-primary sm:border-none sm:bg-transparent sm:text-transparent"
               />
             </div>

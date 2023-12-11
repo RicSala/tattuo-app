@@ -15,16 +15,17 @@ interface PaginationInfo {
   totalItems: number;
 }
 
-export interface ApiResponse<T, E = ApiError> {
+export interface ApiResponse<T = undefined, E = ApiError> {
   statusCode: HttpStatusCode;
   message?: string;
-  data?: T;
+  data: T | undefined;
+  ok: boolean;
   error?: E;
   meta?: any; // Additional metadata
   pagination?: PaginationInfo;
 }
 
-export interface inviteFormData {
+export interface inviteFormBody {
   studioId: string;
   invites: {
     label: string;
@@ -33,6 +34,14 @@ export interface inviteFormData {
   }[];
 }
 
+export interface InviteFormBody {
+  inviteId: string;
+}
+
+export interface ExitFormBody {
+  artistId: string;
+  studioId: string;
+}
 // T with U
 type WithProperty<T, K extends PropertyKey, V> = T & { [P in K]: V };
 

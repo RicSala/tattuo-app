@@ -1,18 +1,50 @@
-import ArtistSmallCard from "@/components/artist/artist-small-card";
+import { SmallCard } from "@/components/artist/artist-small-card";
 import { DisplayText } from "@/components/display-text";
 import HeartButton from "@/components/heart-button";
 import ShareButtons from "@/components/share-buttons";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { WithProperty } from "@/types";
+import {
+  ArtistProfile,
+  LikedTattoo,
+  Style,
+  Tag,
+  TaggedTattoo,
+  Tattoo,
+} from "@prisma/client";
 import Image from "next/image";
 
-export function TattooDetails({ tattoo, currentUser, className }) {
+type TattooDetailsProps = {
+  tattoo: WithProperty<
+    WithProperty<
+      WithProperty<
+        WithProperty<Tattoo, "styles", Style[]>,
+        "tags",
+        WithProperty<TaggedTattoo, "tag", Tag>[]
+      >,
+      "likes",
+      LikedTattoo[]
+    >,
+    "artistProfile",
+    ArtistProfile
+  >;
+  currentUser: any;
+  className?: string;
+};
+
+export function TattooDetails({
+  tattoo,
+  currentUser,
+  className,
+}: TattooDetailsProps) {
   const hostname =
     process.env.NODE_ENV === "production"
       ? `${process.env.HOST_NAME_PROD}/api/artists`
       : `${process.env.HOST_NAME_DEV}/api/artists`;
 
   const age = Math.floor(
+    //@ts-ignore
     (new Date() - new Date(tattoo?.createdAt)) / (1000 * 60 * 60 * 24),
   );
 
@@ -102,7 +134,11 @@ export function TattooDetails({ tattoo, currentUser, className }) {
           {tattoo?.artistProfileId && tattoo?.artistProfileId !== "" ? (
             <div className="px-4 py-2">
               <p>Artista:</p>
-              <ArtistSmallCard artist={tattoo?.artistProfile} />
+              <SmallCard
+                image={tattoo.artistProfile.mainImage}
+                name={tattoo.artistProfile.artisticName}
+                url={`/tatuadores/profile/${tattoo.artistProfileId}`}
+              />
             </div>
           ) : null}
         </div>

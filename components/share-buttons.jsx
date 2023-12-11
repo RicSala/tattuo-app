@@ -11,13 +11,13 @@ import WhatsappIcon from "./icons/whatsapp";
 import { usePathname } from "next/navigation";
 
 const ShareButtons = ({
-  title,
+  title = undefined,
   url,
-  facebookQuote,
-  facebookHashtag,
-  whatsappTitle,
-  pinterestImage,
-  pinterestDescription,
+  facebookQuote = undefined,
+  facebookHashtag = undefined,
+  whatsappTitle = undefined,
+  pinterestImage = undefined,
+  pinterestDescription = undefined,
   iconsSize = 20,
 }) => {
   const pathName = usePathname();

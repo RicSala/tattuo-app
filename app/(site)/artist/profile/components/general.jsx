@@ -1,4 +1,3 @@
-import PrimitiveAsyncSelect from "@/components/async-select";
 import CustomSelect from "@/components/custom-select";
 import {
   FormControl,
@@ -12,6 +11,7 @@ import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { AsyncSelect } from "@/components/async-select";
 
 const General = ({ form, cities, styles }) => {
   return (
@@ -112,7 +112,7 @@ const General = ({ form, cities, styles }) => {
           <FormItem>
             <FormLabel className="after:content-['*']">Ciudad</FormLabel>
             <FormControl>
-              <PrimitiveAsyncSelect
+              <AsyncSelect
                 placeholder="Donde sueles tatuar habitualmente"
                 {...field}
                 resources="cities"

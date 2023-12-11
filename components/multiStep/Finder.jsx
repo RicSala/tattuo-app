@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import Stepper from "./Stepper";
-import PrimitiveAsyncSelect from "../async-select";
 import { Textarea } from "../ui/textarea";
 import ImageUploader, { ImageThumbnail } from "../image-uploader";
 import { getStyleList } from "@/lib/getStyleList";
@@ -25,6 +24,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DevTool } from "@hookform/devtools";
 import { apiClient } from "@/lib/apiClient";
+import { AsyncSelect } from "../async-select";
 
 //TODO: change isLoading to be = isSubmitting
 
@@ -212,7 +212,7 @@ export default function Finder({ children, setResults, ...props }) {
                 <FormItem>
                   <FormLabel className="">Ciudad</FormLabel>
                   <FormControl>
-                    <PrimitiveAsyncSelect
+                    <AsyncSelect
                       placeholder="Donde sueles tatuar habitualmente"
                       {...field}
                       resources="cities"

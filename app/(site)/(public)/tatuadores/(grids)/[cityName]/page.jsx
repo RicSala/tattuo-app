@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
 import { getStyleList } from "@/lib/getStyleList";
 import ListingGrid from "@/components/listings/listing-grid";
@@ -9,7 +8,6 @@ import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
 import { ArtistService } from "@/services/db/ArtistService";
 import { GridHeader } from "@/components/grid-header";
-import { getCities } from "@/lib/getCities";
 
 export const generateMetadata = async ({ params }) => {
   const { cityName } = params;
@@ -71,16 +69,21 @@ export default async function CityPage({ params, searchParams }) {
   return (
     <>
       <GridHeader
-        title={`Encuentra a los mejores tatuadores de ${capitalizeFirst(
-          cityName,
-        )}`}
-        subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}
+        title={`Tatuadores en ${capitalizeFirst(cityName)}`}
+        subtitle={`Los mejores tatuadores de Zaragoza. Busca por estilo o por nombre.`}
         contentSlug={""}
         filtro1={filtro1}
       />
       <ListingGrid>
         {artists.map((artist) => {
-          return <ArtistCard data={artist} key={artist.id} />;
+          return (
+            <ArtistCard
+              artist={artist}
+              key={artist.id}
+              altString={cityName}
+              pageType={"CITY"}
+            />
+          );
         })}
       </ListingGrid>
 

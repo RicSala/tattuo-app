@@ -19,9 +19,22 @@ export default function TattooCard({
   likeable = true,
   children,
   imagePriority = false,
+  //   altString = undefined,
+  //   pageType = undefined,
   ...props
 }) {
   const router = useRouter();
+
+  //   TODO: not sure about how can we do this with the current imp of infinite scroll
+  //   let altText;
+  //   switch (pageType) {
+  //     case "CONTENT":
+  //       altText = `Tatuaje de ${altString}`;
+  //       break;
+  //     default:
+  //       altText = `Tatuaje`;
+  //       break;
+  //   }
 
   useEffect(() => {
     // Prefetch the tattoo details when the component mounts

@@ -59,3 +59,5 @@ type searchParams = {
   unclaimed?: string;
   styles?: string;
 };
+
+export type PageType = "ARTIST" | "STUDIO" | "CITY" | "STYLE" | "CONTENT";

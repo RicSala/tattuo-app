@@ -38,7 +38,6 @@ export class StudioService {
   ) {
     // REVIEW: This is another easy way to omit properties from an object
     const { id, userId, cityId, ...data } = studioData;
-    console.log("PRE UPDATE", { data });
     const studio = await prisma.studio.update({
       where: { id },
       data: {
@@ -47,7 +46,6 @@ export class StudioService {
         city: { connect: { id: data.city.id } },
       },
     });
-    console.log("POST UPDATE", { studio });
     return studio;
   }
 
@@ -59,7 +57,6 @@ export class StudioService {
     >,
   ) {
     // delete the id from the data
-    console.log({ studioData });
     delete studioData.id;
     const userId = studioData.userId;
     const cityId = studioData.city.id;
@@ -181,8 +178,6 @@ export class StudioService {
   }
 
   static async invite({ studioId, invites }: inviteFormBody) {
-    console.log("inviting artists...");
-    console.log({ studioId, invites });
     for (let i = 0; i < invites.length; i++) {
       // If artist.id = "email", next iteration
       const invite = invites[i];

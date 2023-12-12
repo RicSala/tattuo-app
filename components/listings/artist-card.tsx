@@ -10,7 +10,7 @@ import { ArtistProfile } from "@prisma/client";
 import { PageType } from "@/types";
 
 interface ArtistCardProps {
-  artist: ArtistProfile;
+  data: ArtistProfile;
   className?: string;
   imagePriority?: boolean;
   altString?: string;
@@ -18,7 +18,7 @@ interface ArtistCardProps {
 }
 
 const ArtistCard = ({
-  artist,
+  data,
   className,
   imagePriority = false,
   altString = undefined,
@@ -27,18 +27,18 @@ const ArtistCard = ({
   //   const altText =
   //     page === undefined ? `${data.artisticName} foto perfil` : "listing picture";
   // better with switch
-  let altText;
-  switch (pageType) {
-    case "ARTIST":
-      altText = `${artist.artisticName} perfil`;
-      break;
-    case "CITY":
-      altText = `${artist.artisticName} en ${altString}`;
-      break;
-    default:
-      altText = `${artist.artisticName} perfil`;
-      break;
-  }
+  let altText = "profile picture";
+  //   switch (pageType) {
+  //     case "ARTIST":
+  //       altText = `${artist.artisticName} perfil`;
+  //       break;
+  //     case "CITY":
+  //       altText = `${artist.artisticName} en ${altString}`;
+  //       break;
+  //     default:
+  //       altText = `${artist.artisticName} perfil`;
+  //       break;
+  //   }
 
   const router = useRouter();
   const { data: session } = useSession();
@@ -47,7 +47,7 @@ const ArtistCard = ({
 
   return (
     <div
-      onClick={() => router.push(`/tatuadores/profile/${artist.id}`)}
+      onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
       onMouseEnter={() => {
         router.prefetch(`/tatuadores/profile/654e02287ffff1cdf25b7d92`);
       }}
@@ -62,7 +62,7 @@ const ArtistCard = ({
         <div className="absolute right-3 top-3 z-[3]">
           <HeartButton
             className={""}
-            listingId={artist.id}
+            listingId={data.id}
             currentUser={currentUser}
             listingType="artists"
           />
@@ -70,7 +70,7 @@ const ArtistCard = ({
 
         <div className="absolute left-3 top-3 z-[3]">
           <SaveButton
-            listingId={artist.id}
+            listingId={data.id}
             currentUser={currentUser}
             listingType="artists"
           />
@@ -84,9 +84,7 @@ const ArtistCard = ({
                 fill
                 //TODO:  What about when there is not image??
                 src={
-                  artist?.images[0] ||
-                  artist.mainImage ||
-                  "/images/placeholder.png"
+                  data?.images[0] || data.mainImage || "/images/placeholder.png"
                 }
                 alt={altText}
                 priority={imagePriority}
@@ -99,8 +97,8 @@ const ArtistCard = ({
 
       <div className="flex flex-row items-center justify-between gap-6 px-5 py-3">
         {/* <Avatar user={data} /> */}
-        <p className="truncate">{artist.artisticName}</p>
-        {artist.userId ? (
+        <p className="truncate">{data.artisticName}</p>
+        {data.userId ? (
           <Badge className={"bg-primary/60"}>Verificado</Badge>
         ) : null}
       </div>

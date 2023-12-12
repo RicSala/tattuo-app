@@ -45,7 +45,6 @@ export default async function StudiosPage({
   searchParams: Record<string, string>;
   params: Record<string, string>;
 }) {
-  console.log("searchParams", searchParams);
   const { cityName } = params;
 
   const city = cities.find((item) => item.city === cityName);
@@ -72,7 +71,7 @@ export default async function StudiosPage({
     },
   )) as StudioWithGoogleProfile[];
   if (studios.length < 1) {
-    return <EmptyArtist filtro1={filtro1} />;
+    return <EmptyArtist />;
   }
 
   return (

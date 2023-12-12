@@ -7,8 +7,9 @@ import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
 import { generatedContentSlugs } from "@/config/constants";
 import { GridHeader } from "@/components/grid-header";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-// export const dynamic = "force-dynamic";
+import ListingGrid from "@/components/listings/listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 
 export const generateMetadata = async ({ params }) => {
   const { contentSlug } = params;
@@ -74,8 +75,6 @@ export default async function TattoosPage({ params, searchParams }) {
     notFound();
   }
 
-  console.log("this is a test in content slug");
-
   const endpoint =
     process.env.NODE_ENV === "production"
       ? `${process.env.HOST_NAME_PROD}/api/tattoos/content/${contentSlug}`
@@ -107,18 +106,19 @@ export default async function TattoosPage({ params, searchParams }) {
         // filtro2={filtro2}
       />
 
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp={`tattoo-${contentSlug}`} // the key prop to use to identify each item
-      />
-      {/* <ListingGrid>
-        {serverLoadedTattoos.map((tattoo) => (
-          <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
-        ))}
-      </ListingGrid> */}
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={`tattoo-${contentSlug}`}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
       <div className="mt-10 flex flex-col gap-3">
         <h2>Tatuajes de {contentSlug}</h2>
         <div

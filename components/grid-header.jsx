@@ -25,7 +25,7 @@ export function GridHeader({
 }) {
   return (
     <>
-      <Breadcrumbs
+      {/* <Breadcrumbs
         activeClasses={"!text-primary font-semibold"}
         capitalizeLinks={true}
         containerClasses={
@@ -34,7 +34,7 @@ export function GridHeader({
         homeElement={"Inicio"}
         listClasses={"flex items-center text-primary/60"}
         separator={">"}
-      />
+      /> */}
       <Heading title={title} subtitle={subtitle} />
       <Separator className="my-5" />
 

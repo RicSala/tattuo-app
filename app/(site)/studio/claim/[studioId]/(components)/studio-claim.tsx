@@ -25,7 +25,6 @@ export const StudioClaim = ({ form }: { form: UserFormReturnType }) => {
 
   const filteredOptions = async (query: string) => {
     const studios = await getUnclaimedStudioProfiles(query);
-    console.log({ studios });
     const formattedStudioArray = studios.map((studio) => ({
       value: studio.name,
       label: studio.name,

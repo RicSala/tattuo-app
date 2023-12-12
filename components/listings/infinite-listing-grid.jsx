@@ -1,4 +1,5 @@
 "use client";
+// TODO: I think we can delete this file already :)
 
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import React from "react";
@@ -41,7 +42,7 @@ export default function InfiniteListingGrid({
           sizePerPage={sizePerPage}
           keyProp={keyProp}
           Component={Component}
-          currentUser={currentUser}
+          //   currentUser={currentUser}
           filter={filter}
           hasMore={initialData.length >= sizePerPage}
         />

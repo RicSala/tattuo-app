@@ -42,8 +42,6 @@ export default async function StudiosPage({
 }: {
   searchParams: Record<string, string>;
 }) {
-  console.log("searchParams", searchParams);
-
   type WithGoogleProfile<T> = T & {
     studioGoogleProfile: studioGoogleProfile;
   };
@@ -62,7 +60,7 @@ export default async function StudiosPage({
     },
   )) as StudioWithGoogleProfile[];
   if (studios.length < 1) {
-    return <EmptyArtist filtro1={filtro1} />;
+    return <EmptyArtist />;
   }
   //   const serverLoadedArtists = studios.slice(0, initialDataSize);
   //   const serverHasMoreArtists = studios.length > initialDataSize;

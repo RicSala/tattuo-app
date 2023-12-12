@@ -1,14 +1,14 @@
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import Container from "@/components/container";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList, mapValueToLabel } from "@/lib/getStyleList";
 import { capitalizeFirst, sanitize } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 
 export const generateMetadata = async ({ params }) => {
   const { styleName } = params;
@@ -40,7 +40,6 @@ const filtro1 = {
 // It's gonna be used in build time
 export const generateStaticParams = () => {
   return getStyleList().map((item) => {
-    console.log("item: ", item.value);
     return {
       styleName: item.value,
     };
@@ -108,19 +107,20 @@ export default async function TattoosPage({ params, searchParams }) {
         // filtro2={filtro2}
       />
 
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp={`tattoo-${styleName}`} // the key prop to use to identify each item
-      />
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={`tattoo-${styleName}`}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
 
-      {/* <ListingGrid>
-        {serverLoadedTattoos.map((tattoo) => (
-          <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
-        ))}
-      </ListingGrid> */}
       <div className="mt-10 flex flex-col gap-3">
         <h2>Tatuajes de estilo {label}</h2>
         <div

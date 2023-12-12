@@ -38,7 +38,6 @@ export default function TattooCard({
 
   useEffect(() => {
     // Prefetch the tattoo details when the component mounts
-    console.log("prefetching...");
     router.prefetch(`/tatuajes/detalle/${data.id}`, {
       kind: "full",
     });

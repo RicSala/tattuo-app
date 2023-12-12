@@ -52,7 +52,7 @@ export default async function StudioDetailsPage({ params }: { params: any }) {
 
   return (
     <>
-      <Breadcrumbs
+      {/* <Breadcrumbs
         activeClasses={"!text-primary font-semibold"}
         capitalizeLinks={true}
         containerClasses={
@@ -61,7 +61,7 @@ export default async function StudioDetailsPage({ params }: { params: any }) {
         homeElement={"Inicio"}
         listClasses={"flex items-center text-primary/60"}
         separator={">"}
-      />
+      /> */}
       <main className="flex flex-col justify-center gap-4 lg:flex-row">
         <section className="">
           <StudioDetailsCard studio={studio} />

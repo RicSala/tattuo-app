@@ -63,7 +63,7 @@ export default async function CityPage({ params, searchParams }) {
   // const serverLoadedArtists = artists.slice(0, initialDataSize)
   // const serverHasMoreArtists = artists.length > initialDataSize
   if (artists.length < 1) {
-    return <EmptyArtist filtro1={filtro1} />;
+    return <EmptyArtist />;
   }
 
   return (
@@ -78,7 +78,7 @@ export default async function CityPage({ params, searchParams }) {
         {artists.map((artist) => {
           return (
             <ArtistCard
-              artist={artist}
+              data={artist}
               key={artist.id}
               altString={cityName}
               pageType={"CITY"}

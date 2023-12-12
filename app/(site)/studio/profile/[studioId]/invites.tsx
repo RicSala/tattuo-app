@@ -73,7 +73,6 @@ export function InviteForm({ studioId }: { studioId: string }) {
 
   const onInvite = async (data: inviteFormBody) => {
     setLoadingInviteStatus("loading");
-    console.log({ data });
     // TODO: Add error handling
     await sendInvitate(data);
     toast({

@@ -1,9 +1,11 @@
 import ArtistCard from "@/components/listings/artist-card";
 import { getStyleList } from "@/lib/getStyleList";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
 import { GridHeader } from "../../../../../components/grid-header";
 import { ArtistService } from "@/services/db/ArtistService";
+import ListingGrid from "@/components/listings/listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 
 // For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
 // false | 'force-cache' | 0 | number
@@ -41,6 +43,8 @@ export default async function ArtistsPage({ searchParams }) {
   if (artists.length < 1) {
     return <EmptyArtist />;
   }
+
+  //   TODO: We are not handling well the case when there are no more artist as we are not passing the hasMore prop to the infinite scroll component
   const serverLoadedArtists = artists.slice(0, initialDataSize);
   const serverHasMoreArtists = artists.length > initialDataSize;
 
@@ -52,14 +56,18 @@ export default async function ArtistsPage({ searchParams }) {
         contentSlug={""}
         filtro1={filtro1}
       />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedArtists} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        hasMore={serverHasMoreArtists} // if there are more items to load
-        Component={ArtistCard} // the component to render for each item
-        keyProp="artist" // the key prop to use to identify each item
-      ></InfiniteListingGrid>
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedArtists}
+            sizePerPage={sizePerPage}
+            keyProp={"artist"}
+            Component={ArtistCard}
+            hasMore={serverLoadedArtists.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
     </>
   );
 }

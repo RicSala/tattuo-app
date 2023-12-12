@@ -1,12 +1,14 @@
 //@ts-check
 
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getBodyParts } from "@/lib/getBodyParts";
+import ListingGrid from "@/components/listings/listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 
 //TODO:
 // SITEMAP
@@ -79,13 +81,20 @@ export default async function TattoosPage({ searchParams }) {
         filtro1={filtro1}
         // filtro2={filtro2}
       />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp="tattoo" // the key prop to use to identify each item
-      />
+
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={"tattoo"}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
     </>
   );
 }

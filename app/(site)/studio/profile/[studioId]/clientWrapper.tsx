@@ -24,8 +24,6 @@ export function ClientWrapper({
   const [loadingStatus, setLoadingStatus] = useState("idle");
 
   const onSubmit = async (data: WithProperty<Studio, "city", City>) => {
-    console.log("submitting...");
-    console.log("data", data);
     try {
       setLoadingStatus("loading");
       const res = await updateOrCreateStudio(data);

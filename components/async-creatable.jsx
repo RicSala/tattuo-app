@@ -44,8 +44,6 @@ const AsyncCreatable = forwardRef(
           isMulti
             ? (selectedOptions = updateMulti(value, newOption))
             : (selectedOptions = newOption);
-          console.log({ selectedOptions });
-          console.log({ value });
 
           onChange(selectedOptions);
           // trigger(name)
@@ -71,7 +69,6 @@ AsyncCreatable.displayName = "AsyncCreatable";
 export default AsyncCreatable;
 
 const updateMulti = (value, newOption) => {
-  console.log("from update", { value });
   let newValueArray;
   if (value) {
     newValueArray = [...value, newOption];

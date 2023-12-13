@@ -1,29 +1,26 @@
+import { BreadcrumbsProps } from "@/components/breadcrumbs";
 import { BreadcrumbList, WithContext } from "schema-dts";
+// https://developers.google.com/search/docs/appearance/structured-data?hl=es-419
+// Not sure what the diff is in the links shown above
 
-export function StructuredData({ data }: { data: {} }) {
+export function StructuredData({
+  breadcrumbs,
+}: {
+  breadcrumbs: BreadcrumbsProps["items"];
+}) {
+  const itemListElement = breadcrumbs.map((breadcrumb, index) => {
+    return {
+      "@type": "ListItem" as "ListItem",
+      position: index + 1,
+      name: breadcrumb.label,
+      item: breadcrumb.path,
+    };
+  });
+
   const jsonLd: WithContext<BreadcrumbList> = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://example.com/home",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Library",
-        item: "https://example.com/library",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Data",
-        item: "https://example.com/data",
-      },
-    ],
+    itemListElement: itemListElement,
   };
 
   return (

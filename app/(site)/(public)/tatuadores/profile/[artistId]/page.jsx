@@ -4,10 +4,11 @@ import TattooCard from "@/components/listings/tattoo-card";
 import { Separator } from "@/components/ui/separator";
 import Container from "@/components/container";
 import ArtistDetailsCard from "@/components/artist/artist-details-card";
-import { cn } from "@/lib/utils";
+import { capitalizeFirst, cn } from "@/lib/utils";
 import { ArtistService } from "@/services/db/ArtistService";
 import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
+import Breadcrumbs from "@/components/breadcrumbs";
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({ params }) => {
@@ -41,18 +42,35 @@ export default async function ArtistDetailsPage({ params }) {
     return notFound(); //TODO: check the notfound page
   }
 
-  return (
-    <main className="flex flex-row flex-wrap justify-center gap-4">
-      <section className="">
-        <ArtistDetailsCard artist={artist} currentUser={currentUser} />
-      </section>
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuadores",
+      path: "/tatuadores",
+    },
+    {
+      label: `${capitalizeFirst(artist.artisticName)}`,
+      path: `/tatuadores/profile/${artist.id}`,
+    },
+  ];
 
-      <section className="flex-grow">
-        <Container>
-          <Heading title={`Sus trabajos`} />
-          <Separator className="my-2" />
-          <div
-            className={cn(`
+  return (
+    <>
+      <Breadcrumbs items={breadcrumbs} />
+      <main className="flex flex-row flex-wrap justify-center gap-4">
+        <section className="">
+          <ArtistDetailsCard artist={artist} currentUser={currentUser} />
+        </section>
+
+        <section className="flex-grow">
+          <Container>
+            <Heading title={`Sus trabajos`} />
+            <Separator className="my-2" />
+            <div
+              className={cn(`
                         m-auto
                         grid
                         grid-cols-1
@@ -63,18 +81,19 @@ export default async function ArtistDetailsPage({ params }) {
                         xl:grid-cols-2
                         2xl:grid-cols-3
                         `)}
-          >
-            {" "}
-            {artistTattoos.map((tattoo) => (
-              <TattooCard
-                data={tattoo}
-                currentUser={currentUser}
-                key={tattoo.id}
-              />
-            ))}
-          </div>
-        </Container>
-      </section>
-    </main>
+            >
+              {" "}
+              {artistTattoos.map((tattoo) => (
+                <TattooCard
+                  data={tattoo}
+                  currentUser={currentUser}
+                  key={tattoo.id}
+                />
+              ))}
+            </div>
+          </Container>
+        </section>
+      </main>
+    </>
   );
 }

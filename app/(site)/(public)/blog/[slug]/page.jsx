@@ -3,6 +3,7 @@ import PostBody from "../components/post-body";
 import { getPost, getPosts } from "@/lib/posts";
 import PostHeader from "./components/post-header";
 import Toc from "./components/toc";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 // the posts for which we want to generate static pages
 // (we may want to generate other pages on the server...)
@@ -41,11 +42,30 @@ export default async function PostPage({ params }) {
   // TODO: Was not working. Out for now
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col gap-2">
-      <PostHeader post={post} />
+    <>
+      <Breadcrumbs
+        items={[
+          {
+            label: "Inicio",
+            path: "/",
+          },
+          {
+            label: "Blog",
+            path: "/blog",
+          },
+          {
+            label: `${post.title}`,
+            path: `/blog/${post.slug}`,
+          },
+        ]}
+      />
 
-      {/* BODY */}
-      <PostBody>{post.body}</PostBody>
-    </div>
+      <div className="mx-auto flex max-w-xl flex-col gap-2">
+        <PostHeader post={post} />
+
+        {/* BODY */}
+        <PostBody>{post.body}</PostBody>
+      </div>
+    </>
   );
 }

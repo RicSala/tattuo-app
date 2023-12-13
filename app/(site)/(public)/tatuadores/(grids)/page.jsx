@@ -6,6 +6,7 @@ import { ArtistService } from "@/services/db/ArtistService";
 import ListingGrid from "@/components/listings/listing-grid";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 // For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
 // false | 'force-cache' | 0 | number
@@ -50,6 +51,7 @@ export default async function ArtistsPage({ searchParams }) {
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Inspírate en los tatuajes de los mejores artistas de tu ciudad`}
         subtitle={`Explora por estilo, ciudad, o simplemente escribe lo que buscas`}
@@ -71,3 +73,14 @@ export default async function ArtistsPage({ searchParams }) {
     </>
   );
 }
+
+const breadcrumbs = [
+  {
+    label: "Inicio",
+    path: "/",
+  },
+  {
+    label: "Tatuadores",
+    path: "/tatuadores",
+  },
+];

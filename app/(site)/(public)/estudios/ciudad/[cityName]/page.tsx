@@ -7,6 +7,8 @@ import { StudioService } from "@/services/db/StudioService";
 import { Studio, studioGoogleProfile } from "@prisma/client";
 import { generatedCities } from "@/config/constants";
 import { notFound } from "next/navigation";
+import { capitalizeFirst } from "@/lib/utils";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 const endpoint =
   process.env.NODE_ENV === "production"
@@ -47,6 +49,21 @@ export default async function StudiosPage({
 }) {
   const { cityName } = params;
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Estudios",
+      path: "/estudios",
+    },
+    {
+      label: capitalizeFirst(cityName),
+      path: `/estudios/ciudad/${cityName}`,
+    },
+  ];
+
   const city = cities.find((item) => item.city === cityName);
   if (!city) {
     return notFound();
@@ -76,6 +93,7 @@ export default async function StudiosPage({
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Los mejores estudios de tatuaje de ${params.cityName}`}
         subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}

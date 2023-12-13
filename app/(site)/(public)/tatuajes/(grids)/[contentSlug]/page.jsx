@@ -10,6 +10,7 @@ import { GridHeader } from "@/components/grid-header";
 import ListingGrid from "@/components/listings/listing-grid";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { contentSlug } = params;
@@ -95,8 +96,24 @@ export default async function TattoosPage({ params, searchParams }) {
     return <EmptyTattoos />;
   }
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuajes",
+      path: "/tatuajes",
+    },
+    {
+      label: `${capitalizeFirst(contentSlug)}`,
+      path: `/tatuajes/${contentSlug}`,
+    },
+  ];
+
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Descubre tatuajes de ${contentSlug}`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}

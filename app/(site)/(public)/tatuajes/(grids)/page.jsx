@@ -9,6 +9,7 @@ import { getBodyParts } from "@/lib/getBodyParts";
 import ListingGrid from "@/components/listings/listing-grid";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 //TODO:
 // SITEMAP
@@ -74,6 +75,7 @@ export default async function TattoosPage({ searchParams }) {
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Descubre tatuajes de artistas cerca de ti`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
@@ -98,3 +100,14 @@ export default async function TattoosPage({ searchParams }) {
     </>
   );
 }
+
+const breadcrumbs = [
+  {
+    label: "Inicio",
+    path: "/",
+  },
+  {
+    label: "Tatuajes",
+    path: "/tatuajes",
+  },
+];

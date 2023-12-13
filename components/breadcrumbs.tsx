@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 // defining the Props
 export type CrumbItem = {
-  label: ReactNode; // e.g., Python
+  label: string; // e.g., Python
   path: string; // e.g., /development/programming-languages/python
 };
 export type BreadcrumbsProps = {

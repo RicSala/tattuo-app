@@ -9,6 +9,7 @@ import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { styleName } = params;
@@ -46,9 +47,12 @@ export const generateStaticParams = () => {
   });
 };
 
+//"error" Force static rendering and cache the data of a layout or page by causing an error if any components use dynamic functions or uncached data. This option is equivalent to:
+export const dynamic = "error";
+
 // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
 // false: Dynamic segments not included in generateStaticParams will return a 404.
-export const dynamicParams = true; // true | false,
+export const dynamicParams = false; // true | false,
 
 // false | 'force-cache' | 0 | number
 export const revalidate = 86400; // 24 hours
@@ -96,8 +100,24 @@ export default async function TattoosPage({ params, searchParams }) {
     return <EmptyTattoos />;
   }
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuajes",
+      path: "/tatuajes",
+    },
+    {
+      label: `${capitalizeFirst(label)}`,
+      path: `/tatuajes/estilo/${styleName}`,
+    },
+  ];
+
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Tatuajes estilo ${label}`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}

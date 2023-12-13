@@ -6,6 +6,8 @@ import StudioCard from "@/components/listings/studio-card";
 import { StudioService } from "@/services/db/StudioService";
 import { Studio, studioGoogleProfile } from "@prisma/client";
 import { generatedCities } from "@/config/constants";
+import { capitalizeFirst } from "@/lib/utils";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 const endpoint =
   process.env.NODE_ENV === "production"
@@ -37,6 +39,17 @@ export const metadata = {
     "Encuentra tatuadores cerca de ti buscando por tatuajes, por estilo, por ciudad... Y contáctales cuando quieras totalmente GRATIS",
 };
 
+const breadcrumbs = [
+  {
+    label: "Inicio",
+    path: "/",
+  },
+  {
+    label: "Estudios",
+    path: "/estudios",
+  },
+];
+
 export default async function StudiosPage({
   searchParams,
 }: {
@@ -67,6 +80,7 @@ export default async function StudiosPage({
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Los mejores estudios de tatuaje cerca de ti`}
         subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}

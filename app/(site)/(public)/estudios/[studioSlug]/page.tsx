@@ -46,22 +46,27 @@ export default async function StudioDetailsPage({ params }: { params: any }) {
     // currentUserPromise,
   ]);
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Estudios",
+      path: "/estudios",
+    },
+    {
+      label: studio.name,
+      path: `/estudios/${studio.slug}`,
+    },
+  ];
   //   if (!studio) {
   //     return notFound(); //TODO: check the notfound page
   //   }
 
   return (
     <>
-      {/* <Breadcrumbs
-        activeClasses={"!text-primary font-semibold"}
-        capitalizeLinks={true}
-        containerClasses={
-          "flex flex-wrap items-center text-sm font-medium gap-2 text-primary/60"
-        }
-        homeElement={"Inicio"}
-        listClasses={"flex items-center text-primary/60"}
-        separator={">"}
-      /> */}
+      <Breadcrumbs items={breadcrumbs} />
       <main className="flex flex-col justify-center gap-4 lg:flex-row">
         <section className="">
           <StudioDetailsCard studio={studio} />

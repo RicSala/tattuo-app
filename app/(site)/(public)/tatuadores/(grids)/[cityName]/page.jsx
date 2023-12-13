@@ -8,6 +8,7 @@ import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
 import { ArtistService } from "@/services/db/ArtistService";
 import { GridHeader } from "@/components/grid-header";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { cityName } = params;
@@ -50,6 +51,20 @@ export default async function CityPage({ params, searchParams }) {
   if (!isGeneratedCity) notFound();
 
   const { cityName } = params;
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuadores",
+      path: "/tatuadores",
+    },
+    {
+      label: `${capitalizeFirst(cityName)}`,
+      path: `/tatuadores/${cityName}}`,
+    },
+  ];
 
   const artists = await ArtistService.getPaginated({
     ...searchParams, // spread the current search parasm...
@@ -68,6 +83,7 @@ export default async function CityPage({ params, searchParams }) {
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Tatuadores en ${capitalizeFirst(cityName)}`}
         subtitle={`Los mejores tatuadores de Zaragoza. Busca por estilo o por nombre.`}

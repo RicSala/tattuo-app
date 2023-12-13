@@ -1,18 +1,15 @@
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import ListingGrid from "@/components/listings/listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
-import Container from "@/components/ui/container";
 import { getBodyParts } from "@/lib/getBodyParts";
 import { getStyleList, mapValueToLabel } from "@/lib/getStyleList";
 import { capitalizeFirst, sanitize } from "@/lib/utils";
 import { notFound } from "next/navigation";
-import { TattoosGridHeader } from "../../../components/tattoos-grid-header";
 import { TattooService } from "@/services/db/TattooService";
-import { generatedContentSlugs } from "@/config/constants";
 import { GridHeader } from "@/components/grid-header";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-export const dynamic = "force-dynamic";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { styleName } = params;
@@ -35,11 +32,30 @@ const filtro1 = {
   options: styles,
 };
 
-const filtro2 = {
-  label: "Parte del cuerpo",
-  value: "bodyPart",
-  options: bodyParts,
+// const filtro2 = {
+//   label: "Parte del cuerpo",
+//   value: "bodyPart",
+//   options: bodyParts,
+// };
+
+// It's gonna be used in build time
+export const generateStaticParams = () => {
+  return getStyleList().map((item) => {
+    return {
+      styleName: item.value,
+    };
+  });
 };
+
+//"error" Force static rendering and cache the data of a layout or page by causing an error if any components use dynamic functions or uncached data. This option is equivalent to:
+export const dynamic = "error";
+
+// true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// false: Dynamic segments not included in generateStaticParams will return a 404.
+export const dynamicParams = false; // true | false,
+
+// false | 'force-cache' | 0 | number
+export const revalidate = 86400; // 24 hours
 
 const sizePerPage = 5;
 const numberOfPagesToLoad = 2;
@@ -68,7 +84,6 @@ export default async function TattoosPage({ params, searchParams }) {
   }
 
   const label = mapValueToLabel(styleName);
-  console.log({ label });
 
   const serverLoadedTattoos = await TattooService.getPaginated(
     {
@@ -81,43 +96,58 @@ export default async function TattoosPage({ params, searchParams }) {
     initialDataSize,
   );
 
-  const currentUser = await getCurrentUser();
-
   if (serverLoadedTattoos.length < 1) {
     return <EmptyTattoos />;
   }
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuajes",
+      path: "/tatuajes",
+    },
+    {
+      label: `${capitalizeFirst(label)}`,
+      path: `/tatuajes/estilo/${styleName}`,
+    },
+  ];
+
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Tatuajes estilo ${label}`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
+        freeSearch={true}
         // filtro2={filtro2}
       />
 
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp={`tattoo-${styleName}`} // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      />
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={`tattoo-${styleName}`}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
 
-      {/* <ListingGrid>
-        {serverLoadedTattoos.map((tattoo) => (
-          <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
-        ))}
-      </ListingGrid> */}
       <div className="mt-10 flex flex-col gap-3">
-        <h2>Tatuajes de {styleName}</h2>
+        <h2>Tatuajes de estilo {label}</h2>
         <div
           dangerouslySetInnerHTML={{
             __html: getStyleList().find(
               (item) =>
-                sanitize(item.label.toLowerCase()) === styleName.toLowerCase(),
+                sanitize(item.value.toLowerCase()) === styleName.toLowerCase(),
             ).text,
           }}
         ></div>

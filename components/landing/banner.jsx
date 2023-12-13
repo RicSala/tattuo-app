@@ -6,9 +6,12 @@ import GradientBorder from "../uiEffects/gradient-border";
 import { useContext } from "react";
 import { UiContext } from "@/providers/ui/ui-provider";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default function Banner({ currentUser }) {
+export default function Banner() {
   const router = useRouter();
+  const { data: session } = useSession({});
+  const currentUser = session?.user;
 
   const { setLoginModalOpen } = useContext(UiContext);
 

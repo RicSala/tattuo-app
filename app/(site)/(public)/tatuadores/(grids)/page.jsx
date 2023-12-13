@@ -1,15 +1,17 @@
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
 import { getStyleList } from "@/lib/getStyleList";
-import { getCities } from "@/lib/getCities";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-import Container from "@/components/container";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
-import { ArtistGridHeader } from "../components/artist-grid-header";
 import { GridHeader } from "../../../../../components/grid-header";
 import { ArtistService } from "@/services/db/ArtistService";
 import ListingGrid from "@/components/listings/listing-grid";
-export const dynamic = "force-dynamic";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
+
+// For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
+// false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
 const endpoint =
   process.env.NODE_ENV === "production"
@@ -39,31 +41,46 @@ export default async function ArtistsPage({ searchParams }) {
     0,
     initialDataSize,
   );
-  const currentUser = await getCurrentUser();
-
   if (artists.length < 1) {
     return <EmptyArtist />;
   }
+
+  //   TODO: We are not handling well the case when there are no more artist as we are not passing the hasMore prop to the infinite scroll component
   const serverLoadedArtists = artists.slice(0, initialDataSize);
   const serverHasMoreArtists = artists.length > initialDataSize;
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Inspírate en los tatuajes de los mejores artistas de tu ciudad`}
         subtitle={`Explora por estilo, ciudad, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
       />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedArtists} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        hasMore={serverHasMoreArtists} // if there are more items to load
-        Component={ArtistCard} // the component to render for each item
-        keyProp="artist" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      ></InfiniteListingGrid>
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedArtists}
+            sizePerPage={sizePerPage}
+            keyProp={"artist"}
+            Component={ArtistCard}
+            hasMore={serverLoadedArtists.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
     </>
   );
 }
+
+const breadcrumbs = [
+  {
+    label: "Inicio",
+    path: "/",
+  },
+  {
+    label: "Tatuadores",
+    path: "/tatuadores",
+  },
+];

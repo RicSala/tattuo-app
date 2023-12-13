@@ -11,9 +11,8 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import Stepper from "./Stepper";
-import AsyncSelect from "../async-select";
 import { Textarea } from "../ui/textarea";
-import ImageUploader, { ImageThumbnail } from "../ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "../image-uploader";
 import { getStyleList } from "@/lib/getStyleList";
 import { useState } from "react";
 import { getCities } from "@/lib/getCities";
@@ -25,6 +24,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DevTool } from "@hookform/devtools";
 import { apiClient } from "@/lib/apiClient";
+import { AsyncSelect } from "../async-select";
 
 //TODO: change isLoading to be = isSubmitting
 

@@ -4,7 +4,10 @@ import { apiClient } from "@/lib/apiClient";
 import { forwardRef } from "react";
 
 import AsyncCreatableSelect from "react-select/async-creatable";
-
+/**
+ * @typedef {ForwardRefExoticComponent<RefAttributes<HTMLSelectElement>>} Option
+ * @@type {Option}
+ */
 const AsyncCreatable = forwardRef(
   (
     {
@@ -19,10 +22,11 @@ const AsyncCreatable = forwardRef(
       onCreateOption,
       isMulti = false,
       placeholder = "Selecciona",
+      createLabel = "Crear perfil de ",
     },
     ref,
   ) => {
-    const formatCreateLabel = (inputValue) => `Crear perfil de "${inputValue}"`;
+    const formatCreateLabel = (inputValue) => `${createLabel}${inputValue}`;
 
     return (
       // TODO: Create está en inglés
@@ -38,17 +42,14 @@ const AsyncCreatable = forwardRef(
           // setValue(name, newTag)
           let selectedOptions;
           isMulti
-            ? (selectedOptions = updateMulti(newOption))
+            ? (selectedOptions = updateMulti(value, newOption))
             : (selectedOptions = newOption);
 
           onChange(selectedOptions);
           // trigger(name)
         }}
         onBlur={onBlur}
-        onChange={(value) => {
-          onChange(value);
-          // trigger(name)
-        }}
+        onChange={onChange}
         value={value}
         isMulti={isMulti}
         isClearable={true}

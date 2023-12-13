@@ -10,6 +10,7 @@ import SupportButton from "@/components/support-button";
 import { GlobalErrorHandler } from "@/errors/global-error-handler";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { LoginModal } from "@/components/modals/login-form";
+import SessionProvider from "@/providers/session-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,23 +21,26 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Suspense>
-          <TagManager />
-        </Suspense>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <GlobalErrorHandler />
-          <SupportButton />
-          <Feedback />
-          <UiProvider>
-            <LoginModal />
-            <ArtistRegisterModal />
-            {children}
-          </UiProvider>
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+    <SessionProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Suspense>
+            <TagManager />
+          </Suspense>
+
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <GlobalErrorHandler />
+            <SupportButton />
+            <Feedback />
+            <UiProvider>
+              <LoginModal />
+              <ArtistRegisterModal />
+              {children}
+            </UiProvider>
+            <Toaster />
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

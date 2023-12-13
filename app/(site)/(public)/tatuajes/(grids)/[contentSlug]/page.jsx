@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
 import TattooCard from "@/components/listings/tattoo-card";
 import { getBodyParts } from "@/lib/getBodyParts";
@@ -8,8 +7,10 @@ import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
 import { generatedContentSlugs } from "@/config/constants";
 import { GridHeader } from "@/components/grid-header";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
-// export const dynamic = "force-dynamic";
+import ListingGrid from "@/components/listings/listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { contentSlug } = params;
@@ -22,23 +23,21 @@ export const generateMetadata = async ({ params }) => {
   };
 };
 
-// It's gonna be used in build time
-export const generateStaticParams = () => {
-  return generatedContentSlugs.map((item) => {
-    return {
-      contentSlug: item.content,
-    };
-  });
-};
-
 // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
-// false: Dynamic segments not included in generateStaticParams will return a 404.
-export const dynamicParams = true; // true | false,
+// // false: Dynamic segments not included in generateStaticParams will return a 404.
+// export const dynamicParams = true; // true | false,
+// // false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
-// false | 'force-cache' | 0 | number
-export const revalidate = 86400; // 24 hours
-
-export const dynamic = "force-static";
+// // It's gonna be used in build time
+// export const generateStaticParams = () => {
+//   return generatedContentSlugs.map((item) => {
+//     return {
+//       contentSlug: item.content,
+//     };
+//   });
+// };
 
 const styles = getStyleList();
 // const cities = getCities();
@@ -77,8 +76,6 @@ export default async function TattoosPage({ params, searchParams }) {
     notFound();
   }
 
-  console.log("this is a test");
-
   const endpoint =
     process.env.NODE_ENV === "production"
       ? `${process.env.HOST_NAME_PROD}/api/tattoos/content/${contentSlug}`
@@ -95,35 +92,50 @@ export default async function TattoosPage({ params, searchParams }) {
     initialDataSize,
   );
 
-  const currentUser = await getCurrentUser();
-
   if (serverLoadedTattoos.length < 1) {
     return <EmptyTattoos />;
   }
 
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuajes",
+      path: "/tatuajes",
+    },
+    {
+      label: `${capitalizeFirst(contentSlug)}`,
+      path: `/tatuajes/${contentSlug}`,
+    },
+  ];
+
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Descubre tatuajes de ${contentSlug}`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
         contentSlug={""}
         filtro1={filtro1}
+        freeSearch={false}
         // filtro2={filtro2}
       />
 
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp={`tattoo-${contentSlug}`} // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      />
-      {/* <ListingGrid>
-        {serverLoadedTattoos.map((tattoo) => (
-          <TattooCard key={tattoo.id} data={tattoo} currentUser={currentUser} />
-        ))}
-      </ListingGrid> */}
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={`tattoo-${contentSlug}`}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
       <div className="mt-10 flex flex-col gap-3">
         <h2>Tatuajes de {contentSlug}</h2>
         <div

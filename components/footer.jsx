@@ -35,6 +35,15 @@ const footterMenu = [
     ],
   },
   {
+    title: "Estudios de tatuaje en tu ciudad",
+    items: [
+      {
+        label: "Estudios de tatuaje en Zaragoza",
+        url: "/estudios/ciudad/zaragoza",
+      },
+    ],
+  },
+  {
     title: "Principales temáticas",
     items: (() => {
       const object = generatedContentSlugs.map((item) => ({

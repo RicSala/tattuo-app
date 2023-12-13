@@ -1,23 +1,36 @@
 import { notFound } from "next/navigation";
 
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import ArtistCard from "@/components/listings/artist-card";
-import Container from "@/components/ui/container";
 import { getStyleList } from "@/lib/getStyleList";
 import ListingGrid from "@/components/listings/listing-grid";
 import { capitalizeFirst } from "@/lib/utils";
 import { generatedCities } from "@/config/constants";
 import { EmptyArtist } from "@/app/(site)/(public)/tatuadores/components/empty-artists";
-import { ArtistGridHeader } from "../../components/artist-grid-header";
-import { mdxToHtml } from "@/lib/mdx-to-html";
 import { ArtistService } from "@/services/db/ArtistService";
 import { GridHeader } from "@/components/grid-header";
-export const dynamic = "force-dynamic";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
   const { cityName } = params;
   return { title: `Tatuadores en ${capitalizeFirst(cityName)}` };
 };
+
+// // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// // false: Dynamic segments not included in generateStaticParams will return a 404.
+// export const dynamicParams = true; // true | false,
+// // false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
+
+// // It's gonna be used in build time
+// export const generateStaticParams = () => {
+//   return getCities().map((item) => {
+//     return {
+//       cityName: item.label,
+//     };
+//   });
+// };
+
 const styles = getStyleList();
 const filtro1 = {
   label: "Estilos",
@@ -38,13 +51,25 @@ export default async function CityPage({ params, searchParams }) {
   if (!isGeneratedCity) notFound();
 
   const { cityName } = params;
+  const breadcrumbs = [
+    {
+      label: "Inicio",
+      path: "/",
+    },
+    {
+      label: "Tatuadores",
+      path: "/tatuadores",
+    },
+    {
+      label: `${capitalizeFirst(cityName)}`,
+      path: `/tatuadores/${cityName}}`,
+    },
+  ];
 
   const artists = await ArtistService.getPaginated({
     ...searchParams, // spread the current search parasm...
     city: cityName, // and add the city param or overwrite it
   });
-
-  const currentUser = await getCurrentUser(); //TODO: do we really need this? We are getting it on on layout! -> Probably not but it's probably it's caching it.
 
   // const formattedText = await mdxToHtml(
   //   generatedCities.find((item) => item.city === cityName).text,
@@ -53,16 +78,15 @@ export default async function CityPage({ params, searchParams }) {
   // const serverLoadedArtists = artists.slice(0, initialDataSize)
   // const serverHasMoreArtists = artists.length > initialDataSize
   if (artists.length < 1) {
-    return <EmptyArtist filtro1={filtro1} />;
+    return <EmptyArtist />;
   }
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
-        title={`Encuentra a los mejores tatuadores de ${capitalizeFirst(
-          cityName,
-        )}`}
-        subtitle={`Explora por estilo, o simplemente escribe lo que buscas`}
+        title={`Tatuadores en ${capitalizeFirst(cityName)}`}
+        subtitle={`Los mejores tatuadores de Zaragoza. Busca por estilo o por nombre.`}
         contentSlug={""}
         filtro1={filtro1}
       />
@@ -70,9 +94,10 @@ export default async function CityPage({ params, searchParams }) {
         {artists.map((artist) => {
           return (
             <ArtistCard
-              currentUser={currentUser}
               data={artist}
               key={artist.id}
+              altString={cityName}
+              pageType={"CITY"}
             />
           );
         })}

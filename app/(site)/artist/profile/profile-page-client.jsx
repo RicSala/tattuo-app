@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-import { Form } from "@/components/ui/form";
 import { AlertCircle, Check } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { DevTool } from "@hookform/devtools";
@@ -18,10 +17,11 @@ import { apiClient } from "@/lib/apiClient";
 import { Alerts } from "./components/alerts";
 import { STEPS } from "./steps";
 import { useRouter } from "next/navigation";
+import { Form } from "@/components/ui/form";
 
 // selectedTab, setSelectedTab, scrollToTabList
 
-const ProfilePageClient = ({ artist, styles, cities }) => {
+export const ProfilePageClient = ({ artist, styles, cities }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [stepsStatus, setStepsStatus] = useState({});
@@ -229,5 +229,3 @@ const ProfilePageClient = ({ artist, styles, cities }) => {
     </>
   );
 };
-
-export default ProfilePageClient;

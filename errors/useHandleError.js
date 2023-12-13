@@ -10,6 +10,7 @@ export const useHandleError = () => {
 
   // Display the error message to the user
   const showToast = (error) => {
+    console.log("error from usehandler error: ", error);
     let toastTitle = "not base error";
     let toastDescription = "not base error";
     if (error instanceof BaseError) {

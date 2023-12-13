@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useContext, useEffect, useState } from "react";
@@ -26,13 +25,11 @@ import { LoginForm } from "./login-form";
 import { apiClient } from "@/lib/apiClient";
 import Stepper from "../multiStep/Stepper";
 import AsyncCreatable from "../async-creatable";
-import {
-  getArtistsProfiles,
-  getUnclaimedArtistsProfiles,
-} from "@/lib/api-service";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import Spinner from "../icons/spinner";
+import { Button } from "../ui/button";
+import { getUnclaimedArtistsProfiles } from "@/lib/api-service";
 
 const registerFormSchema = z.object({
   artisticName: z //object with two properties: value and string. both with atleast 3 letters
@@ -199,7 +196,7 @@ export function ArtistRegisterForm({}) {
                       errors={form.errors}
                       setValue={form.setValue}
                       rules={{
-                        required: "Debes seleccionar al menos un tag",
+                        required: "Debes especificar un nombre artístico",
                         // max lenth of the array is 3
                         validate: (value) =>
                           value.length <= 3 || "Máximo 3 tags",

@@ -97,7 +97,12 @@ export const authOptions = {
     // is called on a new session, after the user signs in. In subsequent calls, only token will be available.
     // whatever this callback returns will be the token that is stored in the cookie.
     async jwt({ token }) {
-      const dbUser = await UserService.getUserById(token.sub);
+      const dbUser = await UserService.getUserById(token.sub, {
+        include: {
+          boards: true,
+          settings: true,
+        },
+      });
 
       // Do we have to do this?
       if (!dbUser) {
@@ -123,6 +128,8 @@ export const authOptions = {
       // concat the favorite tattoo ids and the favorite artist ids
       token.favoriteIds = favoriteTattooIds.concat(favoriteArtistIds);
       token.role = dbUser.role;
+      token.boards = dbUser.boards;
+      token.settings = dbUser.settings;
       token.savedIds = arraySavedArtistsId.concat(arraySavedTattoosId);
 
       return token;
@@ -135,8 +142,13 @@ export const authOptions = {
     // When using database sessions, the User (user) object is passed as an argument.
     // When using JSON Web Tokens for sessions, the JWT payload (token) is provided instead.
     async session({ session, token, user }) {
+      // const favoriteTattooIds = await UserService.getFavoriteTattooIds(user);
+      // const favoriteTattooIds = await UserService.getFavoriteTattooIds(user);
+
       if (session && session.user) {
         session.user.role = token.role;
+        session.user.boards = token.boards;
+        session.user.settings = token.settings;
         session.user.favoriteIds = token.favoriteIds;
         session.user.id = token.sub;
         session.user.savedIds = token.savedIds;

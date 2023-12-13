@@ -4,17 +4,13 @@
 
 import BenefitsSection from "@/components/landing/BenefitsSection";
 import FaqSection from "@/components/landing/Faqs";
-import HeroSection from "@/components/landing/HeroSection";
-import ReviewsSection from "@/components/landing/ReviewsSection";
-import StepsSection from "@/components/landing/StepsSection";
 import Banner from "@/components/landing/banner";
 import { Steps } from "@/components/landing/steps";
-import Testimonials1 from "@/components/landing/testimonials";
 import ModalClient from "@/components/modals/modal-client";
-import Container from "@/components/ui/container";
-import { TestComp } from "@/components/utils/test-comp";
 import Hero2 from "@/components/landing/hero2";
-import { getCurrentUser } from "../../../../../services/db/getCurrentUser";
+import { TestComp } from "@/components/utils/test-comp";
+
+export const dynamic = "error";
 
 /**
  * @type {{title: string, description: string, imageUrl: string}[]}
@@ -94,14 +90,12 @@ const reviews = [
 ];
 
 export default async function Home({ searchParams }) {
-  const currentUser = await getCurrentUser();
-
   return (
     <div className="gap flex min-h-screen flex-col items-center justify-between">
       {/* There are probably better ways to do this, but I don't know how. Basically I need access to the context to be able to open the modal, and the only way I see to do it is "embedding" a client component somewhere in the page */}
 
       <ModalClient />
-      <Hero2 currentUser={currentUser} />
+      <Hero2 />
 
       {/* <HeroSection
         title={"Descubre tatuajes y tatuadores cerca de ti"}
@@ -118,7 +112,7 @@ export default async function Home({ searchParams }) {
 
       {/* <StepsSection steps={steps} title="¿Cómo funciona?" /> */}
 
-      <Banner currentUser={currentUser} />
+      <Banner />
 
       <BenefitsSection title={"Por qué elegir TATTUO?"} benefits={benefits} />
 

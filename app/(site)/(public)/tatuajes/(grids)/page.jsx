@@ -1,20 +1,24 @@
 //@ts-check
 
-import { getCurrentUser } from "@/services/db/getCurrentUser";
 import { EmptyTattoos } from "@/app/(site)/(public)/tatuajes/components/empty-tattoos";
-import InfiniteListingGrid from "@/components/listings/infinite-listing-grid";
 import TattooCard from "@/components/listings/tattoo-card";
 import { TattooService } from "@/services/db/TattooService";
 import { GridHeader } from "@/components/grid-header";
 import { getStyleList } from "@/lib/getStyleList";
 import { getBodyParts } from "@/lib/getBodyParts";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import NextBreadcrumb from "@/components/breadcrumbs";
-export const dynamic = "force-dynamic";
+import ListingGrid from "@/components/listings/listing-grid";
+import CustomQueryClientProvider from "@/providers/query-client-provider";
+import { InfiniteScroll } from "@/components/listings/infinite-scroll";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 //TODO:
 // SITEMAP
 // ROBOTS.TXT [x]
+
+// For now, we keep this one dynamic: it's pretty general and is used for "searching" tattoos, so it makes sense to be dynamic and that it doesn't rank for specific keywords
+// false | 'force-cache' | 0 | number
+// export const revalidate = 86400; // 24 hours
+// export const dynamic = "error";
 
 export const metadata = {
   title: "TATTUO · Descubre Tatuajes de todos los estilos",
@@ -65,14 +69,13 @@ export default async function TattoosPage({ searchParams }) {
     initialDataSize,
   );
 
-  const currentUser = await getCurrentUser();
-
   if (serverLoadedTattoos.length < 1) {
     return <EmptyTattoos />;
   }
 
   return (
     <>
+      <Breadcrumbs items={breadcrumbs} />
       <GridHeader
         title={`Descubre tatuajes de artistas cerca de ti`}
         subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
@@ -80,14 +83,31 @@ export default async function TattoosPage({ searchParams }) {
         filtro1={filtro1}
         // filtro2={filtro2}
       />
-      <InfiniteListingGrid // to render an infinite scroll we need...
-        initialData={serverLoadedTattoos} // the initial data coming from the server
-        sizePerPage={sizePerPage} // the size of each page
-        endpoint={endpoint} // the endpoint to fetch more data in a client component
-        Component={TattooCard} // the component to render for each item
-        keyProp="tattoo" // the key prop to use to identify each item
-        currentUser={currentUser} // the current user to check if the user is logged in
-      />
+
+      <ListingGrid>
+        <CustomQueryClientProvider>
+          {/* @ts-ignore */}
+          <InfiniteScroll
+            endpoint={endpoint}
+            initialData={serverLoadedTattoos}
+            sizePerPage={sizePerPage}
+            keyProp={"tattoo"}
+            Component={TattooCard}
+            hasMore={serverLoadedTattoos.length >= sizePerPage}
+          />
+        </CustomQueryClientProvider>
+      </ListingGrid>
     </>
   );
 }
+
+const breadcrumbs = [
+  {
+    label: "Inicio",
+    path: "/",
+  },
+  {
+    label: "Tatuajes",
+    path: "/tatuajes",
+  },
+];

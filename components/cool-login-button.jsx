@@ -1,30 +1,28 @@
-'use client'
+"use client";
 
 import { UiContext } from "@/providers/ui/ui-provider";
-import { Button } from "./ui/button";
 import GradientBorder from "./uiEffects/gradient-border";
 import { useContext } from "react";
+import { Button } from "./ui/button";
 
-export default function CoolLoginButton({
+export default function CoolLoginButton({}) {
+  const { setLoginModalOpen } = useContext(UiContext);
 
-}) {
-
-    const { setLoginModalOpen } = useContext(UiContext)
-
-    return (
-        <GradientBorder>
-            <Button
-                onClick={() => { setLoginModalOpen(true) }}
-
-                className="z-10 
-                            w-[95%]
+  return (
+    <GradientBorder>
+      <Button
+        onClick={() => {
+          setLoginModalOpen(true);
+        }}
+        className="z-10 
                             h-[86%]
+                            w-[95%]
                             hover:bg-primary
-                            focus:!ring-offset-0
-                            focus:!ring-0"
-            >
-                Entra
-            </Button>
-        </GradientBorder>
-    );
+                            focus:!ring-0
+                            focus:!ring-offset-0"
+      >
+        Entra
+      </Button>
+    </GradientBorder>
+  );
 }

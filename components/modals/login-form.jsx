@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useContext, useEffect, useState } from "react";
@@ -24,6 +23,7 @@ import { Separator } from "../ui/separator";
 import axios from "axios";
 import Spinner from "../icons/spinner";
 import { apiClient } from "@/lib/apiClient";
+import { Button } from "../ui/button";
 
 const signInFormSchema = z.object({
   email: z.string().min(2, {
@@ -51,7 +51,6 @@ export function LoginForm({}) {
   });
 
   useEffect(() => {
-    console.log("prefetching.........");
     router.prefetch("/tatuajes", {});
   }, [router]);
 
@@ -63,7 +62,6 @@ export function LoginForm({}) {
       redirect: false,
     })
       .then((response) => {
-        console.log({ response });
         if (response.error) {
           console.log("error:", response.error);
           toast({

@@ -5,7 +5,6 @@ import * as React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/pop-over";
 import { Button } from "../ui/button";
 import { LayoutDashboard } from "lucide-react";
 import { Input } from "../ui/input";
@@ -17,6 +16,7 @@ import { apiClient } from "@/lib/apiClient";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 export function BoardAdder({
   tattoo,

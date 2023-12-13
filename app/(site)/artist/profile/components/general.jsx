@@ -1,4 +1,3 @@
-import AsyncSelect from "@/components/async-select";
 import CustomSelect from "@/components/custom-select";
 import {
   FormControl,
@@ -8,10 +7,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { AsyncSelect } from "@/components/async-select";
 
 const General = ({ form, cities, styles }) => {
   return (

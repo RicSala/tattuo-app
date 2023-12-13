@@ -13,7 +13,6 @@ export async function POST(request) {
   );
 
   console.log("received");
-  console.log(body);
 
   return NextResponse.json({ message: "Opinión recibida" }, { status: 201 });
 }

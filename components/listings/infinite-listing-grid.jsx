@@ -1,9 +1,11 @@
 "use client";
+// TODO: I think we can delete this file already :)
 
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import React from "react";
 import { InfiniteScroll } from "./infinite-scroll";
 import ListingGrid from "./listing-grid";
+import { useSession } from "next-auth/react";
 
 // This is a wrapper component to render an infinite scroll
 // its job is to create the grid, add the query client provider and pass the props to the infinite scroll component
@@ -17,7 +19,6 @@ import ListingGrid from "./listing-grid";
  * @param {Object[]} props.initialData - The initial data for rendering
  * @param {number} props.sizePerPage - The size of each page
  * @param {string} props.keyProp - The key property for dynamic keys
- * @param {Object} props.currentUser - Information about the current user
  * @param {Object} [props.filter] - Optional filter for the listing
  *
  * @returns {React.ReactElement} The rendered InfiniteListingGrid component
@@ -28,9 +29,10 @@ export default function InfiniteListingGrid({
   initialData,
   sizePerPage,
   keyProp, // new prop for the dynamic key
-  currentUser,
   filter,
 }) {
+  const { data: session } = useSession();
+  const currentUser = session?.user;
   return (
     <ListingGrid>
       <CustomQueryClientProvider>
@@ -40,7 +42,7 @@ export default function InfiniteListingGrid({
           sizePerPage={sizePerPage}
           keyProp={keyProp}
           Component={Component}
-          currentUser={currentUser}
+          //   currentUser={currentUser}
           filter={filter}
           hasMore={initialData.length >= sizePerPage}
         />

@@ -1,3 +1,4 @@
+const { Input } = require("@/components/ui/input");
 const {
   FormField,
   FormItem,
@@ -6,7 +7,6 @@ const {
   FormDescription,
   FormMessage,
 } = require("@/components/ui/form");
-const { Input } = require("@/components/ui/input");
 
 const Socials = ({ form }) => {
   return (

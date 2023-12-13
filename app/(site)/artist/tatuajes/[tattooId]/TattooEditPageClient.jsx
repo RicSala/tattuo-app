@@ -3,6 +3,7 @@
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
+import { Tag } from "@prisma/client";
 
 import {
   Form,
@@ -18,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import ImageUploader, { ImageThumbnail } from "@/components/ui/image-uploader";
+import ImageUploader, { ImageThumbnail } from "@/components/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Check, Save, Undo } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -107,7 +108,7 @@ const TattooEditPageClient = ({
       styles: tattoo.styles || [],
       tattooId: tattoo.id || "new",
       bodyPart: tattoo.bodyPart || undefined,
-      tags: tattoo.tags?.map((tag) => tag.tag) || undefined,
+      tags: tattoo.tags?.map((tag) => tag.tag) || [],
     },
   });
 
@@ -193,14 +194,17 @@ const TattooEditPageClient = ({
 
   const filteredOptions = async (inputValue) => {
     const res = await apiClient.get(`/tags?s=${inputValue}`);
-    const tags = res.data;
+    /**
+     * @type {Tag[]}
+     */
+    const tags = res.data.tags;
     return tags;
   };
 
   const handleCreate = async (inputValue) => {
     // send a post request to our api to create a new tag
     const res = await apiClient.post(`/tags/`, { label: inputValue });
-    const newTag = res.data;
+    const newTag = res.data.data;
 
     return newTag;
   };
@@ -286,7 +290,6 @@ const TattooEditPageClient = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Etiquetas / Contenido</FormLabel>
-
                   <FormControl>
                     <AsyncCreatable
                       {...field}
@@ -302,6 +305,7 @@ const TattooEditPageClient = ({
                       }}
                       onCreateOption={handleCreate}
                       onGetOptions={filteredOptions}
+                      value={field.value}
                       isMulti={true}
                     />
                   </FormControl>
@@ -415,7 +419,7 @@ const TattooEditPageClient = ({
       </div>
 
       {/* Dev tools for React Hook Forms  */}
-      {/* <DevTool control={form.control} /> */}
+      <DevTool control={form.control} />
     </>
   );
 };

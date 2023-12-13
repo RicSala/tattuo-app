@@ -14,7 +14,6 @@ export default function DeleteTattooButton({ tattooId, boardId, children }) {
     // setIsDeleting(true)
     // toast.success('Tatuaje eliminado')
     await apiClient.delete(`/tattoos/${tattooId}`).then((res) => {
-      console.log({ res });
       router.refresh();
       return res.data;
     });

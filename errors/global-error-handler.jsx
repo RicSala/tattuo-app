@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import BaseError from "./CustomError";
+import BaseError, { createBaseError } from "./CustomError";
 import { useHandleError } from "./useHandleError";
 
 // The global listener in case some error occurs that we have not considered
@@ -10,16 +10,20 @@ export const useGlobalErrorHandling = () => {
 
   useEffect(() => {
     const handleWindowError = (event) => {
-      // alert("error catched in the global listener");
+      //   alert("error catched in the global listener");
       event.preventDefault();
       handle(event.error);
     };
     const handleUnhandledRejection = (event) => {
-      // alert("REJECTION catched in the global listener");
-      event.preventDefault();
-      handle(
-        new BaseError(event.reason?.message || "Unhandled promise rejection"),
-      );
+      alert("REJECTION catched in the global listener");
+      console.log(event);
+      try {
+        event.preventDefault();
+        handle(event.reason);
+      } catch (err) {
+        console.log("error in the global listener");
+        console.error(err);
+      }
     };
 
     window.addEventListener("error", handleWindowError);

@@ -14,11 +14,12 @@ export async function GET(req, { params }) {
   // searchparamsObj.styles = styleName;
 
   const label = mapValueToLabel(styleName);
-  console.log({ label });
 
   const originalTake = parseInt(searchparamsObj.pageSize) || 10;
+  const originalPage = parseInt(searchparamsObj.page) || 1;
   const take = originalTake + 1; // we add one to the take to know if there are more pages
-  const skip = (searchparamsObj.page - 1) * searchparamsObj.pageSize;
+  //   const skip = (searchparamsObj.page - 1) * searchparamsObj.pageSize;
+  const skip = (originalPage - 1) * originalTake;
 
   const currentPage = parseInt(searchparamsObj.page) || 1;
 

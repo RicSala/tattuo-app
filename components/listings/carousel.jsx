@@ -20,7 +20,7 @@ export function Carousel({ images }) {
       <div className="h-96 w-96">
         <Image
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill={true}
+          fill
           //TODO:  What about when there is not image??
           src={images[0]}
           alt="profile picture"
@@ -30,7 +30,7 @@ export function Carousel({ images }) {
       <div className="h-96 w-96">
         <Image
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill={true}
+          fill
           //TODO:  What about when there is not image??
           src={images[0]}
           alt="profile picture"
@@ -40,7 +40,7 @@ export function Carousel({ images }) {
       <div className="h-96 w-96">
         <Image
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill={true}
+          fill
           //TODO:  What about when there is not image??
           src={images[0]}
           alt="profile picture"

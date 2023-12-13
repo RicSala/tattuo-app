@@ -23,6 +23,20 @@ export function StructuredData({
     itemListElement: itemListElement,
   };
 
+  //   Example just for reference to get types
+  //   const typeGetter: WithContext<BreadcrumbList> = {
+  //     "@context": "https://schema.org",
+  //     "@type": "BreadcrumbList",
+  //     itemListElement: [
+  //         {
+  //             "@type": "ListItem",
+  //             position: 1,
+  //             name: "Books",
+  //             item: "https://example.com/books",
+  //         },
+  //     ],
+  //   };
+
   return (
     <script
       type="application/ld+json"

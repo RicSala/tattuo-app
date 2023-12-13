@@ -1,3 +1,4 @@
+import { StructuredData } from "@/scripts/structured-data";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -12,28 +13,31 @@ export type BreadcrumbsProps = {
 
 const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <div className="flex items-start gap-2">
-      {items.map((crumb, i) => {
-        const isLastItem = i === items.length - 1;
-        if (!isLastItem) {
-          return (
-            <>
-              <Link
-                href={crumb.path}
-                key={i}
-                className="text-primary hover:text-primary/70 hover:underline"
-              >
-                {crumb.label}
-              </Link>
-              {/* separator */}
-              <span> / </span>
-            </>
-          );
-        } else {
-          return crumb.label;
-        }
-      })}
-    </div>
+    <>
+      <div className="flex items-start gap-2">
+        {items.map((crumb, i) => {
+          const isLastItem = i === items.length - 1;
+          if (!isLastItem) {
+            return (
+              <>
+                <Link
+                  href={crumb.path}
+                  key={i}
+                  className="text-primary hover:text-primary/70 hover:underline"
+                >
+                  {crumb.label}
+                </Link>
+                {/* separator */}
+                <span> / </span>
+              </>
+            );
+          } else {
+            return crumb.label;
+          }
+        })}
+      </div>
+      <StructuredData breadcrumbs={items} />
+    </>
   );
 };
 export default Breadcrumbs;

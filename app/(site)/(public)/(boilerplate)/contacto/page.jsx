@@ -14,7 +14,6 @@ export default async function page({}) {
       />
       <Separator className="my-5" />
       <ContactForm />
-      <StructuredData />
     </div>
   );
 }

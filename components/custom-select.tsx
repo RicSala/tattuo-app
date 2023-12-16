@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { forwardRef } from "react";
-import { GroupBase, Props } from "react-select";
+import { GroupBase, OnChangeValue, Props } from "react-select";
 import type {} from "react-select/base";
 // This import is necessary for module augmentation.
 // It allows us to extend the 'Props' interface in the 'react-select/base' module
@@ -53,8 +53,8 @@ const CustomSelect = forwardRef(
                     options={options}
                     value={value}
                     afterChange={afterChange}
-                    onChange={(e) => {
-                        onChange(e);
+                    onChange={(e: OnChangeValue<Option, IsMulti>) => {
+                        onChange(e, null);
                         afterChange();
                     }}
                     onBlur={onBlur}

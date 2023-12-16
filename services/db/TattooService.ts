@@ -1,13 +1,11 @@
 import { mapLabelsToIds } from "@/lib/getStyleList";
 import prisma from "@/lib/prismadb";
-import { TagService } from "./OthersService";
 import {
     ArtistProfile,
     BodyPart,
     Prisma,
     Style,
     Tag,
-    TaggedTattoo,
     Tattoo,
 } from "@prisma/client";
 import {
@@ -19,7 +17,6 @@ import {
     tattooFormSchema,
 } from "@/app/(site)/artist/tatuajes/[tattooId]/TattooEditPageClient";
 // import { imageToTattoo } from "@/app/api/superadmin/tattoo-processing/route";
-import { get } from "http";
 import { z } from "zod";
 import { aiClient } from "@/lib/aiClient";
 import { processTattooImagePrompt } from "@/app/api/superadmin/tattoo-processing/prompts";

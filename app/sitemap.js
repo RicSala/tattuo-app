@@ -11,7 +11,7 @@ import * as MyTypes from "@/types";
 
 import { getPosts } from "@/lib/posts";
 import { projectUrls } from "@/lib/sitemapUrls";
-import { generatedCities, generatedContentSlugs } from "@/config/consts";
+import { generatedCities, generatedContentSlugs } from "@/config/const";
 // import { getFoldersRecursive } from '@/lib/getFoldersRecursive';
 
 /**

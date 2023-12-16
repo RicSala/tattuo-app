@@ -3,7 +3,7 @@
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { FieldErrors, useForm } from "react-hook-form";
-import { BodyPart, Style, Tag } from "@prisma/client";
+import { BodyPart, Size, Style, Tag } from "@prisma/client";
 
 import {
     Form,
@@ -35,6 +35,7 @@ import { TTattooWDTagsWStylesWBodyPartWArtistProfile } from "@/types";
 import { data } from "autoprefixer";
 import router from "next/router";
 import { BaseSyntheticEvent } from "react";
+import { AllSizes } from "@/lib/getSizes";
 
 export type TTattooUpdateForm = {
     title: string;
@@ -45,6 +46,7 @@ export type TTattooUpdateForm = {
     tattooId: string;
     bodyPart: BodyPart;
     tags: Tag[];
+    size: Size;
 };
 
 export const tattooFormSchema = z.object({
@@ -88,17 +90,24 @@ export const tattooFormSchema = z.object({
         message: "Debes ingresar un id de tatuaje",
     }),
 
-    bodyPart: z.object({
-        id: z.string(),
-        label: z.string(),
-        value: z.string(),
-    }),
+    // If not body part is selected, error message is "Debes seleccionar una parte del cuerpo"
+    bodyPart: z.object(
+        {
+            id: z.string(),
+            label: z.string(),
+            value: z.string(),
+        },
+        {
+            required_error: "Debes seleccionar una parte del cuerpo",
+        },
+    ),
 
-    size: z.union([
-        z.literal("SMALL"),
-        z.literal("MEDIUM"),
-        z.literal("LARGE"),
-    ]),
+    size: z.union(
+        [z.literal("SMALL"), z.literal("MEDIUM"), z.literal("LARGE")],
+        {
+            required_error: "Debes seleccionar un tamaño",
+        },
+    ),
 
     tags: z
         .array(
@@ -117,10 +126,12 @@ const TattooEditPageClient = ({
     tattoo,
     styles,
     bodyParts,
+    sizes,
 }: {
     tattoo: TTattooWDTagsWStylesWBodyPartWArtistProfile;
     styles: Style[];
     bodyParts: BodyPart[];
+    sizes: AllSizes;
 }) => {
     const { toast } = useToast();
     const router = useRouter();
@@ -140,10 +151,11 @@ const TattooEditPageClient = ({
             tattooId: tattoo.id || "new",
             bodyPart: tattoo.bodyPart || undefined,
             tags: tattoo.tags?.map((tag) => tag.tag) || [],
+            size: tattoo.size || "MEDIUM",
         },
     });
 
-    const { isSubmitting, isSubmitted, isDirty } = form.formState;
+    const { isSubmitting, isDirty, isSubmitSuccessful } = form.formState;
 
     const onSubmit = async (data: TTattooUpdateForm) => {
         // TODO: delete images too
@@ -214,15 +226,16 @@ const TattooEditPageClient = ({
     };
 
     const onError = (errors: FieldErrors, e: BaseSyntheticEvent) => {
-        throw new BaseError(
-            "ERROR - TattooEditPageClient - SUBMIT",
-            e,
-            500,
-            true,
-            "LOG - Error al crear el tatuaje",
-            "Error al crear el tatuaje",
-            "Por favor, revisa tu formulario",
-        );
+        // console.log("ERRORS", errors);
+        // throw new BaseError(
+        //     "ERROR - TattooEditPageClient - SUBMIT",
+        //     e,
+        //     500,
+        //     true,
+        //     "LOG - Error al crear el tatuaje",
+        //     "Error al crear el tatuaje",
+        //     "Por favor, revisa tu formulario",
+        // );
     };
 
     return (
@@ -354,6 +367,47 @@ const TattooEditPageClient = ({
 
                         <FormField
                             control={form.control}
+                            name="size"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="after:content-['*']">
+                                        Tamaño
+                                    </FormLabel>
+                                    <FormControl>
+                                        <CustomSelect
+                                            options={[
+                                                sizes.LARGE,
+                                                sizes.MEDIUM,
+                                                sizes.SMALL,
+                                            ]}
+                                            isMulti={false}
+                                            {...field}
+                                            // @ts-ignore
+                                            afterChange={() => {
+                                                form.trigger("size");
+                                            }}
+                                            onChange={(e: Event) => {
+                                                console.log("e", e);
+                                                field.onChange(
+                                                    //   @ts-ignore
+                                                    sizes[e.value].value,
+                                                );
+                                            }}
+                                            value={{
+                                                label:
+                                                    sizes[field.value]?.label ||
+                                                    "",
+                                                value: field.value,
+                                            }}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
                             name="bodyPart"
                             render={({ field }) => (
                                 <FormItem>
@@ -419,14 +473,21 @@ const TattooEditPageClient = ({
                             <Button
                                 disabled={isSubmitting}
                                 type="submit"
-                                className={`flex flex-row items-center gap-2`}
+                                className={`relative flex flex-row items-center gap-2`}
                             >
+                                {Object.keys(form.formState.errors).length !==
+                                    0 && (
+                                    <p className="absolute -top-4 text-xs text-destructive">
+                                        Revisa el formulario
+                                    </p>
+                                )}
+
                                 {isSubmitting ? (
                                     <>
                                         Guardando
                                         <Spinner />
                                     </>
-                                ) : isSubmitted && !isDirty ? (
+                                ) : isSubmitSuccessful && !isDirty ? (
                                     <>
                                         Guardado
                                         <Check color="green" />
@@ -444,7 +505,7 @@ const TattooEditPageClient = ({
             </div>
 
             {/* Dev tools for React Hook Forms  */}
-            {/* <DevTool control={form.control} /> */}
+            <DevTool control={form.control} />
         </>
     );
 };

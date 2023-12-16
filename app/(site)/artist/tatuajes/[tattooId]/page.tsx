@@ -4,6 +4,7 @@ import prisma from "@/lib/prismadb";
 import TattooEditPageClient from "./TattooEditPageClient";
 import { TattooService } from "@/services/db/TattooService";
 import { OthersService } from "@/services/db/OthersService";
+import { getSizes } from "@/lib/getSizes";
 
 type props = {
     params: {
@@ -22,6 +23,8 @@ const TattooEditPage = async ({ params }: props) => {
         stylesPromise,
         bodyPartsPromise,
     ]);
+
+    const sizes = getSizes();
 
     //   TODO: There is no auth here!!!
 
@@ -43,6 +46,7 @@ const TattooEditPage = async ({ params }: props) => {
                 tattoo={tattoo}
                 styles={styles}
                 bodyParts={bodyParts}
+                sizes={sizes}
             />
         </Container>
     );

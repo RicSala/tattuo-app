@@ -19,7 +19,6 @@ import {
 // import { imageToTattoo } from "@/app/api/superadmin/tattoo-processing/route";
 import { z } from "zod";
 import { aiClient } from "@/lib/aiClient";
-import { processTattooImagePrompt } from "@/app/api/superadmin/tattoo-processing/prompts";
 
 export class TattooService {
     static async getByBoardId(boardId: string) {
@@ -137,45 +136,6 @@ export class TattooService {
 
         console.log("PARSED", { descriptionObject });
         return descriptionObject;
-    }
-
-    static async processMany(tattooIds: string[]) {
-        console.log("processing tattoos...");
-
-        // get imageSrc of the tattoos to process
-        const tattoos = await prisma.tattoo.findMany({
-            where: {
-                id: {
-                    in: tattooIds,
-                },
-            },
-            select: {
-                id: true,
-                imageSrc: true,
-            },
-        });
-
-        console.log("tattoos::", tattoos[0]);
-
-        const promisesArray = tattoos.map(async (tattoo) => {
-            return await this.imageUrlToTattoo(
-                tattoo.imageSrc,
-                processTattooImagePrompt,
-            );
-        });
-        const settledPromises = await Promise.allSettled(promisesArray);
-        let results: z.infer<typeof tattooFormSchema>[] = []; // the value of the successful promises
-        settledPromises.forEach((promise, index) => {
-            if (promise.status === "fulfilled") {
-                promise.value.tattooId = tattooIds[index];
-                results.push(promise.value);
-            }
-        });
-
-        console.log("results", results);
-        console.log("Done processing tattoos");
-
-        return results;
     }
 
     static async getPaginated(

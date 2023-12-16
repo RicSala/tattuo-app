@@ -7,7 +7,6 @@ import TagManager from "@/scripts/gtm";
 import { Suspense } from "react";
 import Feedback from "@/components/feedback";
 import SupportButton from "@/components/support-button";
-import { GlobalErrorHandler } from "@/errors/global-error-handler";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { LoginModal } from "@/components/modals/login-form";
 import SessionProvider from "@/providers/session-provider";
@@ -29,7 +28,6 @@ export default function RootLayout({ children }) {
           </Suspense>
 
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <GlobalErrorHandler />
             <SupportButton />
             <Feedback />
             <UiProvider>

@@ -2,9 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-import { AlertCircle, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
-import { DevTool } from "@hookform/devtools";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import General from "./components/general";
 import Prices from "./components/prices";

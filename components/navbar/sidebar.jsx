@@ -15,6 +15,7 @@ import MenuItem from "../ui/menu-item";
 import {
   artistMenuItems,
   clientMenuItems,
+  superAdminMenuItems,
   visitorMenuItems,
 } from "@/config/const";
 import { Separator } from "../ui/separator";
@@ -116,6 +117,7 @@ export default function Sidebar({ currentUser }) {
               ))}
             </>
           ) : null}
+
           {
             <>
               <Separator className="my-1" />
@@ -157,6 +159,33 @@ export default function Sidebar({ currentUser }) {
               </div>
             </>
           }
+
+          {currentUser?.role === "ADMIN" ? (
+            <>
+              <Separator className="my-1" />
+              <h3>SuperAdmin Menu</h3>
+              {superAdminMenuItems.map((el) => (
+                <MenuItem
+                  warningIcon={
+                    (incompleteProfile && el.id === "profile") ||
+                    (notEnoughTattoos && el.id === "tattoos")
+                      ? el.warningIcon
+                      : null
+                  }
+                  label={el.label}
+                  onClick={() => {
+                    router.push(el.url);
+                    setSidebarOpen(false);
+                  }}
+                  key={el.label}
+                  onMouseEnter={() => {
+                    router.prefetch(el.url);
+                  }}
+                  warningMessage={el.warningMessage}
+                />
+              ))}
+            </>
+          ) : null}
 
           <Separator className="my-1" />
         </div>

@@ -11,7 +11,7 @@ import * as MyTypes from "@/types";
 
 import { getPosts } from "@/lib/posts";
 import { projectUrls } from "@/lib/sitemapUrls";
-import { generatedCities, generatedContentSlugs } from "@/config/constants";
+import { generatedCities, generatedContentSlugs } from "@/config/consts";
 // import { getFoldersRecursive } from '@/lib/getFoldersRecursive';
 
 /**
@@ -19,49 +19,49 @@ import { generatedCities, generatedContentSlugs } from "@/config/constants";
  * @returns {MyTypes.Sitemap[]}
  */
 export default async function Sitemap() {
-  /**
-   * @type {MyTypes.BlogPost[]}
-   */
-  const allPosts = await getPosts();
+    /**
+     * @type {MyTypes.BlogPost[]}
+     */
+    const allPosts = await getPosts();
 
-  const formattedPosts = allPosts.map((item) => ({
-    url: `https://tattuo.com/blog/${item.slug}`,
-    lastModified: item.date,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  }));
+    const formattedPosts = allPosts.map((item) => ({
+        url: `https://tattuo.com/blog/${item.slug}`,
+        lastModified: item.date,
+        changeFrequency: "weekly",
+        priority: 0.9,
+    }));
 
-  const formattedProjectUrls = projectUrls.map((item) => ({
-    url: `https://tattuo.com/${item}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 1,
-  }));
+    const formattedProjectUrls = projectUrls.map((item) => ({
+        url: `https://tattuo.com/${item}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 1,
+    }));
 
-  const formattedCityUrls = generatedCities.map((item) => ({
-    url: `https://tattuo.com/tatuadores/${item.city}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 1,
-  }));
+    const formattedCityUrls = generatedCities.map((item) => ({
+        url: `https://tattuo.com/tatuadores/${item.city}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 1,
+    }));
 
-  const formattedContentUrls = generatedContentSlugs.map((item) => ({
-    url: `https://tattuo.com/tatuajes/${item}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 1,
-  }));
+    const formattedContentUrls = generatedContentSlugs.map((item) => ({
+        url: `https://tattuo.com/tatuajes/${item}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 1,
+    }));
 
-  return [
-    {
-      url: "https://tattuo.com",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    ...formattedPosts,
-    ...formattedProjectUrls,
-    ...formattedCityUrls,
-    ...formattedContentUrls,
-  ];
+    return [
+        {
+            url: "https://tattuo.com",
+            lastModified: new Date(),
+            changeFrequency: "weekly",
+            priority: 1,
+        },
+        ...formattedPosts,
+        ...formattedProjectUrls,
+        ...formattedCityUrls,
+        ...formattedContentUrls,
+    ];
 }

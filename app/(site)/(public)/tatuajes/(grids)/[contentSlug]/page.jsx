@@ -5,7 +5,7 @@ import { getStyleList } from "@/lib/getStyleList";
 import { capitalizeFirst } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { TattooService } from "@/services/db/TattooService";
-import { generatedContentSlugs } from "@/config/constants";
+import { generatedContentSlugs } from "@/config/const";
 import { GridHeader } from "@/components/grid-header";
 import ListingGrid from "@/components/listings/listing-grid";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
@@ -13,14 +13,14 @@ import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
-  const { contentSlug } = params;
+    const { contentSlug } = params;
 
-  return {
-    title: `Tatuajes de ${capitalizeFirst(contentSlug)}`,
-    description: `Descubre tatuajes de ${capitalizeFirst(
-      contentSlug,
-    )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
-  };
+    return {
+        title: `Tatuajes de ${capitalizeFirst(contentSlug)}`,
+        description: `Descubre tatuajes de ${capitalizeFirst(
+            contentSlug,
+        )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
+    };
 };
 
 // true (default): Dynamic segments not included in generateStaticParams are generated on demand.
@@ -44,15 +44,15 @@ const styles = getStyleList();
 const bodyParts = getBodyParts();
 
 const filtro1 = {
-  label: "Estilos",
-  value: "styles",
-  options: styles,
+    label: "Estilos",
+    value: "styles",
+    options: styles,
 };
 
 const filtro2 = {
-  label: "Parte del cuerpo",
-  value: "bodyPart",
-  options: bodyParts,
+    label: "Parte del cuerpo",
+    value: "bodyPart",
+    options: bodyParts,
 };
 
 const sizePerPage = 5;
@@ -68,84 +68,83 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
  */
 export default async function TattoosPage({ params, searchParams }) {
-  const { contentSlug } = params;
-  const isGeneratedContentSlug = generatedContentSlugs
-    .map((item) => item.content)
-    .includes(params.contentSlug);
-  if (!isGeneratedContentSlug) {
-    notFound();
-  }
+    const { contentSlug } = params;
+    const isGeneratedContentSlug = generatedContentSlugs
+        .map((item) => item.content)
+        .includes(params.contentSlug);
+    if (!isGeneratedContentSlug) {
+        notFound();
+    }
 
-  const endpoint =
-    process.env.NODE_ENV === "production"
-      ? `${process.env.HOST_NAME_PROD}/api/tattoos/content/${contentSlug}`
-      : `${process.env.HOST_NAME_DEV}/api/tattoos/content/${contentSlug}`;
+    const endpoint =
+        process.env.NODE_ENV === "production"
+            ? `${process.env.HOST_NAME_PROD}/api/tattoos/content/${contentSlug}`
+            : `${process.env.HOST_NAME_DEV}/api/tattoos/content/${contentSlug}`;
 
-  const serverLoadedTattoos = await TattooService.getPaginated(
-    {
-      ...searchParams,
-      // TODO: How do we solve this so the content slug works better? Should probably return the same as a free
-      freeSearch: contentSlug.slice(0, -1),
-    },
-    0,
-    // TODO: ojo!
-    initialDataSize,
-  );
+    const serverLoadedTattoos = await TattooService.getPaginated(
+        {
+            ...searchParams,
+            // TODO: How do we solve this so the content slug works better? Should probably return the same as a free
+            freeSearch: contentSlug.slice(0, -1),
+        },
+        0,
+        // TODO: ojo!
+        initialDataSize,
+    );
 
-  if (serverLoadedTattoos.length < 1) {
-    return <EmptyTattoos />;
-  }
+    if (serverLoadedTattoos.length < 1) {
+        return <EmptyTattoos />;
+    }
 
-  const breadcrumbs = [
-    {
-      label: "Inicio",
-      path: "/",
-    },
-    {
-      label: "Tatuajes",
-      path: "/tatuajes",
-    },
-    {
-      label: `${capitalizeFirst(contentSlug)}`,
-      path: `/tatuajes/${contentSlug}`,
-    },
-  ];
+    const breadcrumbs = [
+        {
+            label: "Inicio",
+            path: "/",
+        },
+        {
+            label: "Tatuajes",
+            path: "/tatuajes",
+        },
+        {
+            label: `${capitalizeFirst(contentSlug)}`,
+            path: `/tatuajes/${contentSlug}`,
+        },
+    ];
 
-  return (
-    <>
-      <Breadcrumbs items={breadcrumbs} />
-      <GridHeader
-        title={`Descubre tatuajes de ${contentSlug}`}
-        subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
-        contentSlug={""}
-        filtro1={filtro1}
-        freeSearch={false}
-        // filtro2={filtro2}
-      />
+    return (
+        <>
+            <Breadcrumbs items={breadcrumbs} />
+            <GridHeader
+                title={`Descubre tatuajes de ${contentSlug}`}
+                subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
+                contentSlug={""}
+                filtro1={filtro1}
+                freeSearch={false}
+                // filtro2={filtro2}
+            />
 
-      <ListingGrid>
-        <CustomQueryClientProvider>
-          {/* @ts-ignore */}
-          <InfiniteScroll
-            endpoint={endpoint}
-            initialData={serverLoadedTattoos}
-            sizePerPage={sizePerPage}
-            keyProp={`tattoo-${contentSlug}`}
-            Component={TattooCard}
-            hasMore={serverLoadedTattoos.length >= sizePerPage}
-          />
-        </CustomQueryClientProvider>
-      </ListingGrid>
-      <div className="mt-10 flex flex-col gap-3">
-        <h2>Tatuajes de {contentSlug}</h2>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: generatedContentSlugs.find(
-              (item) => item.content === contentSlug,
-            ).text,
-          }}
-        ></div>
-      </div>
-    </>
-  );
+            <ListingGrid>
+                <CustomQueryClientProvider>
+                    <InfiniteScroll
+                        endpoint={endpoint}
+                        initialData={serverLoadedTattoos}
+                        sizePerPage={sizePerPage}
+                        keyProp={`tattoo-${contentSlug}`}
+                        Component={TattooCard}
+                        hasMore={serverLoadedTattoos.length >= sizePerPage}
+                    />
+                </CustomQueryClientProvider>
+            </ListingGrid>
+            <div className="mt-10 flex flex-col gap-3">
+                <h2>Tatuajes de {contentSlug}</h2>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: generatedContentSlugs.find(
+                            (item) => item.content === contentSlug,
+                        ).text,
+                    }}
+                ></div>
+            </div>
+        </>
+    );
 }

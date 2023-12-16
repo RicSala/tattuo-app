@@ -1,3 +1,11 @@
+import {
+  ArtistProfile,
+  BodyPart,
+  Style,
+  Tag,
+  TaggedTattoo,
+  Tattoo,
+} from "@prisma/client";
 import { UseFormReturn } from "react-hook-form";
 
 type HttpStatusCode = 200 | 400 | 401 | 404 | 500; // Extend as needed
@@ -15,7 +23,11 @@ interface PaginationInfo {
   totalItems: number;
 }
 
-export interface ApiResponse<T = undefined, E = ApiError> {
+export interface ApiResponse<
+  T = undefined,
+  A = "CREATE" | "UPDATE" | "DELETE" | "INVITE" | "EXIT",
+  E = ApiError,
+> {
   statusCode: HttpStatusCode;
   message?: string;
   data: T | undefined;
@@ -24,6 +36,14 @@ export interface ApiResponse<T = undefined, E = ApiError> {
   meta?: any; // Additional metadata
   pagination?: PaginationInfo;
 }
+
+export type ApiRequestBody<
+  T = undefined,
+  A = "CREATE" | "UPDATE" | "DELETE" | "INVITE" | "EXIT",
+> = {
+  data?: T;
+  action?: A;
+};
 
 export interface inviteFormBody {
   studioId: string;
@@ -61,3 +81,17 @@ type searchParams = {
 };
 
 export type PageType = "ARTIST" | "STUDIO" | "CITY" | "STYLE" | "CONTENT";
+
+export type TTattooWDTagsWStylesWBodyPartWArtistProfile = WithProperty<
+  WithProperty<
+    WithProperty<
+      WithProperty<Tattoo, "tags", WithProperty<TaggedTattoo, "tag", Tag>[]>,
+      "styles",
+      Style[]
+    >,
+    "bodyPart",
+    BodyPart
+  >,
+  "artistProfile",
+  ArtistProfile
+>;

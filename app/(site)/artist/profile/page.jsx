@@ -1,6 +1,5 @@
 import EmptyState from "@/components/empty-states/empty-state";
 import { getCurrentUser } from "@/services/db/getCurrentUser";
-import prisma from "@/lib/prismadb";
 import { getCities } from "@/lib/getCities";
 import { ArtistService } from "@/services/db/ArtistService";
 import { OthersService } from "@/services/db/OthersService";
@@ -8,20 +7,20 @@ import { ProfilePageClient } from "./profile-page-client";
 
 export const dynamic = "force-dynamic";
 
-const ProfilePage = async (
-  {
-    // currentUser //REVIEW: why not passing current user to children through the layout?
-  },
-) => {
+const ProfilePage = async ({}) => {
   const currentUser = await getCurrentUser();
 
-  const artist = await ArtistService.getById(currentUser.artistProfileId);
+  const artist = currentUser?.artistProfileId
+    ? await ArtistService.getById(currentUser?.artistProfileId)
+    : null;
 
   if (!artist) {
-    <EmptyState
-      title="No estás autorizado"
-      subtitle="Si eres tatuador(a), por favor escríbenos para activar tu perfil"
-    />;
+    return (
+      <EmptyState
+        title="No estás autorizado"
+        subtitle="Si eres tatuador(a), por favor escríbenos para activar tu perfil"
+      />
+    );
   }
 
   const styles = await OthersService.getStyles();

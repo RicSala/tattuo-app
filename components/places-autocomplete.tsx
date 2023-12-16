@@ -27,7 +27,7 @@ import React, { useEffect, useState } from "react";
 import { data } from "autoprefixer";
 import { get } from "http";
 import { Label } from "./ui/label";
-import BaseError, { createBaseError } from "@/errors/CustomError";
+import BaseError from "@/errors/CustomError";
 import { selectStyles } from "./async-select";
 
 export function PlacesAutocompleteMap({

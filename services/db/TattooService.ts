@@ -22,7 +22,6 @@ import { aiClient } from "@/lib/aiClient";
 import { processTattooImagePrompt } from "@/app/api/superadmin/tattoo-processing/prompts";
 
 export class TattooService {
-    //
     static async getByBoardId(boardId: string) {
         const boardTattoos = await prisma.boardTattoo.findMany({
             where: {

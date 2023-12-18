@@ -115,8 +115,8 @@ model Tattoo {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    title       String
-    description String
+    title       String?
+    description String?
     imageSrc    String
     content     String?
     // numLikes      Int      @default(0)

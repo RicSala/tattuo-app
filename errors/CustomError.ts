@@ -6,7 +6,7 @@ export default class BaseError extends Error {
     statusCode: HttpStatusCode;
     isOperational: boolean;
     logMessage: string;
-    originalError: Error | null;
+    originalError: BaseSyntheticEvent<object, any, any> | null = null;
     toastTitle: string;
     toastDescription: string;
     constructor(

@@ -6,8 +6,8 @@ import StudioCard from "@/components/listings/studio-card";
 import { StudioService } from "@/services/db/StudioService";
 import { Studio, studioGoogleProfile } from "@prisma/client";
 import { generatedCities } from "@/config/const";
-import { capitalizeFirst } from "@/lib/utils";
 import Breadcrumbs from "@/components/breadcrumbs";
+import { Filter } from "@/types";
 
 const endpoint =
     process.env.NODE_ENV === "production"
@@ -25,13 +25,13 @@ const filtro1 = {
     label: "Estilos",
     value: "styles",
     options: styles,
-};
+} satisfies Filter;
 
 const filtroCity = {
     label: "Ciudad",
     value: "cities",
     options: cities,
-};
+} satisfies Filter;
 
 export const metadata = {
     title: "Los mejores tatuadores de tu ciudad",
@@ -91,18 +91,6 @@ export default async function StudiosPage({
             <ListingGrid>
                 {studios.map((studio) => (
                     <StudioCard key={studio.id} studio={studio} />
-                    //   <div key={studio.id}>
-                    //     <p>{studio.name}</p>
-                    //     <p>{studio.studioGoogleProfile.rating}</p>
-                    //     <p>{studio.studioGoogleProfile.reviewCount}</p>
-                    //     <p>{studio.studioGoogleProfile.website}</p>
-                    //     <Image
-                    //       src={studio.studioGoogleProfile.imgUrl}
-                    //       alt={studio.name}
-                    //       width={100}
-                    //       height={100}
-                    //     />
-                    //   </div>
                 ))}
             </ListingGrid>
 

@@ -144,8 +144,16 @@ export function TattooDetails({
                         <div className="px-4 py-2">
                             <p>Artista:</p>
                             <SmallCard
-                                image={tattoo.artistProfile.mainImage}
-                                name={tattoo.artistProfile.artisticName}
+                                image={
+                                    tattoo.artistProfile.mainImage
+                                        ? tattoo.artistProfile.mainImage
+                                        : "/images/placeholder.svg"
+                                }
+                                name={
+                                    tattoo.artistProfile.artisticName
+                                        ? tattoo.artistProfile.artisticName
+                                        : "Sin autor"
+                                }
                                 url={`/tatuadores/profile/${tattoo.artistProfileId}`}
                             />
                         </div>

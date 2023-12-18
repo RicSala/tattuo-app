@@ -10,7 +10,7 @@ import ListingGrid from "@/components/listings/listing-grid";
 import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { searchParams } from "@/types";
+import { Filter, searchParams } from "@/types";
 
 //TODO:
 // SITEMAP
@@ -45,13 +45,13 @@ const filtro1 = {
     label: "Estilos",
     value: "styles",
     options: styles,
-};
+} satisfies Filter;
 
 const filtro2 = {
     label: "Parte del cuerpo",
     value: "bodyPart",
     options: bodyParts,
-};
+} satisfies Filter;
 
 // getData();
 

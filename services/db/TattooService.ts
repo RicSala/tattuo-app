@@ -13,12 +13,13 @@ import {
     WithProperty,
 } from "@/types";
 import {
-    TTattooUpdateForm,
+    TattooForm,
     tattooFormSchema,
 } from "@/app/(site)/artist/tatuajes/[tattooId]/TattooEditPageClient";
 // import { imageToTattoo } from "@/app/api/superadmin/tattoo-processing/route";
 import { z } from "zod";
 import { aiClient } from "@/lib/aiClient";
+import { TattooPublicApiRequestBody } from "@/app/api/tattoos/route";
 
 export class TattooService {
     static async getByBoardId(boardId: string) {
@@ -224,27 +225,25 @@ export class TattooService {
         return similarTattoos;
     }
 
-    static async create({
-        title,
-        description,
-        imageSrc,
-        styles,
-        bodyPart,
-        artistProfile,
-        tags,
-    }: {
-        title?: string;
-        description?: string;
-        imageSrc?: string;
-        styles?: Pick<Style, "id" | "label" | "value">[];
-        bodyPart?: BodyPart;
-        artistProfile?: ArtistProfile;
-        tags: Tag[];
-    }) {
-        let data: Prisma.TattooCreateInput = {
+    static async create(
+        newTattoo: TattooPublicApiRequestBody<"CREATE">["data"] & {
+            artistProfile?: ArtistProfile;
+        },
+    ) {
+        const {
             title,
             description,
             imageSrc,
+            styles,
+            bodyPart,
+            tags,
+            artistProfile,
+        } = newTattoo;
+
+        let data: Prisma.TattooCreateInput = {
+            title: title,
+            description: description,
+            imageSrc: imageSrc,
             styles: {
                 connect: styles.map((style) => ({ id: style.id })),
             },
@@ -256,7 +255,11 @@ export class TattooService {
                     tag: { connect: { id: tag.id } },
                 })),
             },
-            searchText: this.#updateSearchTextIndex(title, description, tags),
+            searchText: this.#updateSearchTextIndex(
+                newTattoo.title,
+                description,
+                tags,
+            ),
         };
 
         if (artistProfile) {
@@ -294,7 +297,7 @@ export class TattooService {
         let updadatedTattoot = await this.update(
             currentTattoo,
             updatedData as WithProperty<
-                TTattooUpdateForm,
+                TattooForm,
                 "artistProfile",
                 ArtistProfile
             >,
@@ -305,26 +308,22 @@ export class TattooService {
 
     static async update(
         oldData: TTattooWDTagsWStylesWBodyPartWArtistProfile,
-        updatedData: WithProperty<
-            TTattooUpdateForm,
-            "artistProfile",
-            ArtistProfile
-        >,
-    ) {
+        updatedData: WithProperty<TattooForm, "artistProfile", ArtistProfile>,
+    ): Promise<void | null> {
+        const { title, description, imageSrc, styles, bodyPart, tags } =
+            updatedData;
         console.log("starting update function...");
         console.log("currentTagIds: ", oldData.tags);
         // We are creating an array of the ids of the tags that the tattoo currently has
         const currentTagIds = oldData.tags.map((t) => t.tag.id);
         // now with the new tags
         console.log("updatedTagIds: ");
-        const updatedTagIds = updatedData.tags.map((t) => t.id);
+        const updatedTagIds = tags.map((t) => t.id);
 
-        console.log("Tags to add...", updatedData.tags);
+        console.log("Tags to add...", tags);
         // Identify tags to be added and removed
         // Are in the updatedData but not in the oldData -> to create
-        const tagsToAdd = updatedData.tags.filter(
-            (tag) => !currentTagIds.includes(tag.id),
-        );
+        const tagsToAdd = tags.filter((tag) => !currentTagIds.includes(tag.id));
         // Are in the oldData but not in the updatedData -> to delete
         console.log("Tags to delete...");
         const tagsToRemove = oldData.tags.filter(
@@ -333,18 +332,18 @@ export class TattooService {
 
         console.log("Updating search terms...");
         const updatedSearchText = this.#updateSearchTextIndex(
-            updatedData.title,
-            updatedData.description,
-            updatedData.tags,
+            title,
+            description,
+            tags,
         );
 
         console.log("Building update query...");
         console.log("oldData.id: ", oldData.id);
         console.log(
             "stylesIds: ",
-            updatedData.styles.map((style) => style.id),
+            styles.map((style) => style.id),
         );
-        console.log("bodypartId: ", updatedData.bodyPart.id);
+        console.log("bodypartId: ", bodyPart.id);
 
         // Build the Prisma update query
         const updateQuery: {
@@ -355,22 +354,22 @@ export class TattooService {
                 id: oldData.id,
             },
             data: {
-                title: updatedData.title,
-                description: updatedData.description,
-                imageSrc: updatedData.imageSrc,
+                title: title,
+                description: description,
+                imageSrc: imageSrc,
                 searchText: updatedSearchText,
                 styles: {
-                    connect: updatedData.styles.map((style) => ({
+                    connect: styles.map((style) => ({
                         id: style.id,
                     })),
                 },
                 bodyPart: {
-                    connect: { id: updatedData.bodyPart.id },
+                    connect: { id: bodyPart.id },
                 },
                 tags: {},
             },
         };
-        console.log("updatedData.artistProfile:", updatedData?.artistProfile);
+        console.log("artistProfile:", updatedData?.artistProfile);
         if (updatedData.artistProfile) {
             updateQuery.data.artistProfile = {
                 connect: { id: updatedData.artistProfile.id },
@@ -408,7 +407,7 @@ export class TattooService {
         try {
             console.log("Executing transaction...");
             const transactionResult = await prisma.$transaction(operations);
-            return transactionResult[0];
+            return null;
         } catch (error) {
             console.log("ERROR - update() - ", error);
             return null;
@@ -436,7 +435,7 @@ export class TattooService {
     static #updateSearchTextIndex(
         title: string,
         description: string,
-        tags: Tag[],
+        tags: Partial<Pick<Tag, "id" | "label" | "value">>[],
     ) {
         const tagLabels = tags.map((tag) => tag.label);
 

@@ -11,6 +11,11 @@ import {
 import { StudioFormValues } from "@/app/(site)/studio/claim/[studioId]/useStudioForm";
 import { ArtistApiRequestBody } from "@/app/api/superadmin/artists/route";
 import { TattooApiRequestBody } from "@/app/api/superadmin/tattoos/route";
+import { TattooForm } from "@/app/(site)/artist/tatuajes/[tattooId]/TattooEditPageClient";
+import {
+    TattooPublicApiRequestBody,
+    TattooPublicApiResponse,
+} from "@/app/api/tattoos/route";
 
 export class ApiService {
     static async getArtistsProfiles(query: string) {
@@ -166,5 +171,27 @@ export class ApiService {
         const res = await apiClient.post(`/superadmin/tattoos`, body);
 
         return res.data;
+    }
+
+    static async createTattoo(data: TattooForm) {
+        const body: TattooPublicApiRequestBody<"CREATE"> = {
+            action: "CREATE",
+            data,
+        };
+        const res = await apiClient.post(`/tattoos`, body);
+
+        const resData: TattooPublicApiResponse<"CREATE"> = res.data;
+        return resData;
+    }
+
+    static async updateTattoo(data: TattooForm) {
+        const body: TattooPublicApiRequestBody<"UPDATE"> = {
+            action: "UPDATE",
+            data,
+        };
+        const res = await apiClient.post(`/tattoos`, body);
+
+        const resData: TattooPublicApiResponse<"UPDATE"> = res.data;
+        return resData;
     }
 }

@@ -1,11 +1,7 @@
 "use client";
-import React from "react";
+import { ReactNode } from "react";
 
-type ContainerProps = {
-    children: React.ReactNode;
-};
-
-const Container = ({ children }: ContainerProps) => {
+const Container = ({ children }: { children: ReactNode }) => {
     return (
         <div
             className="

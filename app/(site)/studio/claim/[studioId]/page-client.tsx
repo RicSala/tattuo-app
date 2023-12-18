@@ -44,7 +44,7 @@ export function StudioClaimPageClient({
     currentUser,
     cities,
 }: {
-    studio: WithProperty<Studio, "city", City>;
+    studio: (Studio & { city: City | null }) | null;
     currentUser: any;
     cities: City[];
 }) {

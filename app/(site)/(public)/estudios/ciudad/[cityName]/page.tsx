@@ -104,23 +104,11 @@ export default async function StudiosPage({
             <ListingGrid>
                 {studios.map((studio) => (
                     <StudioCard key={studio.id} studio={studio} />
-                    //   <div key={studio.id}>
-                    //     <p>{studio.name}</p>
-                    //     <p>{studio.studioGoogleProfile.rating}</p>
-                    //     <p>{studio.studioGoogleProfile.reviewCount}</p>
-                    //     <p>{studio.studioGoogleProfile.website}</p>
-                    //     <Image
-                    //       src={studio.studioGoogleProfile.imgUrl}
-                    //       alt={studio.name}
-                    //       width={100}
-                    //       height={100}
-                    //     />
-                    //   </div>
                 ))}
             </ListingGrid>
 
             {/* <div className="mt-10 flex flex-col gap-3">
-      <h2>Encuentra tatuador en {cityName}</h2>
+      <h2>Encuentra tu estudio en {cityName}</h2>
       <div
         dangerouslySetInnerHTML={{
           __html: generatedCities.find((item) => item.city === cityName).text,

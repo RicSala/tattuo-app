@@ -2,7 +2,7 @@
 
 import Heading from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-import { FieldErrors, useForm } from "react-hook-form";
+import { FieldErrors, SubmitErrorHandler, useForm } from "react-hook-form";
 import { BodyPart, Size, Style, Tag } from "@prisma/client";
 
 import {
@@ -37,17 +37,13 @@ import router from "next/router";
 import { BaseSyntheticEvent } from "react";
 import { AllSizes } from "@/lib/getSizes";
 
-export type TTattooUpdateForm = {
-    title: string;
-    description: string;
-    imageSrc: string;
-    // style: string;
-    styles: Pick<Style, "id" | "label" | "value">[];
-    tattooId: string;
-    bodyPart: BodyPart;
-    tags: Tag[];
-    size: Size;
-};
+export type TattooForm = z.infer<typeof tattooFormSchema>;
+
+const testSchema = z.object({
+    name: z.string(),
+});
+
+type TestType = z.infer<typeof testSchema>;
 
 export const tattooFormSchema = z.object({
     title: z
@@ -157,12 +153,11 @@ const TattooEditPageClient = ({
 
     const { isSubmitting, isDirty, isSubmitSuccessful } = form.formState;
 
-    const onSubmit = async (data: TTattooUpdateForm) => {
+    const onSubmit = async (data: TattooForm) => {
         // TODO: delete images too
 
         if (data.tattooId === "new") {
-            return apiClient
-                .post(`/tattoos`, data) //TODO: change to fetch (from Next)
+            return ApiService.createTattoo(data) //TODO: change to fetch (from Next)
                 .then((res) => {
                     // toast.success(successMessage)
                     toast({
@@ -225,17 +220,8 @@ const TattooEditPageClient = ({
             });
     };
 
-    const onError = (errors: FieldErrors, e: BaseSyntheticEvent) => {
-        // console.log("ERRORS", errors);
-        // throw new BaseError(
-        //     "ERROR - TattooEditPageClient - SUBMIT",
-        //     e,
-        //     500,
-        //     true,
-        //     "LOG - Error al crear el tatuaje",
-        //     "Error al crear el tatuaje",
-        //     "Por favor, revisa tu formulario",
-        // );
+    const onError: SubmitErrorHandler<any> = (errors, e) => {
+        console.log("errors", errors);
     };
 
     return (
@@ -382,7 +368,6 @@ const TattooEditPageClient = ({
                                             ]}
                                             isMulti={false}
                                             {...field}
-                                            // @ts-ignore
                                             afterChange={() => {
                                                 form.trigger("size");
                                             }}
@@ -414,7 +399,6 @@ const TattooEditPageClient = ({
                                     <FormLabel>Parte del cuerpo</FormLabel>
                                     <FormControl>
                                         <CustomSelect
-                                            // @ts-ignore
                                             options={bodyParts}
                                             isMulti={false}
                                             {...field}
@@ -441,7 +425,6 @@ const TattooEditPageClient = ({
                                             options={styles}
                                             isMulti={true}
                                             {...field}
-                                            //   @ts-ignore
                                             afterChange={() => {
                                                 form.trigger("styles");
                                             }}

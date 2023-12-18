@@ -20,7 +20,7 @@ export function ModeToggle({ userTheme }) {
       userTheme === true ? setTheme("dark") : setTheme("light");
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [userTheme],
+    [setTheme, userTheme],
   );
 
   return (

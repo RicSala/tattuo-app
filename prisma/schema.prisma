@@ -102,13 +102,12 @@ model ArtistProfile {
     cityId           String?       @db.ObjectId
     city             City?         @relation(fields: [cityId], references: [id])
     Lead             Lead?
-
-    // An artist can be or not in a studio
-    studioId String[] @db.ObjectId
-    studios  Studio[] @relation(fields: [studioId], references: [id])
+    allTags          String[]
+    studioId         String[]      @db.ObjectId
+    studios          Studio[]      @relation(fields: [studioId], references: [id])
     // @@index([userId])
     // @@index([cityId])
-    Invites  Invite[]
+    Invites          Invite[]
 }
 
 model Tattoo {
@@ -116,8 +115,8 @@ model Tattoo {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    title       String
-    description String
+    title       String?
+    description String?
     imageSrc    String
     content     String?
     // numLikes      Int      @default(0)
@@ -132,6 +131,7 @@ model Tattoo {
     saves SavedTattoo[]
     likes LikedTattoo[]
     tags  TaggedTattoo[]
+    size  Size?
 
     stylesIds String[] @db.ObjectId
     styles    Style[]  @relation(fields: [stylesIds], references: [id])
@@ -147,6 +147,12 @@ model Tattoo {
     // @@index([title])
     // @@index([description])
     @@index([stylesIds])
+}
+
+enum Size {
+    SMALL // Menos que Tarjeta de crédito, móvil, ...
+    MEDIUM // Libro de bolsillo, CD,
+    LARGE // Un folio, ordenador, 
 }
 
 enum UserRole {
@@ -335,8 +341,8 @@ model Lead {
     description String?
 
     // RELATIONS
-    artistId String        @unique @db.ObjectId
-    artist   ArtistProfile @relation(fields: [artistId], references: [id])
+    artistId String?        @unique @db.ObjectId
+    artist   ArtistProfile? @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
     status LeadStatus @default(PENDING)
 }
@@ -511,7 +517,7 @@ model Invite {
 
     // RELATIONS
     studioId String @db.ObjectId
-    studio   Studio @relation(fields: [studioId], references: [id])
+    studio   Studio @relation(fields: [studioId], references: [id], onDelete: Cascade)
 
     artistId String        @db.ObjectId
     artist   ArtistProfile @relation(fields: [artistId], references: [id])

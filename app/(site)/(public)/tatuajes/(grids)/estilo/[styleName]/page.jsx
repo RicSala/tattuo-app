@@ -12,14 +12,14 @@ import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 import Breadcrumbs from "@/components/breadcrumbs";
 
 export const generateMetadata = async ({ params }) => {
-  const { styleName } = params;
+    const { styleName } = params;
 
-  return {
-    title: `Tatuajes de ${capitalizeFirst(styleName)}`,
-    description: `Descubre tatuajes de ${capitalizeFirst(
-      styleName,
-    )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
-  };
+    return {
+        title: `Tatuajes de ${capitalizeFirst(styleName)}`,
+        description: `Descubre tatuajes de ${capitalizeFirst(
+            styleName,
+        )} en nuestra galería de tatuajes. Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`,
+    };
 };
 
 const styles = getStyleList();
@@ -27,9 +27,9 @@ const styles = getStyleList();
 const bodyParts = getBodyParts();
 
 const filtro1 = {
-  label: "Estilos",
-  value: "styles",
-  options: styles,
+    label: "Estilos",
+    value: "styles",
+    options: styles,
 };
 
 // const filtro2 = {
@@ -40,11 +40,11 @@ const filtro1 = {
 
 // It's gonna be used in build time
 export const generateStaticParams = () => {
-  return getStyleList().map((item) => {
-    return {
-      styleName: item.value,
-    };
-  });
+    return getStyleList().map((item) => {
+        return {
+            styleName: item.value,
+        };
+    });
 };
 
 //"error" Force static rendering and cache the data of a layout or page by causing an error if any components use dynamic functions or uncached data. This option is equivalent to:
@@ -70,88 +70,88 @@ const initialDataSize = numberOfPagesToLoad * sizePerPage;
  * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
  */
 export default async function TattoosPage({ params, searchParams }) {
-  const { styleName } = params;
-  const endpoint =
-    process.env.NODE_ENV === "production"
-      ? `${process.env.HOST_NAME_PROD}/api/tattoos/estilo/${styleName}`
-      : `${process.env.HOST_NAME_DEV}/api/tattoos/estilo/${styleName}`;
+    const { styleName } = params;
+    const endpoint =
+        process.env.NODE_ENV === "production"
+            ? `${process.env.HOST_NAME_PROD}/api/tattoos/estilo/${styleName}`
+            : `${process.env.HOST_NAME_DEV}/api/tattoos/estilo/${styleName}`;
 
-  const isGeneratedStyle = getStyleList()
-    .map((item) => item.value)
-    .includes(styleName);
-  if (!isGeneratedStyle) {
-    notFound();
-  }
+    const isGeneratedStyle = getStyleList()
+        .map((item) => item.value)
+        .includes(styleName);
+    if (!isGeneratedStyle) {
+        notFound();
+    }
 
-  const label = mapValueToLabel(styleName);
+    const label = mapValueToLabel(styleName);
 
-  const serverLoadedTattoos = await TattooService.getPaginated(
-    {
-      ...searchParams,
-      // we are modifying the searchParams to add the styles string
-      styles: label,
-    },
-    0,
-    // TODO: ojo!
-    initialDataSize,
-  );
+    const serverLoadedTattoos = await TattooService.getPaginated(
+        {
+            ...searchParams,
+            // we are modifying the searchParams to add the styles string
+            styles: label,
+        },
+        0,
+        // TODO: ojo!
+        initialDataSize,
+    );
 
-  if (serverLoadedTattoos.length < 1) {
-    return <EmptyTattoos />;
-  }
+    if (serverLoadedTattoos.length < 1) {
+        return <EmptyTattoos />;
+    }
 
-  const breadcrumbs = [
-    {
-      label: "Inicio",
-      path: "/",
-    },
-    {
-      label: "Tatuajes",
-      path: "/tatuajes",
-    },
-    {
-      label: `${capitalizeFirst(label)}`,
-      path: `/tatuajes/estilo/${styleName}`,
-    },
-  ];
+    const breadcrumbs = [
+        {
+            label: "Inicio",
+            path: "/",
+        },
+        {
+            label: "Tatuajes",
+            path: "/tatuajes",
+        },
+        {
+            label: `${capitalizeFirst(label)}`,
+            path: `/tatuajes/estilo/${styleName}`,
+        },
+    ];
 
-  return (
-    <>
-      <Breadcrumbs items={breadcrumbs} />
-      <GridHeader
-        title={`Tatuajes estilo ${label}`}
-        subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
-        contentSlug={""}
-        filtro1={filtro1}
-        freeSearch={true}
-        // filtro2={filtro2}
-      />
+    return (
+        <>
+            <Breadcrumbs items={breadcrumbs} />
+            <GridHeader
+                title={`Tatuajes estilo ${label}`}
+                subtitle={`Explora por estilo, parte del cuerpo, o simplemente escribe lo que buscas`}
+                contentSlug={""}
+                filtro1={filtro1}
+                freeSearch={true}
+                // filtro2={filtro2}
+            />
 
-      <ListingGrid>
-        <CustomQueryClientProvider>
-          {/* @ts-ignore */}
-          <InfiniteScroll
-            endpoint={endpoint}
-            initialData={serverLoadedTattoos}
-            sizePerPage={sizePerPage}
-            keyProp={`tattoo-${styleName}`}
-            Component={TattooCard}
-            hasMore={serverLoadedTattoos.length >= sizePerPage}
-          />
-        </CustomQueryClientProvider>
-      </ListingGrid>
+            <ListingGrid>
+                <CustomQueryClientProvider>
+                    <InfiniteScroll
+                        endpoint={endpoint}
+                        initialData={serverLoadedTattoos}
+                        sizePerPage={sizePerPage}
+                        keyProp={`tattoo-${styleName}`}
+                        Component={TattooCard}
+                        hasMore={serverLoadedTattoos.length >= sizePerPage}
+                    />
+                </CustomQueryClientProvider>
+            </ListingGrid>
 
-      <div className="mt-10 flex flex-col gap-3">
-        <h2>Tatuajes de estilo {label}</h2>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: getStyleList().find(
-              (item) =>
-                sanitize(item.value.toLowerCase()) === styleName.toLowerCase(),
-            ).text,
-          }}
-        ></div>
-      </div>
-    </>
-  );
+            <div className="mt-10 flex flex-col gap-3">
+                <h2>Tatuajes de estilo {label}</h2>
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: getStyleList().find(
+                            (item) =>
+                                sanitize(item.value.toLowerCase()) ===
+                                styleName.toLowerCase(),
+                        ).text,
+                    }}
+                ></div>
+            </div>
+        </>
+    );
 }

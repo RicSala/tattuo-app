@@ -1,7 +1,5 @@
-import { withTryCatch } from "@/errors/error-handlerss";
 import { mapLabelsToIds } from "@/lib/getStyleList";
 import prisma from "@/lib/prismadb";
-import { isProfileComplete } from "@/lib/utils";
 
 export class ArtistService {
   static async connectWithUserId(artistId, userId) {
@@ -11,6 +9,14 @@ export class ArtistService {
       },
       data: {
         user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  static async deleteById(id) {
+    await prisma.artistProfile.delete({
+      where: {
+        id,
       },
     });
   }

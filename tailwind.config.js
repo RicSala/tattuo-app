@@ -2,109 +2,109 @@ const { generateBreakpoints } = require("./lib/dev-utils/twbreaks-plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // Where should the compiler look for tailwind classes?
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./stories/**/*.{js,ts,jsx,tsx}",
-  ],
+    // Where should the compiler look for tailwind classes?
+    content: [
+        "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+        "./components/**/*.{js,ts,jsx,tsx,mdx}",
+        "./app/**/*.{js,ts,jsx,tsx,mdx}",
+        "./stories/**/*.{js,ts,jsx,tsx}",
+    ],
 
-  darkMode: ["class"], // Class strategy is used to toggle dark mode on the html element.
+    darkMode: ["class"], // Class strategy is used to toggle dark mode on the html element.
 
-  // top-level key for defining your theme configuration in Tailwind CSS.
-  // Customizations to the default theme will go under this key.
-  theme: {
-    // used to customize the default container class provided by Tailwind CSS
-    // used to center and constrain the width of content in the layout.
-    container: {
-      center: true, // will center the container horizontally setting margin-left and margin-right to auto
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px", // sets the max-width of the container to 1400px on 2xl screens and up
-      },
+    // top-level key for defining your theme configuration in Tailwind CSS.
+    // Customizations to the default theme will go under this key.
+    theme: {
+        // used to customize the default container class provided by Tailwind CSS
+        // used to center and constrain the width of content in the layout.
+        container: {
+            center: true, // will center the container horizontally setting margin-left and margin-right to auto
+            padding: "2rem",
+            screens: {
+                "2xl": "1400px", // sets the max-width of the container to 1400px on 2xl screens and up
+            },
+        },
+
+        extend: {
+            maskImage: {
+                star: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE4MCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBmaWxsPSdibGFjaycgZD0nbTk2IDE1My4wNDQtNTguNzc5IDI2LjI0MyA3LjAyLTYzLjUxM0wuODk0IDY4LjQ4MWw2My4xMTctMTMuMDFMOTYgMGwzMS45ODkgNTUuNDcyIDYzLjExNyAxMy4wMS00My4zNDcgNDcuMjkyIDcuMDIgNjMuNTEzeicgZmlsbC1ydWxlPSdldmVub2RkJy8+PC9zdmc+')",
+            },
+
+            // All colors are using vars, so they have to be changed in global.css
+            colors: {
+                border: "hsl(var(--border))",
+                input: "hsl(var(--input))",
+                ring: "hsl(var(--ring))",
+                background: "hsl(var(--background))",
+                foreground: "hsl(var(--foreground))",
+                primary: {
+                    DEFAULT: "hsl(var(--primary))",
+                    foreground: "hsl(var(--primary-foreground))",
+                },
+                secondary: {
+                    DEFAULT: "hsl(var(--secondary))",
+                    foreground: "hsl(var(--secondary-foreground))",
+                },
+                destructive: {
+                    DEFAULT: "hsl(var(--destructive))",
+                    foreground: "hsl(var(--destructive-foreground))",
+                },
+                muted: {
+                    DEFAULT: "hsl(var(--muted))",
+                    foreground: "hsl(var(--muted-foreground))",
+                },
+                accent: {
+                    DEFAULT: "hsl(var(--accent))",
+                    foreground: "hsl(var(--accent-foreground))",
+                },
+                popover: {
+                    DEFAULT: "hsl(var(--popover))",
+                    foreground: "hsl(var(--popover-foreground))",
+                },
+                card: {
+                    DEFAULT: "hsl(var(--card))",
+                    foreground: "hsl(var(--card-foreground))",
+                },
+            },
+
+            borderRadius: {
+                lg: `var(--radius)`,
+                md: `calc(var(--radius) - 2px)`,
+                sm: "calc(var(--radius) - 4px)",
+            },
+
+            // fontFamily: {
+            //   sans: ["var(--font-sans)", ...fontFamily.sans],
+            // },
+
+            keyframes: {
+                "accordion-down": {
+                    from: { height: 0 },
+                    to: { height: "var(--radix-accordion-content-height)" },
+                },
+                "accordion-up": {
+                    from: { height: "var(--radix-accordion-content-height)" },
+                    to: { height: 0 },
+                },
+            },
+
+            animation: {
+                "accordion-down": "accordion-down 0.2s ease-out",
+                "accordion-up": "accordion-up 0.2s ease-out",
+            },
+        },
     },
+    //The safelist option in the Tailwind CSS configuration file is used to prevent
+    //certain classes from being purged when you build your project for production.
+    // Like classes that are dynamically generated by JavaScript and the purge process
+    // can't detect (Tailwind uses PurgeCSS under the hood)
+    // Be careful when using this option, as it can easily lead to a bloated CSS file
+    // and make Next.js compile times very slow.
+    safelist: [],
 
-    extend: {
-      maskImage: {
-        star: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE4MCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBmaWxsPSdibGFjaycgZD0nbTk2IDE1My4wNDQtNTguNzc5IDI2LjI0MyA3LjAyLTYzLjUxM0wuODk0IDY4LjQ4MWw2My4xMTctMTMuMDFMOTYgMGwzMS45ODkgNTUuNDcyIDYzLjExNyAxMy4wMS00My4zNDcgNDcuMjkyIDcuMDIgNjMuNTEzeicgZmlsbC1ydWxlPSdldmVub2RkJy8+PC9zdmc+')",
-      },
-
-      // All colors are using vars, so they have to be changed in global.css
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-      },
-
-      borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
-        sm: "calc(var(--radius) - 4px)",
-      },
-
-      // fontFamily: {
-      //   sans: ["var(--font-sans)", ...fontFamily.sans],
-      // },
-
-      keyframes: {
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
-      },
-
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
-  },
-  //The safelist option in the Tailwind CSS configuration file is used to prevent
-  //certain classes from being purged when you build your project for production.
-  // Like classes that are dynamically generated by JavaScript and the purge process
-  // can't detect (Tailwind uses PurgeCSS under the hood)
-  // Be careful when using this option, as it can easily lead to a bloated CSS file
-  // and make Next.js compile times very slow.
-  safelist: [],
-
-  // Adds utiliy classes for animation such as delay-, direction-, duration-, fade-in, spin-in...
-  plugins: [
-    require("tailwindcss-animate"),
-    ({ addBase, theme }) => generateBreakpoints({ addBase, theme }),
-  ],
+    // Adds utiliy classes for animation such as delay-, direction-, duration-, fade-in, spin-in...
+    plugins: [
+        require("tailwindcss-animate"),
+        ({ addBase, theme }) => generateBreakpoints({ addBase, theme }),
+    ],
 };

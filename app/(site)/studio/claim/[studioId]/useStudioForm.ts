@@ -4,7 +4,9 @@ import { City, Studio } from "@prisma/client";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const registerStudioSchema = z.object(
+export type StudioFormValues = z.infer<typeof registerStudioSchema>;
+
+export const registerStudioSchema = z.object(
   {
     name: z
       .string()

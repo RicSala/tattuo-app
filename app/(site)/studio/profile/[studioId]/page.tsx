@@ -21,25 +21,19 @@ const StudioProfilePage = async ({
   params: { studioId: string };
 }) => {
   const { studioId } = params;
-  let isNew = false;
-  if (studioId === "new") isNew = true;
   const currentUser = await getCurrentUser();
 
-  let studio: StudioWithCityInviteArtist = undefined;
-  // if the studio is not new, we get it from the database
-  // otherwise we just pass an empty object
-  if (!isNew)
-    studio = await prisma.studio.findUnique({
-      where: { id: studioId },
-      include: {
-        city: true,
-        Invite: {
-          include: {
-            artist: true,
-          },
+  let studio: StudioWithCityInviteArtist = await prisma.studio.findUnique({
+    where: { id: studioId },
+    include: {
+      city: true,
+      Invite: {
+        include: {
+          artist: true,
         },
       },
-    });
+    },
+  });
   const cities = getCities();
 
   return (

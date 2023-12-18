@@ -114,7 +114,11 @@ export function LoginForm({}) {
               <FormItem>
                 <FormLabel>e-mail</FormLabel>
                 <FormControl>
-                  <Input placeholder="Aquí va tu email" {...field} />
+                  <Input
+                    placeholder="Aquí va tu email"
+                    {...field}
+                    autoComplete="email"
+                  />
                 </FormControl>
                 <FormDescription>
                   Email con el que te diste de alta en TATTUO
@@ -133,6 +137,7 @@ export function LoginForm({}) {
                   <Input
                     placeholder="Aquí va tu contraseña"
                     {...field}
+                    autoComplete="current-password"
                     type="password"
                   />
                 </FormControl>

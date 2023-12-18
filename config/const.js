@@ -40,6 +40,7 @@ export const superAdminMenuItems = [
     { url: "/superadmin/tattoos", label: "Tatuajes" },
     { url: "/superadmin/studios", label: "Estudios" },
     { url: "/superadmin/tattoo-processing", label: "Procesar" },
+    { url: "/superadmin/tattoo-bulk", label: "Añadir en masa" },
 ];
 
 export const weekDays = [
@@ -114,6 +115,7 @@ export const generatedCities = [
   <h3>Vive la Pasión Madrileña</h3>
   En Madrid, después de tatuarte, explora las obras maestras en el Museo del Prado o el Centro de Arte Reina Sofía. Disfruta de la exquisita gastronomía en el Mercado de San Miguel y vive la noche madrileña en los animados barrios de Malasaña y Chueca. Madrid combina historia, arte y una vibrante vida nocturna para una experiencia inolvidable.
   `,
+        studiosText: `<p> Los mejores estudios de tatuaje de Madrid, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
     {
         city: "barcelona",
@@ -128,6 +130,7 @@ export const generatedCities = [
       <h3>Explora y Disfruta de Barcelona</h3>
   Tras tu sesión de tatuaje en Barcelona, sumérgete en su icónica arquitectura visitando la Sagrada Familia o paseando por el Park Güell. Relájate en las playas de la Barceloneta y disfruta de la vibrante vida nocturna en los bares y clubes del centro de la ciudad. Barcelona es un paraíso para los jóvenes, lleno de arte, cultura y diversión.
       `,
+        studiosText: `<p> Los mejores estudios de tatuaje de Barcelona, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
     {
         city: "valencia",
@@ -155,6 +158,7 @@ export const generatedCities = [
       En resumen, Valencia no solo es una ciudad de rica historia y vibrante cultura, sino también un centro de excelencia en el arte del tatuaje. Con una variedad de estudios y artistas, cada aventura de tatuaje aquí promete ser una experiencia única e inolvidable.
   </p>
   `,
+        studiosText: `<p> Los mejores estudios de tatuaje de Valencia, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
     {
         city: "zaragoza",
@@ -184,14 +188,18 @@ export const generatedCities = [
   <h3>Descubre los Tesoros de Zaragoza</h3>
   Después de tatuarte en Zaragoza, maravíllate con la Basílica del Pilar y el Palacio de la Aljafería. Pasea a lo largo del río Ebro y disfruta de la deliciosa cocina aragonesa en el casco antiguo. Zaragoza es un lugar ideal para los amantes de la historia y la cultura, ofreciendo un ambiente relajado y acogedor.
   `,
+
+        studiosText: `<p> Los mejores estudios de tatuaje de Zaragoza, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
     {
         city: "sevilla",
         text: "Sevilla recoge a los mejores tatuadores del sur de España, que atraen a clientes de todo el país. ¿Quieres hacerte un tatuaje en Sevilla? ¡Echa un vistazo a nuestra selección de tatuadores en Sevilla!",
+        studiosText: `<p> Los mejores estudios de tatuaje de Sevilla, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
     {
         city: "bilbao",
         text: "Bilbao es una de las ciudades más importantes del norte de España. Encontrarás tatuadores de todos los estilos, desde los más clásicos hasta los más modernos. ¿Quieres hacerte un tatuaje en Bilbao? ¡Echa un vistazo a nuestra selección de tatuadores en Bilbao!",
+        studiosText: `<p> Los mejores estudios de tatuaje de Bilbao, en TATTUO. Encuentra el estudio de tatuaje más cercano a ti y reserva tu cita. </p>`,
     },
 ];
 

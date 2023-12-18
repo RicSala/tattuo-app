@@ -86,7 +86,9 @@ export default async function CityPage({ params, searchParams }) {
             <Breadcrumbs items={breadcrumbs} />
             <GridHeader
                 title={`Tatuadores en ${capitalizeFirst(cityName)}`}
-                subtitle={`Los mejores tatuadores de Zaragoza. Busca por estilo o por nombre.`}
+                subtitle={`Los mejores tatuadores de ${capitalizeFirst(
+                    cityName,
+                )}. Busca por estilo o por nombre`}
                 contentSlug={""}
                 filtro1={filtro1}
             />

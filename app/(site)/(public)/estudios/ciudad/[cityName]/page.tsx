@@ -107,14 +107,14 @@ export default async function StudiosPage({
                 ))}
             </ListingGrid>
 
-            {/* <div className="mt-10 flex flex-col gap-3">
+            <div className="mt-10 flex flex-col gap-3">
       <h2>Encuentra tu estudio en {cityName}</h2>
       <div
         dangerouslySetInnerHTML={{
-          __html: generatedCities.find((item) => item.city === cityName).text,
+          __html: generatedCities.find((item) => item.city === cityName).studiosText,
         }}
       ></div>
-    </div> */}
+    </div>
         </>
     );
 }

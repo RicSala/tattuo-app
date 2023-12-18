@@ -1,5 +1,3 @@
-import * as MyTypes from "@/types";
-
 // https://spacejelly.dev/posts/sitemaps-rss-feeds-with-next-js-app-router/
 // https://medium.com/@rwchampin/next-js-sitemap-automatically-add-dynamic-urls-to-nextjs-13-app-router-sitemap-js-cc1c38a3668e
 // https://maxleiter.com/blog/build-a-blog-with-nextjs-13
@@ -14,14 +12,7 @@ import { projectUrls } from "@/lib/sitemapUrls";
 import { generatedCities, generatedContentSlugs } from "@/config/const";
 // import { getFoldersRecursive } from '@/lib/getFoldersRecursive';
 
-/**
- * returns Sitemap
- * @returns {MyTypes.Sitemap[]}
- */
 export default async function Sitemap() {
-    /**
-     * @type {MyTypes.BlogPost[]}
-     */
     const allPosts = await getPosts();
 
     const formattedPosts = allPosts.map((item) => ({
@@ -46,7 +37,7 @@ export default async function Sitemap() {
     }));
 
     const formattedContentUrls = generatedContentSlugs.map((item) => ({
-        url: `https://tattuo.com/tatuajes/${item}`,
+        url: `https://tattuo.com/tatuajes/${item.content}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 1,

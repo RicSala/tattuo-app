@@ -78,7 +78,7 @@ export class TattooService {
                             type: "image_url",
                             image_url: {
                                 url: imageSrc,
-                                detail: "low",
+                                detail: "high",
                             },
                         },
                     ],

@@ -129,6 +129,13 @@ export type Filter =
           options: Partial<ArtistProfile[]>;
       };
 
+export type Post = {
+    slug: string;
+    title: string;
+    published: boolean;
+    tags: string[];
+    date: string;
+};
 //   Utility type: Make a specific property nullable
 export type MakeNullable<T, K extends keyof T> = Omit<T, K> & // First we ommit the whole property
     Partial<Pick<T, K>>; // Then we add it as a partial property

@@ -12,7 +12,12 @@ import CustomQueryClientProvider from "@/providers/query-client-provider";
 import { InfiniteScroll } from "@/components/listings/infinite-scroll";
 import Breadcrumbs from "@/components/breadcrumbs";
 
-export const generateMetadata = async ({ params }) => {
+type ContentSlugPageProps = {
+    params?: { contentSlug: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export const generateMetadata = async ({ params }: ContentSlugPageProps) => {
     const { contentSlug } = params;
 
     return {
@@ -59,15 +64,10 @@ const sizePerPage = 5;
 const numberOfPagesToLoad = 1;
 const initialDataSize = numberOfPagesToLoad * sizePerPage;
 
-/**
- * TattoosPage component
- *
- * @param {Object} props - The props for the InfiniteListingGrid component
- * @param {string} props.searchParams - The component to render
- *
- * @returns {Promise<React.ReactElement>} The rendered InfiniteListingGrid component
- */
-export default async function TattoosPage({ params, searchParams }) {
+export default async function TattoosPage({
+    params,
+    searchParams,
+}: ContentSlugPageProps) {
     const { contentSlug } = params;
     const isGeneratedContentSlug = generatedContentSlugs
         .map((item) => item.content)
@@ -130,6 +130,7 @@ export default async function TattoosPage({ params, searchParams }) {
                         initialData={serverLoadedTattoos}
                         sizePerPage={sizePerPage}
                         keyProp={`tattoo-${contentSlug}`}
+                        altSubstring={contentSlug}
                         Component={TattooCard}
                         hasMore={serverLoadedTattoos.length >= sizePerPage}
                     />

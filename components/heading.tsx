@@ -1,8 +1,17 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+
+type HeadingProps = {
+    title: string;
+    subtitle?: string;
+    center?: boolean;
+    buttonLabel?: string;
+    url?: string;
+    className?: string;
+};
 
 const Heading = ({
     title,
@@ -11,7 +20,7 @@ const Heading = ({
     buttonLabel = "",
     url = "",
     className = "",
-}) => {
+}: HeadingProps) => {
     const router = useRouter();
 
     return (

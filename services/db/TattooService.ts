@@ -63,80 +63,90 @@ export class TattooService {
         p: any,
     ): Promise<z.infer<typeof tattooFormSchema>> {
         const prompt = `${p.context} ${p.options} ${p.promptExamples} ${p.promptRequest}`;
-        console.log("prompt", prompt);
-        console.log("Analyzing tattoo image...");
-        console.log("imageSrc:: ", imageSrc);
-        const response = await aiClient.chat.completions.create({
-            max_tokens: 2000,
-            model: "gpt-4-vision-preview",
-            messages: [
-                {
-                    role: "user",
-                    content: [
-                        { type: "text", text: prompt },
-                        {
-                            type: "image_url",
-                            image_url: {
-                                url: imageSrc,
-                                detail: "high",
+        // console.log("prompt", prompt);
+        // console.log("Analyzing tattoo image...");
+        // console.log("imageSrc:: ", imageSrc);
+        console.log("Sending request to AI..");
+        try {
+            const response = await aiClient.chat.completions.create({
+                max_tokens: 3000,
+                model: "gpt-4-vision-preview",
+                messages: [
+                    {
+                        role: "user",
+                        content: [
+                            { type: "text", text: prompt },
+                            {
+                                type: "image_url",
+                                image_url: {
+                                    url: imageSrc,
+                                    detail: "low",
+                                },
                             },
-                        },
-                    ],
-                },
-            ],
-        });
-
-        console.log("Formatting response...");
-
-        const imageDescription = response.choices[0];
-        const descriptionObject = JSON.parse(imageDescription.message.content);
-        // Find the db body part of the body part in descriptionObject.bodyParts by matching the label
-        const dbBodyPart = await prisma.bodyPart.findFirst({
-            where: {
-                label: descriptionObject.bodyPart.label,
-            },
-        });
-
-        // Find the db styles of the styles in descriptionObject.styles array by matching the label
-        const dbStyles = await prisma.style.findMany({
-            where: {
-                label: {
-                    in: descriptionObject.styles.map(
-                        (style: Style) => style.label,
-                    ),
-                },
-            },
-        });
-
-        //   For the tags, we need to create them if they don't exist, or add them to the tattoo if they exist
-        const dbTags = await Promise.all(
-            descriptionObject.tags.map(async (tag: string) => {
-                const dbTag = await prisma.tag.findFirst({
-                    where: {
-                        label: tag,
+                        ],
                     },
-                });
-                if (dbTag) {
-                    return dbTag;
-                } else {
-                    const newTag = await prisma.tag.create({
-                        data: {
+                ],
+            });
+
+            console.log("Response received!", { response });
+            console.log("Response received choice: ", response.choices[0]);
+            console.log("Formatting response...");
+
+            const imageDescription = response.choices[0];
+            const descriptionObject = JSON.parse(
+                imageDescription.message.content,
+            );
+            // Find the db body part of the body part in descriptionObject.bodyParts by matching the label
+            const dbBodyPart = await prisma.bodyPart.findFirst({
+                where: {
+                    label: descriptionObject.bodyPart.label,
+                },
+            });
+
+            // Find the db styles of the styles in descriptionObject.styles array by matching the label
+            const dbStyles = await prisma.style.findMany({
+                where: {
+                    label: {
+                        in: descriptionObject.styles.map(
+                            (style: Style) => style.label,
+                        ),
+                    },
+                },
+            });
+
+            //   For the tags, we need to create them if they don't exist, or add them to the tattoo if they exist
+            const dbTags = await Promise.all(
+                descriptionObject.tags.map(async (tag: string) => {
+                    const dbTag = await prisma.tag.findFirst({
+                        where: {
                             label: tag,
-                            value: tag,
                         },
                     });
-                    return newTag;
-                }
-            }),
-        );
+                    if (dbTag) {
+                        return dbTag;
+                    } else {
+                        const newTag = await prisma.tag.create({
+                            data: {
+                                label: tag,
+                                value: tag,
+                            },
+                        });
+                        return newTag;
+                    }
+                }),
+            );
 
-        descriptionObject.bodyPart = dbBodyPart;
-        descriptionObject.styles = dbStyles;
-        descriptionObject.tags = dbTags;
-        descriptionObject.imageSrc = imageSrc;
+            descriptionObject.bodyPart = dbBodyPart;
+            descriptionObject.styles = dbStyles;
+            descriptionObject.tags = dbTags;
+            descriptionObject.imageSrc = imageSrc;
 
-        console.log("PARSED", { descriptionObject });
-        return descriptionObject;
+            // console.log("PARSED", { descriptionObject });
+            return descriptionObject;
+        } catch (error) {
+            console.log("ERROR - imageUrlToTattoo() - ", error);
+            return null;
+        }
     }
 
     static async getPaginated(
@@ -279,9 +289,6 @@ export class TattooService {
         tattooId: string,
         updatedData: z.infer<typeof tattooFormSchema>,
     ) {
-        console.log("Updating tatoo...");
-        console.log("old tattoo id", tattooId);
-        console.log("updatedData: ", updatedData);
         const currentTattoo = await this.getById(tattooId, {
             includeArtistProfile: false,
             includeBodyPart: false,
@@ -292,7 +299,7 @@ export class TattooService {
         if (!currentTattoo) {
             return null;
         }
-        console.log("currentTattoo from function updatebyid ", currentTattoo);
+        // console.log("currentTattoo from function updatebyid ", currentTattoo);
 
         let updadatedTattoot = await this.update(
             currentTattoo,

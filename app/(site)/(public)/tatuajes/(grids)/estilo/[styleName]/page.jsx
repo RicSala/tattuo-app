@@ -136,6 +136,7 @@ export default async function TattoosPage({ params, searchParams }) {
                         keyProp={`tattoo-${styleName}`}
                         Component={TattooCard}
                         hasMore={serverLoadedTattoos.length >= sizePerPage}
+                        altSubstring={styleName}
                     />
                 </CustomQueryClientProvider>
             </ListingGrid>

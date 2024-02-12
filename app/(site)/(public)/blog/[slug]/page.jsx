@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
 import PostBody from "../components/post-body";
-import { getPost, getPosts } from "@/lib/posts";
-import PostHeader from "./components/post-header";
-import Toc from "./components/toc";
 import Breadcrumbs from "@/components/breadcrumbs";
+import PostHeader from "./components/post-header";
+import { getPost, getPosts } from "@/lib/posts";
 
 // the posts for which we want to generate static pages
 // (we may want to generate other pages on the server...)
 
-export const dynamic = "error"
+export const dynamic = "error";
 export const generateStaticParams = async () => {
     const posts = await getPosts();
     return posts.map((post) => ({

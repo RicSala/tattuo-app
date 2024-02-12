@@ -1,9 +1,9 @@
 {
-  "search.useIgnoreFiles": false,
-  "search.useParentIgnoreFiles": false,
-  //   Ignore .next folder, node_modules folder and .env files
-  "search.exclude": {
-    "**/.next": true,
-    "**/node_modules": true
-  }
+    "search.useIgnoreFiles": false,
+    "search.useParentIgnoreFiles": false,
+    //   Ignore .next folder, node_modules folder and .env files
+    "search.exclude": {
+        "**/.next": true,
+        "**/node_modules": true
+    }
 }

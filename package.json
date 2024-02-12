@@ -89,11 +89,13 @@
   },
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",
+    "@types/bcryptjs": "^2.4.6",
     "@types/google.maps": "^3.54.10",
     "@types/node": "20.4.10",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "encoding": "^0.1.13",
-    "prisma": "^5.1.1"
+    "prisma": "^5.1.1",
+    "typescript": "^5.3.3"
   }
 }

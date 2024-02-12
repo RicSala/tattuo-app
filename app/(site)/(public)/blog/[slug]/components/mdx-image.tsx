@@ -1,11 +1,18 @@
 import Image from "next/image";
 
+type CustomImageProps = {
+    src: string;
+    alt: string;
+    priority?: boolean;
+    className?: string;
+};
+
 export default function CustomImage({
     src,
     alt,
     priority = false,
-    className
-}) {
+    className,
+}: CustomImageProps) {
     return (
         // <div className="w-full h-full">
         <Image

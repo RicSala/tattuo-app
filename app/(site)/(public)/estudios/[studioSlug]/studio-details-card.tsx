@@ -285,7 +285,19 @@ export function StudioDetailsCard({
                         
                     `}
                         <a
-                            href={`https://wa.me/600243843/?text=Hola! Me gustaría informarme sobre un tatuaje`}
+                            href={`https://wa.me/${studio.phone?.replace(
+                                /\s/g,
+                                "",
+                            )}/?text=Hola! Estamos creando una nueva comunidad de tatuadores y nos gustaría que formaras parte de ella. Hemos dado de alta vuestro perfil de estudio, y lo puedes ver aquí: ${
+                                studio.slug
+                            }
+                            
+                            Acabamos de nacer y cada día nos ven más de 200 personas, así que si tienes un ratito para crear tu perfil y "reclamar" el estudio como tuyo, son apenas 2 minutos y creo que os merecerá la pena!
+
+                            Si tienes cualquier duda, sugerencia, o lo que sea, cuéntame por aquí mismo y comentamos, vale?
+
+                            Un abrazo!
+                            `}
                         >
                             {/* <Button variant="outline" className="h-2 py-3">
                 {artist.phone}
@@ -298,7 +310,19 @@ export function StudioDetailsCard({
                             asChild
                         >
                             <a
-                                href={`https://wa.me/600243843/?text=Hola! Me gustaría informarme sobre un tatuaje`}
+                                href={`https://wa.me/${studio.phone?.replace(
+                                    /\s/g,
+                                    "",
+                                )}/?text=Hola! Estamos creando una nueva comunidad de tatuadores y nos gustaría que formaras parte de ella. Hemos dado de alta vuestro perfil de estudio, y lo puedes ver aquí: ${
+                                    studio.slug
+                                }
+                                
+                                Acabamos de nacer y cada día nos ven más de 200 personas, así que si tienes un ratito para crear tu perfil y "reclamar" el estudio como tuyo, son apenas 2 minutos y creo que os merecerá la pena!
+    
+                                Si tienes cualquier duda, sugerencia, o lo que sea, cuéntame por aquí mismo y comentamos, vale?
+    
+                                Un abrazo!
+                                `}
                                 // href={`Tel: ${studio.phone || studio.phoneNumber}`}>
                             >
                                 {studio.phone || studio.phoneNumber}

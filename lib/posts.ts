@@ -31,27 +31,29 @@ const postsDirectory = path.join(
 //     return [];
 // };
 
-const getHeadings = (source) => {
+const getHeadings = (source: string) => {
     const regex = /<H2 text="(.*?)">/g;
 
-    if (source.match(regex)) {
-        return source.match(regex).map((heading) => {
-            const match = regex.exec(heading);
+    const matches = source.match(regex);
 
-            if (match && match[1]) {
-                const headingText = match[1];
-                const link = "#" + headingText.replace(/ /g, "_").toLowerCase();
+    // If there are not h2, return an empty array
+    if (!matches) return [];
 
-                return {
-                    text: headingText,
-                    link,
-                };
-            }
-        });
-        //   .filter(Boolean); // Filter out any undefined entries
-    }
+    console.log(matches);
 
-    return [];
+    return source.match(regex).map((heading) => {
+        const match = regex.exec(heading);
+
+        if (match && match[1]) {
+            const headingText = match[1];
+            const link = "#" + headingText.replace(/ /g, "_").toLowerCase();
+
+            return {
+                text: headingText,
+                link,
+            };
+        }
+    });
 };
 
 export const getPosts = cache(() => {
@@ -84,7 +86,14 @@ export const getPosts = cache(() => {
     );
 });
 
-export async function getPost(slug) {
+export type TPost = {
+    date: any;
+    slug: string;
+    body: any;
+    headings: any[];
+};
+
+export async function getPost(slug: string) {
     const posts = await getPosts();
     return posts.find((post) => post.slug === slug);
 }

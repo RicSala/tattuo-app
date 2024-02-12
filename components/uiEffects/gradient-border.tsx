@@ -1,10 +1,19 @@
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
-export default function GradientBorder({ children, className }) {
-  return (
-    <div
-      className={cn(
-        `
+type GradientBorderProps = {
+    children: ReactNode;
+    className?: string;
+};
+
+export default function GradientBorder({
+    children,
+    className,
+}: GradientBorderProps) {
+    return (
+        <div
+            className={cn(
+                `
         relative
             flex
         h-10
@@ -27,12 +36,12 @@ export default function GradientBorder({ children, className }) {
         before:content-['']
         hover:scale-110
                     `,
-        className,
-      )}
-    >
-      {children}
+                className,
+            )}
+        >
+            {children}
 
-      {/* <div
+            {/* <div
                     after="Hover me!"
                     className="
     gradient_button
@@ -62,6 +71,6 @@ export default function GradientBorder({ children, className }) {
   ">
                     {children}
                 </div> */}
-    </div>
-  );
+        </div>
+    );
 }
